@@ -1,10 +1,11 @@
 # 论文原理文档索引
 
-本目录为 `transformer_llm_papers_guide_zh.md` 中 30 篇主论文的独立详细原理文档。
+本目录为 `transformer_llm_papers_guide_zh.md` 中 30 篇主论文的独立详细原理文档，并额外补充 1 篇基础论文（`Transformer`）。
 增强版已补充：`论文链接`、`代表公式 / 关键表达`、`前置阅读`、`读完接着看`。
 
 ## 文件列表
 
+- `00_Transformer_2017_原理.md`: `Transformer` - 注意力 / 统一骨架
 - `01_BERT_2018_原理.md`: `BERT` - 预训练 / 编码器
 - `02_GPT_2018_原理.md`: `GPT` - 预训练 / 解码器
 - `03_GPT2_2019_原理.md`: `GPT-2` - 大规模生成式预训练
@@ -38,6 +39,7 @@
 
 ## 建议阅读顺序
 
+0. 基础骨架：`Transformer`
 1. 预训练主线：`BERT -> GPT -> GPT-2 -> T5 -> GPT-3`
 2. 扩展律主线：`Scaling Laws -> Chinchilla -> PaLM`
 3. 对齐主线：`FLAN -> InstructGPT -> Constitutional AI -> DPO`
