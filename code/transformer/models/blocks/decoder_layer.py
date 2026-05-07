@@ -15,16 +15,16 @@ class DecoderLayer(nn.Module):
     def __init__(self, d_model, ffn_hidden, n_head, drop_prob):
         super(DecoderLayer, self).__init__()
         self.self_attention = MultiHeadAttention(d_model=d_model, n_head=n_head)
-        self.norm1 = LayerNorm(d_model=d_model)
         self.dropout1 = nn.Dropout(p=drop_prob)
+        self.norm1 = LayerNorm(d_model=d_model)
 
         self.enc_dec_attention = MultiHeadAttention(d_model=d_model, n_head=n_head)
-        self.norm2 = LayerNorm(d_model=d_model)
         self.dropout2 = nn.Dropout(p=drop_prob)
+        self.norm2 = LayerNorm(d_model=d_model)
 
         self.ffn = PositionwiseFeedForward(d_model=d_model, hidden=ffn_hidden, drop_prob=drop_prob)
-        self.norm3 = LayerNorm(d_model=d_model)
         self.dropout3 = nn.Dropout(p=drop_prob)
+        self.norm3 = LayerNorm(d_model=d_model)
 
     def forward(self, dec, enc, trg_mask, src_mask):
         # 1. compute self attention
