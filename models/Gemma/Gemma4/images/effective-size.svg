@@ -1,0 +1,48 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: 700 30px Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 500 18px Arial, sans-serif; fill: #4b5563; }
+      .label { font: 700 22px Arial, sans-serif; fill: #111827; }
+      .text { font: 16px Arial, sans-serif; fill: #1f2937; }
+      .small { font: 14px Arial, sans-serif; fill: #374151; }
+      .frame { stroke: #cbd5e1; stroke-width: 2; rx: 18; ry: 18; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="720" fill="#f8fafc"/>
+  <text x="60" y="60" class="title">Why "Effective" Size != Total Loaded Weights</text>
+  <text x="60" y="92" class="subtitle">Gemma 4 E2B / E4B 的关键是：计算规模更小，但静态权重并不只剩 2B / 4B</text>
+
+  <rect x="70" y="150" width="470" height="470" class="frame" fill="#ffffff"/>
+  <text x="100" y="195" class="label">总静态权重视角</text>
+  <text x="100" y="225" class="small">加载到内存里的全部模型参数</text>
+
+  <rect x="110" y="270" width="390" height="110" rx="16" ry="16" fill="#bfdbfe" stroke="#93c5fd"/>
+  <text x="140" y="314" class="label">主干计算权重</text>
+  <text x="140" y="344" class="text">attention / MLP / 主残差流</text>
+
+  <rect x="110" y="405" width="390" height="160" rx="16" ry="16" fill="#fde68a" stroke="#f59e0b"/>
+  <text x="140" y="450" class="label">PLE embedding tables</text>
+  <text x="140" y="480" class="text">按层准备的 token lookup 权重</text>
+  <text x="140" y="510" class="text">占内存，但主要是查表型静态参数</text>
+  <text x="140" y="540" class="small">这部分解释了为什么基础加载显存高于直觉中的 2B / 4B</text>
+
+  <rect x="650" y="150" width="470" height="470" class="frame" fill="#ffffff"/>
+  <text x="680" y="195" class="label">有效计算规模视角</text>
+  <text x="680" y="225" class="small">每步前向里更主导 FLOPs 的部分</text>
+
+  <rect x="700" y="305" width="310" height="155" rx="16" ry="16" fill="#86efac" stroke="#22c55e"/>
+  <text x="730" y="350" class="label">Effective Size</text>
+  <text x="730" y="382" class="text">更接近主干前向计算的规模</text>
+  <text x="730" y="414" class="text">因此官方把 E2B / E4B 叫作</text>
+  <text x="730" y="446" class="text">2B / 4B effective parameter models</text>
+
+  <path d="M540 350 C610 350, 620 350, 700 350" fill="none" stroke="#64748b" stroke-width="4"/>
+  <polygon points="700,350 684,342 684,358" fill="#64748b"/>
+
+  <text x="565" y="330" class="small">主导每步计算</text>
+  <text x="566" y="370" class="small">而不是全部静态权重</text>
+
+  <text x="70" y="670" class="small">一句话：E2B / E4B 的 "E" 代表 effective，不是说模型没有额外权重，而是说大量额外权重主要是 lookup-heavy 的 PLE 参数。</text>
+</svg>

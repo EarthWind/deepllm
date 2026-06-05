@@ -1,0 +1,85 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: 700 30px Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 500 18px Arial, sans-serif; fill: #4b5563; }
+      .panel-title { font: 700 22px Arial, sans-serif; fill: #111827; }
+      .label { font: 600 18px Arial, sans-serif; fill: #111827; }
+      .text { font: 15px Arial, sans-serif; fill: #1f2937; }
+      .small { font: 14px Arial, sans-serif; fill: #374151; }
+      .frame { stroke: #cbd5e1; stroke-width: 2; rx: 18; ry: 18; }
+      .arrow { stroke: #64748b; stroke-width: 3; fill: none; marker-end: url(#m); }
+      .link { stroke: #7c3aed; stroke-width: 3; fill: none; marker-end: url(#m2); }
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+    </marker>
+    <marker id="m2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="760" fill="#f8fafc"/>
+  <text x="60" y="60" class="title">Gemma4 Cross-Layer KV Sharing</text>
+  <text x="60" y="92" class="subtitle">左侧是标准 Transformer 的“一层一份 KV cache”，右侧是 Gemma4 的“后部层复用锚点层 KV”</text>
+
+  <rect x="60" y="130" width="500" height="560" class="frame" fill="#ffffff"/>
+  <text x="90" y="175" class="panel-title">标准 Transformer</text>
+  <text x="90" y="205" class="small">每一层都独立计算并缓存自己的 K / V</text>
+
+  <rect x="95" y="245" width="180" height="88" rx="16" ry="16" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="120" y="282" class="label">Layer 1</text>
+  <text x="120" y="310" class="text">Q1, K1, V1</text>
+  <rect x="335" y="245" width="175" height="88" rx="16" ry="16" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="365" y="282" class="label">KV cache 1</text>
+  <text x="365" y="310" class="text">(K1, V1)</text>
+
+  <rect x="95" y="365" width="180" height="88" rx="16" ry="16" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="120" y="402" class="label">Layer 2</text>
+  <text x="120" y="430" class="text">Q2, K2, V2</text>
+  <rect x="335" y="365" width="175" height="88" rx="16" ry="16" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="365" y="402" class="label">KV cache 2</text>
+  <text x="365" y="430" class="text">(K2, V2)</text>
+
+  <rect x="95" y="485" width="180" height="88" rx="16" ry="16" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="120" y="522" class="label">Layer 3</text>
+  <text x="120" y="550" class="text">Q3, K3, V3</text>
+  <rect x="335" y="485" width="175" height="88" rx="16" ry="16" fill="#fee2e2" stroke="#fca5a5"/>
+  <text x="365" y="522" class="label">KV cache 3</text>
+  <text x="365" y="550" class="text">(K3, V3)</text>
+
+  <path d="M275 289 L335 289" class="arrow"/>
+  <path d="M275 409 L335 409" class="arrow"/>
+  <path d="M275 529 L335 529" class="arrow"/>
+
+  <text x="90" y="635" class="small">结果：层数越多、上下文越长，KV cache 近似按层线性增长。</text>
+
+  <rect x="640" y="130" width="500" height="560" class="frame" fill="#ffffff"/>
+  <text x="670" y="175" class="panel-title">Gemma4 Cross-Layer KV Sharing</text>
+  <text x="670" y="205" class="small">共享层保留自己的 Query，但复用更早锚点层的 K / V</text>
+
+  <rect x="675" y="245" width="180" height="88" rx="16" ry="16" fill="#dcfce7" stroke="#86efac"/>
+  <text x="700" y="282" class="label">Anchor Layer</text>
+  <text x="700" y="310" class="text">Qa, Ka, Va</text>
+  <rect x="915" y="245" width="175" height="88" rx="16" ry="16" fill="#fde68a" stroke="#f59e0b"/>
+  <text x="945" y="282" class="label">Shared KV cache</text>
+  <text x="945" y="310" class="text">(Ka, Va)</text>
+
+  <rect x="675" y="365" width="180" height="88" rx="16" ry="16" fill="#ede9fe" stroke="#c4b5fd"/>
+  <text x="700" y="402" class="label">Shared Layer 1</text>
+  <text x="700" y="430" class="text">Q1 only</text>
+
+  <rect x="675" y="485" width="180" height="88" rx="16" ry="16" fill="#ede9fe" stroke="#c4b5fd"/>
+  <text x="700" y="522" class="label">Shared Layer 2</text>
+  <text x="700" y="550" class="text">Q2 only</text>
+
+  <path d="M855 289 L915 289" class="arrow"/>
+  <path d="M855 409 C910 409, 920 350, 915 310" class="link"/>
+  <path d="M855 529 C940 529, 960 380, 915 310" class="link"/>
+
+  <text x="900" y="404" class="small">复用</text>
+  <text x="972" y="370" class="small">同一份</text>
+
+  <text x="670" y="615" class="small">结果：需要维护独立 KV cache 的层更少，显存和内存压力下降。</text>
+  <text x="670" y="645" class="small">关键区别：共享的是 K / V，不是整层都跳过；每个共享层仍有自己的 Query。</text>
+</svg>
