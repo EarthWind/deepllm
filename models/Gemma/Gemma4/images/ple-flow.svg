@@ -1,0 +1,64 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: 700 30px Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 500 18px Arial, sans-serif; fill: #4b5563; }
+      .label { font: 600 20px Arial, sans-serif; fill: #111827; }
+      .text { font: 16px Arial, sans-serif; fill: #1f2937; }
+      .small { font: 14px Arial, sans-serif; fill: #374151; }
+      .box { stroke: #cbd5e1; stroke-width: 2; rx: 18; ry: 18; }
+      .arrow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#m); }
+    </style>
+    <marker id="m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="720" fill="#f8fafc"/>
+  <text x="60" y="60" class="title">Gemma 4 Per-Layer Embeddings (PLE)</text>
+  <text x="60" y="92" class="subtitle">每一层都拿到一份专属辅助输入，而不是只依赖最开始那一次 token embedding</text>
+
+  <rect x="70" y="150" width="250" height="110" class="box" fill="#dbeafe"/>
+  <text x="95" y="190" class="label">input_ids</text>
+  <text x="95" y="222" class="text">token 序列</text>
+  <text x="95" y="248" class="small">例如: [The, cat, sat, ...]</text>
+
+  <rect x="70" y="320" width="250" height="120" class="box" fill="#e0f2fe"/>
+  <text x="95" y="360" class="label">共享输入 embedding</text>
+  <text x="95" y="392" class="text">普通 token embedding</text>
+  <text x="95" y="418" class="small">形成主残差流的初始输入</text>
+
+  <rect x="420" y="120" width="310" height="150" class="box" fill="#ede9fe"/>
+  <text x="445" y="160" class="label">Token-identity 分量</text>
+  <text x="445" y="192" class="text">input_ids -&gt; embed_tokens_per_layer</text>
+  <text x="445" y="222" class="text">查每层专属小 embedding</text>
+  <text x="445" y="252" class="small">强调“这个 token 是谁”</text>
+
+  <rect x="420" y="330" width="310" height="150" class="box" fill="#dcfce7"/>
+  <text x="445" y="370" class="label">Context-aware 分量</text>
+  <text x="445" y="402" class="text">inputs_embeds -&gt; Linear -&gt; RMSNorm</text>
+  <text x="445" y="432" class="text">按层投影成小维度输入</text>
+  <text x="445" y="462" class="small">强调“当前上下文状态怎样”</text>
+
+  <rect x="820" y="235" width="280" height="150" class="box" fill="#fef3c7"/>
+  <text x="845" y="275" class="label">合并</text>
+  <text x="845" y="307" class="text">(token_identity + context_aware)</text>
+  <text x="845" y="337" class="text">x (1 / sqrt(2))</text>
+  <text x="845" y="367" class="small">得到 per_layer_inputs</text>
+
+  <rect x="780" y="500" width="330" height="140" class="box" fill="#fee2e2"/>
+  <text x="805" y="540" class="label">送入每个 decoder layer</text>
+  <text x="805" y="572" class="text">主干 hidden_states + PLE 辅助残差</text>
+  <text x="805" y="602" class="small">目标：让每层都重新感知 token 身份与上下文</text>
+
+  <path d="M320 205 L420 195" class="arrow"/>
+  <path d="M320 380 L420 405" class="arrow"/>
+  <path d="M730 195 L820 275" class="arrow"/>
+  <path d="M730 405 L820 345" class="arrow"/>
+  <path d="M960 385 L960 500" class="arrow"/>
+
+  <path d="M195 260 L195 320" class="arrow"/>
+  <text x="212" y="300" class="small">普通共享输入</text>
+
+  <text x="70" y="680" class="small">要点：PLE 不是替代主干，而是给每层补一份“小而专属”的输入信号。</text>
+</svg>
