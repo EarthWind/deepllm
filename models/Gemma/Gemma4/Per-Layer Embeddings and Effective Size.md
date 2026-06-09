@@ -363,3 +363,7 @@ Gemma 4 的 **Per-Layer Embeddings（PLE）** 可以理解成：
    https://ai.google.dev/gemma/docs/core/model_card_4
 4. LiteRT-LM model card for Gemma 4 E2B  
    https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm
+5. Google Gemma 4: Per-Layer Embeddings, Multimodality, and On-Device Performance
+   https://betterstack.com/community/guides/ai/gemma-4/
+6. Gemma 4 Architecture Explained: Per-Layer Embeddings, Shared KV Cache, and Dual RoPE
+   https://botmonster.com/ai/gemma-4-architecture-per-layer-embeddings-shared-kv-cache-dual-rope/
