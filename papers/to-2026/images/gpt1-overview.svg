@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840" role="img" aria-labelledby="title desc">
+  <title id="title">GPT-1 的生成式预训练与判别式微调流程</title>
+  <desc id="desc">BooksCorpus 文本经 BPE、token embedding 与可学习位置 embedding 后进入十二层因果 Transformer；预训练使用下一 token 预测，微调将不同任务序列化后用末尾提取 token 的隐藏状态分类，并可保留辅助语言模型损失。</desc>
+  <defs>
+    <linearGradient id="backboneGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.13"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 30px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .section { font: 700 18px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .small { font: 400 13px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .white-label { font: 700 18px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #ffffff; }
+      .white-small { font: 400 14px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #dbeafe; }
+      .arrow { fill: none; stroke: #64748b; stroke-width: 2.5; marker-end: url(#arrow); }
+      .soft-box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="840" fill="#f8fafc"/>
+  <text x="70" y="60" class="title">GPT-1：生成式预训练提供初始化，判别式微调适配任务</text>
+  <text x="70" y="91" class="subtitle">核心不是“直接用提示完成所有任务”，而是复用同一个因果 Transformer，并把结构化输入改写成 token 序列。</text>
+
+  <text x="70" y="147" class="section">1　无标注文本</text>
+  <g filter="url(#shadow)">
+    <rect x="70" y="170" width="278" height="190" rx="16" class="soft-box"/>
+  </g>
+  <rect x="94" y="195" width="230" height="58" rx="10" fill="#e0f2fe"/>
+  <text x="209" y="219" text-anchor="middle" class="label">BooksCorpus</text>
+  <text x="209" y="240" text-anchor="middle" class="small">7,000+ 本连续长文本</text>
+  <rect x="94" y="273" width="230" height="62" rx="10" fill="#e0f2fe"/>
+  <text x="209" y="298" text-anchor="middle" class="label">清洗 + spaCy + BPE</text>
+  <text x="209" y="320" text-anchor="middle" class="small">40,000 次 merge</text>
+
+  <path d="M348 265 L414 265" class="arrow"/>
+
+  <text x="414" y="147" class="section">2　共享主干</text>
+  <g filter="url(#shadow)">
+    <rect x="414" y="170" width="430" height="400" rx="20" fill="url(#backboneGradient)"/>
+  </g>
+  <rect x="450" y="200" width="358" height="64" rx="11" fill="#ffffff" fill-opacity="0.15" stroke="#bfdbfe" stroke-opacity="0.55"/>
+  <text x="629" y="226" text-anchor="middle" class="white-label">Token Emb. + Learned Position Emb.</text>
+  <text x="629" y="249" text-anchor="middle" class="white-small">上下文长度 512，隐藏维度 768</text>
+
+  <rect x="450" y="287" width="358" height="106" rx="12" fill="#ffffff" fill-opacity="0.15" stroke="#bfdbfe" stroke-opacity="0.55"/>
+  <text x="629" y="318" text-anchor="middle" class="white-label">Masked Multi-Head Self-Attention</text>
+  <text x="629" y="344" text-anchor="middle" class="white-small">12 heads；位置 t 只能读取 ≤ t</text>
+  <text x="629" y="369" text-anchor="middle" class="white-small">残差相加后 LayerNorm（post-norm）</text>
+
+  <rect x="450" y="416" width="358" height="108" rx="12" fill="#ffffff" fill-opacity="0.15" stroke="#bfdbfe" stroke-opacity="0.55"/>
+  <text x="629" y="447" text-anchor="middle" class="white-label">Position-wise FFN</text>
+  <text x="629" y="473" text-anchor="middle" class="white-small">768 → 3,072 → 768；GELU</text>
+  <text x="629" y="498" text-anchor="middle" class="white-small">12 个 Block，不含 Cross-Attention</text>
+  <text x="629" y="552" text-anchor="middle" class="white-small">约 117M 参数；预训练与微调共享同一主干</text>
+
+  <path d="M844 300 C900 300 900 225 956 225" class="arrow"/>
+  <path d="M844 435 C900 435 900 565 956 565" class="arrow"/>
+
+  <text x="956" y="147" class="section">3　两个阶段</text>
+  <g filter="url(#shadow)">
+    <rect x="956" y="170" width="374" height="250" rx="16" fill="#fff7ed" stroke="#fdba74" stroke-width="1.5"/>
+  </g>
+  <text x="984" y="202" class="section">生成式预训练</text>
+  <rect x="984" y="221" width="318" height="61" rx="10" fill="#ffedd5"/>
+  <text x="1143" y="246" text-anchor="middle" class="label">位置 t 的隐藏状态 → 预测 token t+1</text>
+  <text x="1143" y="268" text-anchor="middle" class="small">LM Head 与 token embedding 共享权重</text>
+  <g>
+    <rect x="984" y="305" width="52" height="38" rx="7" fill="#fed7aa"/>
+    <rect x="1048" y="305" width="52" height="38" rx="7" fill="#fed7aa"/>
+    <rect x="1112" y="305" width="52" height="38" rx="7" fill="#fed7aa"/>
+    <rect x="1176" y="305" width="52" height="38" rx="7" fill="#fed7aa"/>
+    <text x="1010" y="330" text-anchor="middle" class="label">u₁</text>
+    <text x="1074" y="330" text-anchor="middle" class="label">u₂</text>
+    <text x="1138" y="330" text-anchor="middle" class="label">u₃</text>
+    <text x="1202" y="330" text-anchor="middle" class="label">u₄</text>
+    <path d="M1020 353 L1070 353" class="arrow"/>
+    <path d="M1084 353 L1134 353" class="arrow"/>
+    <path d="M1148 353 L1198 353" class="arrow"/>
+  </g>
+  <text x="1143" y="395" text-anchor="middle" class="small">每个位置都提供一个 next-token 训练信号</text>
+
+  <g filter="url(#shadow)">
+    <rect x="956" y="446" width="374" height="278" rx="16" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  </g>
+  <text x="984" y="478" class="section">判别式微调</text>
+  <rect x="984" y="499" width="318" height="70" rx="10" fill="#dcfce7"/>
+  <text x="1143" y="526" text-anchor="middle" class="label">[START] 任务输入 [EXTRACT]</text>
+  <text x="1143" y="550" text-anchor="middle" class="small">句对 / 多选题再插入 [DELIM]</text>
+  <rect x="984" y="590" width="318" height="54" rx="10" fill="#dcfce7"/>
+  <text x="1143" y="623" text-anchor="middle" class="label">末尾隐藏状态 → Linear + Softmax</text>
+  <text x="1143" y="676" text-anchor="middle" class="label">Loss = Task Loss + λ · LM Loss</text>
+  <text x="1143" y="700" text-anchor="middle" class="small">论文默认 λ = 0.5；端到端更新主干</text>
+
+  <rect x="70" y="758" width="1260" height="48" rx="12" fill="#e2e8f0"/>
+  <text x="700" y="788" text-anchor="middle" class="label">历史边界：GPT-1 证明的是“预训练后监督微调”；GPT-2/3 才把零样本、少样本和上下文学习推到主舞台。</text>
+</svg>
