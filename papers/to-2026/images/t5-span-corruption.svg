@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="650" viewBox="0 0 1400 650" role="img" aria-labelledby="title desc">
+  <title id="title">T5 span corruption 预训练样本的构造过程</title>
+  <desc id="desc">从原序列中选择约百分之十五的 token，并把相邻的被选 token 合并为平均长度约三的片段。输入中的每个片段替换为不同的 sentinel token；目标只保留 sentinel token 和被删除的原片段，并用下一个 sentinel 结束。</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 30px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .section { font: 700 18px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .small { font: 400 13px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .mono { font: 500 14px "JetBrains Mono", "SFMono-Regular", Consolas, monospace; fill: #334155; }
+      .arrow { fill: none; stroke: #64748b; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="650" fill="#f8fafc"/>
+  <text x="70" y="60" class="title">Span corruption：输入留下“路标”，目标只写“被删内容”</text>
+  <text x="70" y="90" class="subtitle">论文最终配方：约 15% 的 token 被破坏，平均 span 长度为 3；每个 span 使用不同的 sentinel token。</text>
+
+  <text x="70" y="145" class="section">1　原始 token 序列</text>
+  <g filter="url(#shadow)">
+    <rect x="70" y="170" width="1260" height="86" rx="15" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  </g>
+  <g>
+    <rect x="98" y="195" width="84" height="36" rx="7" fill="#e2e8f0"/>
+    <rect x="190" y="195" width="74" height="36" rx="7" fill="#e2e8f0"/>
+    <rect x="272" y="195" width="70" height="36" rx="7" fill="#fee2e2"/>
+    <rect x="350" y="195" width="100" height="36" rx="7" fill="#fee2e2"/>
+    <rect x="458" y="195" width="62" height="36" rx="7" fill="#fee2e2"/>
+    <rect x="528" y="195" width="60" height="36" rx="7" fill="#e2e8f0"/>
+    <rect x="596" y="195" width="68" height="36" rx="7" fill="#dbeafe"/>
+    <rect x="672" y="195" width="74" height="36" rx="7" fill="#dbeafe"/>
+    <rect x="754" y="195" width="62" height="36" rx="7" fill="#e2e8f0"/>
+    <rect x="824" y="195" width="66" height="36" rx="7" fill="#e2e8f0"/>
+    <rect x="898" y="195" width="66" height="36" rx="7" fill="#e2e8f0"/>
+    <text x="140" y="218" text-anchor="middle" class="mono">Thank</text>
+    <text x="227" y="218" text-anchor="middle" class="mono">you</text>
+    <text x="307" y="218" text-anchor="middle" class="mono">for</text>
+    <text x="400" y="218" text-anchor="middle" class="mono">inviting</text>
+    <text x="489" y="218" text-anchor="middle" class="mono">me</text>
+    <text x="558" y="218" text-anchor="middle" class="mono">to</text>
+    <text x="630" y="218" text-anchor="middle" class="mono">your</text>
+    <text x="709" y="218" text-anchor="middle" class="mono">party</text>
+    <text x="785" y="218" text-anchor="middle" class="mono">last</text>
+    <text x="857" y="218" text-anchor="middle" class="mono">week</text>
+    <text x="931" y="218" text-anchor="middle" class="mono">.</text>
+    <rect x="1030" y="193" width="128" height="40" rx="20" fill="#fee2e2"/>
+    <text x="1094" y="218" text-anchor="middle" class="small">span 0</text>
+    <rect x="1170" y="193" width="128" height="40" rx="20" fill="#dbeafe"/>
+    <text x="1234" y="218" text-anchor="middle" class="small">span 1</text>
+  </g>
+
+  <path d="M700 256 L700 300" class="arrow"/>
+
+  <text x="70" y="332" class="section">2　Encoder 输入：每个连续片段压缩成一个 sentinel</text>
+  <g filter="url(#shadow)">
+    <rect x="70" y="356" width="1260" height="76" rx="15" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  </g>
+  <rect x="102" y="376" width="1120" height="38" rx="9" fill="#f1f5f9"/>
+  <text x="662" y="401" text-anchor="middle" class="mono">Thank you &lt;extra_id_0&gt; to &lt;extra_id_1&gt; last week .</text>
+  <text x="1242" y="401" text-anchor="middle" class="small">序列变短</text>
+
+  <path d="M700 432 L700 476" class="arrow"/>
+
+  <text x="70" y="508" class="section">3　Decoder 目标：按原顺序串联“sentinel + 缺失片段”</text>
+  <g filter="url(#shadow)">
+    <rect x="70" y="532" width="1260" height="76" rx="15" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  </g>
+  <rect x="102" y="552" width="1120" height="38" rx="9" fill="#ede9fe"/>
+  <text x="662" y="577" text-anchor="middle" class="mono">&lt;extra_id_0&gt; for inviting me &lt;extra_id_1&gt; your party &lt;extra_id_2&gt;</text>
+  <text x="1242" y="577" text-anchor="middle" class="small">下一个 sentinel 收尾</text>
+
+  <text x="700" y="636" text-anchor="middle" class="small">sentinel 既标记缺口，也对齐输入与目标中的片段；它不是 BERT 那种所有位置共用的单一 [MASK]。</text>
+</svg>
