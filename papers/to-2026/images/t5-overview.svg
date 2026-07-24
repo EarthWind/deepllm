@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+  <title id="title">T5 的统一 text-to-text 框架与编码器—解码器结构</title>
+  <desc id="desc">翻译、摘要、分类和问答任务先被转换为带任务前缀的文本输入，再由共享词嵌入、双向编码器和自回归解码器处理，最终全部生成文本答案。解码器通过交叉注意力读取编码器输出。</desc>
+  <defs>
+    <linearGradient id="encoderGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="decoderGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#c026d3"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 30px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .section { font: 700 18px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .small { font: 400 13px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .mono { font: 500 13px "JetBrains Mono", "SFMono-Regular", Consolas, monospace; fill: #334155; }
+      .white-label { font: 700 18px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #ffffff; }
+      .white-small { font: 400 13px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #ede9fe; }
+      .arrow { fill: none; stroke: #64748b; stroke-width: 2.5; marker-end: url(#arrow); }
+      .soft-box { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="850" fill="#f8fafc"/>
+  <text x="70" y="60" class="title">T5：先把任务写成文本，再用同一套模型生成文本</text>
+  <text x="70" y="90" class="subtitle">统一的是输入输出接口、最大似然目标与解码过程；任务语义由前缀和训练样本共同定义。</text>
+
+  <text x="70" y="145" class="section">1　不同任务，先转换格式</text>
+  <g filter="url(#shadow)">
+    <rect x="70" y="168" width="350" height="420" rx="18" class="soft-box"/>
+  </g>
+
+  <rect x="94" y="195" width="302" height="78" rx="12" fill="#dbeafe"/>
+  <text x="116" y="222" class="label">翻译</text>
+  <text x="116" y="248" class="mono">translate English to German:</text>
+  <text x="116" y="266" class="mono">That is good.</text>
+
+  <rect x="94" y="290" width="302" height="78" rx="12" fill="#dcfce7"/>
+  <text x="116" y="317" class="label">摘要</text>
+  <text x="116" y="343" class="mono">summarize: long document …</text>
+
+  <rect x="94" y="385" width="302" height="78" rx="12" fill="#fef3c7"/>
+  <text x="116" y="412" class="label">分类</text>
+  <text x="116" y="438" class="mono">sst2 sentence: a delightful film</text>
+
+  <rect x="94" y="480" width="302" height="78" rx="12" fill="#fee2e2"/>
+  <text x="116" y="507" class="label">问答</text>
+  <text x="116" y="533" class="mono">question: … context: …</text>
+
+  <path d="M420 378 C468 378 470 378 512 378" class="arrow"/>
+
+  <text x="512" y="145" class="section">2　同一个 Encoder–Decoder</text>
+  <g filter="url(#shadow)">
+    <rect x="512" y="168" width="390" height="420" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  </g>
+
+  <rect x="548" y="196" width="318" height="54" rx="11" fill="#e2e8f0"/>
+  <text x="707" y="219" text-anchor="middle" class="label">共享 SentencePiece Embedding</text>
+  <text x="707" y="239" text-anchor="middle" class="small">输入嵌入、解码器嵌入与输出矩阵共享词表空间</text>
+
+  <g filter="url(#shadow)">
+    <rect x="548" y="278" width="318" height="112" rx="15" fill="url(#encoderGradient)"/>
+  </g>
+  <text x="707" y="310" text-anchor="middle" class="white-label">Encoder × L</text>
+  <text x="707" y="338" text-anchor="middle" class="white-small">双向 Self-Attention</text>
+  <text x="707" y="361" text-anchor="middle" class="white-small">FFN · Pre-Norm · 相对位置偏置</text>
+
+  <path d="M707 390 L707 423" class="arrow"/>
+  <rect x="588" y="418" width="238" height="42" rx="21" fill="#ede9fe" stroke="#c4b5fd"/>
+  <text x="707" y="444" text-anchor="middle" class="label">Cross-Attention 读取输入表示</text>
+
+  <g filter="url(#shadow)">
+    <rect x="548" y="486" width="318" height="78" rx="15" fill="url(#decoderGradient)"/>
+  </g>
+  <text x="707" y="516" text-anchor="middle" class="white-label">Decoder × L</text>
+  <text x="707" y="543" text-anchor="middle" class="white-small">因果 Self-Attention · 自回归生成</text>
+
+  <path d="M902 378 C950 378 952 378 994 378" class="arrow"/>
+
+  <text x="994" y="145" class="section">3　输出始终是文本</text>
+  <g filter="url(#shadow)">
+    <rect x="994" y="168" width="336" height="420" rx="18" class="soft-box"/>
+  </g>
+
+  <rect x="1018" y="195" width="288" height="78" rx="12" fill="#dbeafe"/>
+  <text x="1040" y="222" class="label">翻译结果</text>
+  <text x="1040" y="252" class="mono">Das ist gut.</text>
+
+  <rect x="1018" y="290" width="288" height="78" rx="12" fill="#dcfce7"/>
+  <text x="1040" y="317" class="label">摘要文本</text>
+  <text x="1040" y="347" class="mono">short summary …</text>
+
+  <rect x="1018" y="385" width="288" height="78" rx="12" fill="#fef3c7"/>
+  <text x="1040" y="412" class="label">标签词</text>
+  <text x="1040" y="442" class="mono">positive</text>
+
+  <rect x="1018" y="480" width="288" height="78" rx="12" fill="#fee2e2"/>
+  <text x="1040" y="507" class="label">答案文本</text>
+  <text x="1040" y="537" class="mono">the predicted answer</text>
+
+  <text x="70" y="652" class="section">预训练也不换接口：破坏原文 → 生成缺失片段</text>
+  <rect x="70" y="678" width="1260" height="112" rx="16" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <rect x="98" y="705" width="355" height="58" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="276" y="728" text-anchor="middle" class="small">损坏后的输入</text>
+  <text x="276" y="750" text-anchor="middle" class="mono">A &lt;extra_id_0&gt; D E &lt;extra_id_1&gt; H</text>
+
+  <path d="M453 734 L520 734" class="arrow"/>
+  <rect x="520" y="705" width="245" height="58" rx="10" fill="#ede9fe" stroke="#c4b5fd"/>
+  <text x="643" y="728" text-anchor="middle" class="label">同一个 T5 模型</text>
+  <text x="643" y="750" text-anchor="middle" class="small">条件最大似然训练</text>
+
+  <path d="M765 734 L832 734" class="arrow"/>
+  <rect x="832" y="705" width="470" height="58" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="1067" y="728" text-anchor="middle" class="small">只生成被删除的片段</text>
+  <text x="1067" y="750" text-anchor="middle" class="mono">&lt;extra_id_0&gt; B C &lt;extra_id_1&gt; F G &lt;extra_id_2&gt;</text>
+
+  <text x="700" y="826" text-anchor="middle" class="small">关键边界：T5 的“统一”不等于零样本自动理解任意指令；原论文仍依赖任务前缀、监督数据与下游微调。</text>
+</svg>
