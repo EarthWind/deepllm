@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">GPT-3 175B 架构</title>
+  <desc id="desc">GPT-3 从 token 与位置嵌入开始，经过 96 个交替使用全局和局部稀疏注意力的预归一化解码器块，再经最终归一化和语言模型头预测下一个 token。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="block" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+    <filter id="s2" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#64748b" flood-opacity=".25"/>
+    </filter>
+    <style>
+      .title { font: 700 32px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #0f172a; }
+      .heading { font: 700 23px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #0f172a; }
+      .label { font: 600 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #0f172a; }
+      .white { font: 600 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .small { font: 400 15px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #475569; }
+      .mono { font: 500 15px "JetBrains Mono","Noto Sans Mono CJK SC",monospace; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="760" rx="28" fill="url(#bg2)"/>
+  <text x="56" y="62" class="title">GPT-3 175B：结构并不神秘，关键在规模与使用方式</text>
+
+  <g filter="url(#s2)">
+    <rect x="56" y="120" width="170" height="100" rx="16" fill="#ffffff" stroke="#0ea5e9" stroke-width="2"/>
+    <text x="141" y="158" text-anchor="middle" class="label">输入 token</text>
+    <text x="141" y="191" text-anchor="middle" class="mono">B × T</text>
+
+    <rect x="286" y="120" width="205" height="100" rx="16" fill="#ffffff" stroke="#6366f1" stroke-width="2"/>
+    <text x="388" y="154" text-anchor="middle" class="label">Token Embedding</text>
+    <text x="388" y="184" text-anchor="middle" class="small">＋ Learned Position</text>
+    <text x="388" y="207" text-anchor="middle" class="mono">d_model = 12,288</text>
+
+    <rect x="551" y="105" width="360" height="130" rx="20" fill="url(#block)"/>
+    <text x="731" y="145" text-anchor="middle" class="white">Decoder Block × 96</text>
+    <text x="731" y="178" text-anchor="middle" class="white">Pre-LN · Causal Self-Attention · MLP</text>
+    <text x="731" y="208" text-anchor="middle" class="white">全局 / 局部带状稀疏注意力交替</text>
+
+    <rect x="971" y="120" width="120" height="100" rx="16" fill="#ffffff" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="1031" y="160" text-anchor="middle" class="label">Final LN</text>
+    <text x="1031" y="191" text-anchor="middle" class="mono">B×T×d</text>
+
+    <rect x="1151" y="120" width="90" height="100" rx="16" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+    <text x="1196" y="157" text-anchor="middle" class="label">LM</text>
+    <text x="1196" y="181" text-anchor="middle" class="label">Head</text>
+    <text x="1196" y="207" text-anchor="middle" class="small">logits</text>
+  </g>
+  <path d="M226 170 H271" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M491 170 H536" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M911 170 H956" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1091 170 H1136" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <text x="56" y="305" class="heading">一个 Pre-LN Decoder Block</text>
+  <g filter="url(#s2)">
+    <rect x="56" y="350" width="150" height="72" rx="14" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+    <text x="131" y="394" text-anchor="middle" class="label">隐藏状态 x</text>
+
+    <rect x="266" y="350" width="130" height="72" rx="14" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="331" y="394" text-anchor="middle" class="label">LayerNorm</text>
+
+    <rect x="456" y="332" width="250" height="108" rx="16" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+    <text x="581" y="371" text-anchor="middle" class="label">Masked Self-Attention</text>
+    <text x="581" y="401" text-anchor="middle" class="small">96 heads · d_head = 128</text>
+    <text x="581" y="425" text-anchor="middle" class="mono">x ← x + Attn(LN(x))</text>
+
+    <rect x="766" y="350" width="130" height="72" rx="14" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="831" y="394" text-anchor="middle" class="label">LayerNorm</text>
+
+    <rect x="956" y="332" width="265" height="108" rx="16" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+    <text x="1088" y="371" text-anchor="middle" class="label">Feed-Forward MLP</text>
+    <text x="1088" y="401" text-anchor="middle" class="small">d_ff = 4d = 49,152</text>
+    <text x="1088" y="425" text-anchor="middle" class="mono">x ← x + MLP(LN(x))</text>
+  </g>
+  <path d="M206 386 H251" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M396 386 H441" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M706 386 H751" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M896 386 H941" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <path d="M131 422 V488 H731 V440" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+  <text x="425" y="512" text-anchor="middle" class="small">第一条残差路径</text>
+  <path d="M731 440 V552 H1235 V386 H1221" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+  <text x="988" y="576" text-anchor="middle" class="small">第二条残差路径</text>
+
+  <rect x="56" y="622" width="1165" height="86" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="82" y="656" class="label">论文配置：</text>
+  <text x="210" y="656" class="mono">context = 2,048 · params = 175B · train tokens = 300B · batch = 3.2M tokens</text>
+  <text x="82" y="687" class="small">注意：下文 toy 代码复现计算逻辑与接口，不可能在单机上复现 175B 规模，也没有实现真正节省计算量的稀疏 kernel。</text>
+</svg>
