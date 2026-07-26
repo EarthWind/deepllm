@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">在双对数坐标中拟合数据规模扩展律</title>
+  <desc id="desc">橙色点是带轻微扰动的合成实验数据，蓝色直线是依赖零第三方库的 Python 最小二乘拟合结果。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#102951"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 34px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 17px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #cbd5e1; }
+      .section { font: 700 22px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #e2e8f0; }
+      .label { font: 600 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .small { font: 400 16px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #cbd5e1; }
+      .mono { font: 500 17px "JetBrains Mono","Noto Sans Mono CJK SC",monospace; fill: #bae6fd; }
+      .tick { font: 400 15px "JetBrains Mono","Noto Sans Mono CJK SC",monospace; fill: #94a3b8; }
+      .grid { stroke: #334155; stroke-width: 1.2; stroke-dasharray: 5 7; }
+    </style>
+  </defs>
+  <rect width="1400" height="760" rx="28" fill="url(#bg)"/>
+  <text x="70" y="66" class="title">为什么幂律在 log-log 图上接近直线？</text>
+  <text x="70" y="98" class="subtitle">示例使用论文的数据受限形式 L(D) = (D_c / D)^α_D；点为可复现的合成观测，不是论文原始数据。</text>
+  <rect x="100" y="150" width="850" height="500" rx="16" fill="#0b1930" stroke="#334155"/>
+  <line x1="294.4" y1="150" x2="294.4" y2="650" class="grid"/>
+<line x1="565.0" y1="150" x2="565.0" y2="650" class="grid"/>
+<line x1="835.7" y1="150" x2="835.7" y2="650" class="grid"/>
+  <line x1="100" y1="614.2" x2="950" y2="614.2" class="grid"/>
+<line x1="100" y1="486.0" x2="950" y2="486.0" class="grid"/>
+<line x1="100" y1="381.3" x2="950" y2="381.3" class="grid"/>
+<line x1="100" y1="215.9" x2="950" y2="215.9" class="grid"/>
+  <polyline points="100.0,200.9 105.3,203.4 110.7,205.9 116.0,208.4 121.4,210.9 126.7,213.4 132.1,215.9 137.4,218.4 142.8,220.9 148.1,223.3 153.5,225.8 158.8,228.3 164.2,230.8 169.5,233.3 174.8,235.8 180.2,238.3 185.5,240.8 190.9,243.3 196.2,245.8 201.6,248.3 206.9,250.8 212.3,253.2 217.6,255.7 223.0,258.2 228.3,260.7 233.6,263.2 239.0,265.7 244.3,268.2 249.7,270.7 255.0,273.2 260.4,275.7 265.7,278.2 271.1,280.7 276.4,283.1 281.8,285.6 287.1,288.1 292.5,290.6 297.8,293.1 303.1,295.6 308.5,298.1 313.8,300.6 319.2,303.1 324.5,305.6 329.9,308.1 335.2,310.6 340.6,313.1 345.9,315.5 351.3,318.0 356.6,320.5 361.9,323.0 367.3,325.5 372.6,328.0 378.0,330.5 383.3,333.0 388.7,335.5 394.0,338.0 399.4,340.5 404.7,343.0 410.1,345.4 415.4,347.9 420.8,350.4 426.1,352.9 431.4,355.4 436.8,357.9 442.1,360.4 447.5,362.9 452.8,365.4 458.2,367.9 463.5,370.4 468.9,372.9 474.2,375.3 479.6,377.8 484.9,380.3 490.3,382.8 495.6,385.3 500.9,387.8 506.3,390.3 511.6,392.8 517.0,395.3 522.3,397.8 527.7,400.3 533.0,402.8 538.4,405.2 543.7,407.7 549.1,410.2 554.4,412.7 559.7,415.2 565.1,417.7 570.4,420.2 575.8,422.7 581.1,425.2 586.5,427.7 591.8,430.2 597.2,432.7 602.5,435.1 607.9,437.6 613.2,440.1 618.6,442.6 623.9,445.1 629.2,447.6 634.6,450.1 639.9,452.6 645.3,455.1 650.6,457.6 656.0,460.1 661.3,462.6 666.7,465.0 672.0,467.5 677.4,470.0 682.7,472.5 688.1,475.0 693.4,477.5 698.7,480.0 704.1,482.5 709.4,485.0 714.8,487.5 720.1,490.0 725.5,492.5 730.8,495.0 736.2,497.4 741.5,499.9 746.9,502.4 752.2,504.9 757.5,507.4 762.9,509.9 768.2,512.4 773.6,514.9 778.9,517.4 784.3,519.9 789.6,522.4 795.0,524.9 800.3,527.3 805.7,529.8 811.0,532.3 816.4,534.8 821.7,537.3 827.0,539.8 832.4,542.3 837.7,544.8 843.1,547.3 848.4,549.8 853.8,552.3 859.1,554.8 864.5,557.2 869.8,559.7 875.2,562.2 880.5,564.7 885.8,567.2 891.2,569.7 896.5,572.2 901.9,574.7 907.2,577.2 912.6,579.7 917.9,582.2 923.3,584.7 928.6,587.1 934.0,589.6 939.3,592.1 944.7,594.6 950.0,597.1" fill="none" stroke="url(#line)" stroke-width="5" filter="url(#glow)"/>
+  <circle cx="116.4" cy="204.8" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="190.7" cy="247.3" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="265.0" cy="276.1" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="339.3" cy="314.6" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="413.6" cy="343.9" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="487.9" cy="385.9" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="562.1" cy="415.2" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="636.4" cy="453.2" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="710.7" cy="482.5" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="785.0" cy="522.7" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="859.3" cy="552.6" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+<circle cx="933.6" cy="589.4" r="7" fill="#f59e0b" stroke="#fef3c7" stroke-width="2"/>
+  <text x="294.4" y="684" class="tick" text-anchor="middle">10^8</text>
+<text x="565.0" y="684" class="tick" text-anchor="middle">10^9</text>
+<text x="835.7" y="684" class="tick" text-anchor="middle">10^10</text>
+  <text x="82" y="620.2" class="tick" text-anchor="end">2</text>
+<text x="82" y="492.0" class="tick" text-anchor="end">2.5</text>
+<text x="82" y="387.3" class="tick" text-anchor="end">3</text>
+<text x="82" y="221.9" class="tick" text-anchor="end">4</text>
+  <text x="525.0" y="718" class="label" text-anchor="middle">训练数据量 D（tokens，对数刻度）</text>
+  <text x="34" y="400.0" class="label" text-anchor="middle" transform="rotate(-90 34 400.0)">验证损失 L（对数刻度）</text>
+
+  <rect x="1000" y="150" width="330" height="154" rx="18" fill="#112542" stroke="#38bdf8" stroke-width="2"/>
+  <text x="1030" y="190" class="section">拟合结果</text>
+  <text x="1030" y="230" class="mono">α = 0.0953</text>
+  <text x="1030" y="262" class="mono">R² = 0.9995</text>
+  <text x="1030" y="288" class="small">目标值：论文 α_D ≈ 0.095</text>
+
+  <rect x="1000" y="326" width="330" height="154" rx="18" fill="#112542" stroke="#f59e0b" stroke-width="2"/>
+  <text x="1030" y="366" class="section">读懂指数</text>
+  <text x="1030" y="407" class="mono">D × 10</text>
+  <text x="1030" y="440" class="label">拟合项下降 19.7%</text>
+  <text x="1030" y="466" class="small">幂指数很小，边际收益递减很慢</text>
+
+  <rect x="1000" y="502" width="330" height="148" rx="18" fill="#112542" stroke="#818cf8" stroke-width="2"/>
+  <text x="1030" y="542" class="section">拟合边界</text>
+  <text x="1030" y="579" class="small">先保证模型规模、算力不构成瓶颈；</text>
+  <text x="1030" y="608" class="small">不要把受限区间混进单变量拟合。</text>
+  <text x="1030" y="637" class="small">外推必须报告区间与误差。</text>
+</svg>
