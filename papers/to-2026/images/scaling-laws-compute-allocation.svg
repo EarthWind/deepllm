@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="720" viewBox="0 0 1400 720" role="img" aria-labelledby="title desc">
+  <title id="title">Kaplan 扩展律的固定算力分配</title>
+  <desc id="desc">算力增加十亿倍时，论文拟合建议模型规模增加约 6.57 个数量级，batch 增加 2.16 个数量级，串行训练步数只增加 0.27 个数量级。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#102951"/>
+    </linearGradient>
+    <linearGradient id="model" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="batch" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 34px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 17px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #cbd5e1; }
+      .section { font: 700 22px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #e2e8f0; }
+      .label { font: 600 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .small { font: 400 16px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #cbd5e1; }
+      .mono { font: 500 17px "JetBrains Mono","Noto Sans Mono CJK SC",monospace; fill: #e0f2fe; }
+      .tick { font: 400 14px "JetBrains Mono","Noto Sans Mono CJK SC",monospace; fill: #94a3b8; }
+    </style>
+  </defs>
+  <rect width="1400" height="720" rx="28" fill="url(#bg)"/>
+  <text x="70" y="66" class="title">固定预算怎么分？先在指数空间里看</text>
+  <text x="70" y="98" class="subtitle">示意 C 放大 10⁹ 倍。因为 C ≈ 6NBS，log C 的增长可拆成 log N、log B 与 log S。</text>
+
+  <text x="100" y="205" class="section">新增 9 个数量级的训练算力</text>
+  <rect x="100" y="255" width="1200" height="110" rx="18" fill="#0b1930" stroke="#475569" stroke-width="2"/>
+  <path d="M118 255 H976.0000000000001 V365 H118 Q100 365 100 347 V273 Q100 255 118 255" fill="url(#model)"/>
+  <rect x="976.0000000000001" y="255" width="288.00000000000006" height="110" fill="url(#batch)"/>
+  <path d="M1264.0000000000002 255 H1282 Q1300 255 1300 273 V347 Q1300 365 1282 365 H1264.0000000000002 Z" fill="#f59e0b"/>
+  <text x="538.0" y="303" class="label" text-anchor="middle">模型规模 N</text>
+  <text x="538.0" y="335" class="mono" text-anchor="middle">+6.57 orders</text>
+  <text x="1120.0000000000002" y="303" class="label" text-anchor="middle">Batch B</text>
+  <text x="1120.0000000000002" y="335" class="mono" text-anchor="middle">+2.16</text>
+  <path d="M1282.0000000000002 373 V415 H1210" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <text x="1218" y="421" class="label">串行步数 S：+0.27</text>
+
+  <g>
+    <rect x="100" y="465" width="360" height="154" rx="18" fill="#112542" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="130" y="505" class="section">模型规模</text>
+    <text x="130" y="548" class="mono">N × 3.72e+06</text>
+    <text x="130" y="582" class="small">N ∝ C^0.73</text>
+
+    <rect x="520" y="465" width="360" height="154" rx="18" fill="#112542" stroke="#38bdf8" stroke-width="2"/>
+    <text x="550" y="505" class="section">已处理 token</text>
+    <text x="550" y="548" class="mono">D_processed × 269</text>
+    <text x="550" y="582" class="small">B × S ∝ C^0.27</text>
+
+    <rect x="940" y="465" width="360" height="154" rx="18" fill="#112542" stroke="#f59e0b" stroke-width="2"/>
+    <text x="970" y="505" class="section">串行训练时间</text>
+    <text x="970" y="548" class="mono">S × 1.86</text>
+    <text x="970" y="582" class="small">S ∝ C^0.03，几乎不增长</text>
+  </g>
+  <text x="700" y="680" class="small" text-anchor="middle">这是 Kaplan 2020 在其数据、架构和早停定义下的经验外推；不是跨时代不变的训练配方。</text>
+</svg>
