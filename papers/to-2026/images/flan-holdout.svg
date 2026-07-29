@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">FLAN 使用任务簇留出评测真正的跨任务泛化</title>
+  <desc id="desc">只留出一个数据集仍可能让同类任务泄漏进训练；FLAN 留出整个任务簇。下方概括任务多样性、自然语言指令和足够模型规模三个关键消融结论。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#102951"/>
+    </linearGradient>
+    <linearGradient id="good" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#fb7185"/>
+    </marker>
+    <style>
+      .title { font: 700 36px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #cbd5e1; }
+      .section { font: 700 23px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .label { font: 600 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .body { font: 400 16px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #cbd5e1; }
+      .small { font: 400 14px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #94a3b8; }
+      .danger { font: 600 16px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #fecdd3; }
+      .goodText { font: 600 16px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #a5f3fc; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" rx="30" fill="url(#bg)"/>
+  <text x="70" y="67" class="title">“没见过这个数据集” ≠ “没见过这种任务”</text>
+  <text x="70" y="102" class="subtitle">FLAN 的评测严谨点在于：按任务簇留出，而不是只从同类任务中拿走一个数据集。</text>
+
+  <rect x="70" y="150" width="600" height="350" rx="26" fill="#25182a" stroke="#fb7185" stroke-width="2"/>
+  <text x="105" y="193" class="section">✕ 只留出数据集：存在任务形态泄漏</text>
+  <rect x="105" y="226" width="205" height="110" rx="18" fill="#3a2038" stroke="#fda4af"/>
+  <text x="207" y="260" class="label" text-anchor="middle">训练：SNLI</text>
+  <text x="207" y="290" class="body" text-anchor="middle">前提 + 假设</text>
+  <text x="207" y="315" class="small" text-anchor="middle">NLI 任务簇</text>
+  <path d="M326 280 C365 280 375 280 410 280" stroke="#fb7185" stroke-width="4" fill="none" marker-end="url(#arrowRed)"/>
+  <rect x="425" y="226" width="205" height="110" rx="18" fill="#3a2038" stroke="#fda4af" stroke-dasharray="7 6"/>
+  <text x="527" y="260" class="label" text-anchor="middle">测试：RTE</text>
+  <text x="527" y="290" class="body" text-anchor="middle">前提 + 假设</text>
+  <text x="527" y="315" class="small" text-anchor="middle">仍是 NLI 任务簇</text>
+  <rect x="105" y="372" width="525" height="82" rx="16" fill="#341d34"/>
+  <text x="130" y="405" class="danger">模型虽没见过 RTE，却已通过 SNLI 学过同一种输入—输出关系。</text>
+  <text x="130" y="433" class="small">这种设置主要测跨数据集迁移，不能充分证明跨任务泛化。</text>
+
+  <rect x="730" y="150" width="600" height="350" rx="26" fill="#0d2632" stroke="#22d3ee" stroke-width="2"/>
+  <text x="765" y="193" class="section">✓ 留出任务簇：更严格的零样本评测</text>
+  <g>
+    <rect x="765" y="226" width="128" height="76" rx="15" fill="#123748" stroke="#34d399"/>
+    <text x="829" y="257" class="label" text-anchor="middle">翻译</text>
+    <text x="829" y="283" class="small" text-anchor="middle">WMT</text>
+    <rect x="765" y="318" width="128" height="76" rx="15" fill="#123748" stroke="#f59e0b"/>
+    <text x="829" y="349" class="label" text-anchor="middle">问答</text>
+    <text x="829" y="375" class="small" text-anchor="middle">NQ / ARC</text>
+    <rect x="765" y="410" width="128" height="56" rx="15" fill="#123748" stroke="#60a5fa"/>
+    <text x="829" y="445" class="label" text-anchor="middle">情感</text>
+  </g>
+  <path d="M916 345 C954 345 960 345 992 345" stroke="#38bdf8" stroke-width="4" fill="none" marker-end="url(#arrowBlue)"/>
+  <rect x="1008" y="247" width="130" height="196" rx="26" fill="url(#good)" stroke="#a5f3fc"/>
+  <text x="1073" y="320" class="label" text-anchor="middle">Instruction</text>
+  <text x="1073" y="350" class="label" text-anchor="middle">Tuning</text>
+  <text x="1073" y="386" class="small" text-anchor="middle">同一模型</text>
+  <path d="M1154 345 C1181 345 1188 345 1207 345" stroke="#38bdf8" stroke-width="4" fill="none" marker-end="url(#arrowBlue)"/>
+  <rect x="1220" y="247" width="78" height="196" rx="24" fill="#392060" stroke="#d8b4fe" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="1259" y="321" class="label" text-anchor="middle">NLI</text>
+  <text x="1259" y="350" class="small" text-anchor="middle">整个簇</text>
+  <text x="1259" y="374" class="small" text-anchor="middle">未训练</text>
+  <text x="765" y="483" class="goodText">每个被评测任务簇对应一个重新训练的 checkpoint。</text>
+
+  <text x="70" y="560" class="section">消融实验给出的三条因果证据</text>
+
+  <rect x="70" y="590" width="390" height="166" rx="22" fill="#10233e" stroke="#38bdf8" stroke-width="2"/>
+  <circle cx="115" cy="636" r="22" fill="#075985"/>
+  <text x="115" y="643" class="label" text-anchor="middle">1</text>
+  <text x="153" y="643" class="label">任务簇越多，迁移通常越好</text>
+  <path d="M110 699 H195 L235 674 L285 682 L332 641 L410 614" stroke="#38bdf8" stroke-width="4" fill="none"/>
+  <text x="110" y="735" class="small">在所测范围内，平均表现尚未饱和</text>
+
+  <rect x="505" y="590" width="390" height="166" rx="22" fill="#10233e" stroke="#a78bfa" stroke-width="2"/>
+  <circle cx="550" cy="636" r="22" fill="#6d28d9"/>
+  <text x="550" y="643" class="label" text-anchor="middle">2</text>
+  <text x="588" y="643" class="label">自然语言指令不是装饰</text>
+  <rect x="545" y="680" width="95" height="34" rx="8" fill="#7c3aed"/>
+  <rect x="650" y="680" width="95" height="34" rx="8" fill="#334155"/>
+  <rect x="755" y="680" width="95" height="34" rx="8" fill="#334155"/>
+  <text x="592" y="703" class="small" text-anchor="middle" fill="#fff">自然指令</text>
+  <text x="697" y="703" class="small" text-anchor="middle">数据集名</text>
+  <text x="802" y="703" class="small" text-anchor="middle">无模板</text>
+  <text x="545" y="739" class="small">自然指令的四簇平均分：55.2（其他为 47.0 / 37.3）</text>
+
+  <rect x="940" y="590" width="390" height="166" rx="22" fill="#10233e" stroke="#f59e0b" stroke-width="2"/>
+  <circle cx="985" cy="636" r="22" fill="#b45309"/>
+  <text x="985" y="643" class="label" text-anchor="middle">3</text>
+  <text x="1023" y="643" class="label">收益依赖足够大的模型</text>
+  <rect x="980" y="698" width="45" height="16" rx="6" fill="#475569"/>
+  <rect x="1040" y="682" width="45" height="32" rx="6" fill="#475569"/>
+  <rect x="1100" y="664" width="45" height="50" rx="6" fill="#64748b"/>
+  <rect x="1160" y="630" width="45" height="84" rx="6" fill="#f59e0b"/>
+  <rect x="1220" y="612" width="45" height="102" rx="6" fill="#fbbf24"/>
+  <text x="980" y="739" class="small">422M / 2B / 8B 可能受损；68B / 137B 明显获益</text>
+</svg>

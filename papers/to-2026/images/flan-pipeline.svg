@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">FLAN 指令微调数据流</title>
+  <desc id="desc">多个任务数据集经自然语言模板和受限比例混合后，训练同一个 LaMDA-PT 自回归语言模型；模型随后仅凭指令处理训练中留出的任务簇。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#102951"/>
+    </linearGradient>
+    <linearGradient id="model" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="0.55" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="unseen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#60a5fa"/>
+    </marker>
+    <style>
+      .title { font: 700 36px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #cbd5e1; }
+      .section { font: 700 22px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .label { font: 600 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #f8fafc; }
+      .body { font: 400 16px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #cbd5e1; }
+      .small { font: 400 14px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #94a3b8; }
+      .mono { font: 500 16px "JetBrains Mono","Noto Sans Mono CJK SC",monospace; fill: #dbeafe; }
+      .answer { font: 700 18px "Noto Sans CJK SC","Microsoft YaHei",sans-serif; fill: #4c1d95; }
+      .arrow { stroke: #60a5fa; stroke-width: 4; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" rx="30" fill="url(#bg)"/>
+  <text x="70" y="67" class="title">FLAN：把“任务说明”也变成监督信号</text>
+  <text x="70" y="102" class="subtitle">网络结构几乎不变；真正改变的是样本格式、任务混合方式与跨任务簇评测。</text>
+
+  <text x="70" y="158" class="section">① 异构任务</text>
+  <rect x="70" y="182" width="300" height="130" rx="18" fill="#10233e" stroke="#22d3ee" stroke-width="2"/>
+  <circle cx="105" cy="219" r="12" fill="#22d3ee"/>
+  <text x="130" y="225" class="label">情感分类</text>
+  <text x="100" y="260" class="body">“判断评论是正面还是负面”</text>
+  <text x="100" y="287" class="mono">OPTIONS: positive / negative</text>
+
+  <rect x="70" y="332" width="300" height="130" rx="18" fill="#10233e" stroke="#f59e0b" stroke-width="2"/>
+  <circle cx="105" cy="369" r="12" fill="#f59e0b"/>
+  <text x="130" y="375" class="label">机器翻译</text>
+  <text x="100" y="410" class="body">“把这句话翻译成法语”</text>
+  <text x="100" y="437" class="mono">The dog runs. → Le chien court.</text>
+
+  <rect x="70" y="482" width="300" height="130" rx="18" fill="#10233e" stroke="#34d399" stroke-width="2"/>
+  <circle cx="105" cy="519" r="12" fill="#34d399"/>
+  <text x="130" y="525" class="label">阅读理解</text>
+  <text x="100" y="560" class="body">“阅读短文并回答问题”</text>
+  <text x="100" y="587" class="mono">passage + question → answer</text>
+
+  <path d="M390 397 C430 397 438 397 470 397" class="arrow"/>
+
+  <text x="470" y="158" class="section">② 数据配方</text>
+  <rect x="470" y="182" width="330" height="430" rx="24" fill="#0e213b" stroke="#475569" stroke-width="2"/>
+  <rect x="500" y="214" width="270" height="94" rx="16" fill="#153153"/>
+  <text x="525" y="248" class="label">随机选择指令模板</text>
+  <text x="525" y="279" class="small">每个数据集人工编写 10 个模板</text>
+
+  <path d="M635 318 V348" class="arrow"/>
+
+  <rect x="500" y="358" width="270" height="106" rx="16" fill="#153153"/>
+  <text x="525" y="392" class="label">受限比例任务混合</text>
+  <text x="525" y="423" class="mono">wᵢ = min(nᵢ, 3000)</text>
+  <text x="525" y="449" class="small">每个数据集最多使用 30k 条样本</text>
+
+  <path d="M635 474 V504" class="arrow"/>
+
+  <rect x="500" y="514" width="270" height="68" rx="16" fill="#153153"/>
+  <text x="525" y="544" class="label">统一文本接口</text>
+  <text x="525" y="569" class="small">instruction + input → target text</text>
+
+  <path d="M820 397 C860 397 870 397 905 397" class="arrow"/>
+
+  <text x="895" y="158" class="section">③ 同一个语言模型</text>
+  <rect x="905" y="214" width="260" height="336" rx="34" fill="url(#model)" stroke="#93c5fd" stroke-width="2" filter="url(#glow)"/>
+  <g fill="none" stroke="#dbeafe" stroke-width="2" opacity="0.82">
+    <circle cx="970" cy="292" r="13"/><circle cx="1035" cy="270" r="13"/><circle cx="1095" cy="312" r="13"/>
+    <circle cx="980" cy="382" r="13"/><circle cx="1045" cy="358" r="13"/><circle cx="1090" cy="410" r="13"/>
+    <circle cx="990" cy="475" r="13"/><circle cx="1055" cy="458" r="13"/>
+    <path d="M982 288 L1023 274 M1048 278 L1083 307 M973 305 L978 369 M1038 283 L1043 345 M1089 325 L1090 397 M992 378 L1032 362 M1057 368 L1081 401 M989 395 L990 462 M1049 371 L1054 445 M1083 421 L1065 449 M1003 474 L1042 461"/>
+  </g>
+  <text x="1035" y="517" class="label" text-anchor="middle">LaMDA-PT 137B</text>
+  <text x="1035" y="541" class="small" text-anchor="middle">decoder-only · 参数共享</text>
+
+  <rect x="925" y="584" width="220" height="58" rx="14" fill="#111f38" stroke="#60a5fa"/>
+  <text x="1035" y="610" class="mono" text-anchor="middle">−log pθ(y | I, x)</text>
+  <text x="1035" y="632" class="small" text-anchor="middle">仍是标准 token NLL</text>
+
+  <path d="M1178 397 C1215 397 1218 397 1245 397" class="arrow"/>
+
+  <text x="1198" y="158" class="section">④ 未见任务簇</text>
+  <rect x="1235" y="250" width="115" height="294" rx="28" fill="url(#unseen)" stroke="#e9d5ff" stroke-width="2" stroke-dasharray="8 7"/>
+  <text x="1292" y="284" class="small" text-anchor="middle">训练中</text>
+  <text x="1292" y="304" class="small" text-anchor="middle">整体留出</text>
+  <circle cx="1292" cy="366" r="38" fill="#3b1b68" stroke="#e9d5ff" stroke-width="2"/>
+  <text x="1292" y="374" class="section" text-anchor="middle">NLI</text>
+  <text x="1292" y="425" class="small" text-anchor="middle">仅给自然语言</text>
+  <text x="1292" y="445" class="small" text-anchor="middle">任务指令</text>
+  <rect x="1255" y="467" width="75" height="46" rx="12" fill="#f8fafc"/>
+  <text x="1292" y="497" class="answer" text-anchor="middle">Yes</text>
+
+  <rect x="70" y="688" width="1280" height="74" rx="18" fill="#0c1d34" stroke="#334155"/>
+  <text x="100" y="720" class="label">关键变化：</text>
+  <text x="223" y="720" class="body">训练的不再只是“输入到标签”的映射，而是“解释指令 → 选择行为 → 生成合法输出”的统一接口。</text>
+  <text x="100" y="747" class="small">图中 NLI 仅为留出示例；原论文按任务簇轮换训练多个 checkpoint，保证被评测簇整体未参与该 checkpoint 的指令微调。</text>
+</svg>
