@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">InstructGPT PPO 训练中的策略、参考、奖励与价值模型</title>
+  <desc id="desc">当前策略生成回答，冻结的参考策略提供逐 token KL 约束，奖励模型提供终局标量奖励，价值模型估计回报以形成优势；PPO-ptx 还混入预训练似然梯度。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#16143a"/>
+    </linearGradient>
+    <linearGradient id="policy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0284c7"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="update" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d97706"/>
+      <stop offset="1" stop-color="#dc2626"/>
+    </linearGradient>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="trainArr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#fb923c"/>
+    </marker>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #cbd5e1; }
+      .heading { font: 700 20px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .label { font: 600 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .small { font: 400 14px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #cbd5e1; }
+      .mono { font: 500 15px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #dbeafe; }
+      .arrow { fill: none; stroke: #94a3b8; stroke-width: 2.4; marker-end: url(#arr2); }
+      .train-arrow { fill: none; stroke: #fb923c; stroke-width: 3; marker-end: url(#trainArr); }
+      .box { fill: #0f2946; stroke: #475569; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="760" rx="28" fill="url(#bg2)"/>
+  <text x="62" y="60" class="title">一次 PPO rollout 里，四个“模型角色”同时工作</text>
+  <text x="62" y="91" class="subtitle">只有 Policy 负责采样并被更新；Reference 与 RM 冻结，Value 单独学习回报。部署时通常只保留最终 Policy。</text>
+
+  <g transform="translate(64 134)">
+    <rect x="0" y="178" width="150" height="74" rx="15" class="box"/>
+    <text x="75" y="208" text-anchor="middle" class="label">Prompt x</text>
+    <text x="75" y="233" text-anchor="middle" class="small">无人工标签</text>
+    <path d="M150 215 H204" class="arrow"/>
+
+    <rect x="204" y="150" width="220" height="130" rx="20" fill="url(#policy)"/>
+    <text x="314" y="186" text-anchor="middle" class="heading">Policy πφ</text>
+    <text x="314" y="217" text-anchor="middle" class="small">从 SFT checkpoint 初始化</text>
+    <text x="314" y="244" text-anchor="middle" class="mono">sample y ~ πφ(.|x)</text>
+    <text x="314" y="267" text-anchor="middle" class="small">唯一生成回答的模型</text>
+
+    <path d="M424 215 H480" class="arrow"/>
+    <rect x="480" y="170" width="190" height="90" rx="16" class="box"/>
+    <text x="575" y="203" text-anchor="middle" class="label">Response y</text>
+    <text x="575" y="230" text-anchor="middle" class="small">一串 sampled tokens</text>
+    <text x="575" y="249" text-anchor="middle" class="mono">y₁, y₂, …, yT</text>
+
+    <path d="M670 190 C735 190 720 75 784 75" class="arrow"/>
+    <path d="M670 215 H784" class="arrow"/>
+    <path d="M670 240 C735 240 720 355 784 355" class="arrow"/>
+
+    <rect x="784" y="18" width="242" height="114" rx="18" fill="#3b1764" stroke="#c084fc"/>
+    <text x="905" y="51" text-anchor="middle" class="heading">Reward Model rθ</text>
+    <text x="905" y="80" text-anchor="middle" class="mono">rθ(x, y) → scalar</text>
+    <text x="905" y="106" text-anchor="middle" class="small">冻结；终止位置加入一次</text>
+
+    <rect x="784" y="158" width="242" height="114" rx="18" fill="#0c4a6e" stroke="#38bdf8"/>
+    <text x="905" y="191" text-anchor="middle" class="heading">Reference πSFT</text>
+    <text x="905" y="220" text-anchor="middle" class="mono">log πSFT(y_t | ...)</text>
+    <text x="905" y="246" text-anchor="middle" class="small">冻结；提供逐 token KL 锚点</text>
+
+    <rect x="784" y="298" width="242" height="114" rx="18" fill="#14532d" stroke="#4ade80"/>
+    <text x="905" y="331" text-anchor="middle" class="heading">Value Model Vψ</text>
+    <text x="905" y="360" text-anchor="middle" class="mono">Vψ(x, y_&lt;t) → value</text>
+    <text x="905" y="386" text-anchor="middle" class="small">估计回报；计算 advantage</text>
+
+    <path d="M1026 75 C1088 75 1065 191 1123 191" class="arrow"/>
+    <path d="M1026 215 H1123" class="arrow"/>
+    <path d="M1026 355 C1088 355 1065 239 1123 239" class="arrow"/>
+    <rect x="1123" y="142" width="204" height="148" rx="20" fill="url(#update)"/>
+    <text x="1225" y="179" text-anchor="middle" class="heading">Reward shaping</text>
+    <text x="1225" y="210" text-anchor="middle" class="mono">−β(log πφ − log πSFT)</text>
+    <text x="1225" y="239" text-anchor="middle" class="mono">＋ terminal rθ</text>
+    <text x="1225" y="267" text-anchor="middle" class="small">→ returns / advantages</text>
+
+    <path d="M1225 290 V358" class="arrow"/>
+    <rect x="1100" y="358" width="250" height="102" rx="18" fill="#7c2d12" stroke="#fb923c"/>
+    <text x="1225" y="390" text-anchor="middle" class="heading">PPO clipped objective</text>
+    <text x="1225" y="420" text-anchor="middle" class="mono">min(ρA, clip(ρ)A)</text>
+    <text x="1225" y="445" text-anchor="middle" class="small">限制单次策略概率比变化</text>
+
+    <path d="M1100 409 C980 409 1050 506 930 506 H550 C446 506 480 338 363 338 V280" class="train-arrow"/>
+    <text x="755" y="531" text-anchor="middle" class="small">反向传播只更新 Policy（Value 使用自己的回归损失更新）</text>
+  </g>
+
+  <rect x="64" y="599" width="1272" height="103" rx="18" fill="#0b2038" stroke="#84cc16" stroke-width="1.5"/>
+  <text x="92" y="635" class="heading">PPO-ptx 还多一条梯度支路</text>
+  <text x="92" y="668" class="small">从 GPT-3 原始预训练分布采样 token，最大化其 log-likelihood；论文将这条梯度与 PPO 梯度累积，以缓解公共 NLP 任务上的性能回退。</text>
+  <text x="1296" y="668" text-anchor="end" class="mono">objective = RM − β·KL ＋ γ·log p(pretrain)</text>
+</svg>

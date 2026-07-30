@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">InstructGPT 原论文的关键实验结果与适用边界</title>
+  <desc id="desc">展示 175B InstructGPT 相对 175B GPT-3 和 few-shot GPT-3 的偏好胜率、闭域任务幻觉率，以及 1.3B InstructGPT 优于 175B GPT-3 的定性结论，并列出论文未解决的偏差与泛化限制。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="blueBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0284c7"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="violetBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#c026d3"/>
+    </linearGradient>
+    <filter id="shadow3" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .heading { font: 700 19px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .big { font: 800 39px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1d4ed8; }
+      .label { font: 600 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .white { font: 700 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #ffffff; }
+      .mono { font: 500 14px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #334155; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.4; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="780" fill="url(#bg3)"/>
+  <text x="64" y="58" class="title">论文证明了什么，也没有证明什么</text>
+  <text x="64" y="88" class="subtitle">主结果来自论文的 API/customer prompt 分布与特定标注规范；不要把偏好胜率直接等同于通用智能、真实性或安全性。</text>
+
+  <g transform="translate(64 130)" filter="url(#shadow3)">
+    <rect width="392" height="238" rx="20" class="card"/>
+    <text x="26" y="39" class="heading">人类偏好：同规模比较</text>
+    <text x="26" y="70" class="small">175B InstructGPT 的回答被偏好：</text>
+    <text x="26" y="107" class="label">vs. 175B GPT-3</text>
+    <rect x="26" y="121" width="330" height="31" rx="8" fill="#e2e8f0"/>
+    <rect x="26" y="121" width="281" height="31" rx="8" fill="url(#blueBar)"/>
+    <text x="294" y="143" text-anchor="end" class="white">85 ± 3%</text>
+    <text x="26" y="179" class="label">vs. few-shot prompted 175B GPT-3</text>
+    <rect x="26" y="193" width="330" height="31" rx="8" fill="#e2e8f0"/>
+    <rect x="26" y="193" width="234" height="31" rx="8" fill="url(#violetBar)"/>
+    <text x="247" y="215" text-anchor="end" class="white">71 ± 4%</text>
+  </g>
+
+  <g transform="translate(504 130)" filter="url(#shadow3)">
+    <rect width="392" height="238" rx="20" class="card"/>
+    <text x="26" y="39" class="heading">小模型也能因对齐而更“好用”</text>
+    <text x="26" y="91" class="big">1.3B &gt; 175B</text>
+    <text x="26" y="125" class="label">按论文标注员偏好：</text>
+    <text x="26" y="153" class="small">1.3B PPO-ptx InstructGPT 的输出</text>
+    <text x="26" y="177" class="small">优于 175B 原始 GPT-3 的输出。</text>
+    <rect x="26" y="195" width="340" height="25" rx="12" fill="#eff6ff"/>
+    <text x="196" y="213" text-anchor="middle" class="small">参数少 100× 以上，不等于能力全面更强</text>
+  </g>
+
+  <g transform="translate(944 130)" filter="url(#shadow3)">
+    <rect width="392" height="238" rx="20" class="card"/>
+    <text x="26" y="39" class="heading">闭域任务中的幻觉率</text>
+    <text x="26" y="70" class="small">输出不应包含输入之外的信息：</text>
+    <text x="26" y="113" class="label">GPT-3</text>
+    <rect x="112" y="91" width="238" height="31" rx="8" fill="#e2e8f0"/>
+    <rect x="112" y="91" width="195" height="31" rx="8" fill="#ef4444"/>
+    <text x="295" y="113" text-anchor="end" class="white">41%</text>
+    <text x="26" y="170" class="label">InstructGPT</text>
+    <rect x="112" y="148" width="238" height="31" rx="8" fill="#e2e8f0"/>
+    <rect x="112" y="148" width="100" height="31" rx="8" fill="#22c55e"/>
+    <text x="199" y="170" text-anchor="end" class="white">21%</text>
+    <text x="26" y="211" class="small">约减半，但没有归零，也不是开放域事实性保证。</text>
+  </g>
+
+  <text x="64" y="421" class="heading">结果边界：论文自己的限制同样重要</text>
+
+  <g transform="translate(64 448)">
+    <rect width="1272" height="234" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.4"/>
+    <g transform="translate(28 30)">
+      <circle cx="16" cy="16" r="16" fill="#fee2e2"/>
+      <text x="16" y="22" text-anchor="middle" class="label">1</text>
+      <text x="48" y="13" class="label">偏好不是普遍价值</text>
+      <text x="48" y="38" class="small">模型对齐到标注员、研究者指导、客户 prompts 与 API policy 的组合，而不是全人类一致偏好。</text>
+    </g>
+    <g transform="translate(28 91)">
+      <circle cx="16" cy="16" r="16" fill="#fef3c7"/>
+      <text x="16" y="22" text-anchor="middle" class="label">2</text>
+      <text x="48" y="13" class="label">安全指标并非全面改善</text>
+      <text x="48" y="38" class="small">论文观察到毒性小幅改善，但在 Winogender 与 CrowS-Pairs 上没有显著改善偏差。</text>
+    </g>
+    <g transform="translate(28 152)">
+      <circle cx="16" cy="16" r="16" fill="#dbeafe"/>
+      <text x="16" y="22" text-anchor="middle" class="label">3</text>
+      <text x="48" y="13" class="label">数据分布较窄</text>
+      <text x="48" y="38" class="small">训练数据超过 96% 是英语，主要来自早期 InstructGPT Playground 与标注员撰写 prompts。</text>
+    </g>
+    <g transform="translate(690 30)">
+      <circle cx="16" cy="16" r="16" fill="#ede9fe"/>
+      <text x="16" y="22" text-anchor="middle" class="label">4</text>
+      <text x="48" y="13" class="label">RM 可以被过度优化</text>
+      <text x="48" y="38" class="small">奖励只是偏好代理；KL 约束、PPO clipping 与人工复评共同抑制 reward hacking，但不能消除它。</text>
+    </g>
+    <g transform="translate(690 91)">
+      <circle cx="16" cy="16" r="16" fill="#dcfce7"/>
+      <text x="16" y="22" text-anchor="middle" class="label">5</text>
+      <text x="48" y="13" class="label">“更诚实”在论文中主要测量为 truthfulness</text>
+      <text x="48" y="38" class="small">作者明确指出无法从黑盒模型直接读取“信念”；TruthfulQA 与闭域幻觉只是代理指标。</text>
+    </g>
+    <g transform="translate(690 152)">
+      <circle cx="16" cy="16" r="16" fill="#ffedd5"/>
+      <text x="16" y="22" text-anchor="middle" class="label">6</text>
+      <text x="48" y="13" class="label">仍会犯简单错误</text>
+      <text x="48" y="38" class="small">模型仍可能不遵循指令、编造事实、过度保守，或接受包含错误前提的问题。</text>
+    </g>
+  </g>
+
+  <text x="700" y="738" text-anchor="middle" class="small">数字来自论文 v1；误差条为 95% 置信区间。结论应限定在论文的模型、数据、采样与标注流程中。</text>
+</svg>

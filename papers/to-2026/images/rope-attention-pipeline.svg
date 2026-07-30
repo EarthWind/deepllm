@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="700" viewBox="0 0 1400 700" role="img" aria-labelledby="title desc">
+  <title id="title">RoPE 在注意力与 KV Cache 中的位置</title>
+  <desc id="desc">输入隐藏状态先投影为 Q K V，RoPE 只旋转 Q 和 K。旋转后的 K 与未旋转的 V 写入 KV Cache，Q 与缓存 K 计算注意力分数。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#111c3f"/>
+    </linearGradient>
+    <linearGradient id="ropeBox" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#94a3b8"/>
+    </marker>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #cbd5e1; }
+      .heading { font: 700 20px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .label { font: 600 17px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .small { font: 400 14px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #cbd5e1; }
+      .mono { font: 500 15px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #dbeafe; }
+      .arrow { fill: none; stroke: #94a3b8; stroke-width: 2.5; marker-end: url(#arrow3); }
+      .box { fill: #0f2946; stroke: #475569; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="700" rx="28" fill="url(#bg3)"/>
+  <text x="62" y="60" class="title">RoPE 在 Attention 里的准确位置</text>
+  <text x="62" y="91" class="subtitle">先做 Q/K/V 投影，再旋转 Q/K；V 不旋转。自回归推理时，缓存的是已经带绝对位置相位的 K。</text>
+
+  <g transform="translate(58 144)">
+    <rect x="0" y="122" width="132" height="80" rx="15" class="box"/>
+    <text x="66" y="154" text-anchor="middle" class="label">hidden states</text>
+    <text x="66" y="180" text-anchor="middle" class="mono">[B, T, D]</text>
+
+    <path d="M132 162 H191" class="arrow"/>
+    <rect x="191" y="20" width="142" height="68" rx="14" fill="#0c4a6e" stroke="#38bdf8"/>
+    <text x="262" y="48" text-anchor="middle" class="label">Wq</text>
+    <text x="262" y="72" text-anchor="middle" class="small">Query 投影</text>
+    <rect x="191" y="128" width="142" height="68" rx="14" fill="#312e81" stroke="#a78bfa"/>
+    <text x="262" y="156" text-anchor="middle" class="label">Wk</text>
+    <text x="262" y="180" text-anchor="middle" class="small">Key 投影</text>
+    <rect x="191" y="236" width="142" height="68" rx="14" fill="#134e4a" stroke="#2dd4bf"/>
+    <text x="262" y="264" text-anchor="middle" class="label">Wv</text>
+    <text x="262" y="288" text-anchor="middle" class="small">Value 投影</text>
+    <path d="M160 162 C160 54 168 54 191 54" class="arrow"/>
+    <path d="M160 162 H191" class="arrow"/>
+    <path d="M160 162 C160 270 168 270 191 270" class="arrow"/>
+
+    <path d="M333 54 H394" class="arrow"/>
+    <path d="M333 162 H394" class="arrow"/>
+    <rect x="394" y="36" width="210" height="144" rx="20" fill="url(#ropeBox)"/>
+    <text x="499" y="70" text-anchor="middle" class="heading">Apply RoPE</text>
+    <text x="499" y="101" text-anchor="middle" class="mono">q′ = R(position) q</text>
+    <text x="499" y="130" text-anchor="middle" class="mono">k′ = R(position) k</text>
+    <text x="499" y="158" text-anchor="middle" class="small">逐二维通道对旋转</text>
+
+    <path d="M604 73 H692" class="arrow"/>
+    <path d="M604 144 H657 C675 144 675 244 692 244" class="arrow"/>
+    <path d="M333 270 H692" class="arrow"/>
+
+    <rect x="692" y="188" width="225" height="112" rx="18" fill="#134e4a" stroke="#2dd4bf" stroke-width="1.5"/>
+    <text x="804" y="221" text-anchor="middle" class="heading">KV Cache</text>
+    <text x="804" y="253" text-anchor="middle" class="mono">store: k′, v</text>
+    <text x="804" y="279" text-anchor="middle" class="small">K 已旋转，V 保持原样</text>
+
+    <path d="M692 73 H975" class="arrow"/>
+    <path d="M917 244 H943 C960 244 960 158 975 158" class="arrow"/>
+    <rect x="975" y="62" width="230" height="126" rx="18" fill="#422006" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="1090" y="96" text-anchor="middle" class="heading">Attention score</text>
+    <text x="1090" y="129" text-anchor="middle" class="mono">q′ · k′ᵀ / √d</text>
+    <text x="1090" y="161" text-anchor="middle" class="small">Softmax 后加权 V</text>
+  </g>
+
+  <rect x="62" y="511" width="1276" height="123" rx="18" fill="#0b2038" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="91" y="548" class="heading">Decode 时最容易写错的地方</text>
+  <text x="91" y="583" class="small">新 token 虽然张量长度 T = 1，但 position_id 不能重置为 0；它必须使用真实 cache position（例如已经缓存 2048 个 token 时取 2048）。</text>
+  <text x="91" y="612" class="small">否则新 Q/K 的相位与历史 K 不在同一坐标系，注意力里的相对位移就会被破坏。</text>
+</svg>

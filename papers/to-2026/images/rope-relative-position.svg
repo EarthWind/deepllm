@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">RoPE 如何把绝对位置旋转变成相对位置</title>
+  <desc id="desc">查询向量和键向量分别按位置 m 与 n 旋转，点积中的两个旋转矩阵合并为只依赖 n 减 m 的旋转。两者同时平移相同距离后，点积保持不变。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#172554"/>
+    </linearGradient>
+    <linearGradient id="formula" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f2946"/>
+      <stop offset="1" stop-color="#25215a"/>
+    </linearGradient>
+    <marker id="cyanArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#38bdf8"/>
+    </marker>
+    <marker id="violetArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#a78bfa"/>
+    </marker>
+    <style>
+      .title { font: 700 32px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #cbd5e1; }
+      .heading { font: 700 21px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .label { font: 600 17px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #e2e8f0; }
+      .small { font: 400 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #cbd5e1; }
+      .mono { font: 500 18px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #dbeafe; }
+      .formula-main { font: 600 23px "STIX Two Math", "Cambria Math", serif; fill: #f8fafc; }
+      .formula-note { font: 500 17px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #67e8f9; }
+      .axis { stroke: #64748b; stroke-width: 1.5; }
+      .guide { fill: none; stroke: #475569; stroke-width: 1.5; stroke-dasharray: 7 7; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="760" rx="28" fill="url(#bg)"/>
+  <text x="62" y="62" class="title">RoPE 的关键：绝对位置进旋转，相对位移出点积</text>
+  <text x="62" y="92" class="subtitle">下面只看一个二维通道对；真实 head_dim 会被拆成多组二维平面，每组使用不同频率。</text>
+
+  <g transform="translate(110 155)">
+    <text x="140" y="0" text-anchor="middle" class="heading">Query：位置 m</text>
+    <circle cx="140" cy="185" r="116" fill="#0b2038" stroke="#1d4ed8" stroke-width="2"/>
+    <line x1="18" y1="185" x2="262" y2="185" class="axis"/>
+    <line x1="140" y1="307" x2="140" y2="63" class="axis"/>
+    <circle cx="140" cy="185" r="72" class="guide"/>
+    <path d="M140 185 L213 104" stroke="#38bdf8" stroke-width="5" marker-end="url(#cyanArrow)"/>
+    <path d="M140 185 L231 148" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="3"/>
+    <path d="M224 154 A92 92 0 0 0 206 116" fill="none" stroke="#fbbf24" stroke-width="3"/>
+    <text x="225" y="129" class="label" fill="#fde68a">mθ</text>
+    <text x="203" y="90" class="mono">Rₘq</text>
+    <text x="220" y="178" class="small">q</text>
+  </g>
+
+  <g transform="translate(525 155)">
+    <text x="140" y="0" text-anchor="middle" class="heading">Key：位置 n</text>
+    <circle cx="140" cy="185" r="116" fill="#151b42" stroke="#7c3aed" stroke-width="2"/>
+    <line x1="18" y1="185" x2="262" y2="185" class="axis"/>
+    <line x1="140" y1="307" x2="140" y2="63" class="axis"/>
+    <circle cx="140" cy="185" r="72" class="guide"/>
+    <path d="M140 185 L100 81" stroke="#a78bfa" stroke-width="5" marker-end="url(#violetArrow)"/>
+    <path d="M140 185 L202 122" stroke="#a78bfa" stroke-opacity="0.35" stroke-width="3"/>
+    <path d="M194 130 A78 78 0 0 0 115 111" fill="none" stroke="#fbbf24" stroke-width="3"/>
+    <text x="153" y="105" class="label" fill="#fde68a">nθ</text>
+    <text x="54" y="75" class="mono">Rₙk</text>
+    <text x="205" y="118" class="small">k</text>
+  </g>
+
+  <g transform="translate(905 150)">
+    <rect x="0" y="0" width="425" height="330" rx="22" fill="url(#formula)" stroke="#475569" stroke-width="1.5"/>
+    <text x="28" y="44" class="heading">旋转矩阵在点积里相消</text>
+    <text x="28" y="91" class="formula-main">⟨Rₘq, Rₙk⟩</text>
+    <text x="28" y="133" class="formula-main">= qᵀ Rₘᵀ Rₙ k</text>
+    <text x="28" y="175" class="formula-main">= qᵀ Rₙ₋ₘ k</text>
+    <line x1="28" y1="201" x2="397" y2="201" stroke="#475569"/>
+    <text x="28" y="239" class="formula-note">只剩相对位移 n − m</text>
+    <text x="28" y="272" class="small">平移不变性：</text>
+    <text x="28" y="304" class="mono">score(m+c, n+c) = score(m, n)</text>
+  </g>
+
+  <rect x="62" y="543" width="1268" height="142" rx="18" fill="#0b2038" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="92" y="580" class="heading">为什么仍然说 RoPE “编码绝对位置”？</text>
+  <text x="92" y="616" class="small">每个 Q / K 单独看，旋转角确实由自己的绝对位置 m 或 n 决定；只有在注意力点积组合后，公共平移量才被消去。</text>
+  <text x="92" y="651" class="small">因此它同时具备两种视角：表示层是绝对旋转，交互层呈现相对位置。V 不参与这一步旋转。</text>
+</svg>
