@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">标准 few-shot 与 Chain-of-Thought prompting 对比</title>
+  <desc id="desc">标准提示只示范问题到答案，思维链提示在答案前示范自然语言中间步骤。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#11163a"/>
+    </linearGradient>
+    <linearGradient id="cot" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#18c8ff"/>
+      <stop offset="1" stop-color="#9d75ff"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#54d8ff"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#7f8ca8"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 30px; font-weight: 700; fill: #f4f8ff; }
+      .subtitle { font-size: 15px; fill: #9baccc; }
+      .label { font-size: 19px; font-weight: 700; fill: #f4f8ff; }
+      .body { font-size: 16px; fill: #d8e4fa; }
+      .small { font-size: 14px; fill: #9baccc; }
+      .mono { font-family: "SFMono-Regular", Consolas, monospace; font-size: 15px; fill: #dfeaff; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="720" rx="24" fill="url(#bg)"/>
+  <text x="60" y="62" class="sans title">标准 few-shot 与 CoT：只改变提示，不修改模型参数</text>
+  <text x="60" y="91" class="sans subtitle">同一个自回归语言模型，学习到的是两种不同的输出轨迹</text>
+
+  <rect x="50" y="125" width="1100" height="218" rx="20" fill="#0c1c32" stroke="#33415e"/>
+  <rect x="72" y="147" width="182" height="36" rx="18" fill="#26324a"/>
+  <text x="163" y="171" text-anchor="middle" class="sans label">标准提示</text>
+  <text x="280" y="171" class="sans small">示例是 ⟨输入, 输出⟩</text>
+
+  <rect x="82" y="207" width="250" height="91" rx="14" fill="#111f36" stroke="#45526c"/>
+  <text x="102" y="237" class="sans body">示例问题</text>
+  <text x="102" y="268" class="sans mono">Q₁ → A₁（最终答案）</text>
+  <line x1="350" y1="252" x2="422" y2="252" stroke="#7f8ca8" stroke-width="3" marker-end="url(#arrowGray)"/>
+  <rect x="440" y="207" width="250" height="91" rx="14" fill="#111f36" stroke="#45526c"/>
+  <text x="460" y="237" class="sans body">新问题</text>
+  <text x="460" y="268" class="sans mono">Q* → ?</text>
+  <line x1="708" y1="252" x2="780" y2="252" stroke="#7f8ca8" stroke-width="3" marker-end="url(#arrowGray)"/>
+  <rect x="798" y="207" width="310" height="91" rx="14" fill="#1c2437" stroke="#6d7891"/>
+  <text x="818" y="237" class="sans body">模型直接生成</text>
+  <text x="818" y="268" class="sans mono">A* = y₁ … yₘ</text>
+  <text x="82" y="325" class="sans small">难点：多步计算、状态更新与约束都必须被“压”进直接答案。</text>
+
+  <rect x="50" y="371" width="1100" height="278" rx="20" fill="#0b2034" stroke="#36779b" stroke-width="1.5"/>
+  <rect x="72" y="393" width="260" height="38" rx="19" fill="url(#cot)" filter="url(#glow)"/>
+  <text x="202" y="419" text-anchor="middle" class="sans label">Chain-of-Thought 提示</text>
+  <text x="358" y="419" class="sans small">示例是 ⟨输入, 推理链, 输出⟩</text>
+
+  <rect x="82" y="460" width="212" height="104" rx="14" fill="#10243d" stroke="#3b7899"/>
+  <text x="102" y="490" class="sans body">新问题</text>
+  <text x="102" y="526" class="sans mono">Q*</text>
+  <line x1="312" y1="512" x2="370" y2="512" stroke="#54d8ff" stroke-width="3" marker-end="url(#arrowCyan)"/>
+
+  <rect x="388" y="448" width="386" height="128" rx="16" fill="#112a46" stroke="#56cfff" stroke-width="1.5"/>
+  <text x="410" y="480" class="sans body">先生成有语义的中间步骤</text>
+  <rect x="410" y="500" width="90" height="43" rx="10" fill="#173b5d"/>
+  <rect x="518" y="500" width="90" height="43" rx="10" fill="#173b5d"/>
+  <rect x="626" y="500" width="122" height="43" rx="10" fill="#24335b"/>
+  <text x="455" y="527" text-anchor="middle" class="sans mono">r₁</text>
+  <text x="563" y="527" text-anchor="middle" class="sans mono">r₂</text>
+  <text x="687" y="527" text-anchor="middle" class="sans mono">… rₖ</text>
+  <line x1="792" y1="512" x2="850" y2="512" stroke="#a887ff" stroke-width="3" marker-end="url(#arrowCyan)"/>
+
+  <rect x="868" y="460" width="240" height="104" rx="14" fill="#2b234b" stroke="#a887ff" stroke-width="1.5"/>
+  <text x="888" y="490" class="sans body">最后生成答案</text>
+  <text x="888" y="526" class="sans mono">A* = y₁ … yₘ</text>
+
+  <text x="82" y="609" class="sans body">自回归顺序：</text>
+  <text x="210" y="609" class="sans mono">p(r, y | x) = p(r | x) · p(y | x, r)</text>
+  <text x="645" y="609" class="sans small">答案条件中多了已生成的中间状态 r</text>
+
+  <rect x="50" y="673" width="1100" height="1" fill="#283856"/>
+  <text x="600" y="704" text-anchor="middle" class="sans small">关键不是“写得更长”，而是让有意义的推理状态出现在答案之前。</text>
+</svg>

@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">PaLM 在 GSM8K 上的标准提示与思维链提示准确率</title>
+  <desc id="desc">PaLM 8B、62B、540B 的标准提示准确率分别为 4.9、9.6、17.9，思维链提示分别为 4.1、29.9、56.9。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#11163a"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .sans { font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 30px; font-weight: 700; fill: #f4f8ff; }
+      .subtitle { font-size: 15px; fill: #9baccc; }
+      .axis { font-size: 14px; fill: #93a5c8; }
+      .label { font-size: 17px; font-weight: 700; fill: #edf5ff; }
+      .value { font-size: 16px; font-weight: 700; fill: #f5f8ff; }
+      .note { font-size: 14px; fill: #b7c6e2; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="720" rx="24" fill="url(#bg)"/>
+  <text x="60" y="62" class="sans title">CoT 的收益随模型规模出现：PaLM / GSM8K</text>
+  <text x="60" y="91" class="sans subtitle">准确率（%），论文 Table 2；横轴按三个模型规模等距展示，不代表线性参数间隔</text>
+
+  <rect x="55" y="125" width="820" height="500" rx="20" fill="#0b1b31" stroke="#2b3e5d"/>
+  <line x1="135" y1="550" x2="825" y2="550" stroke="#657493" stroke-width="1.5"/>
+  <line x1="135" y1="170" x2="135" y2="550" stroke="#657493" stroke-width="1.5"/>
+
+  <g stroke="#263b5a" stroke-width="1">
+    <line x1="135" y1="550" x2="825" y2="550"/>
+    <line x1="135" y1="487" x2="825" y2="487"/>
+    <line x1="135" y1="423" x2="825" y2="423"/>
+    <line x1="135" y1="360" x2="825" y2="360"/>
+    <line x1="135" y1="297" x2="825" y2="297"/>
+    <line x1="135" y1="233" x2="825" y2="233"/>
+    <line x1="135" y1="170" x2="825" y2="170"/>
+  </g>
+  <g class="sans axis" text-anchor="end">
+    <text x="119" y="555">0</text>
+    <text x="119" y="492">10</text>
+    <text x="119" y="428">20</text>
+    <text x="119" y="365">30</text>
+    <text x="119" y="302">40</text>
+    <text x="119" y="238">50</text>
+    <text x="119" y="175">60</text>
+  </g>
+  <text x="76" y="372" transform="rotate(-90 76 372)" text-anchor="middle" class="sans axis">GSM8K 准确率（%）</text>
+
+  <g class="sans label" text-anchor="middle">
+    <text x="220" y="585">PaLM 8B</text>
+    <text x="480" y="585">PaLM 62B</text>
+    <text x="740" y="585">PaLM 540B</text>
+  </g>
+
+  <polyline points="220,519 480,489 740,437" fill="none" stroke="#8592aa" stroke-width="4"/>
+  <polyline points="220,524 480,361 740,190" fill="none" stroke="#45d3ff" stroke-width="5" filter="url(#glow)"/>
+
+  <g fill="#0b1b31" stroke="#a5b1c8" stroke-width="4">
+    <circle cx="220" cy="519" r="8"/><circle cx="480" cy="489" r="8"/><circle cx="740" cy="437" r="8"/>
+  </g>
+  <g fill="#45d3ff" stroke="#d9f7ff" stroke-width="2">
+    <circle cx="220" cy="524" r="9"/><circle cx="480" cy="361" r="9"/><circle cx="740" cy="190" r="9"/>
+  </g>
+
+  <g class="sans value">
+    <text x="183" y="506">4.9</text><text x="230" y="547" fill="#67ddff">4.1</text>
+    <text x="438" y="478">9.6</text><text x="493" y="354" fill="#67ddff">29.9</text>
+    <text x="690" y="430">17.9</text><text x="755" y="182" fill="#67ddff">56.9</text>
+  </g>
+
+  <line x1="570" y1="151" x2="610" y2="151" stroke="#45d3ff" stroke-width="5"/>
+  <text x="622" y="157" class="sans note">8-shot CoT</text>
+  <line x1="700" y1="151" x2="740" y2="151" stroke="#8592aa" stroke-width="4"/>
+  <text x="752" y="157" class="sans note">标准 few-shot</text>
+
+  <rect x="905" y="125" width="240" height="500" rx="20" fill="#0d2037" stroke="#31496d"/>
+  <text x="935" y="174" class="sans label">读图结论</text>
+  <rect x="930" y="202" width="190" height="82" rx="14" fill="#14243a"/>
+  <text x="950" y="233" class="sans note">8B：CoT 没有收益</text>
+  <text x="950" y="260" class="sans value" fill="#f2b86b">−0.8 点</text>
+  <rect x="930" y="302" width="190" height="82" rx="14" fill="#12304a"/>
+  <text x="950" y="333" class="sans note">62B：收益开始显著</text>
+  <text x="950" y="360" class="sans value" fill="#67ddff">+20.3 点</text>
+  <rect x="930" y="402" width="190" height="82" rx="14" fill="#1d2b52"/>
+  <text x="950" y="433" class="sans note">540B：差距进一步扩大</text>
+  <text x="950" y="460" class="sans value" fill="#ad91ff">+39.0 点</text>
+  <text x="935" y="525" class="sans note">外接计算器：</text>
+  <text x="935" y="553" class="sans value" fill="#f4bd70">58.6%</text>
+  <text x="935" y="580" class="sans note">不要与原始 CoT 56.9%</text>
+  <text x="935" y="603" class="sans note">混为同一个结果。</text>
+
+  <text x="600" y="676" text-anchor="middle" class="sans subtitle">这是 2022 年特定模型族的经验现象，不是“参数超过某个阈值就必然推理”的定律。</text>
+</svg>

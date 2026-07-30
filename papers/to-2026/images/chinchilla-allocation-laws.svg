@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Kaplan 与 Chinchilla 的训练算力分配指数对比</title>
+  <desc id="desc">Kaplan 更偏向扩大参数，Chinchilla 的三种估计都让参数量和训练 token 随算力近似等比例增长。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#12163c"/>
+    </linearGradient>
+    <linearGradient id="model" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8268f2"/>
+      <stop offset="1" stop-color="#b390ff"/>
+    </linearGradient>
+    <linearGradient id="data" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#16b9e8"/>
+      <stop offset="1" stop-color="#5ee7ff"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .sans { font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 31px; font-weight: 700; fill: #f5f8ff; }
+      .subtitle { font-size: 16px; fill: #a9b8d3; }
+      .head { font-size: 21px; font-weight: 700; fill: #eff5ff; }
+      .body { font-size: 16px; fill: #d6e1f3; }
+      .small { font-size: 14px; fill: #97a9c8; }
+      .mono { font-family: "SFMono-Regular", Consolas, monospace; font-size: 17px; fill: #e8f0ff; }
+      .value { font-size: 20px; font-weight: 700; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="760" rx="26" fill="url(#bg)"/>
+  <text x="60" y="64" class="sans title">算力增加时，预算应该分给参数还是数据？</text>
+  <text x="60" y="96" class="sans subtitle">固定约束 C ≈ 6ND 意味着 a + b ≈ 1；分歧在于 N 与 D 各拿多少增长指数</text>
+
+  <rect x="55" y="128" width="1170" height="92" rx="18" fill="#0d2037" stroke="#334965"/>
+  <text x="86" y="164" class="sans head">统一形式</text>
+  <text x="240" y="165" class="sans mono">N_opt(C) ∝ Cᵃ</text>
+  <text x="500" y="165" class="sans mono">D_opt(C) ∝ Cᵇ</text>
+  <text x="760" y="165" class="sans mono">C × 10</text>
+  <text x="878" y="165" class="sans body">时，增长倍数为</text>
+  <text x="1062" y="165" class="sans mono">10ᵃ / 10ᵇ</text>
+  <text x="86" y="198" class="sans small">N：参数量　D：训练 token　C：训练 FLOPs。下面的倍数按论文指数计算并四舍五入。</text>
+
+  <rect x="55" y="246" width="1170" height="126" rx="20" fill="#121b32" stroke="#5a557d"/>
+  <rect x="78" y="269" width="224" height="80" rx="14" fill="#22203e"/>
+  <text x="98" y="301" class="sans head">Kaplan 2020</text>
+  <text x="98" y="330" class="sans mono">a=0.73 · b=0.27</text>
+  <text x="330" y="280" class="sans small">模型参数</text>
+  <rect x="330" y="292" width="502" height="27" rx="13.5" fill="#29243d"/>
+  <rect x="330" y="292" width="366" height="27" rx="13.5" fill="url(#model)"/>
+  <text x="712" y="313" class="sans value">×5.4（论文概述约 ×5.5）</text>
+  <text x="330" y="341" class="sans small">训练 token</text>
+  <rect x="470" y="328" width="362" height="27" rx="13.5" fill="#193044"/>
+  <rect x="470" y="328" width="98" height="27" rx="13.5" fill="url(#data)"/>
+  <text x="850" y="349" class="sans value">×1.9（论文概述约 ×1.8）</text>
+  <rect x="1080" y="272" width="112" height="72" rx="16" fill="#332440"/>
+  <text x="1136" y="302" text-anchor="middle" class="sans small">主要投向</text>
+  <text x="1136" y="329" text-anchor="middle" class="sans head">参数</text>
+
+  <rect x="55" y="394" width="1170" height="276" rx="20" fill="#0b2439" stroke="#38ccef" stroke-width="1.5"/>
+  <text x="80" y="430" class="sans head">Chinchilla 2022：三种拟合都接近等比例扩展</text>
+
+  <g>
+    <rect x="80" y="454" width="335" height="172" rx="16" fill="#102c45" stroke="#3485a8"/>
+    <text x="104" y="487" class="sans head">Approach 1</text>
+    <text x="104" y="513" class="sans small">训练曲线 envelope</text>
+    <text x="104" y="551" class="sans mono">a=0.50　b=0.50</text>
+    <rect x="104" y="570" width="126" height="32" rx="10" fill="url(#model)"/>
+    <rect x="242" y="570" width="126" height="32" rx="10" fill="url(#data)"/>
+    <text x="167" y="592" text-anchor="middle" class="sans value">N ×3.16</text>
+    <text x="305" y="592" text-anchor="middle" class="sans value">D ×3.16</text>
+  </g>
+
+  <g>
+    <rect x="438" y="454" width="335" height="172" rx="16" fill="#102c45" stroke="#3485a8"/>
+    <text x="462" y="487" class="sans head">Approach 2</text>
+    <text x="462" y="513" class="sans small">IsoFLOP profiles</text>
+    <text x="462" y="551" class="sans mono">a=0.49　b=0.51</text>
+    <rect x="462" y="570" width="123" height="32" rx="10" fill="url(#model)"/>
+    <rect x="597" y="570" width="129" height="32" rx="10" fill="url(#data)"/>
+    <text x="523" y="592" text-anchor="middle" class="sans value">N ×3.09</text>
+    <text x="661" y="592" text-anchor="middle" class="sans value">D ×3.24</text>
+  </g>
+
+  <g>
+    <rect x="796" y="454" width="404" height="172" rx="16" fill="#102c45" stroke="#3485a8"/>
+    <text x="820" y="487" class="sans head">Approach 3</text>
+    <text x="820" y="513" class="sans small">参数化损失函数</text>
+    <text x="820" y="551" class="sans mono">a=0.46　b=0.54</text>
+    <rect x="820" y="570" width="115" height="32" rx="10" fill="url(#model)"/>
+    <rect x="947" y="570" width="138" height="32" rx="10" fill="url(#data)"/>
+    <text x="877" y="592" text-anchor="middle" class="sans value">N ×2.88</text>
+    <text x="1016" y="592" text-anchor="middle" class="sans value">D ×3.47</text>
+    <text x="1102" y="591" class="sans small">更偏数据</text>
+  </g>
+
+  <line x1="55" y1="700" x2="1225" y2="700" stroke="#2b3c59"/>
+  <text x="640" y="732" text-anchor="middle" class="sans subtitle">“等比例”描述的是随算力增长的指数，不自动等于一个跨模型、跨数据集永远固定的 D/N 常数。</text>
+</svg>

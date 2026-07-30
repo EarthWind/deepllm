@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Gopher 与 Chinchilla 在近似相同训练算力下的比较</title>
+  <desc id="desc">Gopher 有 2800 亿参数、训练 3000 亿 token；Chinchilla 有 700 亿参数、训练 1.4 万亿 token，并在 MMLU、BIG-bench 和 LAMBADA 上表现更好。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#12163c"/>
+    </linearGradient>
+    <linearGradient id="chin" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#20c4ee"/>
+      <stop offset="1" stop-color="#74e4cf"/>
+    </linearGradient>
+    <linearGradient id="gopher" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6c5eb5"/>
+      <stop offset="1" stop-color="#a487ee"/>
+    </linearGradient>
+    <style>
+      .sans { font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 31px; font-weight: 700; fill: #f5f8ff; }
+      .subtitle { font-size: 16px; fill: #a9b8d3; }
+      .head { font-size: 22px; font-weight: 700; fill: #eff5ff; }
+      .body { font-size: 16px; fill: #d6e1f3; }
+      .small { font-size: 14px; fill: #97a9c8; }
+      .mono { font-family: "SFMono-Regular", Consolas, monospace; font-size: 16px; fill: #dff5ff; }
+      .big { font-size: 34px; font-weight: 800; fill: #ffffff; }
+      .value { font-size: 18px; font-weight: 700; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="760" rx="26" fill="url(#bg)"/>
+  <text x="60" y="64" class="sans title">同一训练算力：更大的模型，还是更充分的训练？</text>
+  <text x="60" y="96" class="sans subtitle">论文报告 Gopher 与 Chinchilla 使用相同训练 FLOPs；表中参数、token 与 benchmark 数值来自论文</text>
+
+  <rect x="55" y="128" width="1170" height="74" rx="18" fill="#0d2037" stroke="#3c526f"/>
+  <text x="80" y="158" class="sans body">论文引用的 Gopher 预算</text>
+  <text x="80" y="184" class="sans mono">5.76 × 10²³ FLOPs</text>
+  <text x="420" y="170" class="sans small">同一预算下，仅看“参数最多”并不会自动得到最低 loss；算力还必须支付每个 token 的训练。</text>
+
+  <rect x="55" y="228" width="555" height="250" rx="20" fill="#151b35" stroke="#6f64aa"/>
+  <text x="86" y="267" class="sans head">Gopher</text>
+  <text x="86" y="298" class="sans small">更大，但训练 token 较少</text>
+  <rect x="86" y="326" width="214" height="118" rx="15" fill="#29244b"/>
+  <text x="193" y="366" text-anchor="middle" class="sans big">280B</text>
+  <text x="193" y="395" text-anchor="middle" class="sans body">参数</text>
+  <rect x="324" y="326" width="254" height="118" rx="15" fill="#202943"/>
+  <text x="451" y="366" text-anchor="middle" class="sans big">300B</text>
+  <text x="451" y="395" text-anchor="middle" class="sans body">训练 token</text>
+  <text x="451" y="423" text-anchor="middle" class="sans small">D/N ≈ 1.1</text>
+
+  <rect x="635" y="228" width="590" height="250" rx="20" fill="#0d293c" stroke="#3fcfe5"/>
+  <text x="666" y="267" class="sans head">Chinchilla</text>
+  <text x="666" y="298" class="sans small">参数缩小 4×，数据约增加 4.7×</text>
+  <rect x="666" y="326" width="214" height="118" rx="15" fill="#183b56"/>
+  <text x="773" y="366" text-anchor="middle" class="sans big">70B</text>
+  <text x="773" y="395" text-anchor="middle" class="sans body">参数</text>
+  <rect x="904" y="326" width="287" height="118" rx="15" fill="#154448"/>
+  <text x="1047" y="366" text-anchor="middle" class="sans big">1.4T</text>
+  <text x="1047" y="395" text-anchor="middle" class="sans body">训练 token</text>
+  <text x="1047" y="423" text-anchor="middle" class="sans small">D/N = 20</text>
+
+  <text x="55" y="523" class="sans head">下游结果（accuracy %）</text>
+  <g>
+    <text x="80" y="568" class="sans body">MMLU 5-shot</text>
+    <rect x="250" y="545" width="332" height="30" rx="15" fill="#26233f"/>
+    <rect x="250" y="545" width="249" height="30" rx="15" fill="url(#gopher)"/>
+    <text x="510" y="567" class="sans value">60.0</text>
+    <rect x="650" y="545" width="332" height="30" rx="15" fill="#173a46"/>
+    <rect x="650" y="545" width="280" height="30" rx="15" fill="url(#chin)"/>
+    <text x="942" y="567" class="sans value">67.6</text>
+  </g>
+  <g>
+    <text x="80" y="616" class="sans body">BIG-bench 平均</text>
+    <rect x="250" y="593" width="332" height="30" rx="15" fill="#26233f"/>
+    <rect x="250" y="593" width="226" height="30" rx="15" fill="url(#gopher)"/>
+    <text x="488" y="615" class="sans value">54.4</text>
+    <rect x="650" y="593" width="332" height="30" rx="15" fill="#173a46"/>
+    <rect x="650" y="593" width="270" height="30" rx="15" fill="url(#chin)"/>
+    <text x="932" y="615" class="sans value">65.1</text>
+  </g>
+  <g>
+    <text x="80" y="664" class="sans body">LAMBADA zero-shot</text>
+    <rect x="250" y="641" width="332" height="30" rx="15" fill="#26233f"/>
+    <rect x="250" y="641" width="309" height="30" rx="15" fill="url(#gopher)"/>
+    <text x="570" y="663" class="sans value">74.5</text>
+    <rect x="650" y="641" width="332" height="30" rx="15" fill="#173a46"/>
+    <rect x="650" y="641" width="321" height="30" rx="15" fill="url(#chin)"/>
+    <text x="983" y="663" class="sans value">77.4</text>
+  </g>
+
+  <rect x="1020" y="527" width="205" height="144" rx="16" fill="#13263d" stroke="#3e5678"/>
+  <text x="1042" y="558" class="sans small">图例</text>
+  <rect x="1042" y="576" width="38" height="14" rx="7" fill="url(#gopher)"/>
+  <text x="1092" y="588" class="sans body">Gopher</text>
+  <rect x="1042" y="608" width="38" height="14" rx="7" fill="url(#chin)"/>
+  <text x="1092" y="620" class="sans body">Chinchilla</text>
+  <text x="1042" y="650" class="sans small">条长按百分比缩放</text>
+
+  <line x1="55" y1="706" x2="1225" y2="706" stroke="#2b3c59"/>
+  <text x="640" y="736" text-anchor="middle" class="sans subtitle">不是纯粹的 N–D 单变量消融：两者在优化器、tokenizer、数据采样和数值精度等设置上也有差异。</text>
+</svg>

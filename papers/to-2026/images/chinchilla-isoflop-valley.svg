@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">固定训练算力下的 IsoFLOP 损失谷底</title>
+  <desc id="desc">固定 C 等于 6ND 时，参数越大可用 token 越少；参数过小或过大都会导致更高损失，中间存在 compute-optimal 谷底。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#12163c"/>
+    </linearGradient>
+    <linearGradient id="curve" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4cd9ff"/>
+      <stop offset="0.55" stop-color="#71e3d0"/>
+      <stop offset="1" stop-color="#b18aff"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#8ca0c3"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 31px; font-weight: 700; fill: #f5f8ff; }
+      .subtitle { font-size: 16px; fill: #a9b8d3; }
+      .head { font-size: 20px; font-weight: 700; fill: #eff5ff; }
+      .body { font-size: 15px; fill: #d5e0f2; }
+      .small { font-size: 14px; fill: #96a8c7; }
+      .mono { font-family: "SFMono-Regular", Consolas, monospace; font-size: 16px; fill: #dff5ff; }
+      .value { font-size: 17px; font-weight: 700; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="760" rx="26" fill="url(#bg)"/>
+  <text x="60" y="64" class="sans title">IsoFLOP 谷底：同一笔算力，不同 N–D 配比</text>
+  <text x="60" y="96" class="sans subtitle">示例固定 C = 5.76×10²³ FLOPs，并使用 C≈6ND 与论文 Approach 3 的四舍五入系数</text>
+
+  <rect x="55" y="128" width="410" height="528" rx="20" fill="#0d1f35" stroke="#304764"/>
+  <text x="80" y="166" class="sans head">固定预算约束</text>
+  <text x="80" y="203" class="sans mono">D = C / (6N)</text>
+  <text x="80" y="233" class="sans body">模型越大，同一预算能处理的 token 越少。</text>
+
+  <rect x="82" y="270" width="356" height="94" rx="15" fill="#17213a" stroke="#7f6dd0"/>
+  <rect x="100" y="289" width="144" height="54" rx="10" fill="#33275a"/>
+  <text x="172" y="313" text-anchor="middle" class="sans value">参数过多</text>
+  <text x="172" y="335" text-anchor="middle" class="sans small">280B params</text>
+  <line x1="259" y1="316" x2="294" y2="316" stroke="#8ca0c3" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="314" y="309" class="sans value">343B</text>
+  <text x="314" y="334" class="sans small">tokens</text>
+
+  <rect x="82" y="386" width="356" height="112" rx="15" fill="#103149" stroke="#43d5f4"/>
+  <rect x="100" y="411" width="144" height="62" rx="10" fill="#174969"/>
+  <text x="172" y="436" text-anchor="middle" class="sans value">20:1 经验点</text>
+  <text x="172" y="460" text-anchor="middle" class="sans small">约 69B params</text>
+  <line x1="259" y1="442" x2="294" y2="442" stroke="#7fe5f7" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="308" y="435" class="sans value">1.39T</text>
+  <text x="308" y="460" class="sans small">tokens</text>
+
+  <rect x="82" y="520" width="356" height="112" rx="15" fill="#102e42" stroke="#67dccb"/>
+  <rect x="100" y="545" width="144" height="62" rx="10" fill="#174d51"/>
+  <text x="172" y="570" text-anchor="middle" class="sans value">拟合谷底</text>
+  <text x="172" y="594" text-anchor="middle" class="sans small">约 32B params</text>
+  <line x1="259" y1="576" x2="294" y2="576" stroke="#7de4d2" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="308" y="569" class="sans value">2.98T</text>
+  <text x="308" y="594" class="sans small">tokens</text>
+
+  <rect x="495" y="128" width="730" height="528" rx="20" fill="#0b1b30" stroke="#304764"/>
+  <text x="522" y="166" class="sans head">沿固定算力曲线扫描模型大小</text>
+  <text x="522" y="194" class="sans small">纵轴为参数化公式预测 loss；横轴为对数参数规模。这里展示方法机制，不是下游 benchmark。</text>
+
+  <line x1="570" y1="575" x2="1170" y2="575" stroke="#667797" stroke-width="1.5"/>
+  <line x1="570" y1="235" x2="570" y2="575" stroke="#667797" stroke-width="1.5"/>
+  <g stroke="#263a58" stroke-dasharray="5 7">
+    <line x1="570" y1="305" x2="1170" y2="305"/>
+    <line x1="570" y1="390" x2="1170" y2="390"/>
+    <line x1="570" y1="475" x2="1170" y2="475"/>
+  </g>
+
+  <path d="M590 273 C665 355, 735 474, 815 520 C865 548, 915 540, 962 499 C1020 449, 1080 358, 1152 255"
+        fill="none" stroke="url(#curve)" stroke-width="6" filter="url(#glow)"/>
+
+  <circle cx="842" cy="532" r="11" fill="#6ce0cc" stroke="#e1fff9" stroke-width="3"/>
+  <line x1="842" y1="532" x2="842" y2="575" stroke="#6ce0cc" stroke-width="2" stroke-dasharray="4 5"/>
+  <rect x="713" y="404" width="258" height="90" rx="14" fill="#103b45" stroke="#6ce0cc"/>
+  <text x="842" y="435" text-anchor="middle" class="sans head">loss 最低点</text>
+  <text x="842" y="462" text-anchor="middle" class="sans mono">N≈32B · D≈2.98T</text>
+  <text x="842" y="484" text-anchor="middle" class="sans small">使用公开四舍五入系数计算</text>
+
+  <circle cx="935" cy="515" r="9" fill="#43d5f4" stroke="#e1fbff" stroke-width="3"/>
+  <text x="968" y="518" class="sans value">20:1 / Chinchilla 附近</text>
+
+  <circle cx="1090" cy="345" r="9" fill="#a98aff" stroke="#f0eaff" stroke-width="3"/>
+  <text x="997" y="328" class="sans value">Gopher 大小</text>
+
+  <g class="sans small" text-anchor="middle">
+    <text x="610" y="603">1B</text>
+    <text x="790" y="603">10B</text>
+    <text x="970" y="603">100B</text>
+    <text x="1150" y="603">1T</text>
+  </g>
+  <text x="870" y="632" text-anchor="middle" class="sans body">参数量 N（对数刻度）</text>
+  <text x="523" y="405" transform="rotate(-90 523 405)" text-anchor="middle" class="sans body">预测训练损失</text>
+
+  <line x1="55" y1="696" x2="1225" y2="696" stroke="#2b3c59"/>
+  <text x="640" y="728" text-anchor="middle" class="sans subtitle">谷底来自容量不足与训练不足的权衡；系数、数据、架构或目标改变，谷底位置也会改变。</text>
+</svg>

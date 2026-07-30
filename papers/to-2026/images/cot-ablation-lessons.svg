@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Chain-of-Thought 控制实验的三个关键结论</title>
+  <desc id="desc">有意义的中间步骤且位于答案之前才有效，只增加输出长度或把解释放在答案之后都不能复现主要收益。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#11163a"/>
+    </linearGradient>
+    <linearGradient id="good" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#18c8ff"/>
+      <stop offset="1" stop-color="#8e7cff"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6bdcff"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#77859e"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 30px; font-weight: 700; fill: #f4f8ff; }
+      .subtitle { font-size: 15px; fill: #9baccc; }
+      .head { font-size: 20px; font-weight: 700; fill: #f2f7ff; }
+      .body { font-size: 15px; fill: #cbd8ee; }
+      .small { font-size: 14px; fill: #94a6c5; }
+      .token { font-family: "SFMono-Regular", Consolas, monospace; font-size: 16px; fill: #eef5ff; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="720" rx="24" fill="url(#bg)"/>
+  <text x="60" y="62" class="sans title">控制实验回答：有效的是“语义步骤 + 正确时序”</text>
+  <text x="60" y="91" class="sans subtitle">以下是论文消融实验的定性结论；它们把 CoT 与“只是多生成一些 token”区分开</text>
+
+  <rect x="50" y="130" width="1100" height="150" rx="20" fill="#0c263d" stroke="#4bd4ff" stroke-width="1.5"/>
+  <rect x="74" y="154" width="240" height="38" rx="19" fill="url(#good)"/>
+  <text x="194" y="180" text-anchor="middle" class="sans head">完整 CoT：有效路径</text>
+  <rect x="90" y="216" width="150" height="42" rx="11" fill="#132f4b"/>
+  <text x="165" y="243" text-anchor="middle" class="sans token">问题 x</text>
+  <line x1="258" y1="237" x2="329" y2="237" stroke="#6bdcff" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="347" y="207" width="426" height="60" rx="13" fill="#173d5e" stroke="#4bd4ff"/>
+  <text x="560" y="233" text-anchor="middle" class="sans token">分解 → 状态更新 → 中间结论 r</text>
+  <text x="560" y="254" text-anchor="middle" class="sans small">有任务语义，可进入后续 token 的条件上下文</text>
+  <line x1="791" y1="237" x2="862" y2="237" stroke="#a88cff" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="880" y="216" width="210" height="42" rx="11" fill="#302854" stroke="#a88cff"/>
+  <text x="985" y="243" text-anchor="middle" class="sans token">最终答案 y</text>
+
+  <rect x="50" y="308" width="350" height="302" rx="20" fill="#0d1d31" stroke="#354661"/>
+  <circle cx="91" cy="351" r="21" fill="#314056"/>
+  <text x="91" y="358" text-anchor="middle" class="sans head">1</text>
+  <text x="125" y="358" class="sans head">Equation only</text>
+  <text x="78" y="397" class="sans body">只写公式，不写自然语言步骤</text>
+  <rect x="78" y="426" width="294" height="64" rx="12" fill="#14243a"/>
+  <text x="225" y="454" text-anchor="middle" class="sans token">x → 23 − 20 → +6 → y</text>
+  <text x="225" y="477" text-anchor="middle" class="sans small">简单算术可有帮助</text>
+  <text x="78" y="526" class="sans body">但在 GSM8K 等困难题上，</text>
+  <text x="78" y="551" class="sans body">不能复现完整 CoT 的收益。</text>
+  <text x="78" y="585" class="sans small">启示：语言步骤承载了题意与状态。</text>
+
+  <rect x="425" y="308" width="350" height="302" rx="20" fill="#0d1d31" stroke="#354661"/>
+  <circle cx="466" cy="351" r="21" fill="#314056"/>
+  <text x="466" y="358" text-anchor="middle" class="sans head">2</text>
+  <text x="500" y="358" class="sans head">Variable compute only</text>
+  <text x="453" y="397" class="sans body">用无意义的点占据同等输出长度</text>
+  <rect x="453" y="426" width="294" height="64" rx="12" fill="#14243a"/>
+  <text x="600" y="454" text-anchor="middle" class="sans token">x → · · · · · · · → y</text>
+  <text x="600" y="477" text-anchor="middle" class="sans small">token 更多，但没有任务状态</text>
+  <text x="453" y="526" class="sans body">结果大致回到标准提示基线。</text>
+  <text x="453" y="551" class="sans body">“计算时间更长”不是充分解释。</text>
+  <text x="453" y="585" class="sans small">启示：长度必须转化为有效中间变量。</text>
+
+  <rect x="800" y="308" width="350" height="302" rx="20" fill="#0d1d31" stroke="#354661"/>
+  <circle cx="841" cy="351" r="21" fill="#314056"/>
+  <text x="841" y="358" text-anchor="middle" class="sans head">3</text>
+  <text x="875" y="358" class="sans head">Rationale after answer</text>
+  <text x="828" y="397" class="sans body">先给答案，再补同样的解释</text>
+  <rect x="828" y="426" width="294" height="64" rx="12" fill="#14243a"/>
+  <text x="975" y="454" text-anchor="middle" class="sans token">x → y → r₁ → r₂</text>
+  <text x="975" y="477" text-anchor="middle" class="sans small">解释无法再影响已生成答案</text>
+  <text x="828" y="526" class="sans body">表现也大致接近标准提示。</text>
+  <text x="828" y="551" class="sans body">自回归顺序本身就是机制的一部分。</text>
+  <text x="828" y="585" class="sans small">启示：必须先生成 r，再条件化生成 y。</text>
+
+  <rect x="50" y="646" width="1100" height="1" fill="#293a57"/>
+  <text x="600" y="683" text-anchor="middle" class="sans subtitle">控制实验支持“中间状态帮助预测”，但不能证明外显文本忠实等同于模型内部计算。</text>
+</svg>
