@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">LLaMA 1 中 RoPE 与 KV Cache 的数据流</title>
+  <desc id="desc">Prompt prefill 一次性计算各层查询键值。RoPE 只旋转 Q 和 K，旋转后的 K 与未旋转 V 写入每层缓存。逐 token 解码只计算新 token 的 QKV，新 Q 读取全部历史缓存。LLaMA 1 是多头注意力，因此每个查询头有独立的 K 和 V。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071426"/><stop offset="1" stop-color="#202650"/></linearGradient>
+    <linearGradient id="cache" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0aa8af"/><stop offset="1" stop-color="#3bd394"/></linearGradient>
+    <linearGradient id="decode" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6a5bea"/><stop offset="1" stop-color="#aa75f1"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity=".38"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#abc0dd"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:22px;font-weight:750;fill:#fff}.body{font-size:16px;fill:#dce9fa}.small{font-size:14px;fill:#acbdd8}.dark{font-size:16px;font-weight:690;fill:#10243a}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#edf5ff}.formula{font-family:"STIX Two Math","Times New Roman",serif;font-size:21px;fill:#fff}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="54" y="62" class="sans title">KV Cache：缓存旋转后的 K 与原始 V，位置编号绝不能重置</text>
+  <text x="54" y="94" class="sans sub">每一层都有独立 cache；prefill 处理 prompt，decode 每步只投影一个新 token</text>
+
+  <g filter="url(#shadow)"><rect x="54" y="138" width="339" height="421" rx="24" fill="#11243c" stroke="#55708f" stroke-width="2"/></g>
+  <text x="82" y="180" class="sans head">① Prompt Prefill</text>
+  <rect x="82" y="207" width="283" height="58" rx="13" fill="#243d5c"/><text x="223" y="242" text-anchor="middle" class="sans mono">tokens [0 … T−1]</text>
+  <path d="M223 266V292" stroke="#abc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="82" y="301" width="283" height="78" rx="14" fill="#233858"/><text x="223" y="331" text-anchor="middle" class="sans body">无 bias 线性投影</text><text x="223" y="358" text-anchor="middle" class="sans mono">Q, K, V → H 个 head</text>
+  <path d="M223 380V406" stroke="#abc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="82" y="415" width="283" height="106" rx="14" fill="#193b49" stroke="#2bc4a0"/><text x="223" y="446" text-anchor="middle" class="sans body">按绝对位置应用 RoPE</text><text x="223" y="475" text-anchor="middle" class="sans mono">Q′ₜ = RₜQₜ</text><text x="223" y="501" text-anchor="middle" class="sans mono">K′ₜ = RₜKₜ · V 不变</text>
+
+  <path d="M394 348H445" stroke="#abc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)"><rect x="458" y="138" width="364" height="421" rx="24" fill="url(#cache)"/></g>
+  <text x="640" y="180" text-anchor="middle" class="sans dark">② 每层 KV Cache</text>
+  <rect x="491" y="209" width="298" height="103" rx="15" fill="#105965" opacity=".82"/><text x="640" y="240" text-anchor="middle" class="sans head">cache_k</text><text x="640" y="269" text-anchor="middle" class="sans mono">[B, T, H, dₕ]</text><text x="640" y="294" text-anchor="middle" class="sans small">已经带绝对位置相位的 K′</text>
+  <rect x="491" y="335" width="298" height="103" rx="15" fill="#105965" opacity=".82"/><text x="640" y="366" text-anchor="middle" class="sans head">cache_v</text><text x="640" y="395" text-anchor="middle" class="sans mono">[B, T, H, dₕ]</text><text x="640" y="420" text-anchor="middle" class="sans small">V 不做 RoPE，直接缓存</text>
+  <rect x="491" y="462" width="298" height="59" rx="14" fill="#12434b"/><text x="640" y="486" text-anchor="middle" class="sans body">LLaMA 1：H 个 K/V heads</text><text x="640" y="509" text-anchor="middle" class="sans small">原版是 MHA；GQA 属于后续 Llama 2 大模型</text>
+
+  <path d="M823 348H874" stroke="#abc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)"><rect x="887" y="138" width="339" height="421" rx="24" fill="#11243c" stroke="#806fed" stroke-width="2"/></g>
+  <text x="915" y="180" class="sans head">③ 单 Token Decode</text>
+  <rect x="915" y="207" width="283" height="58" rx="13" fill="url(#decode)"/><text x="1056" y="242" text-anchor="middle" class="sans head">new token at position T</text>
+  <path d="M1056 266V292" stroke="#abc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="915" y="301" width="283" height="78" rx="14" fill="#2b2d5d"/><text x="1056" y="331" text-anchor="middle" class="sans body">只计算新 token 的 Q/K/V</text><text x="1056" y="358" text-anchor="middle" class="sans mono">RoPE position = T</text>
+  <path d="M1056 380V406" stroke="#abc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="915" y="415" width="283" height="106" rx="14" fill="#243858"/><text x="1056" y="446" text-anchor="middle" class="sans body">新 Q′ 读取全部历史 cache</text><text x="1056" y="475" text-anchor="middle" class="sans mono">softmax(Q′ₜ K′≤Tᵀ / √dₕ)</text><text x="1056" y="501" text-anchor="middle" class="sans mono">→ 加权 V≤T → logits</text>
+
+  <rect x="103" y="607" width="1074" height="76" rx="20" fill="#142842" stroke="#456486"/>
+  <text x="640" y="637" text-anchor="middle" class="sans formula">KV bytes = 2 · L · B · T · H · dₕ · bytes_per_element</text>
+  <text x="640" y="664" text-anchor="middle" class="sans small">Cache 把重复投影从“每步重算整个前缀”降为“历史 K/V 读一次”，但容量仍随层数、batch 和上下文长度线性增长。</text>
+</svg>

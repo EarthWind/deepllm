@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">多头注意力与 PaLM 多查询注意力的 KV 缓存对比</title>
+  <desc id="desc">普通多头注意力为每个查询头保存独立键值缓存，PaLM 的多查询注意力让 48 个查询头共享一个键头和一个值头，使 540B 配置每层 KV 缓存理论上缩小 48 倍。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07162a"/><stop offset="1" stop-color="#142446"/></linearGradient>
+    <linearGradient id="q" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#7366f0"/><stop offset="1" stop-color="#aa8cff"/></linearGradient>
+    <linearGradient id="kv" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0fa8c9"/><stop offset="1" stop-color="#42dfcb"/></linearGradient>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:32px;font-weight:750;fill:#f8fbff}.sub{font-size:16px;fill:#a9bad5}.head{font-size:22px;font-weight:700;fill:#f3f7ff}.body{font-size:16px;fill:#d9e7f8}.small{font-size:14px;fill:#9db0ce}.value{font-size:30px;font-weight:800;fill:#fff}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:16px;fill:#e6efff}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="55" y="61" class="sans title">Multi-Query Attention：Query 仍然多头，Key / Value 改为共享</text>
+  <text x="55" y="93" class="sans sub">它主要优化自回归解码的内存带宽与 KV cache，而不是把注意力变成单头</text>
+
+  <rect x="55" y="132" width="555" height="408" rx="24" fill="#101f39" stroke="#43506d" stroke-width="2"/>
+  <text x="86" y="175" class="sans head">普通 Multi-Head Attention（MHA）</text>
+  <text x="86" y="205" class="sans small">每个 Query Head 对应独立的 Key / Value Head</text>
+  <g>
+    <text x="90" y="255" class="sans body">Q heads</text><rect x="190" y="232" width="365" height="34" rx="10" fill="url(#q)"/>
+    <g fill="#142b49" stroke="#48d7d0" stroke-width="2">
+      <rect x="190" y="294" width="58" height="62" rx="9"/><rect x="252" y="294" width="58" height="62" rx="9"/><rect x="314" y="294" width="58" height="62" rx="9"/><rect x="376" y="294" width="58" height="62" rx="9"/><rect x="438" y="294" width="58" height="62" rx="9"/><rect x="500" y="294" width="55" height="62" rx="9"/>
+      <rect x="190" y="382" width="58" height="62" rx="9"/><rect x="252" y="382" width="58" height="62" rx="9"/><rect x="314" y="382" width="58" height="62" rx="9"/><rect x="376" y="382" width="58" height="62" rx="9"/><rect x="438" y="382" width="58" height="62" rx="9"/><rect x="500" y="382" width="55" height="62" rx="9"/>
+    </g>
+    <text x="90" y="329" class="sans body">K cache</text><text x="90" y="417" class="sans body">V cache</text>
+    <text x="555" y="285" text-anchor="end" class="sans small">H 份独立 K/V（图中省略中间头）</text>
+  </g>
+  <text x="86" y="491" class="mono">cache elements / layer = 2 · B · T · H · d_head</text>
+  <text x="86" y="520" class="sans small">生成每个新 token 时，需要从缓存读取所有历史 K/V。</text>
+
+  <rect x="670" y="132" width="555" height="408" rx="24" fill="#10283b" stroke="#29c4c4" stroke-width="2"/>
+  <text x="701" y="175" class="sans head">PaLM Multi-Query Attention（MQA）</text>
+  <text x="701" y="205" class="sans small">H 个 Query Head 共享唯一一组 Key / Value</text>
+  <text x="705" y="255" class="sans body">Q heads</text><rect x="805" y="232" width="365" height="34" rx="10" fill="url(#q)"/>
+  <text x="705" y="331" class="sans body">K cache</text><rect x="805" y="294" width="365" height="62" rx="12" fill="url(#kv)"/>
+  <text x="705" y="419" class="sans body">V cache</text><rect x="805" y="382" width="365" height="62" rx="12" fill="url(#kv)"/>
+  <text x="987" y="331" text-anchor="middle" class="sans head">共享 1 份</text><text x="987" y="419" text-anchor="middle" class="sans head">共享 1 份</text>
+  <text x="701" y="491" class="mono">cache elements / layer = 2 · B · T · 1 · d_head</text>
+  <text x="701" y="520" class="sans small">训练计算量与质量近似不变，解码期缓存和带宽显著下降。</text>
+
+  <rect x="55" y="574" width="1170" height="100" rx="20" fill="#182b4a" stroke="#4f6385"/>
+  <text x="82" y="613" class="sans head">代入 PaLM 540B：H = 48，d_head = 256</text>
+  <text x="82" y="650" class="mono">MHA / MQA = (2BTHd_head) / (2BTd_head) = H = 48×</text>
+  <text x="1128" y="641" text-anchor="end" class="sans value">每层理论 KV cache 缩小 48×</text>
+  <text x="640" y="705" text-anchor="middle" class="sans sub">注意：这是 K/V 元素量之比；端到端延迟还受权重读取、批大小、kernel、通信和量化影响。</text>
+</svg>

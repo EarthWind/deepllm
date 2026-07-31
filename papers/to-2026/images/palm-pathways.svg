@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">PaLM 540B 的 Pathways 跨 Pod 并行拓扑</title>
+  <desc id="desc">一个 Python 客户端把批次分给两个 TPU v4 Pod；每个 Pod 有 3072 枚芯片并完整表示一份分片模型，内部采用 12 路模型并行和 256 路全分片数据并行，Pod 之间交换梯度并同步更新。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7faff"/><stop offset="1" stop-color="#eaf2fb"/></linearGradient>
+    <linearGradient id="pod1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9e7ff"/><stop offset="1" stop-color="#d7e2ff"/></linearGradient>
+    <linearGradient id="pod2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dcf7f5"/><stop offset="1" stop-color="#d9efff"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#4c617d"/></marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#157da6"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#64748b" flood-opacity=".22"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:32px;font-weight:750;fill:#172033}.sub{font-size:16px;fill:#5c6d84}.head{font-size:22px;font-weight:720;fill:#172033}.label{font-size:17px;font-weight:650;fill:#24344a}.small{font-size:14px;fill:#64748b}.smallLight{font-size:14px;fill:#b8c9e1}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#27364d}.white{font-size:17px;font-weight:680;fill:#fff}</style>
+  </defs>
+  <rect width="1280" height="760" rx="28" fill="url(#bg)"/>
+  <text x="55" y="61" class="sans title">Pathways 如何把一个 PaLM 训练步扩展到两个 TPU v4 Pod</text>
+  <text x="55" y="93" class="sans sub">Pod 内做模型切分与全分片数据并行；Pod 间只增加一层 2-way 数据并行，不使用流水线并行</text>
+
+  <rect x="450" y="125" width="380" height="90" rx="18" fill="#172b4d" filter="url(#shadow)"/>
+  <text x="640" y="160" text-anchor="middle" class="sans white">单个 Python Client / Pathways 控制平面</text>
+  <text x="640" y="189" text-anchor="middle" class="sans smallLight">构造 sharded dataflow · 异步 gang scheduling</text>
+  <path d="M555 215V258H330V291" fill="none" stroke="#4c617d" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M725 215V258H950V291" fill="none" stroke="#4c617d" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="390" y="249" class="sans small">半个 batch</text><text x="832" y="249" class="sans small">半个 batch</text>
+
+  <rect x="55" y="291" width="515" height="300" rx="24" fill="url(#pod1)" stroke="#7a75d6" stroke-width="2" filter="url(#shadow)"/>
+  <text x="87" y="335" class="sans head">TPU v4 Pod 1</text><text x="87" y="365" class="sans sub">3,072 chips · 768 hosts</text>
+  <rect x="87" y="397" width="210" height="70" rx="15" fill="#655bc7"/>
+  <text x="192" y="427" text-anchor="middle" class="sans white">12-way</text><text x="192" y="452" text-anchor="middle" class="sans white">模型并行</text>
+  <rect x="328" y="397" width="210" height="70" rx="15" fill="#4272be"/>
+  <text x="433" y="427" text-anchor="middle" class="sans white">256-way</text><text x="433" y="452" text-anchor="middle" class="sans white">Fully Sharded DP</text>
+  <rect x="87" y="494" width="451" height="66" rx="15" fill="#fff" opacity=".82" stroke="#9ca3cf"/>
+  <text x="312" y="522" text-anchor="middle" class="sans label">A：前向 + 反向 + Pod 内梯度归约</text><text x="312" y="547" text-anchor="middle" class="sans small">完整模型的一份分片表示 · 激活重计算</text>
+
+  <rect x="710" y="291" width="515" height="300" rx="24" fill="url(#pod2)" stroke="#32aab4" stroke-width="2" filter="url(#shadow)"/>
+  <text x="742" y="335" class="sans head">TPU v4 Pod 2</text><text x="742" y="365" class="sans sub">3,072 chips · 768 hosts</text>
+  <rect x="742" y="397" width="210" height="70" rx="15" fill="#2585ad"/>
+  <text x="847" y="427" text-anchor="middle" class="sans white">12-way</text><text x="847" y="452" text-anchor="middle" class="sans white">模型并行</text>
+  <rect x="983" y="397" width="210" height="70" rx="15" fill="#24a69d"/>
+  <text x="1088" y="427" text-anchor="middle" class="sans white">256-way</text><text x="1088" y="452" text-anchor="middle" class="sans white">Fully Sharded DP</text>
+  <rect x="742" y="494" width="451" height="66" rx="15" fill="#fff" opacity=".82" stroke="#8dc7cc"/>
+  <text x="967" y="522" text-anchor="middle" class="sans label">A：前向 + 反向 + Pod 内梯度归约</text><text x="967" y="547" text-anchor="middle" class="sans small">完整模型的一份分片表示 · 激活重计算</text>
+
+  <path d="M570 445H695" stroke="#157da6" stroke-width="5" marker-end="url(#arrowBlue)"/>
+  <path d="M710 477H585" stroke="#157da6" stroke-width="5" marker-end="url(#arrowBlue)"/>
+  <rect x="548" y="383" width="184" height="45" rx="12" fill="#f8fbff" stroke="#669bb4"/>
+  <text x="640" y="411" text-anchor="middle" class="sans label">跨 Pod 交换梯度</text>
+  <text x="640" y="612" text-anchor="middle" class="sans small">每对对应 host 每步约交换 1.3 GB；聚合突发流量约 81 Tbps</text>
+
+  <rect x="174" y="646" width="932" height="72" rx="18" fill="#fff" stroke="#cbd5e1"/>
+  <text x="203" y="675" class="sans label">B：两端累加本地 + 远端梯度，并行应用同一参数更新</text>
+  <text x="203" y="701" class="sans small">结果：下一步两个 Pod 的参数逐位一致；双 Pod 吞吐约为单 Pod 的 1.95×，即约 97% 理想弱扩展。</text>
+  <text x="1200" y="686" text-anchor="end" class="mono">2-way pod-level DP</text>
+  <text x="640" y="747" text-anchor="middle" class="sans sub">“pipeline-free”不等于没有并行，而是避免了跨 stage 的流水线气泡与 micro-batch 权重重读。</text>
+</svg>

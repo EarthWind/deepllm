@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">FlashAttention 反向传播的选择性重计算</title>
+  <desc id="desc">前向不保存 N 乘 N 的概率矩阵，而保存 Q、K、V、输出 O 和每行归一化统计 L。反向在 SRAM 中重算当前 S 和 P 小块，再计算 dV、dP、dS、dQ 与 dK。增加少量计算换来大幅减少 HBM 读写。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071426"/><stop offset="1" stop-color="#202650"/></linearGradient>
+    <linearGradient id="forward" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#665bf0"/><stop offset="1" stop-color="#a574f4"/></linearGradient>
+    <linearGradient id="recompute" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0caab8"/><stop offset="1" stop-color="#35d39e"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity=".38"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#afc1de"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:22px;font-weight:750;fill:#fff}.body{font-size:16px;fill:#dce9fa}.small{font-size:14px;fill:#acbdd8}.dark{font-size:16px;font-weight:680;fill:#10243a}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#edf5ff}.formula{font-family:"STIX Two Math","Times New Roman",serif;font-size:20px;fill:#fff}.bad{font-size:18px;font-weight:760;fill:#ffbec7}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="54" y="62" class="sans title">反向传播：重算一个 tile，胜过从 HBM 读取整张 P</text>
+  <text x="54" y="94" class="sans sub">这是选择性 gradient checkpointing：FLOPs 增加，但端到端反而更快</text>
+
+  <g filter="url(#shadow)"><rect x="54" y="138" width="310" height="433" rx="24" fill="#12243e" stroke="#7669ea" stroke-width="2"/></g>
+  <text x="80" y="180" class="sans head">前向结束：保存什么？</text>
+  <rect x="82" y="211" width="254" height="72" rx="15" fill="url(#forward)"/><text x="209" y="240" text-anchor="middle" class="sans head">Q, K, V, O</text><text x="209" y="266" text-anchor="middle" class="sans body">每个都是 O(Nd)</text>
+  <rect x="82" y="304" width="254" height="72" rx="15" fill="#25405f" stroke="#61a5d5"/><text x="209" y="333" text-anchor="middle" class="sans head">m, ℓ 或 L</text><text x="209" y="359" text-anchor="middle" class="sans body">每行 O(1)，总计 O(N)</text>
+  <path d="M209 378V411" stroke="#afc1de" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="82" y="421" width="254" height="104" rx="15" fill="#4a2638" stroke="#d06275"/><text x="209" y="453" text-anchor="middle" class="sans bad">不保存完整 S / P</text><text x="209" y="482" text-anchor="middle" class="sans mono">N × N</text><text x="209" y="507" text-anchor="middle" class="sans small">也不必保存 O(N²) dropout mask</text>
+
+  <path d="M365 354H421" stroke="#afc1de" stroke-width="3" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)"><rect x="434" y="138" width="400" height="433" rx="24" fill="#0e2a36" stroke="#24bd9c" stroke-width="2"/></g>
+  <text x="460" y="180" class="sans head">反向：在 SRAM 内重算当前块</text>
+  <rect x="465" y="207" width="338" height="57" rx="13" fill="url(#recompute)"/><text x="634" y="242" text-anchor="middle" class="sans dark">Sᵢⱼ = τ QᵢKⱼᵀ</text>
+  <path d="M634 265V286" stroke="#afc1de" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="465" y="295" width="338" height="58" rx="13" fill="#174b56"/><text x="634" y="320" text-anchor="middle" class="sans body">由归一化统计恢复概率 tile</text><text x="634" y="343" text-anchor="middle" class="sans mono">Pᵢⱼ = exp(Sᵢⱼ − Lᵢ)</text>
+  <path d="M634 354V375" stroke="#afc1de" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="465" y="384" width="338" height="151" rx="15" fill="#17384a"/>
+  <text x="486" y="414" class="formula">dVⱼ += Pᵢⱼᵀ dOᵢ</text>
+  <text x="486" y="446" class="formula">dPᵢⱼ = dOᵢ Vⱼᵀ</text>
+  <text x="486" y="478" class="formula">Dᵢ = rowsum(dOᵢ ⊙ Oᵢ)</text>
+  <text x="486" y="510" class="formula">dSᵢⱼ = Pᵢⱼ ⊙ (dPᵢⱼ − Dᵢ)</text>
+
+  <path d="M835 354H891" stroke="#afc1de" stroke-width="3" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)"><rect x="904" y="138" width="322" height="433" rx="24" fill="#12243e" stroke="#5d7597" stroke-width="2"/></g>
+  <text x="930" y="180" class="sans head">归约并写回梯度</text>
+  <rect x="934" y="215" width="262" height="79" rx="15" fill="#243b5a"/><text x="1065" y="246" text-anchor="middle" class="sans formula">dQᵢ += τ dSᵢⱼKⱼ</text><text x="1065" y="275" text-anchor="middle" class="sans small">跨 K/V tiles 累加</text>
+  <rect x="934" y="316" width="262" height="79" rx="15" fill="#243b5a"/><text x="1065" y="347" text-anchor="middle" class="sans formula">dKⱼ += τ dSᵢⱼᵀQᵢ</text><text x="1065" y="376" text-anchor="middle" class="sans small">当前 K tile 留在 SRAM</text>
+  <rect x="934" y="417" width="262" height="79" rx="15" fill="#243b5a"/><text x="1065" y="448" text-anchor="middle" class="sans formula">dVⱼ += PᵢⱼᵀdOᵢ</text><text x="1065" y="477" text-anchor="middle" class="sans small">当前 V tile 留在 SRAM</text>
+  <text x="1065" y="534" text-anchor="middle" class="sans body">每个 tile 用完即释放</text>
+
+  <rect x="103" y="610" width="1074" height="72" rx="20" fill="#142842" stroke="#456486"/>
+  <text x="640" y="638" text-anchor="middle" class="sans body">关键恒等式：Σⱼ Pᵢⱼ dPᵢⱼ = dOᵢ · Oᵢ，把长度 N 的 softmax 行归约变成长度 d 的向量点积。</text>
+  <text x="640" y="663" text-anchor="middle" class="sans small">论文实测中，重计算让总 FLOPs 变多，却因 HBM 读写大幅减少而让 backward 更快；“少算”不总等于“更快”。</text>
+</svg>

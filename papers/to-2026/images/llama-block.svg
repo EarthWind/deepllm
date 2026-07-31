@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">LLaMA 1 Transformer Block 结构</title>
+  <desc id="desc">LLaMA 1 使用顺序式预归一化块。输入先经 RMSNorm 和带 RoPE 的因果多头注意力后做残差相加，再经 RMSNorm 和 SwiGLU 前馈网络后做第二次残差相加。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071426"/><stop offset="1" stop-color="#202650"/></linearGradient>
+    <linearGradient id="attn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0aa8b1"/><stop offset="1" stop-color="#3bd395"/></linearGradient>
+    <linearGradient id="ffn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b5cec"/><stop offset="1" stop-color="#ad76ef"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity=".38"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#acc0dd"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:22px;font-weight:750;fill:#fff}.body{font-size:16px;fill:#dce9fa}.small{font-size:14px;fill:#acbdd8}.dark{font-size:16px;font-weight:680;fill:#10243a}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#edf5ff}.formula{font-family:"STIX Two Math","Times New Roman",serif;font-size:20px;fill:#fff}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="54" y="62" class="sans title">LLaMA Block：顺序式 Pre-Norm，不是 PaLM 的并行 Block</text>
+  <text x="54" y="94" class="sans sub">每个子层先归一化再计算，残差主干从输入一直贯穿到输出</text>
+
+  <g filter="url(#shadow)"><rect x="54" y="135" width="638" height="514" rx="25" fill="#10233b" stroke="#55708f" stroke-width="2"/></g>
+  <text x="84" y="178" class="sans head">单个 Transformer Block 的真实顺序</text>
+  <rect x="88" y="207" width="184" height="55" rx="13" fill="#263c5d"/><text x="180" y="241" text-anchor="middle" class="sans mono">xₗ</text>
+  <path d="M272 234H316" stroke="#acc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="326" y="207" width="151" height="55" rx="13" fill="#284563" stroke="#67a8cf"/><text x="401" y="241" text-anchor="middle" class="sans body">RMSNorm</text>
+  <path d="M478 234H522" stroke="#acc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="532" y="196" width="127" height="77" rx="14" fill="url(#attn)"/><text x="595" y="226" text-anchor="middle" class="sans dark">Causal MHA</text><text x="595" y="252" text-anchor="middle" class="sans dark">RoPE on Q/K</text>
+  <path d="M595 274V309H463" fill="none" stroke="#acc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <circle cx="435" cy="309" r="24" fill="#233b59" stroke="#91a6c3" stroke-width="2"/><text x="435" y="317" text-anchor="middle" class="sans head">+</text>
+  <path d="M180 263V309H410" fill="none" stroke="#8198b8" stroke-width="2.5"/>
+  <path d="M459 309H503" stroke="#acc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="513" y="282" width="146" height="55" rx="13" fill="#263c5d"/><text x="586" y="316" text-anchor="middle" class="sans mono">hₗ</text>
+
+  <path d="M586 338V380H477" fill="none" stroke="#acc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="326" y="354" width="151" height="55" rx="13" fill="#284563" stroke="#67a8cf"/><text x="401" y="388" text-anchor="middle" class="sans body">RMSNorm</text>
+  <path d="M326 381H282" stroke="#acc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="88" y="343" width="184" height="77" rx="14" fill="url(#ffn)"/><text x="180" y="374" text-anchor="middle" class="sans head">SwiGLU FFN</text><text x="180" y="399" text-anchor="middle" class="sans small">W₂(SiLU(W₁x) ⊙ W₃x)</text>
+  <path d="M180 421V466H318" fill="none" stroke="#acc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <circle cx="346" cy="466" r="24" fill="#233b59" stroke="#91a6c3" stroke-width="2"/><text x="346" y="474" text-anchor="middle" class="sans head">+</text>
+  <path d="M586 338V466H371" fill="none" stroke="#8198b8" stroke-width="2.5"/>
+  <path d="M346 491V526" stroke="#acc0dd" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="253" y="536" width="186" height="58" rx="13" fill="#263c5d"/><text x="346" y="572" text-anchor="middle" class="sans mono">xₗ₊₁</text>
+  <text x="84" y="625" class="sans small">核心：Attention 与 FFN 串行；第二个 RMSNorm 接收的是第一次残差后的 hₗ。</text>
+
+  <g filter="url(#shadow)"><rect x="734" y="135" width="492" height="514" rx="25" fill="#11243c" stroke="#55708f" stroke-width="2"/></g>
+  <text x="764" y="178" class="sans head">三个结构替换分别解决什么</text>
+  <rect x="764" y="207" width="432" height="112" rx="16" fill="#19394a" stroke="#2cc5a0"/>
+  <text x="790" y="238" class="sans head">RMSNorm</text><text x="790" y="269" class="formula">x / √(mean(x²) + ε) ⊙ γ</text><text x="790" y="297" class="sans small">不减均值、没有 bias；Pre-Norm 改善深层训练稳定性</text>
+  <rect x="764" y="339" width="432" height="112" rx="16" fill="#213855" stroke="#669bd0"/>
+  <text x="790" y="370" class="sans head">RoPE</text><text x="790" y="401" class="formula">qₘ′ = Rₘqₘ，kₙ′ = Rₙkₙ</text><text x="790" y="429" class="sans small">只旋转 Q/K；V 不旋转，位置相位随层内 attention 注入</text>
+  <rect x="764" y="471" width="432" height="112" rx="16" fill="#2b2859" stroke="#8a78ef"/>
+  <text x="790" y="502" class="sans head">SwiGLU</text><text x="790" y="533" class="formula">W₂(SiLU(W₁x) ⊙ W₃x)</text><text x="790" y="561" class="sans small">三矩阵门控；中间维取约 (2/3)×4d 再向上对齐</text>
+  <text x="980" y="625" text-anchor="middle" class="sans body">LLaMA 1 所有 attention head 都有独立 K/V：这是 MHA，不是 GQA。</text>
+</svg>
