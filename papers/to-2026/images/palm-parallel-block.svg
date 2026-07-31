@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">串行 Transformer 块与 PaLM 并行 Transformer 块对比</title>
+  <desc id="desc">标准预归一化 Transformer 先执行注意力再执行 MLP；PaLM 从同一个归一化输入并行计算多查询注意力和 SwiGLU MLP，再与残差相加。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7f9ff"/><stop offset="1" stop-color="#edf3fb"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5b55d7"/><stop offset="1" stop-color="#8b70ef"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#087ec2"/><stop offset="1" stop-color="#26b5d9"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#53627a"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#64748b" flood-opacity=".22"/></filter>
+    <style>
+      .sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:32px;font-weight:750;fill:#172033}.sub{font-size:16px;fill:#5b6b82}.head{font-size:23px;font-weight:720;fill:#172033}.headWhite{font-size:23px;font-weight:720;fill:#f8fbff}.label{font-size:17px;font-weight:650;fill:#172033}.white{font-size:18px;font-weight:650;fill:#fff}.small{font-size:14px;fill:#64748b}.smallLight{font-size:14px;fill:#aebdd5}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:17px;fill:#27364d}.monoLight{font-family:"SFMono-Regular",Consolas,monospace;font-size:17px;fill:#eaf3ff}
+    </style>
+  </defs>
+  <rect width="1280" height="760" rx="28" fill="url(#bg)"/>
+  <text x="55" y="61" class="sans title">PaLM 的 Parallel Block：两条重分支读取同一个归一化输入</text>
+  <text x="55" y="93" class="sans sub">“并行”描述单个 Transformer block 内部的数据依赖，不等同于设备层面的模型并行或数据并行</text>
+
+  <rect x="55" y="128" width="500" height="478" rx="24" fill="#fff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
+  <text x="86" y="170" class="sans head">常见串行 Pre-LN</text>
+  <text x="86" y="199" class="sans small">Attention 完成后，MLP 才能读取更新后的隐藏状态</text>
+  <g>
+    <rect x="90" y="234" width="100" height="56" rx="12" fill="#eef2ff" stroke="#8b83db"/><text x="140" y="269" text-anchor="middle" class="sans label">输入 x</text>
+    <rect x="250" y="234" width="118" height="56" rx="12" fill="#ede9fe" stroke="#7c6ddb"/><text x="309" y="269" text-anchor="middle" class="sans label">LayerNorm</text>
+    <rect x="250" y="329" width="208" height="66" rx="14" fill="url(#blue)"/><text x="354" y="369" text-anchor="middle" class="sans white">Causal Attention</text>
+    <circle cx="490" cy="362" r="20" fill="#fff" stroke="#64748b" stroke-width="2"/><text x="490" y="369" text-anchor="middle" class="sans label">＋</text>
+    <rect x="250" y="434" width="118" height="56" rx="12" fill="#ede9fe" stroke="#7c6ddb"/><text x="309" y="469" text-anchor="middle" class="sans label">LayerNorm</text>
+    <rect x="250" y="529" width="208" height="66" rx="14" fill="url(#purple)"/><text x="354" y="568" text-anchor="middle" class="sans white">MLP / SwiGLU</text>
+  </g>
+  <path d="M190 262H235" stroke="#53627a" stroke-width="3" marker-end="url(#arrow)"/><path d="M309 290V314" stroke="#53627a" stroke-width="3" marker-end="url(#arrow)"/><path d="M458 362H465" stroke="#53627a" stroke-width="3" marker-end="url(#arrow)"/><path d="M490 382V410H309V419" fill="none" stroke="#53627a" stroke-width="3" marker-end="url(#arrow)"/><path d="M309 490V514" stroke="#53627a" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M140 290V415H520V362H510" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+
+  <rect x="600" y="128" width="625" height="478" rx="24" fill="#101d37" stroke="#5b67b5" stroke-width="2" filter="url(#shadow)"/>
+  <text x="632" y="170" class="sans headWhite">PaLM 并行块</text>
+  <text x="632" y="199" class="sans smallLight">Attention 与 SwiGLU 可同时计算，输入投影也更容易融合</text>
+  <g>
+    <rect x="641" y="242" width="104" height="58" rx="13" fill="#283755" stroke="#8494b0"/><text x="693" y="278" text-anchor="middle" class="sans white">输入 x</text>
+    <rect x="793" y="242" width="132" height="58" rx="13" fill="#302b68" stroke="#8b83ed"/><text x="859" y="278" text-anchor="middle" class="sans white">LayerNorm</text>
+    <rect x="975" y="222" width="205" height="78" rx="15" fill="url(#blue)"/><text x="1077" y="254" text-anchor="middle" class="sans white">Multi-Query</text><text x="1077" y="280" text-anchor="middle" class="sans white">Attention</text>
+    <rect x="975" y="363" width="205" height="78" rx="15" fill="url(#purple)"/><text x="1077" y="409" text-anchor="middle" class="sans white">SwiGLU MLP</text>
+    <circle cx="859" cy="500" r="26" fill="#1d3153" stroke="#a8c3e8" stroke-width="2"/><text x="859" y="508" text-anchor="middle" class="sans white">Σ</text>
+    <rect x="984" y="472" width="160" height="58" rx="13" fill="#243a56" stroke="#71d4e4"/><text x="1064" y="508" text-anchor="middle" class="sans white">输出 y</text>
+  </g>
+  <path d="M745 271H778" stroke="#a8c3e8" stroke-width="3" marker-end="url(#arrow)"/><path d="M925 271H960" stroke="#a8c3e8" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M859 300V402H960" fill="none" stroke="#a8c3e8" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M693 300V500H818" fill="none" stroke="#bba7ff" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+  <path d="M1077 300V330H895V480" fill="none" stroke="#52c6e6" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1077 441V456H895V493" fill="none" stroke="#a58bf5" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M885 500H969" stroke="#a8c3e8" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="912" y="568" text-anchor="middle" class="monoLight">y = x + Attention(LN(x)) + MLP(LN(x))</text>
+
+  <rect x="55" y="625" width="1170" height="91" rx="18" fill="#fff" stroke="#cbd5e1"/>
+  <text x="82" y="658" class="sans label">串行</text><text x="155" y="658" class="mono">h=x+Attn(LN(x));　y=h+MLP(LN(h))</text>
+  <text x="82" y="694" class="sans label">并行</text><text x="155" y="694" class="mono">y=x+Attn(LN(x))+MLP(LN(x))</text>
+  <text x="640" y="746" text-anchor="middle" class="sans sub">论文报告大规模下约 15% 训练提速；8B 有轻微质量下降，62B 未观察到质量下降。</text>
+</svg>

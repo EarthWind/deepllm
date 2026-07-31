@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">LLaMA 1 的预训练数据混合与模型规模</title>
+  <desc id="desc">LLaMA 1 数据由 67% CommonCrawl、15% C4、4.5% GitHub、4.5% Wikipedia、4.5% Books、2.5% ArXiv 和 2% Stack Exchange 组成。7B 与 13B 训练一万亿 token，33B 与 65B 训练一点四万亿 token。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071426"/><stop offset="1" stop-color="#1d2850"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity=".38"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:22px;font-weight:750;fill:#fff}.body{font-size:16px;fill:#dce9fa}.small{font-size:14px;fill:#acbdd8}.dark{font-size:15px;font-weight:700;fill:#10243a}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#edf5ff}.num{font-size:25px;font-weight:800;fill:#fff}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="54" y="62" class="sans title">训练配方：公开数据不是“原样拼接”，比例、过滤与去重同样重要</text>
+  <text x="54" y="94" class="sans sub">下列比例来自 1.4T token 配方；1T run 使用相同采样比例</text>
+
+  <g filter="url(#shadow)"><rect x="54" y="132" width="1172" height="224" rx="24" fill="#11243b" stroke="#55708f" stroke-width="2"/></g>
+  <text x="84" y="174" class="sans head">数据混合</text>
+  <g transform="translate(84 198)">
+    <rect x="0" y="0" width="737" height="57" rx="13" fill="#25b99d"/><text x="368" y="35" text-anchor="middle" class="sans dark">CommonCrawl 67%</text>
+    <rect x="737" y="0" width="165" height="57" fill="#7568ef"/><text x="819" y="35" text-anchor="middle" class="sans body">C4 15%</text>
+    <rect x="902" y="0" width="50" height="57" fill="#e9a847"/><rect x="952" y="0" width="50" height="57" fill="#4f9bd4"/><rect x="1002" y="0" width="50" height="57" fill="#aa75e9"/><rect x="1052" y="0" width="28" height="57" fill="#ef7d75"/><rect x="1080" y="0" width="22" height="57" rx="0" fill="#e4d05d"/>
+  </g>
+  <g class="sans small">
+    <circle cx="95" cy="294" r="6" fill="#e9a847"/><text x="109" y="299">GitHub 4.5%</text>
+    <circle cx="245" cy="294" r="6" fill="#4f9bd4"/><text x="259" y="299">Wikipedia 4.5%</text>
+    <circle cx="427" cy="294" r="6" fill="#aa75e9"/><text x="441" y="299">Books 4.5%</text>
+    <circle cx="572" cy="294" r="6" fill="#ef7d75"/><text x="586" y="299">ArXiv 2.5%</text>
+    <circle cx="698" cy="294" r="6" fill="#e4d05d"/><text x="712" y="299">Stack Exchange 2%</text>
+  </g>
+  <text x="84" y="333" class="sans small">处理示例：CCNet 语言/质量过滤；GitHub 限定 Apache/BSD/MIT 并按文件去重；Books 过滤高重叠；ArXiv 清理 LaTeX 宏、注释与参考文献。</text>
+
+  <g filter="url(#shadow)"><rect x="54" y="389" width="1172" height="247" rx="24" fill="#11243b" stroke="#55708f" stroke-width="2"/></g>
+  <text x="84" y="430" class="sans head">四个规模点：宽度、深度与 token 一起扩展</text>
+  <g>
+    <rect x="84" y="458" width="260" height="138" rx="17" fill="#18364b" stroke="#2bc5a0"/><text x="110" y="491" class="sans num">7B</text><text x="110" y="520" class="sans mono">d=4096 · heads=32</text><text x="110" y="544" class="sans mono">layers=32 · tokens=1.0T</text><text x="110" y="568" class="sans body">peak LR 3e-4</text><text x="110" y="588" class="sans small">论文精确参数量：6.7B</text>
+    <rect x="366" y="458" width="260" height="138" rx="17" fill="#203457" stroke="#6a7ee9"/><text x="392" y="491" class="sans num">13B</text><text x="392" y="520" class="sans mono">d=5120 · heads=40</text><text x="392" y="544" class="sans mono">layers=40 · tokens=1.0T</text><text x="392" y="568" class="sans body">peak LR 3e-4</text><text x="392" y="588" class="sans small">论文精确参数量：13.0B</text>
+    <rect x="648" y="458" width="260" height="138" rx="17" fill="#2c2b5a" stroke="#9a78ef"/><text x="674" y="491" class="sans num">33B</text><text x="674" y="520" class="sans mono">d=6656 · heads=52</text><text x="674" y="544" class="sans mono">layers=60 · tokens=1.4T</text><text x="674" y="568" class="sans body">peak LR 1.5e-4</text><text x="674" y="588" class="sans small">论文精确参数量：32.5B</text>
+    <rect x="930" y="458" width="266" height="138" rx="17" fill="#3f3240" stroke="#e2a54f"/><text x="956" y="491" class="sans num">65B</text><text x="956" y="520" class="sans mono">d=8192 · heads=64</text><text x="956" y="544" class="sans mono">layers=80 · tokens=1.4T</text><text x="956" y="568" class="sans body">peak LR 1.5e-4</text><text x="956" y="588" class="sans small">论文精确参数量：65.2B</text>
+  </g>
+  <text x="640" y="676" text-anchor="middle" class="sans body">共同设置：batch size 4M token · AdamW β₁=0.9 / β₂=0.95 · weight decay 0.1 · 2000 warmup steps · cosine decay到峰值 LR 的 10%</text>
+</svg>

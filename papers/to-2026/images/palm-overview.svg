@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">PaLM 的模型、数据、系统与能力全景</title>
+  <desc id="desc">PaLM 以 5400 亿参数的稠密解码器、7800 亿训练 token 和 6144 枚 TPU v4 为三项规模支柱，结合架构改造与 Pathways 系统，展示少样本语言、推理、代码和多语言能力。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071529"/>
+      <stop offset="1" stop-color="#18204a"/>
+    </linearGradient>
+    <linearGradient id="model" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d5dfc"/>
+      <stop offset="1" stop-color="#a67cff"/>
+    </linearGradient>
+    <linearGradient id="system" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00a8d7"/>
+      <stop offset="1" stop-color="#2dd4bf"/>
+    </linearGradient>
+    <linearGradient id="data" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e59a28"/>
+      <stop offset="1" stop-color="#ffd166"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="9" stdDeviation="10" flood-color="#020617" flood-opacity=".35"/>
+    </filter>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M0 0L11 5.5 0 11z" fill="#a8c3e8"/>
+    </marker>
+    <style>
+      .sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}
+      .title{font-size:34px;font-weight:750;fill:#f8fbff}
+      .sub{font-size:16px;fill:#a9bad6}
+      .big{font-size:36px;font-weight:800;fill:#fff}
+      .bigDark{font-size:36px;font-weight:800;fill:#172033}
+      .head{font-size:22px;font-weight:700;fill:#f8fbff}
+      .body{font-size:16px;fill:#d9e6f8}
+      .dark{font-size:17px;font-weight:650;fill:#172033}
+      .small{font-size:14px;fill:#9eb1cf}
+      .mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#dff7ff}
+    </style>
+  </defs>
+
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <circle cx="1160" cy="70" r="160" fill="#6658e8" opacity=".08"/>
+  <circle cx="70" cy="690" r="210" fill="#00c7d9" opacity=".06"/>
+  <text x="56" y="62" class="sans title">PaLM 不是一个单点技巧，而是三种规模同时落地</text>
+  <text x="56" y="94" class="sans sub">论文主线：模型规模 × 数据规模 × 系统规模 → 广泛 few-shot 能力与新的工程边界</text>
+
+  <g filter="url(#shadow)">
+    <rect x="55" y="137" width="350" height="240" rx="24" fill="url(#model)"/>
+    <text x="84" y="179" class="sans head">模型规模</text>
+    <text x="84" y="234" class="sans big">540B dense</text>
+    <text x="84" y="269" class="sans body">118 层 · d_model 18,432</text>
+    <text x="84" y="299" class="sans body">48 个 Query Head · d_head 256</text>
+    <rect x="82" y="324" width="294" height="30" rx="10" fill="#332e80" opacity=".62"/>
+    <text x="229" y="345" text-anchor="middle" class="sans mono">Decoder-only · 全参数激活</text>
+
+    <rect x="465" y="137" width="350" height="240" rx="24" fill="url(#data)"/>
+    <text x="494" y="179" class="sans dark">数据规模</text>
+    <text x="494" y="234" class="sans bigDark">780B tokens</text>
+    <text x="494" y="269" class="sans dark">124 种语言 · 英文约 78%</text>
+    <text x="494" y="299" class="sans dark">文本、对话、书籍、代码、百科、新闻</text>
+    <rect x="492" y="324" width="294" height="30" rx="10" fill="#fff6d9" opacity=".8"/>
+    <text x="639" y="345" text-anchor="middle" class="sans dark">单次遍历 · 2048 上下文</text>
+
+    <rect x="875" y="137" width="350" height="240" rx="24" fill="url(#system)"/>
+    <text x="904" y="179" class="sans head">系统规模</text>
+    <text x="904" y="234" class="sans big">6,144 TPU v4</text>
+    <text x="904" y="269" class="sans body">2 个 Pod · Pathways 编排</text>
+    <text x="904" y="299" class="sans body">Pod 间 2-way 数据并行</text>
+    <rect x="902" y="324" width="294" height="30" rx="10" fill="#096a78" opacity=".58"/>
+    <text x="1049" y="345" text-anchor="middle" class="sans mono">无流水线 · MFU 46.2%</text>
+  </g>
+
+  <path d="M230 397V432H360V448" fill="none" stroke="#a8c3e8" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M640 397V448" fill="none" stroke="#a8c3e8" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1050 397V432H920V448" fill="none" stroke="#a8c3e8" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="175" y="461" width="930" height="178" rx="28" fill="#0d1e38" stroke="#385274" stroke-width="2" filter="url(#shadow)"/>
+  <text x="640" y="505" text-anchor="middle" class="sans head">规模真正转化为能力，还依赖架构与使用方式</text>
+  <g>
+    <rect x="211" y="534" width="184" height="70" rx="16" fill="#211f50" stroke="#7d70ff"/>
+    <text x="303" y="563" text-anchor="middle" class="sans body">语言与知识</text>
+    <text x="303" y="587" text-anchor="middle" class="sans small">29 项英文 NLP</text>
+    <rect x="430" y="534" width="184" height="70" rx="16" fill="#183051" stroke="#38bdf8"/>
+    <text x="522" y="563" text-anchor="middle" class="sans body">多步推理</text>
+    <text x="522" y="587" text-anchor="middle" class="sans small">规模 + CoT</text>
+    <rect x="649" y="534" width="184" height="70" rx="16" fill="#193b3f" stroke="#2dd4bf"/>
+    <text x="741" y="563" text-anchor="middle" class="sans body">代码生成</text>
+    <text x="741" y="587" text-anchor="middle" class="sans small">39B 代码 token</text>
+    <rect x="868" y="534" width="184" height="70" rx="16" fill="#463820" stroke="#f4c453"/>
+    <text x="960" y="563" text-anchor="middle" class="sans body">多语言任务</text>
+    <text x="960" y="587" text-anchor="middle" class="sans small">翻译 · 摘要 · QA</text>
+  </g>
+
+  <text x="640" y="683" text-anchor="middle" class="sans sub">关键辨析：Pathways 是训练编排系统；PaLM 仍是稠密 Transformer，不是 MoE，也不是经过指令对齐的聊天模型。</text>
+</svg>
