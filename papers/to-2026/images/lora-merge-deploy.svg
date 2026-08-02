@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">LoRA 训练支路与推理权重合并</title>
+  <desc id="desc">训练阶段保留冻结的基础线性路径与可训练的 B A 并行路径。部署前将缩放后的 B A 加到 W0 得到 W merged，推理只执行一次标准线性层，因此没有额外串行层或额外推理延迟。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071426"/><stop offset="1" stop-color="#242454"/></linearGradient>
+    <linearGradient id="merge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12afc1"/><stop offset=".52" stop-color="#7763ea"/><stop offset="1" stop-color="#ff7b7f"/></linearGradient>
+    <filter id="shadow3" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity=".4"/></filter>
+    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#aebfda"/></marker>
+    <marker id="arrowHot3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#ff8b79"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:22px;font-weight:750;fill:#fff}.body{font-size:16px;fill:#deebfb}.small{font-size:14px;fill:#aebfda}.dark{font-size:16px;font-weight:730;fill:#10243a}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:16px;fill:#f4f8ff}.formula{font-family:"STIX Two Math","Times New Roman",serif;font-size:21px;fill:#fff}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg3)"/>
+  <text x="54" y="62" class="sans title">训练时保留旁路，部署时把旁路折叠进原权重</text>
+  <text x="54" y="94" class="sans sub">“无额外推理延迟”来自线性可合并性；不代表训练时没有额外计算，也不代表底座权重可以删除</text>
+
+  <g filter="url(#shadow3)"><rect x="54" y="132" width="562" height="515" rx="25" fill="#10233b" stroke="#526d8f" stroke-width="2"/></g>
+  <text x="84" y="177" class="sans head">训练 / 未合并：两条并行路径</text>
+  <rect x="84" y="328" width="92" height="62" rx="13" fill="#263c5d"/><text x="130" y="366" text-anchor="middle" class="sans mono">x</text>
+  <path d="M176 359H220" stroke="#aebfda" stroke-width="3" marker-end="url(#arrow3)"/>
+  <circle cx="240" cy="359" r="8" fill="#bed0e9"/>
+  <path d="M240 350V246H292" fill="none" stroke="#84afd8" stroke-width="3" marker-end="url(#arrow3)"/>
+  <rect x="304" y="207" width="173" height="78" rx="15" fill="#1b5364" stroke="#38bdc8"/><text x="390" y="239" text-anchor="middle" class="sans head">W₀</text><text x="390" y="267" text-anchor="middle" class="sans small">冻结</text>
+  <path d="M477 246H531V331" fill="none" stroke="#84afd8" stroke-width="3" marker-end="url(#arrow3)"/>
+  <path d="M240 368V475H286" fill="none" stroke="#ff8b79" stroke-width="4" marker-end="url(#arrowHot3)"/>
+  <rect x="298" y="432" width="179" height="86" rx="15" fill="#493b88" stroke="#9b85f4"/><text x="387" y="465" text-anchor="middle" class="sans head">(α / r)BA</text><text x="387" y="494" text-anchor="middle" class="sans small">可训练 · 低秩</text>
+  <path d="M477 475H531V387" fill="none" stroke="#ff8b79" stroke-width="4" marker-end="url(#arrowHot3)"/>
+  <circle cx="531" cy="359" r="28" fill="#263c5d" stroke="#a2b5d0" stroke-width="2"/><text x="531" y="367" text-anchor="middle" class="sans head">+</text>
+  <path d="M559 359H583" stroke="#aebfda" stroke-width="3" marker-end="url(#arrow3)"/>
+  <text x="84" y="582" class="sans formula">h = W₀x + (α / r)BAx</text>
+  <text x="84" y="614" class="sans small">优化器只接收 A、B；W₀ 仍参与前向和输入梯度传播。</text>
+
+  <path d="M616 359H666" stroke="#ffb15a" stroke-width="5" marker-end="url(#arrowHot3)"/>
+  <text x="641" y="334" text-anchor="middle" class="sans small">merge</text>
+
+  <g filter="url(#shadow3)"><rect x="676" y="132" width="550" height="515" rx="25" fill="#11243c" stroke="#526d8f" stroke-width="2"/></g>
+  <text x="706" y="177" class="sans head">部署 / 已合并：一次标准 Linear</text>
+  <rect x="710" y="320" width="90" height="66" rx="13" fill="#263c5d"/><text x="755" y="360" text-anchor="middle" class="sans mono">x</text>
+  <path d="M800 353H850" stroke="#aebfda" stroke-width="3" marker-end="url(#arrow3)"/>
+  <rect x="862" y="282" width="235" height="142" rx="19" fill="url(#merge)" filter="url(#shadow3)"/>
+  <text x="979" y="326" text-anchor="middle" class="sans head">Wmerged</text>
+  <text x="979" y="362" text-anchor="middle" class="formula">W₀ + (α / r)BA</text>
+  <text x="979" y="396" text-anchor="middle" class="sans small">与普通权重形状完全相同</text>
+  <path d="M1097 353H1140" stroke="#aebfda" stroke-width="3" marker-end="url(#arrow3)"/>
+  <rect x="1147" y="320" width="52" height="66" rx="13" fill="#263c5d"/><text x="1173" y="360" text-anchor="middle" class="sans mono">h</text>
+  <rect x="710" y="472" width="489" height="104" rx="16" fill="#1c304d"/>
+  <text x="734" y="505" class="sans body">切换任务：</text>
+  <text x="734" y="536" class="formula">W₀ ← Wmerged − ΔWA</text>
+  <text x="734" y="563" class="formula">Wnew ← W₀ + ΔWB</text>
+  <text x="952" y="614" text-anchor="middle" class="sans small">若同一 batch 混用多个 adapter，通常保持未合并并按样本分组执行。</text>
+</svg>

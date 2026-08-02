@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">LoRA 低秩分解与参数量对比</title>
+  <desc id="desc">完整权重更新矩阵 Delta W 有 d 乘 k 个自由参数，LoRA 将其限制为 B 乘 A，其中 B 形状为 d 乘 r、A 形状为 r 乘 k，只需要 r 乘 d 加 k 个参数，并且乘积秩不超过 r。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#081426"/><stop offset="1" stop-color="#25224f"/></linearGradient>
+    <linearGradient id="matrix" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#15afc4"/><stop offset="1" stop-color="#466fe0"/></linearGradient>
+    <linearGradient id="factor" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8067ef"/><stop offset="1" stop-color="#ff7480"/></linearGradient>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#d8ebff" stroke-width="1" opacity=".22"/></pattern>
+    <filter id="shadow2" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity=".4"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:22px;font-weight:750;fill:#fff}.body{font-size:16px;fill:#deebfb}.small{font-size:14px;fill:#aebfda}.dark{font-size:16px;font-weight:730;fill:#10243a}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:16px;fill:#f4f8ff}.formula{font-family:"STIX Two Math","Times New Roman",serif;font-size:21px;fill:#fff}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg2)"/>
+  <text x="54" y="62" class="sans title">LoRA 省参数的来源：不直接学习 d × k 的 ΔW</text>
+  <text x="54" y="94" class="sans sub">把更新空间限制为两个窄矩阵的乘积；基础权重 W₀ 仍然可以是满秩</text>
+
+  <g filter="url(#shadow2)"><rect x="54" y="132" width="760" height="515" rx="25" fill="#10233b" stroke="#526d8f" stroke-width="2"/></g>
+  <text x="85" y="176" class="sans head">完整更新</text>
+  <rect x="85" y="214" width="278" height="290" rx="16" fill="url(#matrix)"/>
+  <rect x="85" y="214" width="278" height="290" rx="16" fill="url(#grid)"/>
+  <text x="224" y="341" text-anchor="middle" class="sans head">ΔW</text>
+  <text x="224" y="377" text-anchor="middle" class="sans body">d × k</text>
+  <text x="224" y="408" text-anchor="middle" class="sans body">dk 个可训练参数</text>
+  <text x="405" y="366" text-anchor="middle" class="sans title">≈</text>
+
+  <text x="466" y="176" class="sans head">低秩参数化</text>
+  <rect x="466" y="214" width="84" height="290" rx="14" fill="#8a6cf0"/>
+  <rect x="466" y="214" width="84" height="290" rx="14" fill="url(#grid)"/>
+  <text x="508" y="341" text-anchor="middle" class="sans head">B</text>
+  <text x="508" y="374" text-anchor="middle" class="sans body">d × r</text>
+  <text x="579" y="366" text-anchor="middle" class="sans title">×</text>
+  <rect x="612" y="301" width="168" height="116" rx="14" fill="url(#factor)"/>
+  <rect x="612" y="301" width="168" height="116" rx="14" fill="url(#grid)"/>
+  <text x="696" y="347" text-anchor="middle" class="sans head">A</text>
+  <text x="696" y="381" text-anchor="middle" class="sans body">r × k</text>
+  <path d="M550 528H780" stroke="#ff917b" stroke-width="3"/>
+  <text x="623" y="561" text-anchor="middle" class="sans body">r(d + k) 个参数</text>
+  <text x="623" y="590" text-anchor="middle" class="sans small">当 r ≪ min(d, k) 时远小于 dk</text>
+
+  <g filter="url(#shadow2)"><rect x="848" y="132" width="378" height="515" rx="25" fill="#11243c" stroke="#526d8f" stroke-width="2"/></g>
+  <text x="880" y="177" class="sans head">GPT-3 175B 的论文配置</text>
+  <rect x="878" y="207" width="318" height="105" rx="15" fill="#193a4c" stroke="#37b9c7"/>
+  <text x="902" y="239" class="sans body">隐藏维 d = k = 12,288</text>
+  <text x="902" y="271" class="sans body">层数 L = 96</text>
+  <text x="902" y="298" class="sans body">注入 Wq、Wv，rank r = 4</text>
+  <rect x="878" y="334" width="318" height="111" rx="15" fill="#2d2959" stroke="#8a73ef"/>
+  <text x="902" y="368" class="sans body">每个投影的 LoRA 参数</text>
+  <text x="902" y="401" class="formula">4(12,288 + 12,288)</text>
+  <text x="902" y="430" class="sans body">= 98,304</text>
+  <rect x="878" y="467" width="318" height="112" rx="15" fill="#352d39" stroke="#ff8b79"/>
+  <text x="902" y="501" class="sans body">全模型：2 个投影 × 96 层</text>
+  <text x="902" y="534" class="formula">≈ 18.9M trainable</text>
+  <text x="902" y="562" class="sans small">FP16 约 35–38 MB，论文记为约 35 MB</text>
+  <text x="1037" y="619" text-anchor="middle" class="sans small">对比：完整 GPT-3 任务权重约 350 GB；底座部署时仍必须存在。</text>
+</svg>
