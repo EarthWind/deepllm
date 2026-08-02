@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">LoRA 线性层的并行低秩路径</title>
+  <desc id="desc">输入 x 同时经过冻结的基础权重 W0 和可训练的低秩分支。低秩分支先由 A 从 k 维压缩到 r 维，再由 B 从 r 维映射到 d 维，乘以 alpha 除以 r 后与基础输出相加。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071426"/><stop offset="1" stop-color="#242454"/></linearGradient>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0aa7b7"/><stop offset="1" stop-color="#3d77da"/></linearGradient>
+    <linearGradient id="train" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7b62ed"/><stop offset="1" stop-color="#ff6d83"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity=".4"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#aebfda"/></marker>
+    <marker id="arrowHot" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#ff8b79"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:22px;font-weight:750;fill:#fff}.body{font-size:16px;fill:#deebfb}.small{font-size:14px;fill:#aebfda}.dark{font-size:16px;font-weight:730;fill:#10243a}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:16px;fill:#f4f8ff}.formula{font-family:"STIX Two Math","Times New Roman",serif;font-size:21px;fill:#fff}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="54" y="62" class="sans title">LoRA 不是新增串行层，而是线性映射旁边的一条低秩并行支路</text>
+  <text x="54" y="94" class="sans sub">冻结 W₀；只训练 A、B；初始 B = 0，因此注入前后的模型函数完全一致</text>
+
+  <g filter="url(#shadow)"><rect x="54" y="132" width="884" height="515" rx="25" fill="#10233b" stroke="#526d8f" stroke-width="2"/></g>
+  <rect x="84" y="340" width="126" height="66" rx="14" fill="#263c5d"/><text x="147" y="380" text-anchor="middle" class="sans mono">x ∈ Rᵏ</text>
+  <path d="M210 373H258" stroke="#aebfda" stroke-width="3" marker-end="url(#arrow)"/>
+  <circle cx="281" cy="373" r="9" fill="#c3d3eb"/>
+
+  <path d="M281 364V232H350" fill="none" stroke="#8fb4d9" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="363" y="184" width="218" height="96" rx="17" fill="url(#base)" filter="url(#shadow)"/>
+  <text x="472" y="220" text-anchor="middle" class="sans head">冻结基础权重 W₀</text>
+  <text x="472" y="251" text-anchor="middle" class="sans body">d × k · requires_grad=False</text>
+  <path d="M581 232H780V345" fill="none" stroke="#8fb4d9" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <path d="M281 382V499H340" fill="none" stroke="#ff8b79" stroke-width="4" marker-end="url(#arrowHot)"/>
+  <rect x="353" y="446" width="146" height="106" rx="17" fill="#493b88" stroke="#9f8af5" stroke-width="2"/>
+  <text x="426" y="480" text-anchor="middle" class="sans head">A · 下投影</text>
+  <text x="426" y="510" text-anchor="middle" class="sans body">r × k</text>
+  <text x="426" y="536" text-anchor="middle" class="sans small">随机初始化 · 可训练</text>
+  <path d="M499 499H530" stroke="#ff8b79" stroke-width="4" marker-end="url(#arrowHot)"/>
+  <rect x="542" y="462" width="74" height="74" rx="13" fill="#ffb05c"/>
+  <text x="579" y="492" text-anchor="middle" class="sans dark">瓶颈</text>
+  <text x="579" y="519" text-anchor="middle" class="sans dark">Rʳ</text>
+  <path d="M616 499H647" stroke="#ff8b79" stroke-width="4" marker-end="url(#arrowHot)"/>
+  <rect x="659" y="446" width="146" height="106" rx="17" fill="url(#train)"/>
+  <text x="732" y="480" text-anchor="middle" class="sans head">B · 上投影</text>
+  <text x="732" y="510" text-anchor="middle" class="sans body">d × r</text>
+  <text x="732" y="536" text-anchor="middle" class="sans small">零初始化 · 可训练</text>
+  <path d="M805 499H827V373H808" fill="none" stroke="#ff8b79" stroke-width="4" marker-end="url(#arrowHot)"/>
+  <text x="836" y="454" class="sans mono">× α/r</text>
+
+  <circle cx="780" cy="373" r="26" fill="#263c5d" stroke="#9cb0cd" stroke-width="2"/><text x="780" y="381" text-anchor="middle" class="sans head">+</text>
+  <path d="M806 373H814" stroke="#aebfda" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="824" y="340" width="112" height="66" rx="14" fill="#263c5d"/><text x="880" y="380" text-anchor="middle" class="sans mono">h ∈ Rᵈ</text>
+  <text x="85" y="605" class="sans small">蓝色主路只参与前向与输入梯度；紫橙分支保存任务特定更新，优化器只维护 A、B。</text>
+
+  <g filter="url(#shadow)"><rect x="956" y="132" width="270" height="515" rx="25" fill="#11243c" stroke="#526d8f" stroke-width="2"/></g>
+  <text x="982" y="177" class="sans head">完整前向</text>
+  <rect x="974" y="207" width="234" height="105" rx="15" fill="#193a4c" stroke="#3bb9c6"/>
+  <text x="1091" y="248" text-anchor="middle" class="formula">h = W₀x + sBAx</text>
+  <text x="1091" y="281" text-anchor="middle" class="sans body">其中 s = α / r</text>
+  <rect x="974" y="334" width="234" height="112" rx="15" fill="#2c2859" stroke="#8d77ef"/>
+  <text x="998" y="369" class="sans body">参数量</text>
+  <text x="998" y="400" class="formula">full: dk</text>
+  <text x="998" y="429" class="formula">LoRA: r(d + k)</text>
+  <rect x="974" y="468" width="234" height="112" rx="15" fill="#352c39" stroke="#ff8b79"/>
+  <text x="998" y="503" class="sans body">秩约束</text>
+  <text x="998" y="536" class="formula">rank(BA) ≤ r</text>
+  <text x="998" y="563" class="sans small">r ≪ min(d, k)</text>
+  <text x="1091" y="603" text-anchor="middle" class="sans small">LoRA 约束的是更新 ΔW，</text>
+  <text x="1091" y="626" text-anchor="middle" class="sans small">不要求 W₀ 本身低秩。</text>
+</svg>
