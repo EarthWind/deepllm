@@ -34,7 +34,7 @@
 
   <g transform="translate(54 132)" filter="url(#shadow2)">
     <rect width="630" height="495" rx="22" fill="#ffffff" stroke="#cbd5e1"/>
-    <text x="28" y="44" class="heading">路径空间：greedy / MAP 只看到单条峰值</text>
+    <text x="28" y="44" class="heading">路径空间：单链解码只保留一条高概率路径</text>
     <text x="28" y="72" class="small">下列概率仅用于解释机制，不是论文测量值。</text>
 
     <text x="30" y="125" class="mono">r₁ → a = 18</text><rect x="188" y="105" width="188" height="28" rx="8" fill="#bae6fd"/><rect x="188" y="105" width="160" height="28" rx="8" fill="#0ea5e9"/><text x="390" y="125" class="mono">0.17</text>
@@ -42,7 +42,7 @@
     <text x="30" y="241" class="mono">r₃ → a = 18</text><rect x="188" y="221" width="188" height="28" rx="8" fill="#bae6fd"/><rect x="188" y="221" width="104" height="28" rx="8" fill="#0ea5e9"/><text x="390" y="241" class="mono">0.11</text>
     <text x="30" y="299" class="mono">r₄ → a = 16</text><rect x="188" y="279" width="188" height="28" rx="8" fill="#fed7aa"/><rect x="188" y="279" width="188" height="28" rx="8" fill="#f97316"/><text x="390" y="299" class="mono">0.20</text>
     <text x="30" y="357" class="mono">r₅ → a = 20</text><rect x="188" y="337" width="188" height="28" rx="8" fill="#ddd6fe"/><rect x="188" y="337" width="123" height="28" rx="8" fill="#8b5cf6"/><text x="390" y="357" class="mono">0.13</text>
-    <text x="30" y="415" class="mono">其他分散路径</text><rect x="188" y="395" width="188" height="28" rx="8" fill="#e2e8f0"/><rect x="188" y="395" width="179" height="28" rx="8" fill="#94a3b8"/><text x="390" y="415" class="mono">0.19</text>
+    <text x="30" y="415" class="mono">其他分散路径</text><rect x="188" y="395" width="188" height="28" rx="8" fill="#e2e8f0"/><rect x="188" y="395" width="188" height="28" rx="8" fill="#94a3b8"/><text x="390" y="415" class="mono">0.25</text>
 
     <rect x="28" y="446" width="574" height="31" rx="10" fill="#fff7ed" stroke="#fdba74"/>
     <text x="43" y="467" class="body">单条最大路径是 r₄，因此 greedy 可能输出 16。</text>
@@ -69,8 +69,8 @@
     <text x="212" y="279" text-anchor="end" class="white">0.13</text>
     <text x="30" y="345" class="mono">其他答案</text>
     <rect x="126" y="322" width="380" height="34" rx="10" fill="#e2e8f0"/>
-    <rect x="126" y="322" width="144" height="34" rx="10" fill="#94a3b8"/>
-    <text x="257" y="345" text-anchor="end" class="white">0.19</text>
+    <rect x="126" y="322" width="190" height="34" rx="10" fill="#94a3b8"/>
+    <text x="303" y="345" text-anchor="end" class="white">0.25</text>
 
     <rect x="28" y="388" width="522" height="76" rx="14" fill="#eff6ff" stroke="#93c5fd"/>
     <text x="47" y="416" class="body">多条不同路径共同支持 18，使其答案质量最大。</text>
