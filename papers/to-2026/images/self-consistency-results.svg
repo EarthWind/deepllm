@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">PaLM 540B 上 Chain-of-Thought 与 Self-Consistency 的准确率对比</title>
+  <desc id="desc">展示 GSM8K、AQuA、SVAMP、StrategyQA 和 ARC-Challenge 上，贪心 Chain-of-Thought 与 40 路径 Self-Consistency 的准确率及绝对百分点增益。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#ecfeff"/>
+    </linearGradient>
+    <linearGradient id="sc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0891b2"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <filter id="shadow3" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .title { font: 750 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .heading { font: 700 17px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .label { font: 600 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #334155; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .value { font: 700 14px Inter, "Noto Sans CJK SC", sans-serif; fill: #ffffff; }
+      .gain { font: 750 15px Inter, "Noto Sans CJK SC", sans-serif; fill: #047857; }
+      .tick { font: 400 12px Inter, sans-serif; fill: #64748b; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg3)"/>
+  <text x="62" y="59" class="title">Self-Consistency 把额外测试时计算换成了多少准确率？</text>
+  <text x="62" y="90" class="subtitle">PaLM-540B：相同 few-shot CoT 提示；基线为 greedy decode，Self-Consistency 每题独立采样 40 条路径。</text>
+
+  <g transform="translate(64 126)" filter="url(#shadow3)">
+    <rect width="1272" height="586" rx="22" fill="#ffffff" stroke="#cbd5e1"/>
+    <g transform="translate(237 56)">
+      <line x1="0" y1="0" x2="0" y2="468" stroke="#cbd5e1"/>
+      <line x1="199" y1="0" x2="199" y2="468" stroke="#e2e8f0"/>
+      <line x1="398" y1="0" x2="398" y2="468" stroke="#e2e8f0"/>
+      <line x1="597" y1="0" x2="597" y2="468" stroke="#e2e8f0"/>
+      <line x1="796" y1="0" x2="796" y2="468" stroke="#e2e8f0"/>
+      <line x1="995" y1="0" x2="995" y2="468" stroke="#cbd5e1"/>
+      <text x="0" y="493" text-anchor="middle" class="tick">0</text>
+      <text x="199" y="493" text-anchor="middle" class="tick">20</text>
+      <text x="398" y="493" text-anchor="middle" class="tick">40</text>
+      <text x="597" y="493" text-anchor="middle" class="tick">60</text>
+      <text x="796" y="493" text-anchor="middle" class="tick">80</text>
+      <text x="995" y="493" text-anchor="middle" class="tick">100% 准确率</text>
+    </g>
+
+    <g transform="translate(24 72)">
+      <text x="0" y="27" class="heading">GSM8K</text>
+      <text x="0" y="51" class="small">小学数学应用题</text>
+      <rect x="213" y="0" width="995" height="26" rx="7" fill="#f1f5f9"/><rect x="213" y="0" width="562" height="26" rx="7" fill="#94a3b8"/><text x="765" y="18" text-anchor="end" class="value">56.5</text>
+      <rect x="213" y="35" width="995" height="26" rx="7" fill="#eef2ff"/><rect x="213" y="35" width="740" height="26" rx="7" fill="url(#sc)"/><text x="943" y="53" text-anchor="end" class="value">74.4</text>
+      <text x="974" y="54" class="gain">+17.9</text>
+    </g>
+    <g transform="translate(24 166)">
+      <text x="0" y="27" class="heading">AQuA</text>
+      <text x="0" y="51" class="small">代数文字选择题</text>
+      <rect x="213" y="0" width="995" height="26" rx="7" fill="#f1f5f9"/><rect x="213" y="0" width="356" height="26" rx="7" fill="#94a3b8"/><text x="559" y="18" text-anchor="end" class="value">35.8</text>
+      <rect x="213" y="35" width="995" height="26" rx="7" fill="#eef2ff"/><rect x="213" y="35" width="481" height="26" rx="7" fill="url(#sc)"/><text x="684" y="53" text-anchor="end" class="value">48.3</text>
+      <text x="715" y="54" class="gain">+12.5</text>
+    </g>
+    <g transform="translate(24 260)">
+      <text x="0" y="27" class="heading">SVAMP</text>
+      <text x="0" y="51" class="small">对抗式数学应用题</text>
+      <rect x="213" y="0" width="995" height="26" rx="7" fill="#f1f5f9"/><rect x="213" y="0" width="786" height="26" rx="7" fill="#94a3b8"/><text x="989" y="18" text-anchor="end" class="value">79.0</text>
+      <rect x="213" y="35" width="995" height="26" rx="7" fill="#eef2ff"/><rect x="213" y="35" width="862" height="26" rx="7" fill="url(#sc)"/><text x="1065" y="53" text-anchor="end" class="value">86.6</text>
+      <text x="1094" y="54" class="gain">+7.6</text>
+    </g>
+    <g transform="translate(24 354)">
+      <text x="0" y="27" class="heading">StrategyQA</text>
+      <text x="0" y="51" class="small">隐式常识推理</text>
+      <rect x="213" y="0" width="995" height="26" rx="7" fill="#f1f5f9"/><rect x="213" y="0" width="749" height="26" rx="7" fill="#94a3b8"/><text x="952" y="18" text-anchor="end" class="value">75.3</text>
+      <rect x="213" y="35" width="995" height="26" rx="7" fill="#eef2ff"/><rect x="213" y="35" width="812" height="26" rx="7" fill="url(#sc)"/><text x="1015" y="53" text-anchor="end" class="value">81.6</text>
+      <text x="1045" y="54" class="gain">+6.3</text>
+    </g>
+    <g transform="translate(24 448)">
+      <text x="0" y="27" class="heading">ARC-Challenge</text>
+      <text x="0" y="51" class="small">科学常识选择题</text>
+      <rect x="213" y="0" width="995" height="26" rx="7" fill="#f1f5f9"/><rect x="213" y="0" width="848" height="26" rx="7" fill="#94a3b8"/><text x="1051" y="18" text-anchor="end" class="value">85.2</text>
+      <rect x="213" y="35" width="995" height="26" rx="7" fill="#eef2ff"/><rect x="213" y="35" width="883" height="26" rx="7" fill="url(#sc)"/><text x="1086" y="53" text-anchor="end" class="value">88.7</text>
+      <text x="1117" y="54" class="gain">+3.5</text>
+    </g>
+  </g>
+
+  <g transform="translate(64 742)">
+    <rect width="18" height="18" rx="5" fill="#94a3b8"/><text x="28" y="14" class="label">CoT + greedy</text>
+    <rect x="160" width="18" height="18" rx="5" fill="url(#sc)"/><text x="188" y="14" class="label">CoT + Self-Consistency</text>
+    <text x="520" y="14" class="small">绿色数字为绝对百分点提升；数据来自论文 Table 2 / Table 3，非相对百分比。</text>
+  </g>
+</svg>
