@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Self-Consistency 的采样、答案归一化与多数投票流程</title>
+  <desc id="desc">同一 Chain-of-Thought 提示被采样多次，得到不同推理路径；每条路径的最终答案被提取和归一化，最后按答案频次投票。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#17153c"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="winner" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#10b981"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity="0.38"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#60a5fa"/>
+    </marker>
+    <style>
+      .sans { font-family: Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; }
+      .title { font-size: 31px; font-weight: 750; fill: #f8fafc; }
+      .subtitle { font-size: 16px; fill: #a5b4cf; }
+      .step { font-size: 14px; font-weight: 700; letter-spacing: 1.1px; fill: #67e8f9; }
+      .heading { font-size: 20px; font-weight: 700; fill: #f8fafc; }
+      .body { font-size: 15px; fill: #dbeafe; }
+      .small { font-size: 13px; fill: #94a3b8; }
+      .mono { font-family: "SFMono-Regular", Consolas, monospace; font-size: 14px; fill: #e2e8f0; }
+      .answer { font-family: "SFMono-Regular", Consolas, monospace; font-size: 17px; font-weight: 700; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" rx="26" fill="url(#bg)"/>
+  <text x="62" y="60" class="sans title">Self-Consistency：同一个模型，先探索多条路径，再在答案层收敛</text>
+  <text x="62" y="91" class="sans subtitle">核心不是比较哪段推理“写得最像”，而是把推理路径 r 边缘化，只聚合规范化后的最终答案 a。</text>
+
+  <g transform="translate(50 142)" filter="url(#shadow)">
+    <rect width="260" height="534" rx="20" fill="#0d2138" stroke="#315777"/>
+    <text x="24" y="37" class="sans step">01 · COT PROMPT</text>
+    <text x="24" y="73" class="sans heading">固定问题与提示</text>
+    <rect x="22" y="105" width="216" height="137" rx="14" fill="#102a46" stroke="#2d6287"/>
+    <text x="40" y="137" class="sans body">问题 x</text>
+    <text x="40" y="170" class="sans mono">23 个苹果</text>
+    <text x="40" y="196" class="sans mono">卖出 20，再收到 6</text>
+    <text x="40" y="222" class="sans mono">最后有多少？</text>
+    <rect x="22" y="264" width="216" height="145" rx="14" fill="#111d35" stroke="#3f4f6c"/>
+    <text x="40" y="296" class="sans body">Few-shot CoT 示例</text>
+    <text x="40" y="329" class="sans small">示范问题分解、计算步骤</text>
+    <text x="40" y="353" class="sans small">和统一的答案结束标记：</text>
+    <rect x="39" y="369" width="181" height="25" rx="8" fill="#1d3150"/>
+    <text x="50" y="387" class="sans mono">The answer is …</text>
+    <text x="24" y="458" class="sans small">提示在所有采样中保持一致</text>
+    <text x="24" y="484" class="sans small">变化来自随机解码，而非参数更新</text>
+  </g>
+
+  <line x1="325" y1="407" x2="365" y2="407" stroke="#60a5fa" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g transform="translate(380 142)" filter="url(#shadow)">
+    <rect width="548" height="534" rx="20" fill="#0b1f36" stroke="#2e6389"/>
+    <text x="24" y="37" class="sans step">02 · SAMPLE DIVERSE PATHS</text>
+    <text x="24" y="73" class="sans heading">独立采样 m 条推理路径</text>
+    <text x="392" y="72" class="sans mono">T &gt; 0</text>
+
+    <g transform="translate(22 104)">
+      <rect width="504" height="68" rx="13" fill="#102c48" stroke="#3b82f6"/>
+      <circle cx="27" cy="34" r="14" fill="#2563eb"/><text x="27" y="39" text-anchor="middle" class="sans answer">1</text>
+      <text x="54" y="27" class="sans body">先减后加：23 − 20 = 3，3 + 6 = 9</text>
+      <text x="54" y="51" class="sans small">路径表述 A · 正确</text>
+      <rect x="432" y="17" width="54" height="34" rx="10" fill="#0ea5e9"/><text x="459" y="40" text-anchor="middle" class="sans answer">9</text>
+    </g>
+    <g transform="translate(22 184)">
+      <rect width="504" height="68" rx="13" fill="#182443" stroke="#8b5cf6"/>
+      <circle cx="27" cy="34" r="14" fill="#7c3aed"/><text x="27" y="39" text-anchor="middle" class="sans answer">2</text>
+      <text x="54" y="27" class="sans body">净变化是 −14，所以 23 − 14 = 9</text>
+      <text x="54" y="51" class="sans small">路径表述 B · 正确</text>
+      <rect x="432" y="17" width="54" height="34" rx="10" fill="#0ea5e9"/><text x="459" y="40" text-anchor="middle" class="sans answer">9</text>
+    </g>
+    <g transform="translate(22 264)">
+      <rect width="504" height="68" rx="13" fill="#2b1d34" stroke="#f97316"/>
+      <circle cx="27" cy="34" r="14" fill="#ea580c"/><text x="27" y="39" text-anchor="middle" class="sans answer">3</text>
+      <text x="54" y="27" class="sans body">漏掉“收到 6”这一步，只计算 23 − 20</text>
+      <text x="54" y="51" class="sans small">偶发错误路径</text>
+      <rect x="432" y="17" width="54" height="34" rx="10" fill="#f97316"/><text x="459" y="40" text-anchor="middle" class="sans answer">3</text>
+    </g>
+    <g transform="translate(22 344)">
+      <rect width="504" height="68" rx="13" fill="#102c48" stroke="#3b82f6"/>
+      <circle cx="27" cy="34" r="14" fill="#2563eb"/><text x="27" y="39" text-anchor="middle" class="sans answer">4</text>
+      <text x="54" y="27" class="sans body">按事件顺序维护库存状态，最终回到 9</text>
+      <text x="54" y="51" class="sans small">路径表述 C · 正确</text>
+      <rect x="421" y="17" width="65" height="34" rx="10" fill="#0ea5e9"/><text x="453" y="40" text-anchor="middle" class="sans answer">9.0</text>
+    </g>
+    <g transform="translate(22 424)">
+      <rect width="504" height="68" rx="13" fill="#2b1d34" stroke="#f97316"/>
+      <circle cx="27" cy="34" r="14" fill="#ea580c"/><text x="27" y="39" text-anchor="middle" class="sans answer">5</text>
+      <text x="54" y="27" class="sans body">忽略卖出事件，错误地计算 23 + 6</text>
+      <text x="54" y="51" class="sans small">另一种错误路径</text>
+      <rect x="432" y="17" width="54" height="34" rx="10" fill="#f97316"/><text x="459" y="40" text-anchor="middle" class="sans answer">29</text>
+    </g>
+  </g>
+
+  <line x1="943" y1="407" x2="980" y2="407" stroke="#60a5fa" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g transform="translate(995 142)" filter="url(#shadow)">
+    <rect width="165" height="534" rx="20" fill="#111d35" stroke="#4c5f82"/>
+    <text x="20" y="37" class="sans step">03 · NORMALIZE</text>
+    <text x="20" y="73" class="sans heading">答案对齐</text>
+    <text x="20" y="109" class="sans small">只取最终答案</text>
+    <text x="20" y="132" class="sans small">压平格式差异</text>
+    <g transform="translate(20 165)">
+      <rect width="125" height="43" rx="11" fill="#132f4e"/><text x="62" y="28" text-anchor="middle" class="sans mono">"9" → 9</text>
+      <rect y="58" width="125" height="43" rx="11" fill="#132f4e"/><text x="62" y="86" text-anchor="middle" class="sans mono">"9" → 9</text>
+      <rect y="116" width="125" height="43" rx="11" fill="#3a2430"/><text x="62" y="144" text-anchor="middle" class="sans mono">"3" → 3</text>
+      <rect y="174" width="125" height="43" rx="11" fill="#132f4e"/><text x="62" y="202" text-anchor="middle" class="sans mono">"9.0" → 9</text>
+      <rect y="232" width="125" height="43" rx="11" fill="#3a2430"/><text x="62" y="260" text-anchor="middle" class="sans mono">"29" → 29</text>
+    </g>
+    <text x="20" y="486" class="sans small">解析失败的样本</text>
+    <text x="20" y="509" class="sans small">应单独记录，不要</text>
+    <text x="20" y="532" class="sans small">偷偷猜一个答案</text>
+  </g>
+
+  <line x1="1175" y1="407" x2="1205" y2="407" stroke="#60a5fa" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g transform="translate(1220 142)" filter="url(#shadow)">
+    <rect width="130" height="534" rx="20" fill="#102a32" stroke="#10b981"/>
+    <text x="17" y="37" class="sans step">04 · VOTE</text>
+    <text x="17" y="73" class="sans heading">答案频次</text>
+    <text x="17" y="126" class="sans mono">9</text><rect x="40" y="106" width="69" height="26" rx="8" fill="url(#winner)"/><text x="75" y="125" text-anchor="middle" class="sans answer">3</text>
+    <text x="17" y="179" class="sans mono">3</text><rect x="40" y="159" width="25" height="26" rx="8" fill="#f97316"/><text x="52" y="178" text-anchor="middle" class="sans answer">1</text>
+    <text x="17" y="232" class="sans mono">29</text><rect x="40" y="212" width="25" height="26" rx="8" fill="#f97316"/><text x="52" y="231" text-anchor="middle" class="sans answer">1</text>
+    <line x1="17" y1="275" x2="113" y2="275" stroke="#315c59"/>
+    <text x="17" y="314" class="sans small">唯一众数</text>
+    <rect x="17" y="333" width="96" height="62" rx="14" fill="url(#winner)"/>
+    <text x="65" y="359" text-anchor="middle" class="sans small" style="fill:#052e2b">最终答案</text>
+    <text x="65" y="384" text-anchor="middle" class="sans answer">9</text>
+    <text x="17" y="439" class="sans small">一致率</text>
+    <text x="17" y="471" class="sans answer">3 / 5</text>
+    <text x="17" y="504" class="sans small">它是诊断信号</text>
+    <text x="17" y="527" class="sans small">不是正确率保证</text>
+  </g>
+
+  <rect x="50" y="710" width="1300" height="63" rx="16" fill="#0b2238" stroke="#264969"/>
+  <text x="76" y="749" class="sans body">算法不要求几条推理链文字相似；只要不同路径落到同一个规范化答案，它们就为同一个候选答案累积票数。</text>
+</svg>
