@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Constitutional AI 监督学习阶段的连续批判与修订</title>
+  <desc id="desc">Helpful RLHF 模型先对红队提示生成初始回答。每轮从宪法中随机抽取一条原则，依次生成批判和修订，共进行四轮。每一轮修订结果都进入监督微调数据，并与有用性回答混合训练 SL-CAI。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#ecfeff"/>
+    </linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <marker id="loop" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#7c3aed"/>
+    </marker>
+    <style>
+      .title { font: 700 32px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .heading { font: 700 18px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .tiny { font: 400 12px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .white { fill: #fff; }
+      .arrow { fill: none; stroke: #64748b; stroke-width: 2.2; marker-end: url(#arrow); }
+      .loop-arrow { fill: none; stroke: #7c3aed; stroke-width: 2.5; marker-end: url(#loop); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <text x="58" y="54" class="title">监督阶段：先把策略推到“安全且不逃避”的回答分布</text>
+  <text x="58" y="84" class="subtitle">批判文本不是最终监督目标；真正用于 SFT 的是每一轮 revised response。论文还混入 helpful-only 样本以尽量保留有用性。</text>
+
+  <g transform="translate(58 128)" filter="url(#shadow)">
+    <rect width="264" height="574" rx="22" fill="#fff" stroke="#cbd5e1"/>
+    <text x="24" y="40" class="heading">① 构造起点</text>
+    <rect x="24" y="68" width="216" height="88" rx="14" fill="#fff7ed" stroke="#fb923c"/>
+    <text x="132" y="99" text-anchor="middle" class="label">Red-team prompt</text>
+    <text x="132" y="124" text-anchor="middle" class="small">人类编写或模型生成</text>
+    <text x="132" y="145" text-anchor="middle" class="tiny">目标：诱发不安全行为</text>
+    <path d="M132 156 V196" class="arrow"/>
+    <rect x="24" y="196" width="216" height="82" rx="14" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="132" y="228" text-anchor="middle" class="label">Helpful RLHF model</text>
+    <text x="132" y="253" text-anchor="middle" class="small">T = 1 采样初始回答</text>
+    <path d="M132 278 V318" class="arrow"/>
+    <rect x="24" y="318" width="216" height="112" rx="14" fill="#fff1f2" stroke="#fb7185"/>
+    <text x="132" y="350" text-anchor="middle" class="label">Response y⁽⁰⁾</text>
+    <text x="132" y="377" text-anchor="middle" class="small">通常有帮助，但可能</text>
+    <text x="132" y="400" text-anchor="middle" class="small">服从了有害请求</text>
+    <circle cx="206" cy="342" r="15" fill="#e11d48"/>
+    <text x="206" y="348" text-anchor="middle" class="label white">!</text>
+    <rect x="24" y="468" width="216" height="76" rx="13" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="132" y="497" text-anchor="middle" class="small">这里不是从纯预训练模型</text>
+    <text x="132" y="521" text-anchor="middle" class="small">直接开始“自我对齐”</text>
+  </g>
+
+  <g transform="translate(354 128)" filter="url(#shadow)">
+    <rect width="644" height="574" rx="22" fill="#fff" stroke="#c4b5fd"/>
+    <text x="24" y="40" class="heading">② 连续执行 4 轮 critique → revision</text>
+
+    <circle cx="322" cy="286" r="102" fill="url(#core)"/>
+    <path d="M285 225 h74 v76 h-74 z M297 241 h50 M297 257 h50 M297 273 h38" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+    <text x="322" y="330" text-anchor="middle" class="label white">16 principles</text>
+    <text x="322" y="353" text-anchor="middle" class="small white">每轮独立随机抽取</text>
+
+    <g transform="translate(42 82)">
+      <rect width="208" height="104" rx="16" fill="#f5f3ff" stroke="#a78bfa"/>
+      <text x="104" y="31" text-anchor="middle" class="label">第 t 轮：Critique</text>
+      <text x="104" y="58" text-anchor="middle" class="small">指出 y⁽ᵗ⁻¹⁾ 违反原则之处</text>
+      <text x="104" y="82" text-anchor="middle" class="tiny">保留自然语言理由供审计</text>
+    </g>
+    <path d="M250 134 C320 104 394 104 465 134" class="loop-arrow"/>
+    <g transform="translate(394 82)">
+      <rect width="208" height="104" rx="16" fill="#ecfeff" stroke="#22d3ee"/>
+      <text x="104" y="31" text-anchor="middle" class="label">第 t 轮：Revision</text>
+      <text x="104" y="58" text-anchor="middle" class="small">依据 critique 重写 y⁽ᵗ⁾</text>
+      <text x="104" y="82" text-anchor="middle" class="tiny">保持有用、降低伤害与逃避</text>
+    </g>
+
+    <path d="M554 186 C616 274 588 398 493 448" class="loop-arrow"/>
+    <g transform="translate(394 406)">
+      <rect width="208" height="104" rx="16" fill="#ecfdf5" stroke="#34d399"/>
+      <text x="104" y="31" text-anchor="middle" class="label">保存 revision y⁽ᵗ⁾</text>
+      <text x="104" y="58" text-anchor="middle" class="small">每一轮都进入 SFT 数据</text>
+      <text x="104" y="82" text-anchor="middle" class="tiny">不是只保留第 4 轮结果</text>
+    </g>
+    <path d="M394 458 C320 502 245 493 177 458" class="loop-arrow"/>
+    <g transform="translate(42 406)">
+      <rect width="208" height="104" rx="16" fill="#fff7ed" stroke="#fb923c"/>
+      <text x="104" y="31" text-anchor="middle" class="label">t ← t + 1</text>
+      <text x="104" y="58" text-anchor="middle" class="small">把 y⁽ᵗ⁾ 作为下一轮输入</text>
+      <text x="104" y="82" text-anchor="middle" class="tiny">重复直到 t = 4</text>
+    </g>
+    <path d="M90 406 C26 318 35 230 93 186" class="loop-arrow"/>
+
+    <path d="M250 218 C275 226 286 239 294 257" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="5 5"/>
+    <path d="M394 218 C369 226 358 239 350 257" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="5 5"/>
+  </g>
+
+  <g transform="translate(1030 128)" filter="url(#shadow)">
+    <rect width="312" height="574" rx="22" fill="#fff" stroke="#a7f3d0"/>
+    <text x="24" y="40" class="heading">③ 训练 SL-CAI</text>
+    <rect x="24" y="70" width="264" height="104" rx="15" fill="#f5f3ff" stroke="#a78bfa"/>
+    <text x="156" y="100" text-anchor="middle" class="label">Harmlessness revisions</text>
+    <text x="156" y="127" text-anchor="middle" class="small">182,831 prompts × 4 轮</text>
+    <text x="156" y="151" text-anchor="middle" class="tiny">所有修订步骤都参与训练</text>
+    <text x="156" y="205" text-anchor="middle" class="heading">＋</text>
+    <rect x="24" y="226" width="264" height="92" rx="15" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="156" y="257" text-anchor="middle" class="label">Helpfulness samples</text>
+    <text x="156" y="284" text-anchor="middle" class="small">135,296 prompts × 2 回答</text>
+    <path d="M156 318 V358" class="arrow"/>
+    <rect x="56" y="358" width="200" height="78" rx="15" fill="#ecfdf5" stroke="#34d399"/>
+    <text x="156" y="388" text-anchor="middle" class="label">预训练 LM 做 SFT</text>
+    <text x="156" y="413" text-anchor="middle" class="small">1 epoch · batch 1024</text>
+    <path d="M156 436 V474" class="arrow"/>
+    <rect x="56" y="474" width="200" height="64" rx="32" fill="#047857"/>
+    <text x="156" y="513" text-anchor="middle" class="heading white">SL-CAI policy</text>
+  </g>
+
+  <path d="M322 415 H354" class="arrow"/>
+  <path d="M998 415 H1030" class="arrow"/>
+  <text x="58" y="758" class="subtitle">为什么先做这一阶段：把策略移到目标回答分布附近，能缓解后续 RL 的探索问题，并缩短为了学会“安全但不敷衍”所需的在线优化。</text>
+</svg>
