@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
+  <title id="title">Toolformer 在三个数学文字题数据集上的零样本结果</title>
+  <desc id="desc">分组柱状图比较 GPT-J、禁用 API 的 Toolformer、启用 API 的 Toolformer 与 GPT-3 175B。启用计算器后，Toolformer 在 ASDiv、SVAMP 和 MAWPS 上分别达到 40.4、29.4 和 44.0，均显著高于禁用工具时以及 GPT-3 175B。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f8fafc"/><stop offset="1" stop-color="#eef2ff"/></linearGradient>
+    <linearGradient id="hero" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#06b6d4"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.1"/></filter>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .axis { font: 400 14px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .group { font: 700 18px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .value { font: 700 14px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .legend { font: 500 14px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #334155; }
+      .note { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .grid { stroke: #cbd5e1; stroke-width: 1; stroke-dasharray: 4 5; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="800" fill="url(#bg)"/>
+  <text x="56" y="52" class="title">工具不是装饰：计算器让 6.7B 模型在数学题上跨过数量级差距</text>
+  <text x="56" y="82" class="subtitle">论文 Table 4，prompted zero-shot；Toolformer 在 97.9% 的数学样本上主动调用计算器。</text>
+
+  <g transform="translate(56 112)" filter="url(#shadow)">
+    <rect width="1288" height="594" rx="24" fill="#fff" stroke="#cbd5e1"/>
+
+    <g transform="translate(92 72)">
+      <line x1="0" y1="0" x2="1070" y2="0" class="grid"/><text x="-18" y="5" text-anchor="end" class="axis">50</text>
+      <line x1="0" y1="82" x2="1070" y2="82" class="grid"/><text x="-18" y="87" text-anchor="end" class="axis">40</text>
+      <line x1="0" y1="164" x2="1070" y2="164" class="grid"/><text x="-18" y="169" text-anchor="end" class="axis">30</text>
+      <line x1="0" y1="246" x2="1070" y2="246" class="grid"/><text x="-18" y="251" text-anchor="end" class="axis">20</text>
+      <line x1="0" y1="328" x2="1070" y2="328" class="grid"/><text x="-18" y="333" text-anchor="end" class="axis">10</text>
+      <line x1="0" y1="410" x2="1070" y2="410" stroke="#64748b" stroke-width="1.5"/><text x="-18" y="415" text-anchor="end" class="axis">0</text>
+      <text x="-63" y="205" transform="rotate(-90 -63 205)" text-anchor="middle" class="axis">论文报告分数（越高越好）</text>
+
+      <!-- ASDiv: 7.5, 14.8, 40.4, 14.0 -->
+      <g transform="translate(88 0)">
+        <rect x="0" y="348.5" width="52" height="61.5" rx="7" fill="#94a3b8"/><text x="26" y="338" text-anchor="middle" class="value">7.5</text>
+        <rect x="64" y="288.6" width="52" height="121.4" rx="7" fill="#a78bfa"/><text x="90" y="278" text-anchor="middle" class="value">14.8</text>
+        <rect x="128" y="78.7" width="52" height="331.3" rx="7" fill="url(#hero)"/><text x="154" y="68" text-anchor="middle" class="value">40.4</text>
+        <rect x="192" y="295.2" width="52" height="114.8" rx="7" fill="#fb923c"/><text x="218" y="285" text-anchor="middle" class="value">14.0</text>
+        <text x="122" y="447" text-anchor="middle" class="group">ASDiv</text>
+      </g>
+
+      <!-- SVAMP: 5.2, 6.3, 29.4, 10.0 -->
+      <g transform="translate(414 0)">
+        <rect x="0" y="367.4" width="52" height="42.6" rx="7" fill="#94a3b8"/><text x="26" y="357" text-anchor="middle" class="value">5.2</text>
+        <rect x="64" y="358.3" width="52" height="51.7" rx="7" fill="#a78bfa"/><text x="90" y="348" text-anchor="middle" class="value">6.3</text>
+        <rect x="128" y="168.9" width="52" height="241.1" rx="7" fill="url(#hero)"/><text x="154" y="158" text-anchor="middle" class="value">29.4</text>
+        <rect x="192" y="328" width="52" height="82" rx="7" fill="#fb923c"/><text x="218" y="318" text-anchor="middle" class="value">10.0</text>
+        <text x="122" y="447" text-anchor="middle" class="group">SVAMP</text>
+      </g>
+
+      <!-- MAWPS: 9.9, 15.0, 44.0, 19.8 -->
+      <g transform="translate(740 0)">
+        <rect x="0" y="328.8" width="52" height="81.2" rx="7" fill="#94a3b8"/><text x="26" y="318" text-anchor="middle" class="value">9.9</text>
+        <rect x="64" y="287" width="52" height="123" rx="7" fill="#a78bfa"/><text x="90" y="277" text-anchor="middle" class="value">15.0</text>
+        <rect x="128" y="49.2" width="52" height="360.8" rx="7" fill="url(#hero)"/><text x="154" y="39" text-anchor="middle" class="value">44.0</text>
+        <rect x="192" y="247.6" width="52" height="162.4" rx="7" fill="#fb923c"/><text x="218" y="237" text-anchor="middle" class="value">19.8</text>
+        <text x="122" y="447" text-anchor="middle" class="group">MAWPS</text>
+      </g>
+    </g>
+
+    <g transform="translate(122 548)">
+      <rect width="18" height="18" rx="4" fill="#94a3b8"/><text x="28" y="14" class="legend">GPT-J 6.7B</text>
+      <rect x="190" width="18" height="18" rx="4" fill="#a78bfa"/><text x="218" y="14" class="legend">Toolformer（禁用 API）</text>
+      <rect x="456" width="18" height="18" rx="4" fill="#2563eb"/><text x="484" y="14" class="legend">Toolformer（启用 API）</text>
+      <rect x="716" width="18" height="18" rx="4" fill="#fb923c"/><text x="744" y="14" class="legend">GPT-3 175B</text>
+    </g>
+  </g>
+
+  <g transform="translate(56 728)">
+    <rect width="1288" height="46" rx="12" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="20" y="29" class="note">读图边界：它证明的是特定零样本评测、特定工具与 2023 年基线下的收益；不能外推为“任何小模型接任意 API 都会超过大模型”。</text>
+  </g>
+</svg>
