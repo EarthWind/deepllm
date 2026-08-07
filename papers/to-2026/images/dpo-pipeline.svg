@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="800" viewBox="0 0 1400 800" role="img" aria-labelledby="title desc">
+  <title id="title">RLHF 与 DPO 偏好训练流水线对比</title>
+  <desc id="desc">RLHF 先训练奖励模型，再进行在线采样和 PPO 优化；DPO 直接用冻结参考模型和可训练策略模型计算偏好对的相对对数概率，通过二元分类损失更新策略。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#eef2ff"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".10"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#64748b"/></marker>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.sub{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.lane{font:700 23px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.h{font:700 18px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 12px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.white{fill:#fff}.mono{font:600 13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#312e81}.mono.white{fill:#fff}</style>
+  </defs>
+  <rect width="1400" height="800" fill="url(#bg)"/>
+  <text x="55" y="51" class="title">DPO 没有取消偏好建模，而是把“奖励模型 + RL”折叠进策略的分类损失</text>
+  <text x="55" y="81" class="sub">两条管线都从 SFT 模型与离线偏好对 (x, y<tspan baseline-shift="sub" font-size="12">w</tspan>, y<tspan baseline-shift="sub" font-size="12">l</tspan>) 出发；区别在于如何把偏好变成策略更新。</text>
+
+  <g transform="translate(55 112)" filter="url(#shadow)">
+    <rect width="1290" height="276" rx="24" fill="#fff" stroke="#cbd5e1"/>
+    <rect width="190" height="276" rx="24" fill="#fff7ed" stroke="#fb923c"/>
+    <path d="M166 0H190V276H166" fill="#fff7ed"/>
+    <text x="28" y="45" class="lane">传统 RLHF</text>
+    <text x="28" y="73" class="small">显式 reward model</text>
+    <text x="28" y="94" class="small">+ 在线 RL 优化</text>
+    <g transform="translate(225 33)">
+      <rect width="210" height="88" rx="16" fill="#fff7ed" stroke="#fb923c"/>
+      <circle cx="29" cy="28" r="16" fill="#f97316"/><text x="29" y="34" text-anchor="middle" class="h white">1</text>
+      <text x="57" y="33" class="h">训练奖励模型</text>
+      <text x="20" y="61" class="body">BT loss 拟合标量 r<tspan baseline-shift="sub" font-size="10">ϕ</tspan>(x,y)</text>
+      <text x="20" y="81" class="small">额外模型与独立 checkpoint</text>
+      <path d="M216 44H269" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(505 33)">
+      <rect width="230" height="88" rx="16" fill="#fff7ed" stroke="#fb923c"/>
+      <circle cx="29" cy="28" r="16" fill="#f97316"/><text x="29" y="34" text-anchor="middle" class="h white">2</text>
+      <text x="57" y="33" class="h">策略在线采样</text>
+      <text x="20" y="61" class="body">π<tspan baseline-shift="sub" font-size="10">θ</tspan> rollout → reward / KL</text>
+      <text x="20" y="81" class="small">训练期间反复生成 completion</text>
+      <path d="M236 44H289" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(805 33)">
+      <rect width="210" height="88" rx="16" fill="#fff7ed" stroke="#fb923c"/>
+      <circle cx="29" cy="28" r="16" fill="#f97316"/><text x="29" y="34" text-anchor="middle" class="h white">3</text>
+      <text x="57" y="33" class="h">PPO 更新策略</text>
+      <text x="20" y="61" class="body">advantage / critic / clipping</text>
+      <text x="20" y="81" class="small">多个耦合损失与训练状态</text>
+      <path d="M216 44H269" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(1085 33)">
+      <rect width="170" height="88" rx="16" fill="#fffbeb" stroke="#f59e0b"/>
+      <text x="85" y="36" text-anchor="middle" class="h">Aligned policy</text>
+      <text x="85" y="63" text-anchor="middle" class="body">π<tspan baseline-shift="sub" font-size="10">θ</tspan></text>
+    </g>
+    <rect x="225" y="156" width="1030" height="83" rx="16" fill="#f8fafc" stroke="#e2e8f0"/>
+    <text x="249" y="187" class="h">训练期关键状态</text>
+    <text x="249" y="217" class="body">SFT / policy / reference / reward / value 等模型状态；rollout、奖励打分、优势估计与 PPO minibatch 相互耦合。</text>
+  </g>
+
+  <g transform="translate(55 418)" filter="url(#shadow)">
+    <rect width="1290" height="276" rx="24" fill="#fff" stroke="#a5b4fc"/>
+    <rect width="190" height="276" rx="24" fill="#eef2ff" stroke="#818cf8"/>
+    <path d="M166 0H190V276H166" fill="#eef2ff"/>
+    <text x="28" y="45" class="lane">DPO</text>
+    <text x="28" y="73" class="small">冻结 reference</text>
+    <text x="28" y="94" class="small">+ 单阶段监督优化</text>
+    <g transform="translate(225 30)">
+      <rect width="205" height="102" rx="16" fill="#eff6ff" stroke="#60a5fa"/>
+      <text x="102" y="31" text-anchor="middle" class="h">冻结参考模型</text>
+      <text x="102" y="59" text-anchor="middle" class="mono">π_ref(yw|x)</text>
+      <text x="102" y="82" text-anchor="middle" class="mono">π_ref(yl|x)</text>
+      <path d="M211 51H264" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(225 148)">
+      <rect width="205" height="102" rx="16" fill="#f5f3ff" stroke="#a78bfa"/>
+      <text x="102" y="31" text-anchor="middle" class="h">可训练策略模型</text>
+      <text x="102" y="59" text-anchor="middle" class="mono">π_θ(yw|x)</text>
+      <text x="102" y="82" text-anchor="middle" class="mono">π_θ(yl|x)</text>
+      <path d="M211 51H264" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(500 57)">
+      <rect width="270" height="164" rx="18" fill="#faf5ff" stroke="#c084fc"/>
+      <text x="135" y="34" text-anchor="middle" class="h">相对偏好 margin</text>
+      <text x="135" y="69" text-anchor="middle" class="mono">h = log πθ(yw)/πref(yw)</text>
+      <text x="135" y="94" text-anchor="middle" class="mono">  − log πθ(yl)/πref(yl)</text>
+      <rect x="25" y="115" width="220" height="31" rx="9" fill="#ede9fe"/>
+      <text x="135" y="136" text-anchor="middle" class="body">同一 prompt 的 Z(x) 已消去</text>
+      <path d="M276 82H329" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(840 78)">
+      <rect width="205" height="122" rx="18" fill="url(#purple)"/>
+      <text x="102" y="36" text-anchor="middle" class="h white">二元分类损失</text>
+      <text x="102" y="70" text-anchor="middle" class="mono white">−log σ(βh)</text>
+      <text x="102" y="98" text-anchor="middle" class="small white">offline pair · no rollout</text>
+      <path d="M211 61H264" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(1115 95)">
+      <rect width="140" height="88" rx="16" fill="#ecfdf5" stroke="#10b981"/>
+      <text x="70" y="34" text-anchor="middle" class="h">更新 π<tspan baseline-shift="sub" font-size="12">θ</tspan></text>
+      <text x="70" y="62" text-anchor="middle" class="body">reference 冻结</text>
+    </g>
+  </g>
+  <text x="55" y="748" class="small">DPO 仍通常需要先得到 SFT/reference 模型，也仍需要偏好数据；它省掉的是显式奖励模型训练和训练期的在线 RL rollout，而不是省掉所有前置工作。</text>
+</svg>

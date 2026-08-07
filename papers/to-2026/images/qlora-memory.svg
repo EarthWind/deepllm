@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">65B 模型的 QLoRA 显存账本</title>
+  <desc id="desc">区分裸权重 payload、量化 scale 与完整训练峰值，说明 QLoRA 如何把 65B 微调放入单张 48GB GPU。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071329"/><stop offset="1" stop-color="#181d3b"/></linearGradient>
+    <linearGradient id="bf" x1="0" x2="1"><stop stop-color="#cf6679"/><stop offset="1" stop-color="#f08a78"/></linearGradient>
+    <linearGradient id="nf" x1="0" x2="1"><stop stop-color="#625ce4"/><stop offset="1" stop-color="#3b99d5"/></linearGradient>
+    <linearGradient id="dq" x1="0" x2="1"><stop stop-color="#26a69a"/><stop offset="1" stop-color="#70dfcc"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity=".27"/></filter>
+  </defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text x="57" y="62" fill="#f6f7ff" font-size="30" font-weight="700" font-family="sans-serif">65B 显存账本：32.5 GB 不是完整训练显存</text>
+  <text x="57" y="98" fill="#9eafd3" font-size="17" font-family="sans-serif">先算权重 payload，再把 scale、LoRA、激活、优化器状态、临时缓冲与 allocator 峰值加回来</text>
+
+  <g transform="translate(55 140)" filter="url(#shadow)">
+    <rect width="1090" height="223" rx="22" fill="#111e3d" stroke="#304a78"/>
+    <text x="28" y="39" fill="#e9edff" font-size="18" font-weight="700" font-family="sans-serif">仅看 65B 个基础权重的理论 payload（十进制 GB）</text>
+    <text x="28" y="85" fill="#d2d9ed" font-size="15" font-family="sans-serif">BF16：65B × 16 bit</text>
+    <rect x="225" y="63" width="800" height="33" rx="10" fill="#242a48"/>
+    <rect x="225" y="63" width="800" height="33" rx="10" fill="url(#bf)"/>
+    <text x="1008" y="86" text-anchor="end" fill="white" font-size="16" font-weight="700" font-family="sans-serif">130.0 GB</text>
+    <text x="28" y="137" fill="#d2d9ed" font-size="15" font-family="sans-serif">NF4 索引：65B × 4 bit</text>
+    <rect x="225" y="115" width="800" height="33" rx="10" fill="#242a48"/>
+    <rect x="225" y="115" width="200" height="33" rx="10" fill="url(#nf)"/>
+    <text x="438" y="138" fill="#d9e7ff" font-size="16" font-weight="700" font-family="sans-serif">32.5 GB</text>
+    <text x="28" y="189" fill="#d2d9ed" font-size="15" font-family="sans-serif">双重量化 scale：0.127 bit/参数</text>
+    <rect x="225" y="167" width="800" height="33" rx="10" fill="#242a48"/>
+    <rect x="225" y="167" width="52" height="33" rx="10" fill="url(#dq)"/>
+    <text x="292" y="190" fill="#aef4e8" font-size="16" font-weight="700" font-family="sans-serif">≈ 1.03 GB</text>
+    <text x="816" y="190" fill="#8fa0c4" font-size="13" font-family="sans-serif">未双重量化 scale ≈ 4.06 GB</text>
+  </g>
+
+  <g transform="translate(55 397)" filter="url(#shadow)">
+    <rect width="519" height="208" rx="22" fill="#2b1e29" stroke="#a85267"/>
+    <text x="28" y="41" fill="#ffd6de" font-size="19" font-weight="700" font-family="sans-serif">常规 16-bit 全量微调</text>
+    <text x="28" y="82" fill="#e4bdc5" font-size="15" font-family="sans-serif">不止参数，还需梯度、优化器状态、</text>
+    <text x="28" y="107" fill="#e4bdc5" font-size="15" font-family="sans-serif">可能的 FP32 master weights、激活和缓冲</text>
+    <text x="28" y="157" fill="white" font-size="37" font-weight="700" font-family="sans-serif">&gt; 780 GB</text>
+    <text x="284" y="155" fill="#e4bdc5" font-size="14" font-family="sans-serif">论文给出的训练需求</text>
+    <text x="28" y="188" fill="#b98f99" font-size="13" font-family="sans-serif">不能把这个总峰值与 130 GB 裸权重直接等同</text>
+  </g>
+
+  <g transform="translate(606 397)" filter="url(#shadow)">
+    <rect width="539" height="208" rx="22" fill="#142d35" stroke="#3fb7a6"/>
+    <text x="28" y="41" fill="#c9fff5" font-size="19" font-weight="700" font-family="sans-serif">QLoRA 微调</text>
+    <text x="28" y="78" fill="#b5dcd7" font-size="15" font-family="sans-serif">冻结 NF4 底座 + BF16 LoRA + 激活/缓冲</text>
+    <text x="28" y="106" fill="#b5dcd7" font-size="15" font-family="sans-serif">Paged Optimizer 处理偶发峰值</text>
+    <rect x="28" y="126" width="483" height="48" rx="14" fill="#1f524f"/>
+    <text x="50" y="157" fill="white" font-size="25" font-weight="700" font-family="sans-serif">65B 可在单张 48 GB GPU 微调</text>
+    <text x="28" y="196" fill="#8fc2bb" font-size="13" font-family="sans-serif">论文 Table 4 报告 Guanaco 65B 模型占用 41 GB；训练需为其余状态留余量</text>
+  </g>
+
+  <rect x="55" y="628" width="1090" height="33" rx="10" fill="#121d38"/>
+  <text x="600" y="650" text-anchor="middle" fill="#9fb0d2" font-size="14" font-family="sans-serif">经验法则：能否训练 = 权重 payload + 可训练状态 + 激活峰值 + kernel/allocator 开销，而不是“参数量 × 4 bit”一项。</text>
+</svg>

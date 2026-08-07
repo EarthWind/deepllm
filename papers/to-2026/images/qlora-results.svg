@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="710" viewBox="0 0 1200 710" role="img" aria-labelledby="title desc">
+  <title id="title">QLoRA 的 MMLU 与 Guanaco 结果</title>
+  <desc id="desc">论文 Table 3 中 BF16、FP4 和 NF4 双重量化的平均 MMLU，以及 GPT-4 评审的 Vicuna 锦标赛 Elo。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071329"/><stop offset="1" stop-color="#171e3d"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#3d8ed5"/><stop offset="1" stop-color="#67d9df"/></linearGradient>
+    <linearGradient id="purple" x1="0" x2="1"><stop stop-color="#675ee8"/><stop offset="1" stop-color="#a878e8"/></linearGradient>
+    <linearGradient id="gold" x1="0" x2="1"><stop stop-color="#e7a12d"/><stop offset="1" stop-color="#ffd16a"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-opacity=".25"/></filter>
+  </defs>
+  <rect width="1200" height="710" rx="24" fill="url(#bg)"/>
+  <text x="56" y="61" fill="#f6f7ff" font-size="30" font-weight="700" font-family="sans-serif">实验读法：NF4 恢复了基线，不等于所有评测都已解决</text>
+  <text x="56" y="96" fill="#9eafd2" font-size="17" font-family="sans-serif">左：LLaMA 7B–65B、Alpaca/FLAN v2 的 8 项平均 MMLU；右：Vicuna 80 prompts、GPT-4 评审的 Elo</text>
+
+  <g transform="translate(55 135)" filter="url(#shadow)">
+    <rect width="500" height="485" rx="22" fill="#111f40" stroke="#324a79"/>
+    <text x="28" y="42" fill="#e9edff" font-size="19" font-weight="700" font-family="sans-serif">Table 3：平均 5-shot MMLU</text>
+    <text x="28" y="68" fill="#9fb0d2" font-size="13" font-family="sans-serif">横轴从 50 截断，只用于比较三组差异</text>
+    <line x1="165" y1="100" x2="165" y2="344" stroke="#40527a"/>
+    <g fill="#7081a8" font-size="12" font-family="sans-serif" text-anchor="middle">
+      <text x="165" y="366">50</text><text x="247" y="366">51</text><text x="329" y="366">52</text><text x="411" y="366">53</text>
+    </g>
+    <g stroke="#26395f" stroke-dasharray="3 5"><line x1="247" y1="92" x2="247" y2="344"/><line x1="329" y1="92" x2="329" y2="344"/><line x1="411" y1="92" x2="411" y2="344"/></g>
+    <text x="28" y="139" fill="#dce4fa" font-size="15" font-family="sans-serif">BF16 LoRA</text>
+    <rect x="165" y="112" width="246" height="37" rx="9" fill="url(#cyan)"/>
+    <text x="423" y="137" fill="white" font-size="17" font-weight="700" font-family="sans-serif">53.0</text>
+    <text x="28" y="223" fill="#dce4fa" font-size="15" font-family="sans-serif">FP4 QLoRA</text>
+    <rect x="165" y="196" width="180" height="37" rx="9" fill="#ad617a"/>
+    <text x="357" y="221" fill="white" font-size="17" font-weight="700" font-family="sans-serif">52.2</text>
+    <text x="28" y="307" fill="#dce4fa" font-size="15" font-family="sans-serif">NF4 + DQ</text>
+    <rect x="165" y="280" width="254" height="37" rx="9" fill="url(#purple)"/>
+    <text x="431" y="305" fill="white" font-size="17" font-weight="700" font-family="sans-serif">53.1</text>
+    <rect x="28" y="392" width="444" height="64" rx="13" fill="#192b4e"/>
+    <text x="48" y="418" fill="#9fe8e6" font-size="15" font-weight="700" font-family="sans-serif">论文结论</text>
+    <text x="48" y="442" fill="#c8d4ec" font-size="14" font-family="sans-serif">NF4 + DQ 在该设置中恢复 BF16 LoRA；FP4 平均低 0.8 点。</text>
+  </g>
+
+  <g transform="translate(585 135)" filter="url(#shadow)">
+    <rect width="560" height="485" rx="22" fill="#111f40" stroke="#324a79"/>
+    <text x="28" y="42" fill="#e9edff" font-size="19" font-weight="700" font-family="sans-serif">Table 6：Vicuna Elo（GPT-4 judge）</text>
+    <text x="28" y="68" fill="#9fb0d2" font-size="13" font-family="sans-serif">横轴从 850 截断；Elo 是相对排名，不是绝对能力分</text>
+    <g font-family="sans-serif" font-size="13">
+      <text x="28" y="111" fill="#dce4fa">GPT-4</text><rect x="164" y="92" width="346" height="25" rx="7" fill="url(#gold)"/><text x="520" y="110" fill="#ffe6a8" font-weight="700">1348</text>
+      <text x="28" y="154" fill="#dce4fa">Guanaco 65B</text><rect x="164" y="135" width="119" height="25" rx="7" fill="url(#purple)"/><text x="293" y="153" fill="#dedbff" font-weight="700">1022</text>
+      <text x="28" y="197" fill="#dce4fa">Guanaco 33B</text><rect x="164" y="178" width="98" height="25" rx="7" fill="url(#purple)"/><text x="272" y="196" fill="#dedbff" font-weight="700">992</text>
+      <text x="28" y="240" fill="#dce4fa">Vicuna 13B</text><rect x="164" y="221" width="86" height="25" rx="7" fill="#4ea9cf"/><text x="260" y="239" fill="#c9efff" font-weight="700">974</text>
+      <text x="28" y="283" fill="#dce4fa">ChatGPT 3.5</text><rect x="164" y="264" width="81" height="25" rx="7" fill="#4ea9cf"/><text x="255" y="282" fill="#c9efff" font-weight="700">966</text>
+      <text x="28" y="326" fill="#dce4fa">Guanaco 13B</text><rect x="164" y="307" width="44" height="25" rx="7" fill="url(#purple)"/><text x="218" y="325" fill="#dedbff" font-weight="700">913</text>
+      <text x="28" y="369" fill="#dce4fa">Bard</text><rect x="164" y="350" width="36" height="25" rx="7" fill="#4ea9cf"/><text x="210" y="368" fill="#c9efff" font-weight="700">902</text>
+      <text x="28" y="412" fill="#dce4fa">Guanaco 7B</text><rect x="164" y="393" width="20" height="25" rx="7" fill="url(#purple)"/><text x="194" y="411" fill="#dedbff" font-weight="700">879</text>
+    </g>
+    <text x="28" y="455" fill="#8fa0c4" font-size="12" font-family="sans-serif">论文另报：人类 judge 下 Guanaco 7B 为 1010，说明评审者之间存在明显差异。</text>
+  </g>
+
+  <rect x="55" y="643" width="1090" height="42" rx="12" fill="#15203c" stroke="#314771"/>
+  <text x="600" y="669" text-anchor="middle" fill="#adbcda" font-size="14" font-family="sans-serif">边界：论文未证明 33B/65B QLoRA 等价于同规模全量微调；GPT-4 与人类在样本级的一致性 Fleiss κ 仅 0.25。</text>
+</svg>
