@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">NF4 的等概率分位数量化</title>
+  <desc id="desc">NF4 用标准正态分布的分位数构造十六个查表值，中心区域更密、尾部更疏，并保留精确零。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071329"/><stop offset="1" stop-color="#172143"/></linearGradient>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6ee7f7" stop-opacity=".65"/><stop offset="1" stop-color="#6e65ef" stop-opacity=".05"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-opacity=".28"/></filter>
+  </defs>
+  <rect width="1200" height="720" rx="24" fill="url(#bg)"/>
+  <text x="55" y="61" fill="#f5f7ff" font-size="30" font-weight="700" font-family="sans-serif">NF4：把 16 个码位用在“权重最常出现的地方”</text>
+  <text x="55" y="96" fill="#9eb1d7" font-size="17" font-family="sans-serif">假设预训练权重近似零均值正态分布；每个量化桶拥有近似相等的期望概率质量</text>
+
+  <g transform="translate(55 130)" filter="url(#shadow)">
+    <rect width="780" height="285" rx="20" fill="#111f41" stroke="#2f4777"/>
+    <line x1="48" y1="230" x2="735" y2="230" stroke="#8091b8" stroke-width="1"/>
+    <path d="M48 230 C150 229 192 212 250 155 C302 105 328 52 390 43 C452 52 478 105 530 155 C588 212 630 229 735 230 L735 230 L48 230Z" fill="url(#area)"/>
+    <path d="M48 230 C150 229 192 212 250 155 C302 105 328 52 390 43 C452 52 478 105 530 155 C588 212 630 229 735 230" fill="none" stroke="#6ee7f7" stroke-width="4"/>
+    <g stroke="#a7a0ff" stroke-opacity=".6" stroke-dasharray="4 4">
+      <line x1="80" y1="212" x2="80" y2="240"/><line x1="137" y1="200" x2="137" y2="240"/>
+      <line x1="184" y1="184" x2="184" y2="240"/><line x1="224" y1="166" x2="224" y2="240"/>
+      <line x1="260" y1="142" x2="260" y2="240"/><line x1="293" y1="108" x2="293" y2="240"/>
+      <line x1="326" y1="73" x2="326" y2="240"/><line x1="358" y1="50" x2="358" y2="240"/>
+      <line x1="390" y1="43" x2="390" y2="240"/><line x1="422" y1="50" x2="422" y2="240"/>
+      <line x1="454" y1="73" x2="454" y2="240"/><line x1="487" y1="108" x2="487" y2="240"/>
+      <line x1="520" y1="142" x2="520" y2="240"/><line x1="556" y1="166" x2="556" y2="240"/>
+      <line x1="596" y1="184" x2="596" y2="240"/><line x1="643" y1="200" x2="643" y2="240"/>
+      <line x1="700" y1="212" x2="700" y2="240"/>
+    </g>
+    <text x="390" y="270" text-anchor="middle" fill="#b5c4e4" font-size="15" font-family="sans-serif">中心桶窄、尾部桶宽：数值间隔不均匀，但概率质量近似均匀</text>
+  </g>
+
+  <g transform="translate(865 130)" filter="url(#shadow)">
+    <rect width="280" height="285" rx="20" fill="#191d44" stroke="#655ee0"/>
+    <text x="25" y="40" fill="#e6e3ff" font-size="17" font-weight="700" font-family="sans-serif">一个 64 权重块</text>
+    <rect x="25" y="62" width="230" height="56" rx="12" fill="#302a73"/>
+    <text x="140" y="88" text-anchor="middle" fill="#bcb7ff" font-size="14" font-family="sans-serif">absmax = c</text>
+    <text x="140" y="108" text-anchor="middle" fill="white" font-size="15" font-family="sans-serif">w̄ᵢ = wᵢ / c ∈ [-1, 1]</text>
+    <path d="M140 118V153" stroke="#8c84ff" stroke-width="3"/>
+    <rect x="25" y="153" width="230" height="56" rx="12" fill="#24466d"/>
+    <text x="140" y="178" text-anchor="middle" fill="#b5eaff" font-size="14" font-family="sans-serif">最近邻查表</text>
+    <text x="140" y="199" text-anchor="middle" fill="white" font-size="15" font-family="sans-serif">qᵢ = argmin |w̄ᵢ - Qⱼ|</text>
+    <path d="M140 209V238" stroke="#8c84ff" stroke-width="3"/>
+    <rect x="53" y="238" width="174" height="31" rx="15" fill="#1f776f"/>
+    <text x="140" y="259" text-anchor="middle" fill="white" font-size="14" font-weight="700" font-family="sans-serif">保存 4-bit 索引 qᵢ</text>
+  </g>
+
+  <text x="55" y="457" fill="#f4f6ff" font-size="20" font-weight="700" font-family="sans-serif">bitsandbytes 使用的 16 个 NF4 查表值</text>
+  <g transform="translate(55 480)" font-family="monospace" font-size="14" text-anchor="middle">
+    <g fill="#302b71" stroke="#5d56cb">
+      <rect x="0" y="0" width="132" height="65" rx="10"/><rect x="138" y="0" width="132" height="65" rx="10"/>
+      <rect x="276" y="0" width="132" height="65" rx="10"/><rect x="414" y="0" width="132" height="65" rx="10"/>
+      <rect x="552" y="0" width="132" height="65" rx="10"/><rect x="690" y="0" width="132" height="65" rx="10"/>
+      <rect x="828" y="0" width="132" height="65" rx="10"/><rect x="966" y="0" width="132" height="65" rx="10"/>
+    </g>
+    <g fill="#174d65" stroke="#287f9c">
+      <rect x="0" y="72" width="132" height="65" rx="10"/><rect x="138" y="72" width="132" height="65" rx="10"/>
+      <rect x="276" y="72" width="132" height="65" rx="10"/><rect x="414" y="72" width="132" height="65" rx="10"/>
+      <rect x="552" y="72" width="132" height="65" rx="10"/><rect x="690" y="72" width="132" height="65" rx="10"/>
+      <rect x="828" y="72" width="132" height="65" rx="10"/><rect x="966" y="72" width="132" height="65" rx="10"/>
+    </g>
+    <g fill="#eceaff">
+      <text x="66" y="27">0000</text><text x="66" y="49">-1.0000</text>
+      <text x="204" y="27">0001</text><text x="204" y="49">-0.6962</text>
+      <text x="342" y="27">0010</text><text x="342" y="49">-0.5251</text>
+      <text x="480" y="27">0011</text><text x="480" y="49">-0.3949</text>
+      <text x="618" y="27">0100</text><text x="618" y="49">-0.2844</text>
+      <text x="756" y="27">0101</text><text x="756" y="49">-0.1848</text>
+      <text x="894" y="27">0110</text><text x="894" y="49">-0.0911</text>
+      <text x="1032" y="27">0111</text><text x="1032" y="49">0.0000</text>
+      <text x="66" y="99">1000</text><text x="66" y="121">0.0796</text>
+      <text x="204" y="99">1001</text><text x="204" y="121">0.1609</text>
+      <text x="342" y="99">1010</text><text x="342" y="121">0.2461</text>
+      <text x="480" y="99">1011</text><text x="480" y="121">0.3379</text>
+      <text x="618" y="99">1100</text><text x="618" y="121">0.4407</text>
+      <text x="756" y="99">1101</text><text x="756" y="121">0.5626</text>
+      <text x="894" y="99">1110</text><text x="894" y="121">0.7230</text>
+      <text x="1032" y="99">1111</text><text x="1032" y="121">1.0000</text>
+    </g>
+  </g>
+  <rect x="55" y="644" width="1098" height="45" rx="12" fill="#14203d" stroke="#324a76"/>
+  <text x="78" y="672" fill="#aebddd" font-size="15" font-family="sans-serif">边界：所谓“信息论最优”依赖零均值正态分布假设；NF4 不是对任意权重分布、任意任务都普遍最优。</text>
+</svg>

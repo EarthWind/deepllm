@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">一个 DPO 偏好对从四个对数概率到损失和梯度的计算过程</title>
+  <desc id="desc">同一提示的优选和拒选回答分别通过可训练策略和冻结参考模型，得到四个 completion-only 序列对数概率；策略偏好差减去参考偏好差，乘 beta 后进入负对数 sigmoid。模型排错时梯度权重大，排对且 margin 大时权重衰减。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#ecfeff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".10"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#64748b"/></marker>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.sub{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 18px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 12px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.mono{font:600 14px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#1e1b4b}.white{fill:#fff}</style>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <text x="55" y="51" class="title">一个 batch 里的 DPO：四个序列 log-prob → 一个相对 margin → 一个分类损失</text>
+  <text x="55" y="81" class="sub">只累计回答 token；prompt 与 padding 必须 mask。原始实现对 response token log-prob 求和，而不是按长度取平均。</text>
+
+  <g transform="translate(55 116)" filter="url(#shadow)">
+    <rect width="1290" height="598" rx="24" fill="#fff" stroke="#cbd5e1"/>
+    <g transform="translate(25 28)">
+      <rect width="230" height="72" rx="15" fill="#f8fafc" stroke="#94a3b8"/>
+      <text x="20" y="29" class="h">Prompt x</text><text x="20" y="52" class="small">同一问题 / 上下文</text>
+      <path d="M235 36H280" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(305 17)">
+      <rect width="245" height="92" rx="16" fill="#fffbeb" stroke="#f59e0b"/>
+      <text x="20" y="30" class="h">Chosen y<tspan baseline-shift="sub" font-size="11">w</tspan></text>
+      <text x="20" y="56" class="body">人类更偏好的回答</text>
+      <text x="20" y="78" class="small">labels: prompt = −100</text>
+    </g>
+    <g transform="translate(305 126)">
+      <rect width="245" height="92" rx="16" fill="#fff1f2" stroke="#fb7185"/>
+      <text x="20" y="30" class="h">Rejected y<tspan baseline-shift="sub" font-size="11">l</tspan></text>
+      <text x="20" y="56" class="body">人类较不偏好的回答</text>
+      <text x="20" y="78" class="small">labels: prompt = −100</text>
+    </g>
+    <path d="M560 63H612" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M560 172H612" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(625 17)">
+      <rect width="225" height="201" rx="18" fill="#f5f3ff" stroke="#a78bfa"/>
+      <text x="112" y="31" text-anchor="middle" class="h">Policy π<tspan baseline-shift="sub" font-size="11">θ</tspan> · trainable</text>
+      <rect x="18" y="51" width="189" height="51" rx="11" fill="#ede9fe"/>
+      <text x="112" y="81" text-anchor="middle" class="mono">log πθ(yw|x)</text>
+      <rect x="18" y="124" width="189" height="51" rx="11" fill="#ede9fe"/>
+      <text x="112" y="154" text-anchor="middle" class="mono">log πθ(yl|x)</text>
+    </g>
+    <g transform="translate(875 17)">
+      <rect width="225" height="201" rx="18" fill="#eff6ff" stroke="#60a5fa"/>
+      <text x="112" y="31" text-anchor="middle" class="h">Reference π<tspan baseline-shift="sub" font-size="11">ref</tspan> · frozen</text>
+      <rect x="18" y="51" width="189" height="51" rx="11" fill="#dbeafe"/>
+      <text x="112" y="81" text-anchor="middle" class="mono">log πref(yw|x)</text>
+      <rect x="18" y="124" width="189" height="51" rx="11" fill="#dbeafe"/>
+      <text x="112" y="154" text-anchor="middle" class="mono">log πref(yl|x)</text>
+    </g>
+    <path d="M1110 117H1152" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(1162 53)">
+      <rect width="95" height="130" rx="17" fill="#ecfdf5" stroke="#10b981"/>
+      <text x="47" y="38" text-anchor="middle" class="h">4 values</text>
+      <text x="47" y="68" text-anchor="middle" class="body">sum over</text>
+      <text x="47" y="90" text-anchor="middle" class="body">response</text>
+      <text x="47" y="112" text-anchor="middle" class="body">tokens</text>
+    </g>
+
+    <g transform="translate(25 260)">
+      <rect width="270" height="101" rx="17" fill="#f5f3ff" stroke="#a78bfa"/>
+      <text x="135" y="31" text-anchor="middle" class="h">策略内部偏好差</text>
+      <text x="135" y="64" text-anchor="middle" class="mono">a = log πθ,w − log πθ,l</text>
+      <text x="135" y="87" text-anchor="middle" class="small">policy chosen vs. rejected</text>
+      <path d="M276 50H319" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(355 260)">
+      <rect width="270" height="101" rx="17" fill="#eff6ff" stroke="#60a5fa"/>
+      <text x="135" y="31" text-anchor="middle" class="h">参考策略原有偏好差</text>
+      <text x="135" y="64" text-anchor="middle" class="mono">b = log πref,w − log πref,l</text>
+      <text x="135" y="87" text-anchor="middle" class="small">reference baseline</text>
+      <path d="M276 50H319" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(685 260)">
+      <rect width="260" height="101" rx="17" fill="#faf5ff" stroke="#c084fc"/>
+      <text x="130" y="31" text-anchor="middle" class="h">相对 margin</text>
+      <text x="130" y="64" text-anchor="middle" class="mono">hθ = a − b</text>
+      <text x="130" y="87" text-anchor="middle" class="small">相对 reference 改善了多少</text>
+      <path d="M266 50H309" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(1005 260)">
+      <rect width="252" height="101" rx="17" fill="#4f46e5"/>
+      <text x="126" y="31" text-anchor="middle" class="h white">DPO loss</text>
+      <text x="126" y="64" text-anchor="middle" class="mono white">L = softplus(−βhθ)</text>
+      <text x="126" y="87" text-anchor="middle" class="small white">= −log σ(βhθ)</text>
+    </g>
+
+    <g transform="translate(25 398)">
+      <rect width="880" height="159" rx="18" fill="#f8fafc" stroke="#cbd5e1"/>
+      <text x="22" y="33" class="h">梯度为什么不是朴素的“chosen 加、rejected 减”</text>
+      <text x="22" y="69" class="mono">∇θL = −β σ(−βhθ) [∇θ log πθ(yw|x) − ∇θ log πθ(yl|x)]</text>
+      <rect x="22" y="91" width="273" height="46" rx="12" fill="#fff1f2"/><text x="158" y="111" text-anchor="middle" class="body">hθ &lt; 0：模型排错</text><text x="158" y="130" text-anchor="middle" class="small">权重接近 1，强更新</text>
+      <rect x="309" y="91" width="273" height="46" rx="12" fill="#fffbeb"/><text x="445" y="111" text-anchor="middle" class="body">hθ = 0：初始 πθ = πref</text><text x="445" y="130" text-anchor="middle" class="small">权重 1/2，loss = log 2</text>
+      <rect x="596" y="91" width="262" height="46" rx="12" fill="#ecfdf5"/><text x="727" y="111" text-anchor="middle" class="body">hθ ≫ 0：已经排对</text><text x="727" y="130" text-anchor="middle" class="small">权重趋近 0，更新衰减</text>
+    </g>
+    <g transform="translate(932 398)">
+      <rect width="325" height="159" rx="18" fill="#fff" stroke="#cbd5e1"/>
+      <text x="18" y="28" class="h">L(z)=softplus(−z), z=βh<tspan baseline-shift="sub" font-size="11">θ</tspan></text>
+      <line x1="35" y1="135" x2="300" y2="135" stroke="#94a3b8"/><line x1="167" y1="42" x2="167" y2="142" stroke="#94a3b8"/>
+      <polyline points="35,48 68,65 101,86 134,109 167,122 200,130 233,133 266,134 299,135" fill="none" stroke="#4f46e5" stroke-width="4"/>
+      <circle cx="167" cy="122" r="5" fill="#f59e0b"/><text x="178" y="116" class="small">log 2</text>
+      <text x="28" y="151" class="small">−4</text><text x="164" y="151" class="small">0</text><text x="291" y="151" class="small">4</text>
+    </g>
+  </g>
+  <text x="55" y="766" class="small">工程诊断至少记录：loss、chosen/rejected implicit reward、reward margin、偏好准确率、响应长度；只有 loss 下降不足以判断模型质量。</text>
+</svg>

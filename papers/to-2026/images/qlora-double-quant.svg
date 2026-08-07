@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" role="img" aria-labelledby="title desc">
+  <title id="title">QLoRA 双重量化</title>
+  <desc id="desc">每 64 个 NF4 权重共享一个一级量化常数，再把 256 个一级常数量化为 FP8，共享一个 FP32 二级常数，从每参数 0.5 bit 降至 0.127 bit。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08132b"/><stop offset="1" stop-color="#171d3b"/></linearGradient>
+    <linearGradient id="purple" x1="0" x2="1"><stop stop-color="#6156dd"/><stop offset="1" stop-color="#3c78d8"/></linearGradient>
+    <linearGradient id="gold" x1="0" x2="1"><stop stop-color="#e89d21"/><stop offset="1" stop-color="#ffd269"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="10" flood-opacity=".28"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8ecaff"/></marker>
+  </defs>
+  <rect width="1200" height="690" rx="24" fill="url(#bg)"/>
+  <text x="58" y="63" fill="#f5f7ff" font-size="30" font-weight="700" font-family="sans-serif">Double Quantization：连“量化尺子”也继续量化</text>
+  <text x="58" y="98" fill="#9daed2" font-size="17" font-family="sans-serif">小分块提高精度，却让 scale 开销变大；双重量化用第二层共享把这部分压回去</text>
+
+  <g transform="translate(55 145)" filter="url(#shadow)">
+    <rect width="330" height="302" rx="22" fill="#121f40" stroke="#384f81"/>
+    <text x="28" y="39" fill="#e8edff" font-size="18" font-weight="700" font-family="sans-serif">① 权重：NF4，block = 64</text>
+    <g transform="translate(28 65)" fill="url(#purple)">
+      <rect x="0" y="0" width="31" height="31" rx="6"/><rect x="37" y="0" width="31" height="31" rx="6"/><rect x="74" y="0" width="31" height="31" rx="6"/><rect x="111" y="0" width="31" height="31" rx="6"/><rect x="148" y="0" width="31" height="31" rx="6"/><rect x="185" y="0" width="31" height="31" rx="6"/><rect x="222" y="0" width="31" height="31" rx="6"/>
+      <rect x="0" y="38" width="31" height="31" rx="6"/><rect x="37" y="38" width="31" height="31" rx="6"/><rect x="74" y="38" width="31" height="31" rx="6"/><rect x="111" y="38" width="31" height="31" rx="6"/><rect x="148" y="38" width="31" height="31" rx="6"/><rect x="185" y="38" width="31" height="31" rx="6"/><rect x="222" y="38" width="31" height="31" rx="6"/>
+      <rect x="0" y="76" width="31" height="31" rx="6"/><rect x="37" y="76" width="31" height="31" rx="6"/><rect x="74" y="76" width="31" height="31" rx="6"/><rect x="111" y="76" width="31" height="31" rx="6"/><rect x="148" y="76" width="31" height="31" rx="6"/><rect x="185" y="76" width="31" height="31" rx="6"/><rect x="222" y="76" width="31" height="31" rx="6"/>
+    </g>
+    <text x="287" y="117" fill="#9faee0" font-size="24" font-family="sans-serif">…</text>
+    <text x="28" y="205" fill="#aebddd" font-size="15" font-family="sans-serif">64 × 4 bit = 256 bit</text>
+    <rect x="28" y="225" width="274" height="50" rx="12" fill="#282763"/>
+    <text x="165" y="247" text-anchor="middle" fill="#c8c4ff" font-size="14" font-family="sans-serif">共享一级 absmax 常数 c₂</text>
+    <text x="165" y="268" text-anchor="middle" fill="white" font-size="16" font-weight="700" font-family="sans-serif">原本用 FP32：32 bit</text>
+  </g>
+
+  <path d="M385 296H450" stroke="#8ecaff" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="418" y="280" text-anchor="middle" fill="#a9b8d8" font-size="13" font-family="sans-serif">收集 scale</text>
+
+  <g transform="translate(465 145)" filter="url(#shadow)">
+    <rect width="330" height="302" rx="22" fill="#121f40" stroke="#384f81"/>
+    <text x="28" y="39" fill="#e8edff" font-size="18" font-weight="700" font-family="sans-serif">② 常数：FP8，block = 256</text>
+    <text x="28" y="74" fill="#aebddd" font-size="14" font-family="sans-serif">c₂ 均为正，先减均值使其中心化</text>
+    <g transform="translate(28 95)">
+      <rect width="274" height="45" rx="10" fill="#20335c"/>
+      <g fill="#73badf"><circle cx="18" cy="22" r="7"/><circle cx="45" cy="22" r="10"/><circle cx="76" cy="22" r="6"/><circle cx="104" cy="22" r="8"/><circle cx="135" cy="22" r="11"/><circle cx="168" cy="22" r="7"/><circle cx="198" cy="22" r="9"/><circle cx="229" cy="22" r="6"/></g>
+      <text x="254" y="29" fill="#9fb0d5" font-size="22" font-family="sans-serif">…</text>
+    </g>
+    <text x="28" y="166" fill="#aebddd" font-size="15" font-family="sans-serif">256 个一级 scale → 各 8 bit</text>
+    <rect x="28" y="188" width="274" height="50" rx="12" fill="#174c63"/>
+    <text x="165" y="210" text-anchor="middle" fill="#bfeeff" font-size="14" font-family="sans-serif">共享二级量化常数 c₁</text>
+    <text x="165" y="231" text-anchor="middle" fill="white" font-size="16" font-weight="700" font-family="sans-serif">每 256 个 c₂ 保存 1 个 FP32</text>
+    <text x="165" y="271" text-anchor="middle" fill="#74e0d2" font-size="14" font-family="sans-serif">反量化顺序：c₁ → c₂ → W</text>
+  </g>
+
+  <path d="M795 296H860" stroke="#8ecaff" stroke-width="4" marker-end="url(#arrow)"/>
+  <g transform="translate(875 145)" filter="url(#shadow)">
+    <rect width="270" height="302" rx="22" fill="#211f36" stroke="#dfaa43"/>
+    <text x="25" y="40" fill="#ffe4a5" font-size="18" font-weight="700" font-family="sans-serif">③ 摊销到每个权重</text>
+    <text x="25" y="83" fill="#d2c5a7" font-size="14" font-family="sans-serif">未双重量化的 scale：</text>
+    <text x="25" y="115" fill="white" font-size="21" font-weight="700" font-family="sans-serif">32 / 64 = 0.500 bit</text>
+    <line x1="25" y1="139" x2="245" y2="139" stroke="#4c4756"/>
+    <text x="25" y="172" fill="#d2c5a7" font-size="14" font-family="sans-serif">双重量化后的 scale：</text>
+    <text x="25" y="203" fill="white" font-size="18" font-weight="700" font-family="sans-serif">8/64 + 32/(64×256)</text>
+    <text x="25" y="232" fill="#7ee4d5" font-size="23" font-weight="700" font-family="sans-serif">= 0.127 bit</text>
+    <rect x="25" y="253" width="220" height="31" rx="15" fill="url(#gold)"/>
+    <text x="135" y="275" text-anchor="middle" fill="#38250c" font-size="15" font-weight="700" font-family="sans-serif">节省 ≈ 0.373 bit / 参数</text>
+  </g>
+
+  <g transform="translate(55 486)">
+    <rect width="1090" height="151" rx="20" fill="#111d39" stroke="#31466f"/>
+    <text x="28" y="40" fill="#f0f3ff" font-size="18" font-weight="700" font-family="sans-serif">别漏掉“4 bit 之外”的开销</text>
+    <rect x="28" y="60" width="315" height="62" rx="13" fill="#28245f"/>
+    <text x="185" y="85" text-anchor="middle" fill="#cbc7ff" font-size="14" font-family="sans-serif">NF4 + FP32 一级 scale</text>
+    <text x="185" y="109" text-anchor="middle" fill="white" font-size="20" font-weight="700" font-family="sans-serif">4 + 0.500 = 4.500 bit</text>
+    <text x="378" y="98" fill="#8fc9ff" font-size="30" font-family="sans-serif">→</text>
+    <rect x="430" y="60" width="315" height="62" rx="13" fill="#174c63"/>
+    <text x="588" y="85" text-anchor="middle" fill="#c1f0fa" font-size="14" font-family="sans-serif">NF4 + 双重量化 scale</text>
+    <text x="588" y="109" text-anchor="middle" fill="white" font-size="20" font-weight="700" font-family="sans-serif">4 + 0.127 = 4.127 bit</text>
+    <rect x="782" y="60" width="280" height="62" rx="13" fill="#3a2d22" stroke="#e5ad43"/>
+    <text x="922" y="85" text-anchor="middle" fill="#ffe1a0" font-size="14" font-family="sans-serif">65B 模型理论节省</text>
+    <text x="922" y="109" text-anchor="middle" fill="white" font-size="20" font-weight="700" font-family="sans-serif">≈ 3.03 GB（十进制）</text>
+  </g>
+  <text x="55" y="668" fill="#8fa1c5" font-size="13" font-family="sans-serif">注：公式是 payload 摊销；实现还会有元数据、对齐和 allocator 开销。论文第二层使用 FP8，本文零依赖代码以等位宽 int8 演示机制。</text>
+</svg>
