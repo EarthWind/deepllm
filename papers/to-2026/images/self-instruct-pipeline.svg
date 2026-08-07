@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Self-Instruct 从种子任务到指令微调数据的完整流水线</title>
+  <desc id="desc">175 条人工种子进入任务池，每轮抽取八条作为示例生成新指令，识别分类任务，分别用 output-first 或 input-first 生成实例，经相似度和有效性过滤后回流任务池，最终形成五万两千余条指令和八万两千余个实例用于监督微调。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#eef2ff"/></linearGradient>
+    <linearGradient id="head" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1d4ed8"/><stop offset="1" stop-color="#6d28d9"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity=".12"/></filter>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0 11 5.5 0 11Z" fill="#64748b"/></marker>
+    <marker id="blueArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0 11 5.5 0 11Z" fill="#2563eb"/></marker>
+    <marker id="greenArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0 11 5.5 0 11Z" fill="#059669"/></marker>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.section{font:700 22px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#fff}.h{font:700 18px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 12px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.num{font:700 24px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#1d4ed8}.mono{font:600 12px "JetBrains Mono",Consolas,monospace;fill:#1e3a8a}</style>
+  </defs>
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <text x="55" y="52" class="title">Self-Instruct：先扩展任务空间，再为每个任务制造训练实例</text>
+  <text x="55" y="82" class="subtitle">生成与过滤是迭代数据飞轮；最终训练仍是标准 supervised fine-tuning，而不是新的优化目标。</text>
+
+  <g transform="translate(55 116)" filter="url(#shadow)">
+    <rect width="1290" height="592" rx="25" fill="#fff" stroke="#cbd5e1"/>
+    <rect width="1290" height="58" rx="25" fill="url(#head)"/><rect y="34" width="1290" height="24" fill="url(#head)"/>
+    <text x="26" y="38" class="section">迭代生成阶段：accepted task 会回流 Task Pool，继续影响下一批任务</text>
+
+    <g transform="translate(24 90)">
+      <rect width="196" height="213" rx="19" fill="#fff7ed" stroke="#f59e0b" stroke-width="2"/>
+      <text x="98" y="34" text-anchor="middle" class="h">Task Pool</text>
+      <text x="98" y="67" text-anchor="middle" class="num" fill="#b45309">175</text>
+      <text x="98" y="88" text-anchor="middle" class="small">人工 seed tasks</text>
+      <rect x="22" y="111" width="152" height="58" rx="12" fill="#ffedd5"/>
+      <text x="98" y="136" text-anchor="middle" class="body">1 instruction</text>
+      <text x="98" y="158" text-anchor="middle" class="body">+ 1 instance / task</text>
+      <text x="98" y="196" text-anchor="middle" class="small">后续还包含通过过滤的合成任务</text>
+    </g>
+
+    <path d="M220 190H259" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+
+    <g transform="translate(264 90)">
+      <rect width="230" height="213" rx="19" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+      <circle cx="33" cy="34" r="18" fill="#2563eb"/><text x="33" y="40" text-anchor="middle" class="h" fill="#fff">1</text>
+      <text x="64" y="40" class="h">生成新指令</text>
+      <text x="20" y="78" class="body">每个 prompt 共 8 个示例</text>
+      <rect x="20" y="95" width="88" height="53" rx="11" fill="#ffedd5" stroke="#f59e0b"/>
+      <text x="64" y="117" text-anchor="middle" class="body">6 条人工</text><text x="64" y="137" text-anchor="middle" class="small">seed</text>
+      <rect x="122" y="95" width="88" height="53" rx="11" fill="#ede9fe" stroke="#8b5cf6"/>
+      <text x="166" y="117" text-anchor="middle" class="body">2 条模型</text><text x="166" y="137" text-anchor="middle" class="small">已接受任务</text>
+      <text x="115" y="177" text-anchor="middle" class="mono">LM → candidate instructions</text>
+      <text x="115" y="199" text-anchor="middle" class="small">池不足 2 条时由 seed 补齐</text>
+    </g>
+
+    <path d="M494 190H533" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+
+    <g transform="translate(538 90)">
+      <rect width="218" height="213" rx="19" fill="#f5f3ff" stroke="#a78bfa" stroke-width="2"/>
+      <circle cx="33" cy="34" r="18" fill="#7c3aed"/><text x="33" y="40" text-anchor="middle" class="h" fill="#fff">2</text>
+      <text x="64" y="40" class="h">识别任务类型</text>
+      <text x="20" y="79" class="body">是否只有有限输出标签？</text>
+      <path d="M109 95 177 133 109 171 41 133Z" fill="#ede9fe" stroke="#8b5cf6"/>
+      <text x="109" y="128" text-anchor="middle" class="body">classification</text>
+      <text x="109" y="148" text-anchor="middle" class="small">Yes / No</text>
+      <text x="109" y="198" text-anchor="middle" class="small">few-shot LM 判断，不是关键词规则</text>
+    </g>
+
+    <path d="M756 152H792" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M756 229H792" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <text x="774" y="140" text-anchor="middle" class="small" fill="#7c3aed">Yes</text>
+    <text x="774" y="218" text-anchor="middle" class="small" fill="#2563eb">No</text>
+
+    <g transform="translate(797 78)">
+      <rect width="226" height="118" rx="18" fill="#f5f3ff" stroke="#a78bfa"/>
+      <text x="19" y="30" class="h">3A · Output-first</text>
+      <text x="19" y="57" class="body">分类任务：先枚举 class labels</text>
+      <text x="19" y="80" class="body">再按每个标签生成对应 input</text>
+      <text x="19" y="103" class="small">减少实例集中到单一标签的偏差</text>
+    </g>
+    <g transform="translate(797 211)">
+      <rect width="226" height="106" rx="18" fill="#eff6ff" stroke="#60a5fa"/>
+      <text x="19" y="30" class="h">3B · Input-first</text>
+      <text x="19" y="59" class="body">非分类任务：先生成 input</text>
+      <text x="19" y="82" class="body">再为该 input 生成 output</text>
+    </g>
+
+    <path d="M1023 190H1058" stroke="#64748b" stroke-width="2.8" marker-end="url(#arrow)"/>
+
+    <g transform="translate(1063 90)">
+      <rect width="202" height="227" rx="19" fill="#ecfdf5" stroke="#34d399" stroke-width="2"/>
+      <circle cx="33" cy="34" r="18" fill="#059669"/><text x="33" y="40" text-anchor="middle" class="h" fill="#fff">4</text>
+      <text x="64" y="40" class="h">过滤与清洗</text>
+      <text x="18" y="76" class="body">• ROUGE-L novelty ≤ 0.7</text>
+      <text x="18" y="102" class="body">• 长度 / 模态 / 格式检查</text>
+      <text x="18" y="128" class="body">• 空输出、输入=输出</text>
+      <text x="18" y="154" class="body">• 同 input 冲突 output</text>
+      <text x="18" y="180" class="body">• exact duplicate</text>
+      <rect x="18" y="195" width="166" height="22" rx="8" fill="#d1fae5"/>
+      <text x="101" y="211" text-anchor="middle" class="small" fill="#047857">最多保留 5 instances / task</text>
+    </g>
+
+    <path d="M1164 317V377" stroke="#059669" stroke-width="3" marker-end="url(#greenArrow)"/>
+    <g transform="translate(1037 386)">
+      <rect width="228" height="111" rx="18" fill="#ecfdf5" stroke="#10b981"/>
+      <text x="114" y="31" text-anchor="middle" class="h">Accepted synthetic task</text>
+      <text x="114" y="62" text-anchor="middle" class="body">instruction + input + output</text>
+      <text x="114" y="88" text-anchor="middle" class="small">回流 Task Pool，并写入数据集</text>
+    </g>
+
+    <path d="M1037 449H161Q86 449 86 374V318" fill="none" stroke="#2563eb" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#blueArrow)"/>
+    <text x="580" y="435" text-anchor="middle" class="body" fill="#1d4ed8">bootstrap：新任务成为后续 prompt 的候选示例</text>
+
+    <g transform="translate(24 512)">
+      <rect width="1241" height="54" rx="16" fill="#eef2ff" stroke="#818cf8"/>
+      <text x="22" y="34" class="h">终点：</text>
+      <text x="92" y="34" class="body">52,445 instructions · 82,439 instances</text>
+      <text x="425" y="34" class="h">→</text>
+      <text x="462" y="34" class="body">多模板序列化 prompt / completion</text>
+      <text x="794" y="34" class="h">→</text>
+      <text x="831" y="34" class="body">标准 SFT：只对 completion 计算训练损失</text>
+    </g>
+  </g>
+  <text x="55" y="754" class="small">论文流程使用 vanilla GPT-3 davinci 同时生成数据并接受微调；“自己生成”不表示没有人工 seed、规则过滤或模型调用成本。</text>
+</svg>

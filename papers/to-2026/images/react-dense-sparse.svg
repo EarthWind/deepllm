@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="620" viewBox="0 0 1400 620" role="img" aria-labelledby="title desc">
+  <title id="title">ReAct 在知识推理和决策任务中的稠密与稀疏思考</title>
+  <desc id="desc">知识问答中每次行动前都有思考，形成稠密 Thought Action Observation 三元组；长程决策中动作较多，思考只在规划、异常和子目标切换处稀疏出现。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#ecfeff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".1"/></filter>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 17px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 22px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.node{font:700 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif}</style>
+  </defs>
+  <rect width="1400" height="620" fill="url(#bg)"/>
+  <text x="56" y="54" class="title">Thought 不必机械地出现在每个时间步：密度取决于任务结构</text>
+  <text x="56" y="86" class="subtitle">原论文在 HotpotQA / FEVER 使用稠密交替，在 ALFWorld / WebShop 让模型异步插入稀疏思考。</text>
+
+  <g transform="translate(56 126)" filter="url(#shadow)">
+    <rect width="1288" height="190" rx="22" fill="#fff" stroke="#93c5fd"/>
+    <text x="27" y="39" class="h">知识密集型推理：dense thoughts</text>
+    <text x="27" y="68" class="body">每次检索都可能改变证据链，适合严格的 Thought → Action → Observation 节奏</text>
+    <g transform="translate(28 96)">
+      <g><rect width="126" height="55" rx="14" fill="#dbeafe" stroke="#60a5fa"/><text x="63" y="34" text-anchor="middle" class="node" fill="#1d4ed8">Thought₁</text></g>
+      <text x="142" y="35" class="h">→</text><g transform="translate(171)"><rect width="112" height="55" rx="14" fill="#ffedd5" stroke="#fb923c"/><text x="56" y="34" text-anchor="middle" class="node" fill="#b45309">Search</text></g>
+      <text x="299" y="35" class="h">→</text><g transform="translate(328)"><rect width="154" height="55" rx="14" fill="#dcfce7" stroke="#4ade80"/><text x="77" y="34" text-anchor="middle" class="node" fill="#15803d">Observation₁</text></g>
+      <text x="498" y="35" class="h">→</text><g transform="translate(527)"><rect width="126" height="55" rx="14" fill="#dbeafe" stroke="#60a5fa"/><text x="63" y="34" text-anchor="middle" class="node" fill="#1d4ed8">Thought₂</text></g>
+      <text x="669" y="35" class="h">→</text><g transform="translate(698)"><rect width="112" height="55" rx="14" fill="#ffedd5" stroke="#fb923c"/><text x="56" y="34" text-anchor="middle" class="node" fill="#b45309">Lookup</text></g>
+      <text x="826" y="35" class="h">→</text><g transform="translate(855)"><rect width="154" height="55" rx="14" fill="#dcfce7" stroke="#4ade80"/><text x="77" y="34" text-anchor="middle" class="node" fill="#15803d">Observation₂</text></g>
+      <text x="1025" y="35" class="h">→</text><g transform="translate(1054)"><rect width="150" height="55" rx="14" fill="#ede9fe" stroke="#8b5cf6"/><text x="75" y="34" text-anchor="middle" class="node" fill="#6d28d9">Finish[answer]</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(56 342)" filter="url(#shadow)">
+    <rect width="1288" height="218" rx="22" fill="#fff" stroke="#fdba74"/>
+    <text x="27" y="39" class="h">长程交互决策：sparse thoughts</text>
+    <text x="27" y="68" class="body">连续导航或操作无需每步解释；只在规划、找到目标、遇到异常和切换子目标时更新高层状态</text>
+    <line x1="54" y1="140" x2="1232" y2="140" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+    <g transform="translate(38 99)">
+      <circle cx="33" cy="41" r="30" fill="#2563eb"/><text x="33" y="46" text-anchor="middle" class="node" fill="#fff">想</text>
+      <text x="33" y="91" text-anchor="middle" class="small">制定计划</text>
+      <g fill="#f59e0b"><circle cx="145" cy="41" r="20"/><circle cx="225" cy="41" r="20"/><circle cx="305" cy="41" r="20"/><circle cx="385" cy="41" r="20"/></g>
+      <g class="node" fill="#fff" text-anchor="middle"><text x="145" y="46">行</text><text x="225" y="46">行</text><text x="305" y="46">行</text><text x="385" y="46">行</text></g>
+      <circle cx="497" cy="41" r="30" fill="#2563eb"/><text x="497" y="46" text-anchor="middle" class="node" fill="#fff">想</text><text x="497" y="91" text-anchor="middle" class="small">找到目标</text>
+      <g fill="#f59e0b"><circle cx="609" cy="41" r="20"/><circle cx="689" cy="41" r="20"/><circle cx="769" cy="41" r="20"/></g>
+      <g class="node" fill="#fff" text-anchor="middle"><text x="609" y="46">行</text><text x="689" y="46">行</text><text x="769" y="46">行</text></g>
+      <circle cx="881" cy="41" r="30" fill="#2563eb"/><text x="881" y="46" text-anchor="middle" class="node" fill="#fff">想</text><text x="881" y="91" text-anchor="middle" class="small">异常重规划</text>
+      <g fill="#f59e0b"><circle cx="993" cy="41" r="20"/><circle cx="1073" cy="41" r="20"/></g>
+      <g class="node" fill="#fff" text-anchor="middle"><text x="993" y="46">行</text><text x="1073" y="46">行</text></g>
+      <circle cx="1170" cy="41" r="30" fill="#059669"/><path d="m1156 41 9 9 19-23" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><text x="1170" y="91" text-anchor="middle" class="small">任务完成</text>
+    </g>
+  </g>
+</svg>

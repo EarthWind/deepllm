@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Self-Instruct 合成数据规模与人工质量审查</title>
+  <desc id="desc">数据集包含五万两千四百四十五条指令与八万两千四百三十九个实例；人工抽查两百条任务时，百分之九十二的指令有效，百分之七十九的输入合适，百分之五十八的输出正确，只有百分之五十四三项全部有效。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#ecfeff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".1"/></filter>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 21px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.big{font:700 34px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#1d4ed8}.value{font:700 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}</style>
+  </defs>
+  <rect width="1400" height="760" fill="url(#bg)"/>
+  <text x="56" y="52" class="title">规模增长很明显，但自动过滤不等于质量已经可靠</text>
+  <text x="56" y="82" class="subtitle">论文 Table 1 与 Table 2：字段越靠近最终答案，自动生成噪声越明显。</text>
+
+  <g transform="translate(56 118)" filter="url(#shadow)">
+    <g>
+      <rect width="625" height="556" rx="23" fill="#fff" stroke="#cbd5e1"/>
+      <text x="26" y="42" class="h">生成数据规模</text>
+      <g transform="translate(26 70)">
+        <rect width="270" height="115" rx="18" fill="#eff6ff" stroke="#93c5fd"/>
+        <text x="135" y="49" text-anchor="middle" class="big">52,445</text><text x="135" y="80" text-anchor="middle" class="body">instructions</text>
+        <rect x="286" width="287" height="115" rx="18" fill="#f5f3ff" stroke="#c4b5fd"/>
+        <text x="429" y="49" text-anchor="middle" class="big" fill="#7c3aed">82,439</text><text x="429" y="80" text-anchor="middle" class="body">input / output instances</text>
+      </g>
+      <text x="26" y="225" class="body">指令类型</text>
+      <rect x="26" y="244" width="450" height="34" rx="10" fill="#6366f1"/>
+      <rect x="476" y="244" width="127" height="34" rx="10" fill="#f59e0b"/>
+      <text x="251" y="267" text-anchor="middle" class="value" fill="#fff">非分类 40,861 · 77.9%</text>
+      <text x="539" y="267" text-anchor="middle" class="value" fill="#fff">分类 11,584</text>
+      <text x="26" y="318" class="body">实例中无需额外 input</text>
+      <rect x="26" y="338" width="577" height="34" rx="10" fill="#e2e8f0"/>
+      <rect x="26" y="338" width="251" height="34" rx="10" fill="#0ea5e9"/>
+      <text x="151" y="361" text-anchor="middle" class="value" fill="#fff">空 input 35,878 · 43.5%</text>
+      <g transform="translate(26 410)">
+        <rect width="174" height="92" rx="16" fill="#f8fafc" stroke="#cbd5e1"/><text x="87" y="35" text-anchor="middle" class="big" font-size="28">15.9</text><text x="87" y="66" text-anchor="middle" class="small">instruction 平均词数</text>
+        <rect x="201" width="174" height="92" rx="16" fill="#f8fafc" stroke="#cbd5e1"/><text x="288" y="35" text-anchor="middle" class="big" font-size="28">12.7</text><text x="288" y="66" text-anchor="middle" class="small">非空 input 平均词数</text>
+        <rect x="402" width="174" height="92" rx="16" fill="#f8fafc" stroke="#cbd5e1"/><text x="489" y="35" text-anchor="middle" class="big" font-size="28">18.9</text><text x="489" y="66" text-anchor="middle" class="small">output 平均词数</text>
+      </g>
+      <text x="26" y="535" class="small">这不是 52K 个样本：一个 instruction 可以对应多个 instance。</text>
+    </g>
+
+    <g transform="translate(657)">
+      <rect width="631" height="556" rx="23" fill="#fff" stroke="#cbd5e1"/>
+      <text x="26" y="42" class="h">人工抽查 200 条 instruction，每条随机取 1 个 instance</text>
+      <text x="26" y="68" class="small">由论文作者中的专家标注；四项是分别判断，不是自动 metric。</text>
+      <g transform="translate(26 108)">
+        <g><text x="224" y="20" text-anchor="end" class="body">instruction 描述有效任务</text><rect x="244" y="3" width="313" height="25" rx="7" fill="#10b981"/><text x="568" y="21" class="value">92%</text></g>
+        <g transform="translate(0 79)"><text x="224" y="20" text-anchor="end" class="body">input 适合该 instruction</text><rect x="244" y="3" width="269" height="25" rx="7" fill="#38bdf8"/><text x="524" y="21" class="value">79%</text></g>
+        <g transform="translate(0 158)"><text x="224" y="20" text-anchor="end" class="body">output 正确且可接受</text><rect x="244" y="3" width="197" height="25" rx="7" fill="#818cf8"/><text x="452" y="21" class="value">58%</text></g>
+        <g transform="translate(0 237)"><text x="224" y="20" text-anchor="end" class="body">三个字段全部有效</text><rect x="244" y="3" width="184" height="25" rx="7" fill="#f59e0b"/><text x="439" y="21" class="value">54%</text></g>
+      </g>
+      <rect x="26" y="435" width="579" height="79" rx="16" fill="#fff7ed" stroke="#fb923c"/>
+      <text x="47" y="467" class="h" fill="#9a3412">46% 至少有一个字段存在问题</text>
+      <text x="47" y="493" class="body">规则过滤擅长格式与重复，难以验证开放式答案的事实正确性。</text>
+    </g>
+  </g>
+</svg>
