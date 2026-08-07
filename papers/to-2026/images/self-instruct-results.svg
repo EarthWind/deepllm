@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840" role="img" aria-labelledby="title desc">
+  <title id="title">Self-Instruct 在 Super-NaturalInstructions 与用户导向任务上的结果</title>
+  <desc id="desc">Self-Instruct 将 GPT-3 在 Super-NaturalInstructions 未见任务上的 ROUGE-L 从六点八提高到三十九点九，接近 InstructGPT-001 的四十点八；在两百五十二个用户导向任务中，百分之四十四点四回答完全满意，百分之六十三点九至少可接受。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#eef2ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".1"/></filter>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 21px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.label{font:500 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.value{font:700 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.small{font:400 12px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}</style>
+  </defs>
+  <rect width="1400" height="840" fill="url(#bg)"/>
+  <text x="55" y="52" class="title">Self-Instruct 学到的主要不是答案知识，而是更通用的“如何响应任务”</text>
+  <text x="55" y="82" class="subtitle">左：119 个未见 SuperNI 任务的 zero-shot ROUGE-L；右：252 个新用户导向任务的专家评分。</text>
+
+  <g transform="translate(55 118)" filter="url(#shadow)">
+    <g>
+      <rect width="630" height="630" rx="23" fill="#fff" stroke="#cbd5e1"/>
+      <text x="25" y="40" class="h">Super-NaturalInstructions · ROUGE-L</text>
+      <text x="25" y="66" class="small">任务只给 definition，无 in-context demonstration</text>
+      <g transform="translate(25 103)">
+        <g><text x="174" y="20" text-anchor="end" class="label">Vanilla GPT-3</text><rect x="190" y="4" width="48" height="23" rx="6" fill="#cbd5e1"/><text x="249" y="21" class="value">6.8</text></g>
+        <g transform="translate(0 58)"><text x="174" y="20" text-anchor="end" class="label">T0 · 11B</text><rect x="190" y="4" width="232" height="23" rx="6" fill="#93c5fd"/><text x="433" y="21" class="value">33.1</text></g>
+        <g transform="translate(0 116)"><text x="174" y="20" text-anchor="end" class="label">GPT-3 + T0 data</text><rect x="190" y="4" width="265" height="23" rx="6" fill="#60a5fa"/><text x="466" y="21" class="value">37.9</text></g>
+        <g transform="translate(0 174)"><text x="174" y="20" text-anchor="end" class="label">GPT-3 Self-Inst</text><rect x="190" y="4" width="279" height="23" rx="6" fill="#4f46e5"/><text x="480" y="21" class="value">39.9</text></g>
+        <g transform="translate(0 232)"><text x="174" y="20" text-anchor="end" class="label">InstructGPT-001</text><rect x="190" y="4" width="286" height="23" rx="6" fill="#10b981"/><text x="487" y="21" class="value">40.8</text></g>
+        <line x1="0" y1="285" x2="576" y2="285" stroke="#cbd5e1" stroke-dasharray="7 6"/>
+        <text x="0" y="313" class="small">下方模型使用 SuperNI 训练数据，和测试集格式更接近</text>
+        <g transform="translate(0 339)"><text x="174" y="20" text-anchor="end" class="label">Tk-Instruct · 11B</text><rect x="190" y="4" width="322" height="23" rx="6" fill="#a78bfa"/><text x="523" y="21" class="value">46.0</text></g>
+        <g transform="translate(0 397)"><text x="174" y="20" text-anchor="end" class="label">GPT-3 + SuperNI</text><rect x="190" y="4" width="347" height="23" rx="6" fill="#8b5cf6"/><text x="548" y="21" class="value">49.5</text></g>
+        <g transform="translate(0 455)"><text x="174" y="20" text-anchor="end" class="label">Self-Inst + SuperNI</text><rect x="190" y="4" width="361" height="23" rx="6" fill="#7c3aed"/><text x="562" y="21" class="value">51.6</text></g>
+      </g>
+      <text x="25" y="604" class="small">核心对比：39.9 − 6.8 = +33.1 ROUGE-L。</text>
+    </g>
+
+    <g transform="translate(660)">
+      <rect width="630" height="630" rx="23" fill="#fff" stroke="#cbd5e1"/>
+      <text x="25" y="40" class="h">252 个 user-oriented tasks · 专家评分</text>
+      <text x="25" y="66" class="small">深色：A 完全正确满意；浅色延伸：A+B 至少可接受</text>
+      <g transform="translate(25 106)">
+        <g><text x="155" y="20" text-anchor="end" class="label">Vanilla GPT-3</text><rect x="170" y="4" width="2" height="25" rx="4" fill="#4f46e5"/><text x="183" y="22" class="value">0.4%</text></g>
+        <g transform="translate(0 68)"><text x="155" y="20" text-anchor="end" class="label">GPT-3 + T0</text><rect x="170" y="4" width="77" height="25" rx="6" fill="#4f46e5"/><rect x="247" y="4" width="54" height="25" rx="6" fill="#c4b5fd"/><text x="312" y="22" class="value">17.5 / 29.8%</text></g>
+        <g transform="translate(0 136)"><text x="155" y="20" text-anchor="end" class="label">GPT-3 + SuperNI</text><rect x="170" y="4" width="129" height="25" rx="6" fill="#4f46e5"/><rect x="299" y="4" width="52" height="25" rx="6" fill="#c4b5fd"/><text x="362" y="22" class="value">29.4 / 41.3%</text></g>
+        <g transform="translate(0 204)"><text x="155" y="20" text-anchor="end" class="label">GPT-3 Self-Inst</text><rect x="170" y="4" width="195" height="25" rx="6" fill="#4f46e5"/><rect x="365" y="4" width="86" height="25" rx="6" fill="#c4b5fd"/><text x="462" y="22" class="value">44.4 / 63.9%</text></g>
+        <g transform="translate(0 272)"><text x="155" y="20" text-anchor="end" class="label">InstructGPT-001</text><rect x="170" y="4" width="224" height="25" rx="6" fill="#059669"/><rect x="394" y="4" width="79" height="25" rx="6" fill="#a7f3d0"/><text x="484" y="22" class="value">50.8 / 68.7%</text></g>
+        <g transform="translate(0 340)"><text x="155" y="20" text-anchor="end" class="label">InstructGPT-003</text><rect x="170" y="4" width="335" height="25" rx="6" fill="#059669"/><rect x="505" y="4" width="52" height="25" rx="6" fill="#a7f3d0"/><text x="568" y="22" class="value">76.2 / 88.1%</text></g>
+      </g>
+      <rect x="25" y="505" width="580" height="82" rx="16" fill="#eef2ff" stroke="#818cf8"/>
+      <text x="46" y="537" class="h" fill="#3730a3">Self-Instruct 与 InstructGPT-001 的 A+B 差距约 5 点</text>
+      <text x="46" y="564" class="label">63.9% vs. 68.7%；并不等于与更新的 002 / 003 持平。</text>
+    </g>
+  </g>
+  <text x="55" y="790" class="small">来源：论文 Table 3、Figure 6。不同训练数据和模型不可只用单个数字概括；图中保留了“是否使用 SuperNI 训练数据”的边界。</text>
+</svg>

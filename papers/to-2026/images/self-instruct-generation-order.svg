@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="690" viewBox="0 0 1400 690" role="img" aria-labelledby="title desc">
+  <title id="title">Self-Instruct 中 Input-first 与 Output-first 实例生成对比</title>
+  <desc id="desc">非分类任务先根据指令生成输入，再生成输出；分类任务如果也采用这一顺序，容易生成单一标签，因此先枚举类别标签，再为每个标签反向构造输入。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#f5f3ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".1"/></filter>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#64748b"/></marker>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 21px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.node{font:700 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif}</style>
+  </defs>
+  <rect width="1400" height="690" fill="url(#bg)"/>
+  <text x="56" y="52" class="title">生成顺序不是小细节：分类任务要先决定 label，再反向生成 input</text>
+  <text x="56" y="82" class="subtitle">Output-first 的目标是覆盖有限标签空间，避免模型总生成“最自然、最常见”的那一类样本。</text>
+
+  <g transform="translate(56 118)" filter="url(#shadow)">
+    <g>
+      <rect width="628" height="500" rx="23" fill="#fff" stroke="#93c5fd"/>
+      <rect width="628" height="62" rx="23" fill="#2563eb"/><rect y="38" width="628" height="24" fill="#2563eb"/>
+      <text x="25" y="40" class="h" fill="#fff">非分类任务：Input-first</text>
+      <text x="25" y="92" class="body">例：把会议记录整理成带负责人和截止时间的行动项</text>
+      <g transform="translate(31 131)">
+        <rect width="158" height="74" rx="15" fill="#dbeafe" stroke="#60a5fa"/>
+        <text x="79" y="31" text-anchor="middle" class="node" fill="#1d4ed8">Instruction</text><text x="79" y="54" text-anchor="middle" class="small">定义任务</text>
+        <path d="M189 37H235" stroke="#64748b" stroke-width="3" marker-end="url(#arr)"/>
+        <rect x="244" width="148" height="74" rx="15" fill="#f1f5f9" stroke="#94a3b8"/>
+        <text x="318" y="31" text-anchor="middle" class="node">Input</text><text x="318" y="54" text-anchor="middle" class="small">先造具体输入</text>
+        <path d="M392 37H438" stroke="#64748b" stroke-width="3" marker-end="url(#arr)"/>
+        <rect x="447" width="120" height="74" rx="15" fill="#dcfce7" stroke="#4ade80"/>
+        <text x="507" y="31" text-anchor="middle" class="node" fill="#15803d">Output</text><text x="507" y="54" text-anchor="middle" class="small">完成任务</text>
+      </g>
+      <g transform="translate(31 245)">
+        <rect width="566" height="185" rx="17" fill="#f8fafc" stroke="#cbd5e1"/>
+        <text x="21" y="34" class="node">生成结果</text>
+        <text x="21" y="69" class="body">Input: Mina 周二发草稿；Lee 周五完成审核。</text>
+        <text x="21" y="108" class="body">Output:</text>
+        <text x="42" y="136" class="body">• Mina — 发草稿 — 周二</text>
+        <text x="42" y="162" class="body">• Lee — 审核草稿 — 周五</text>
+      </g>
+      <text x="31" y="466" class="small">开放式输出没有有限标签集合，按正常使用顺序生成即可。</text>
+    </g>
+
+    <g transform="translate(660)">
+      <rect width="628" height="500" rx="23" fill="#fff" stroke="#c4b5fd"/>
+      <rect width="628" height="62" rx="23" fill="#7c3aed"/><rect y="38" width="628" height="24" fill="#7c3aed"/>
+      <text x="25" y="40" class="h" fill="#fff">分类任务：Output-first</text>
+      <text x="25" y="92" class="body">例：把产品评论分为 Positive / Neutral / Negative</text>
+      <g transform="translate(31 126)">
+        <rect width="153" height="72" rx="15" fill="#ede9fe" stroke="#a78bfa"/>
+        <text x="76" y="30" text-anchor="middle" class="node" fill="#6d28d9">Instruction</text><text x="76" y="53" text-anchor="middle" class="small">有限 label space</text>
+        <path d="M184 36H222" stroke="#64748b" stroke-width="3" marker-end="url(#arr)"/>
+        <rect x="231" width="144" height="72" rx="15" fill="#f5f3ff" stroke="#a78bfa"/>
+        <text x="303" y="30" text-anchor="middle" class="node" fill="#6d28d9">Class label</text><text x="303" y="53" text-anchor="middle" class="small">先选输出类别</text>
+        <path d="M375 36H413" stroke="#64748b" stroke-width="3" marker-end="url(#arr)"/>
+        <rect x="422" width="145" height="72" rx="15" fill="#f1f5f9" stroke="#94a3b8"/>
+        <text x="494" y="30" text-anchor="middle" class="node">Input | label</text><text x="494" y="53" text-anchor="middle" class="small">按标签造输入</text>
+      </g>
+      <g transform="translate(31 227)">
+        <rect width="566" height="203" rx="17" fill="#faf5ff" stroke="#d8b4fe"/>
+        <text x="21" y="32" class="node">先覆盖标签，再生成相应输入</text>
+        <g transform="translate(21 52)"><rect width="125" height="38" rx="10" fill="#dcfce7"/><text x="62" y="25" text-anchor="middle" class="node" fill="#15803d">Positive</text><text x="148" y="25" class="body">→ “续航一整天，充电很快。”</text></g>
+        <g transform="translate(21 103)"><rect width="125" height="38" rx="10" fill="#fef9c3"/><text x="62" y="25" text-anchor="middle" class="node" fill="#a16207">Neutral</text><text x="148" y="25" class="body">→ “功能符合描述，但没有亮点。”</text></g>
+        <g transform="translate(21 154)"><rect width="125" height="38" rx="10" fill="#fee2e2"/><text x="62" y="25" text-anchor="middle" class="node" fill="#b91c1c">Negative</text><text x="148" y="25" class="body">→ “使用两次后盖子损坏。”</text></g>
+      </g>
+      <text x="31" y="466" class="small">论文不是证明标签严格均衡，而是用生成顺序缓解 input-first 的单标签偏置。</text>
+    </g>
+  </g>
+</svg>

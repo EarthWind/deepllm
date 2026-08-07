@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="690" viewBox="0 0 1400 690" role="img" aria-labelledby="title desc">
+  <title id="title">Standard、Chain-of-Thought、Act-only 与 ReAct 对比</title>
+  <desc id="desc">四种范式从同一个问题出发：标准提示直接回答，思维链只在模型内部文本中推理，Act-only 只执行环境动作，ReAct 交替生成思考、行动与环境观察。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#f5f3ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".1"/></filter>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#64748b"/></marker>
+    <style>.title{font:700 32px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 17px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 21px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.label{font:700 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif}.white{fill:#fff}</style>
+  </defs>
+  <rect width="1400" height="690" fill="url(#bg)"/>
+  <text x="55" y="54" class="title">四种范式的差别，不在“有没有更多文字”，而在信息能否闭环</text>
+  <text x="55" y="86" class="subtitle">蓝色表示模型生成，橙色表示发给环境的动作，绿色表示环境返回的真实观察。</text>
+
+  <g transform="translate(55 124)" filter="url(#shadow)">
+    <g>
+      <rect width="305" height="490" rx="23" fill="#fff" stroke="#cbd5e1"/>
+      <rect width="305" height="62" rx="23" fill="#475569"/><rect y="38" width="305" height="24" fill="#475569"/>
+      <text x="24" y="39" class="h white">Standard</text><text x="24" y="90" class="body">一次映射：问题 → 答案</text>
+      <rect x="34" y="126" width="237" height="62" rx="15" fill="#f1f5f9" stroke="#94a3b8"/><text x="152" y="164" text-anchor="middle" class="h">Question</text>
+      <path d="M152 188v65" stroke="#64748b" stroke-width="3" marker-end="url(#arr)"/>
+      <rect x="34" y="263" width="237" height="62" rx="15" fill="#dbeafe" stroke="#60a5fa"/><text x="152" y="301" text-anchor="middle" class="h">Answer</text>
+      <text x="27" y="379" class="body">优点：简单、token 少</text><text x="27" y="411" class="body">缺点：复杂过程被压缩</text><text x="27" y="443" class="small">无法在回答前补充外部证据</text>
+    </g>
+    <g transform="translate(327)">
+      <rect width="305" height="490" rx="23" fill="#fff" stroke="#93c5fd"/>
+      <rect width="305" height="62" rx="23" fill="#2563eb"/><rect y="38" width="305" height="24" fill="#2563eb"/>
+      <text x="24" y="39" class="h white">CoT · Reason-only</text><text x="24" y="90" class="body">先生成中间推理，再回答</text>
+      <rect x="34" y="120" width="237" height="54" rx="14" fill="#f1f5f9" stroke="#94a3b8"/><text x="152" y="153" text-anchor="middle" class="h">Question</text>
+      <path d="M152 174v35" stroke="#64748b" stroke-width="3" marker-end="url(#arr)"/>
+      <rect x="34" y="217" width="237" height="82" rx="14" fill="#dbeafe" stroke="#60a5fa"/><text x="152" y="250" text-anchor="middle" class="h">Thought → Thought</text><text x="152" y="278" text-anchor="middle" class="small">只依赖模型已有上下文</text>
+      <path d="M152 299v35" stroke="#64748b" stroke-width="3" marker-end="url(#arr)"/>
+      <rect x="34" y="342" width="237" height="54" rx="14" fill="#dbeafe" stroke="#60a5fa"/><text x="152" y="376" text-anchor="middle" class="h">Answer</text>
+      <text x="27" y="443" class="small">结构灵活，但事实可能幻觉并传播</text>
+    </g>
+    <g transform="translate(654)">
+      <rect width="305" height="490" rx="23" fill="#fff" stroke="#fdba74"/>
+      <rect width="305" height="62" rx="23" fill="#d97706"/><rect y="38" width="305" height="24" fill="#d97706"/>
+      <text x="24" y="39" class="h white">Act-only</text><text x="24" y="90" class="body">能查证，但缺少显式高层状态</text>
+      <rect x="34" y="120" width="237" height="54" rx="14" fill="#ffedd5" stroke="#fb923c"/><text x="152" y="153" text-anchor="middle" class="h">Action₁</text>
+      <rect x="34" y="196" width="237" height="54" rx="14" fill="#dcfce7" stroke="#4ade80"/><text x="152" y="229" text-anchor="middle" class="h">Observation₁</text>
+      <rect x="34" y="272" width="237" height="54" rx="14" fill="#ffedd5" stroke="#fb923c"/><text x="152" y="305" text-anchor="middle" class="h">Action₂</text>
+      <rect x="34" y="348" width="237" height="54" rx="14" fill="#dcfce7" stroke="#4ade80"/><text x="152" y="381" text-anchor="middle" class="h">Observation₂</text>
+      <text x="27" y="443" class="small">容易重复、漏子目标或不会综合答案</text>
+    </g>
+    <g transform="translate(981)">
+      <rect width="305" height="490" rx="23" fill="#fff" stroke="#818cf8" stroke-width="2"/>
+      <rect width="305" height="62" rx="23" fill="#4f46e5"/><rect y="38" width="305" height="24" fill="#4f46e5"/>
+      <text x="24" y="39" class="h white">ReAct · Reason + Act</text><text x="24" y="90" class="body">推理指导行动，观察修正推理</text>
+      <g transform="translate(28 119)">
+        <rect width="118" height="52" rx="13" fill="#dbeafe" stroke="#60a5fa"/><text x="59" y="32" text-anchor="middle" class="label" fill="#1d4ed8">Thought₁</text>
+        <path d="M146 26h31" stroke="#64748b" stroke-width="2.5" marker-end="url(#arr)"/>
+        <rect x="183" width="67" height="52" rx="13" fill="#ffedd5" stroke="#fb923c"/><text x="216" y="32" text-anchor="middle" class="label" fill="#b45309">Act₁</text>
+        <path d="M216 52v31" stroke="#64748b" stroke-width="2.5" marker-end="url(#arr)"/>
+        <rect x="63" y="89" width="187" height="52" rx="13" fill="#dcfce7" stroke="#4ade80"/><text x="156" y="121" text-anchor="middle" class="label" fill="#15803d">Observation₁</text>
+        <path d="M63 115H32q-22 0-22 22v31" fill="none" stroke="#64748b" stroke-width="2.5" marker-end="url(#arr)"/>
+        <rect y="179" width="118" height="52" rx="13" fill="#dbeafe" stroke="#60a5fa"/><text x="59" y="211" text-anchor="middle" class="label" fill="#1d4ed8">Thought₂</text>
+        <path d="M118 205h34" stroke="#64748b" stroke-width="2.5" marker-end="url(#arr)"/>
+        <rect x="158" y="179" width="92" height="52" rx="13" fill="#ffedd5" stroke="#fb923c"/><text x="204" y="211" text-anchor="middle" class="label" fill="#b45309">Finish</text>
+      </g>
+      <text x="27" y="407" class="body">关键：交替，不是简单拼接</text><text x="27" y="439" class="small">每轮都把外部反馈变成下一步条件</text>
+    </g>
+  </g>
+</svg>

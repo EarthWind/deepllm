@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="830" viewBox="0 0 1400 830" role="img" aria-labelledby="title desc">
+  <title id="title">ReAct 论文四项主实验结果</title>
+  <desc id="desc">HotpotQA、FEVER、ALFWorld 和 WebShop 的横向柱状图，分别比较思维链、仅行动、ReAct、混合回退、模仿或强化学习基线与人类专家。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#eff6ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".1"/></filter>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 20px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.label{font:500 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.value{font:700 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.note{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}</style>
+  </defs>
+  <rect width="1400" height="830" fill="url(#bg)"/>
+  <text x="55" y="52" class="title">论文结果：ReAct 的优势最大在长程交互；知识问答则需要看任务与回退策略</text>
+  <text x="55" y="83" class="subtitle">均为论文主表数字；不同面板的指标和坐标范围不同，不能直接跨任务比较柱长。</text>
+
+  <g transform="translate(55 119)" filter="url(#shadow)">
+    <g><rect width="628" height="302" rx="22" fill="#fff" stroke="#cbd5e1"/><text x="24" y="36" class="h">HotpotQA · Exact Match（%）</text><text x="24" y="59" class="note">ReAct 单独并未超过 CoT；ReAct 失败后回退到 CoT-SC 最好</text>
+      <g transform="translate(26 83)">
+        <g transform="translate(0 0)"><text x="150" y="20" text-anchor="end" class="label">CoT</text><rect x="165" y="4" width="294" height="22" rx="6" fill="#93c5fd"/><text x="470" y="21" class="value">29.4</text></g>
+        <g transform="translate(0 43)"><text x="150" y="20" text-anchor="end" class="label">Act</text><rect x="165" y="4" width="257" height="22" rx="6" fill="#fdba74"/><text x="433" y="21" class="value">25.7</text></g>
+        <g transform="translate(0 86)"><text x="150" y="20" text-anchor="end" class="label">ReAct</text><rect x="165" y="4" width="274" height="22" rx="6" fill="#6366f1"/><text x="450" y="21" class="value">27.4</text></g>
+        <g transform="translate(0 129)"><text x="150" y="20" text-anchor="end" class="label">CoT-SC</text><rect x="165" y="4" width="334" height="22" rx="6" fill="#a78bfa"/><text x="510" y="21" class="value">33.4</text></g>
+        <g transform="translate(0 172)"><text x="150" y="20" text-anchor="end" class="label">ReAct→CoT-SC</text><rect x="165" y="4" width="351" height="22" rx="6" fill="#059669"/><text x="527" y="21" class="value">35.1</text></g>
+      </g>
+    </g>
+    <g transform="translate(660)"><rect width="628" height="302" rx="22" fill="#fff" stroke="#cbd5e1"/><text x="24" y="36" class="h">FEVER · Accuracy（%）</text><text x="24" y="59" class="note">检索精确事实很关键；低置信 CoT-SC 回退到 ReAct 最好</text>
+      <g transform="translate(26 83)">
+        <g><text x="150" y="20" text-anchor="end" class="label">CoT</text><rect x="165" y="4" width="338" height="22" rx="6" fill="#93c5fd"/><text x="514" y="21" class="value">56.3</text></g>
+        <g transform="translate(0 43)"><text x="150" y="20" text-anchor="end" class="label">Act</text><rect x="165" y="4" width="353" height="22" rx="6" fill="#fdba74"/><text x="529" y="21" class="value">58.9</text></g>
+        <g transform="translate(0 86)"><text x="150" y="20" text-anchor="end" class="label">ReAct</text><rect x="165" y="4" width="365" height="22" rx="6" fill="#6366f1"/><text x="541" y="21" class="value">60.9</text></g>
+        <g transform="translate(0 129)"><text x="150" y="20" text-anchor="end" class="label">CoT-SC</text><rect x="165" y="4" width="362" height="22" rx="6" fill="#a78bfa"/><text x="538" y="21" class="value">60.4</text></g>
+        <g transform="translate(0 172)"><text x="150" y="20" text-anchor="end" class="label">CoT-SC→ReAct</text><rect x="165" y="4" width="388" height="22" rx="6" fill="#059669"/><text x="564" y="21" class="value">64.6</text></g>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(55 453)" filter="url(#shadow)">
+    <g><rect width="628" height="302" rx="22" fill="#fff" stroke="#cbd5e1"/><text x="24" y="36" class="h">ALFWorld · Success Rate（%）</text><text x="24" y="59" class="note">任务特定提示；ReAct / Act 比较取 6 组 prompt 中的最好结果</text>
+      <g transform="translate(26 91)">
+        <g><text x="150" y="20" text-anchor="end" class="label">BUTLER best</text><rect x="165" y="4" width="204" height="24" rx="6" fill="#cbd5e1"/><text x="380" y="22" class="value">37</text></g>
+        <g transform="translate(0 52)"><text x="150" y="20" text-anchor="end" class="label">Act best</text><rect x="165" y="4" width="248" height="24" rx="6" fill="#fdba74"/><text x="424" y="22" class="value">45</text></g>
+        <g transform="translate(0 104)"><text x="150" y="20" text-anchor="end" class="label">ReAct avg</text><rect x="165" y="4" width="314" height="24" rx="6" fill="#a5b4fc"/><text x="490" y="22" class="value">57</text></g>
+        <g transform="translate(0 156)"><text x="150" y="20" text-anchor="end" class="label">ReAct best</text><rect x="165" y="4" width="391" height="24" rx="6" fill="#4f46e5"/><text x="567" y="22" class="value">71</text></g>
+      </g>
+    </g>
+    <g transform="translate(660)"><rect width="628" height="302" rx="22" fill="#fff" stroke="#cbd5e1"/><text x="24" y="36" class="h">WebShop · Success Rate（%）</text><text x="24" y="59" class="note">ReAct 是 one-shot prompting；人类专家仍明显更强</text>
+      <g transform="translate(26 91)">
+        <g><text x="150" y="20" text-anchor="end" class="label">IL + RL</text><rect x="165" y="4" width="172" height="24" rx="6" fill="#cbd5e1"/><text x="348" y="22" class="value">28.7</text></g>
+        <g transform="translate(0 52)"><text x="150" y="20" text-anchor="end" class="label">Act</text><rect x="165" y="4" width="181" height="24" rx="6" fill="#fdba74"/><text x="357" y="22" class="value">30.1</text></g>
+        <g transform="translate(0 104)"><text x="150" y="20" text-anchor="end" class="label">ReAct</text><rect x="165" y="4" width="240" height="24" rx="6" fill="#4f46e5"/><text x="416" y="22" class="value">40.0</text></g>
+        <g transform="translate(0 156)"><text x="150" y="20" text-anchor="end" class="label">Human expert</text><rect x="165" y="4" width="358" height="24" rx="6" fill="#059669"/><text x="534" y="22" class="value">59.6</text></g>
+      </g>
+    </g>
+  </g>
+  <text x="55" y="794" class="note">来源：ReAct 论文 Table 1、Table 3、Table 4。知识任务使用 PaLM-540B；图中未展示有监督任务专用 SoTA。</text>
+</svg>
