@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">PRM、ORM 与多数投票的论文实验结果</title>
+  <desc id="desc">在 500 道代表性 MATH 留出题的 best-of-1860 中，多数投票为 69.6%，ORM 为 72.4%，PRM 为 78.2%。在新近 STEM 题目的 best-of-100 聚合结果中，多数投票为 61.3%，ORM 为 63.8%，PRM 为 72.9%。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#ecfdf5"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".10"/></filter>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.sub{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 20px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.value{font:700 24px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.axis{stroke:#cbd5e1;stroke-width:1}.grid{stroke:#e2e8f0;stroke-width:1;stroke-dasharray:5 5}</style>
+  </defs>
+  <rect width="1400" height="760" fill="url(#bg)"/>
+  <text x="60" y="54" class="title">结果：候选越多，可靠的验证器越重要</text>
+  <text x="60" y="84" class="sub">柱高均为“选中解答的最终答案正确率”；这是搜索质量，不是单次生成器 pass@1。</text>
+
+  <g transform="translate(60 125)" filter="url(#shadow)">
+    <rect width="620" height="500" rx="24" fill="#fff" stroke="#cbd5e1"/>
+    <text x="30" y="43" class="h">MATH 留出 500 题 · Best-of-1860</text>
+    <text x="30" y="69" class="small">论文 Figure 3；每题最多 1,860 条候选</text>
+    <g transform="translate(70 105)">
+      <line x1="0" y1="320" x2="500" y2="320" class="axis"/>
+      <line x1="0" y1="0" x2="0" y2="320" class="axis"/>
+      <line x1="0" y1="64" x2="500" y2="64" class="grid"/><line x1="0" y1="128" x2="500" y2="128" class="grid"/><line x1="0" y1="192" x2="500" y2="192" class="grid"/><line x1="0" y1="256" x2="500" y2="256" class="grid"/>
+      <text x="-13" y="325" text-anchor="end" class="small">0</text><text x="-13" y="261" text-anchor="end" class="small">20</text><text x="-13" y="197" text-anchor="end" class="small">40</text><text x="-13" y="133" text-anchor="end" class="small">60</text><text x="-13" y="69" text-anchor="end" class="small">80%</text>
+      <rect x="48" y="97.3" width="105" height="222.7" rx="9" fill="#94a3b8"/><text x="100" y="86" text-anchor="middle" class="value">69.6</text><text x="100" y="350" text-anchor="middle" class="body">多数投票</text>
+      <rect x="198" y="88.3" width="105" height="231.7" rx="9" fill="#f59e0b"/><text x="250" y="77" text-anchor="middle" class="value">72.4</text><text x="250" y="350" text-anchor="middle" class="body">ORM</text>
+      <rect x="348" y="69.8" width="105" height="250.2" rx="9" fill="#10b981"/><text x="400" y="58" text-anchor="middle" class="value">78.2</text><text x="400" y="350" text-anchor="middle" class="body">PRM</text>
+    </g>
+  </g>
+
+  <g transform="translate(720 125)" filter="url(#shadow)">
+    <rect width="620" height="500" rx="24" fill="#fff" stroke="#cbd5e1"/>
+    <text x="30" y="43" class="h">近期 STEM 题 · Best-of-100</text>
+    <text x="30" y="69" class="small">论文 Table 1 aggregate；表中分科合计实际为 234 题</text>
+    <g transform="translate(70 105)">
+      <line x1="0" y1="320" x2="500" y2="320" class="axis"/>
+      <line x1="0" y1="0" x2="0" y2="320" class="axis"/>
+      <line x1="0" y1="64" x2="500" y2="64" class="grid"/><line x1="0" y1="128" x2="500" y2="128" class="grid"/><line x1="0" y1="192" x2="500" y2="192" class="grid"/><line x1="0" y1="256" x2="500" y2="256" class="grid"/>
+      <text x="-13" y="325" text-anchor="end" class="small">0</text><text x="-13" y="261" text-anchor="end" class="small">20</text><text x="-13" y="197" text-anchor="end" class="small">40</text><text x="-13" y="133" text-anchor="end" class="small">60</text><text x="-13" y="69" text-anchor="end" class="small">80%</text>
+      <rect x="48" y="123.8" width="105" height="196.2" rx="9" fill="#94a3b8"/><text x="100" y="112" text-anchor="middle" class="value">61.3</text><text x="100" y="350" text-anchor="middle" class="body">多数投票</text>
+      <rect x="198" y="115.8" width="105" height="204.2" rx="9" fill="#f59e0b"/><text x="250" y="104" text-anchor="middle" class="value">63.8</text><text x="250" y="350" text-anchor="middle" class="body">ORM</text>
+      <rect x="348" y="86.7" width="105" height="233.3" rx="9" fill="#10b981"/><text x="400" y="75" text-anchor="middle" class="value">72.9</text><text x="400" y="350" text-anchor="middle" class="body">PRM</text>
+    </g>
+  </g>
+  <g transform="translate(60 660)">
+    <rect width="1280" height="58" rx="17" fill="#fffbeb" stroke="#fbbf24"/>
+    <text x="25" y="25" class="body">公平解读：</text><text x="104" y="25" class="small">大规模 PRM 与 ORM 的训练集并非 apples-to-apples；严格控制监督类型的证据来自论文的小规模合成监督消融。</text>
+    <text x="25" y="46" class="small">另外，PRM 提升的是从大量候选中选对的概率；系统总成本还包含生成 N 条长推理与对每条推理打分。</text>
+  </g>
+</svg>

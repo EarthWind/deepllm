@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="850" viewBox="0 0 1440 850" role="img" aria-labelledby="title desc">
+  <title id="title">Tree of Thoughts 中 BFS 与 DFS 的差异</title>
+  <desc id="desc">BFS 在每一层对所有候选评分并保留 top-b；DFS 按高分分支深入，遇到低于阈值的状态时剪枝并回溯。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7fafb"/><stop offset="1" stop-color="#e9f2f4"/></linearGradient>
+    <marker id="back" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#dc6b5e"/></marker>
+    <style>
+      text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:36px;font-weight:750;fill:#123449}.sub{font-size:17px;fill:#5b7484}.head{font-size:28px;font-weight:750;fill:#fff}.desc{font-size:16px;fill:#cce2ec}.label{font-size:17px;font-weight:700;fill:#254b60}.tiny{font-size:14px;fill:#5c7787}.badge{font-size:14px;font-weight:750}.formula{font-size:20px;font-weight:650;fill:#163c51}.edge{stroke:#91acbb;stroke-width:3;fill:none}.keep{stroke:#13a795;stroke-width:6;fill:none}.prune{stroke:#df7669;stroke-width:3;stroke-dasharray:8 7;fill:none}.node{fill:#fff;stroke:#7598aa;stroke-width:2}.good{fill:#d9f5ec;stroke:#23ad92;stroke-width:3}.bad{fill:#fae5e1;stroke:#df7669;stroke-width:2}.note{fill:#fff;stroke:#c7d9e1;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1440" height="850" rx="28" fill="url(#bg)"/>
+  <text class="title" x="70" y="66">同一棵 thought 树，两种不同的预算分配方式</text>
+  <text class="sub" x="70" y="100">BFS 用内存换并行比较；DFS 用回溯换较小前沿。二者都依赖状态评估器 V(s)，但保留规则不同。</text>
+
+  <rect x="70" y="140" width="625" height="620" rx="24" fill="#fff" stroke="#c5d9e2" stroke-width="2"/>
+  <path d="M70 164Q70 140 94 140H671Q695 140 695 164V242H70Z" fill="#146b79"/>
+  <text class="head" x="105" y="188">BFS / beam-style</text><text class="desc" x="105" y="218">逐层展开全部保留状态，再留下 top-b；论文 24 点取 b = 5</text>
+
+  <path class="edge" d="M190 310L130 408M190 310L270 408M190 310L410 408"/>
+  <path class="keep" d="M130 440L115 538M130 440L210 538M270 440L315 538M270 440L420 538"/>
+  <path class="prune" d="M410 440L515 538M410 440L602 538"/>
+  <circle class="node" cx="190" cy="295" r="29"/><text class="label" x="190" y="301" text-anchor="middle">S₀</text>
+  <circle class="good" cx="130" cy="423" r="27"/><text class="badge" x="130" y="429" text-anchor="middle" fill="#167a68">.92</text>
+  <circle class="good" cx="270" cy="423" r="27"/><text class="badge" x="270" y="429" text-anchor="middle" fill="#167a68">.81</text>
+  <circle class="bad" cx="410" cy="423" r="27"/><text class="badge" x="410" y="429" text-anchor="middle" fill="#b25349">.12</text>
+  <circle class="good" cx="115" cy="556" r="24"/><circle class="good" cx="210" cy="556" r="24"/><circle class="good" cx="315" cy="556" r="24"/><circle class="good" cx="420" cy="556" r="24"/>
+  <circle class="bad" cx="515" cy="556" r="24"/><circle class="bad" cx="602" cy="556" r="24"/>
+  <text class="tiny" x="365" y="610" text-anchor="middle">在同一深度统一排序：绿色进入下一层，红色被 beam 截断</text>
+  <rect class="note" x="105" y="642" width="555" height="86" rx="16"/><text class="formula" x="130" y="678">S′ₜ = Expand(Sₜ₋₁)，Sₜ = TopB(S′ₜ, V)</text><text class="tiny" x="130" y="706">前沿上界约为 b；每层候选量约为 b × k，适合批量并发评估</text>
+
+  <rect x="745" y="140" width="625" height="620" rx="24" fill="#fff" stroke="#c5d9e2" stroke-width="2"/>
+  <path d="M745 164Q745 140 769 140H1346Q1370 140 1370 164V242H745Z" fill="#2d587d"/>
+  <text class="head" x="780" y="188">DFS + prune + backtrack</text><text class="desc" x="780" y="218">优先深入高分 thought；无望或冲突就退回最近分叉点</text>
+
+  <path class="keep" d="M900 294L900 384L1020 462"/><path class="edge" d="M900 294L1055 384M900 294L1210 384"/>
+  <path class="prune" d="M1020 462L1095 547"/><path class="keep" d="M1055 410L1020 500L965 585"/>
+  <circle class="node" cx="900" cy="286" r="29"/><text class="label" x="900" y="292" text-anchor="middle">S₀</text>
+  <circle class="good" cx="900" cy="401" r="27"/><text class="badge" x="900" y="407" text-anchor="middle" fill="#167a68">.92</text>
+  <circle class="node" cx="1055" cy="401" r="27"/><text class="badge" x="1055" y="407" text-anchor="middle" fill="#41677d">.81</text>
+  <circle class="node" cx="1210" cy="401" r="27"/><text class="badge" x="1210" y="407" text-anchor="middle" fill="#41677d">.65</text>
+  <circle class="bad" cx="1020" cy="480" r="27"/><text class="badge" x="1020" y="486" text-anchor="middle" fill="#b25349">冲突</text>
+  <line x1="1006" y1="466" x2="1034" y2="494" stroke="#d5574b" stroke-width="4"/><line x1="1034" y1="466" x2="1006" y2="494" stroke="#d5574b" stroke-width="4"/>
+  <circle class="bad" cx="1095" cy="558" r="22" opacity=".65"/>
+  <circle class="good" cx="965" cy="602" r="29"/><text class="badge" x="965" y="608" text-anchor="middle" fill="#167a68">继续</text>
+  <path d="M1003 461C943 447 955 411 1027 407" fill="none" stroke="#dc6b5e" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#back)"/>
+  <text class="tiny" x="955" y="438" fill="#bd554b">回溯</text>
+  <text class="tiny" x="1080" y="610" text-anchor="middle">栈中仍保留尚未尝试的兄弟节点</text>
+  <rect class="note" x="780" y="642" width="555" height="86" rx="16"/><text class="formula" x="805" y="678">若 V(s) &lt; τ：prune；否则继续深入</text><text class="tiny" x="805" y="706">前沿通常更小，但路径依次展开；评估误杀会直接丢掉正确子树</text>
+
+  <rect x="70" y="785" width="1300" height="38" rx="19" fill="#dcecef"/><text class="label" x="720" y="810" text-anchor="middle">搜索策略决定“先算谁”；goal test / 外部验证器决定“答案是否真的正确”</text>
+</svg>

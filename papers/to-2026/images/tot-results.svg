@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Tree of Thoughts 论文三项主要实验结果</title>
+  <desc id="desc">24 点成功率、创意写作 GPT-4 连贯性评分和迷你填字词级正确率的对比图。</desc>
+  <defs>
+    <linearGradient id="tot" x1="0" x2="1"><stop stop-color="#119c91"/><stop offset="1" stop-color="#68cf8d"/></linearGradient>
+    <style>
+      text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:36px;font-weight:750;fill:#123449}.sub{font-size:17px;fill:#5c7483}.head{font-size:24px;font-weight:750;fill:#173b50}.metric{font-size:15px;font-weight:700;fill:#587282}.label{font-size:16px;fill:#25475a}.value{font-size:16px;font-weight:750;fill:#173b50}.big{font-size:31px;font-weight:800}.note{font-size:14px;fill:#667e8d}.axis{stroke:#cad9df;stroke-width:1}.base{fill:#9eb6c4}.accent{fill:url(#tot)}.oracle{fill:#f1a462}.card{fill:#fff;stroke:#d3e0e5;stroke-width:2}
+    </style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="#f4f8f9"/>
+  <text class="title" x="70" y="67">论文报告的三组结果：ToT 的收益集中在需要探索与回退的任务</text>
+  <text class="sub" x="70" y="103">以下均为论文中的 GPT-4 设置；指标、样本量和搜索配置不同，不能把三块图横向当作同一量纲。</text>
+
+  <rect class="card" x="55" y="140" width="430" height="650" rx="22"/>
+  <text class="head" x="85" y="184">Game of 24</text><text class="metric" x="85" y="214">100 道困难题 · 成功率（%）</text>
+  <line class="axis" x1="165" y1="252" x2="445" y2="252"/><line class="axis" x1="165" y1="665" x2="445" y2="665"/>
+  <text class="note" x="165" y="239">0</text><text class="note" x="299" y="239">40</text><text class="note" x="427" y="239">80</text>
+  <text class="label" x="85" y="291">IO</text><rect class="base" x="165" y="271" width="26" height="29" rx="7"/><text class="value" x="201" y="292">7.3</text>
+  <text class="label" x="85" y="361">CoT</text><rect class="base" x="165" y="341" width="14" height="29" rx="7"/><text class="value" x="189" y="362">4.0</text>
+  <text class="label" x="85" y="431">CoT-SC</text><rect class="base" x="165" y="411" width="32" height="29" rx="7"/><text class="value" x="207" y="432">9.0</text>
+  <text class="label" x="85" y="501">ToT b=1</text><rect class="accent" x="165" y="481" width="158" height="29" rx="7"/><text class="value" x="333" y="502">45</text>
+  <text class="label" x="85" y="571">ToT b=5</text><rect class="accent" x="165" y="551" width="259" height="29" rx="7"/><text class="value" x="434" y="572">74</text>
+  <rect x="85" y="610" width="360" height="78" rx="14" fill="#e1f4ee"/><text class="big" x="112" y="656" fill="#16806e">74%</text><text class="label" x="215" y="641">提议 + value 评估</text><text class="note" x="215" y="667">BFS 每层保留 5 个状态</text>
+  <text class="note" x="85" y="720">对照：CoT 从 100 个样本中用答案</text><text class="note" x="85" y="742">oracle 事后挑选，成功率也只有 49%。</text>
+  <text class="note" x="85" y="766">官方仓库复现实验因解码随机性得到 69%。</text>
+
+  <rect class="card" x="505" y="140" width="430" height="650" rx="22"/>
+  <text class="head" x="535" y="184">Creative Writing</text><text class="metric" x="535" y="214">100 个输入 · GPT-4 连贯性评分（0–10）</text>
+  <line class="axis" x1="615" y1="252" x2="895" y2="252"/>
+  <text class="note" x="615" y="239">0</text><text class="note" x="747" y="239">5</text><text class="note" x="881" y="239">10</text>
+  <text class="label" x="535" y="300">IO</text><rect class="base" x="615" y="280" width="173" height="29" rx="7"/><text class="value" x="798" y="301">6.19</text>
+  <text class="label" x="535" y="380">CoT</text><rect class="base" x="615" y="360" width="194" height="29" rx="7"/><text class="value" x="819" y="381">6.93</text>
+  <text class="label" x="535" y="460">ToT</text><rect class="accent" x="615" y="440" width="212" height="29" rx="7"/><text class="value" x="837" y="461">7.56</text>
+  <rect x="535" y="508" width="370" height="144" rx="16" fill="#e8f0f7"/>
+  <text class="metric" x="560" y="539">人类两两偏好：ToT 对 CoT（100 例）</text>
+  <rect x="560" y="565" width="71" height="28" rx="7" fill="#9eb6c4"/><rect x="631" y="565" width="129" height="28" fill="#c9d7de"/><rect x="760" y="565" width="120" height="28" rx="7" class="accent"/>
+  <text class="note" x="595" y="617" text-anchor="middle">CoT 21</text><text class="note" x="695" y="617" text-anchor="middle">相近 38</text><text class="note" x="820" y="617" text-anchor="middle">ToT 41</text>
+  <text class="note" x="535" y="693">ToT 先采样 5 个计划、投票保留 1 个，</text><text class="note" x="535" y="717">再采样 5 篇文章并投票；这里 b = 1。</text>
+  <text class="note" x="535" y="755">它改善的是规划与全局一致性，不是可自动</text><text class="note" x="535" y="777">判定的唯一答案。</text>
+
+  <rect class="card" x="955" y="140" width="430" height="650" rx="22"/>
+  <text class="head" x="985" y="184">Mini Crosswords</text><text class="metric" x="985" y="214">20 个 5×5 填字 · 词级正确率（%）</text>
+  <line class="axis" x1="1065" y1="252" x2="1345" y2="252"/>
+  <text class="note" x="1065" y="239">0</text><text class="note" x="1197" y="239">35</text><text class="note" x="1327" y="239">70</text>
+  <text class="label" x="985" y="300">IO</text><rect class="base" x="1065" y="280" width="56" height="29" rx="7"/><text class="value" x="1131" y="301">14.0</text>
+  <text class="label" x="985" y="380">CoT</text><rect class="base" x="1065" y="360" width="62" height="29" rx="7"/><text class="value" x="1137" y="381">15.6</text>
+  <text class="label" x="985" y="460">ToT</text><rect class="accent" x="1065" y="440" width="240" height="29" rx="7"/><text class="value" x="1315" y="461">60.0</text>
+  <text class="label" x="985" y="540">best state*</text><rect class="oracle" x="1065" y="520" width="270" height="29" rx="7"/><text class="value" x="1343" y="541">67.5</text>
+  <rect x="985" y="588" width="370" height="104" rx="16" fill="#eef0f8"/>
+  <text class="metric" x="1010" y="621">整局完全解出（20 局）</text><text class="big" x="1010" y="666" fill="#16806e">4</text><text class="label" x="1041" y="664">ToT</text><text class="big" x="1133" y="666" fill="#b36c36">7</text><text class="label" x="1164" y="664">best state*</text><text class="note" x="1278" y="664">CoT 1%†</text>
+  <text class="note" x="985" y="728">DFS 最多 100 步；消融去掉剪枝或回溯后，</text><text class="note" x="985" y="752">词级正确率分别降到 41.5% 与 20.0%。</text>
+  <text class="note" x="985" y="777">* oracle 事后选最优；† CoT 为 10 次采样均值。</text>
+
+  <rect x="55" y="822" width="1330" height="46" rx="18" fill="#dcecef"/><text class="note" x="720" y="851" text-anchor="middle" font-size="15">结论边界：这些是小规模任务上的 2023 年论文结果；提升伴随更多模型调用，且会受提示词、评估器和解码随机性影响。</text>
+</svg>

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="790" viewBox="0 0 1400 790" role="img" aria-labelledby="title desc">
+  <title id="title">Let's Verify Step by Step 的生成与验证流程</title>
+  <desc id="desc">固定生成器为每个数学问题采样 N 条逐步解答，过程奖励模型在每个步骤边界给出正确概率，以乘积聚合为解答分数并选出最高分答案。论文只训练奖励模型，没有用强化学习更新生成器。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#eef2ff"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".10"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#64748b"/></marker>
+    <style>
+      .title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.sub{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 20px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.mono{font:600 15px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#312e81}.white{fill:#fff}.green{fill:#047857}.red{fill:#b91c1c}
+    </style>
+  </defs>
+  <rect width="1400" height="790" fill="url(#bg)"/>
+  <text x="60" y="54" class="title">论文真正训练的是“验证器”，不是用 RL 更新生成器</text>
+  <text x="60" y="84" class="sub">固定 generator 负责提出候选；ORM/PRM 负责排序；指标是最高分候选最终答案正确的比例。</text>
+
+  <g transform="translate(60 123)" filter="url(#shadow)">
+    <rect width="1280" height="270" rx="24" fill="#fff" stroke="#cbd5e1"/>
+    <g transform="translate(30 48)">
+      <rect width="190" height="142" rx="18" fill="#eff6ff" stroke="#60a5fa"/>
+      <text x="95" y="38" text-anchor="middle" class="h">数学问题 x</text>
+      <text x="95" y="72" text-anchor="middle" class="mono">MATH</text>
+      <text x="95" y="105" text-anchor="middle" class="small">一道题，固定上下文</text>
+      <path d="M198 71H257" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(300 34)">
+      <rect width="230" height="170" rx="18" fill="#f5f3ff" stroke="#a78bfa"/>
+      <text x="115" y="35" text-anchor="middle" class="h">固定 Generator</text>
+      <text x="115" y="66" text-anchor="middle" class="body">temperature = 1.0</text>
+      <text x="115" y="94" text-anchor="middle" class="body">逐行生成 step 1…T</text>
+      <rect x="32" y="118" width="166" height="33" rx="10" fill="#ede9fe"/>
+      <text x="115" y="140" text-anchor="middle" class="small">论文不对它做 RL</text>
+      <path d="M238 85H297" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(600 24)">
+      <rect width="250" height="190" rx="18" fill="#f8fafc" stroke="#94a3b8"/>
+      <text x="125" y="34" text-anchor="middle" class="h">均匀采样 N 条解答</text>
+      <g transform="translate(22 53)">
+        <rect width="206" height="31" rx="8" fill="#ecfdf5"/><text x="12" y="21" class="small green">y₁：✓  ✓  ✓  → 正确</text>
+        <rect y="41" width="206" height="31" rx="8" fill="#fff7ed"/><text x="12" y="62" class="small red">y₂：✓  ✕  …  → 错误</text>
+        <rect y="82" width="206" height="31" rx="8" fill="#fef2f2"/><text x="12" y="103" class="small red">yₙ：✓  ✓  ✕  → 错误</text>
+      </g>
+      <path d="M258 95H317" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(920 34)">
+      <rect width="330" height="170" rx="18" fill="url(#accent)"/>
+      <text x="165" y="36" text-anchor="middle" class="h white">PRM：一次前向，逐步打分</text>
+      <text x="165" y="71" text-anchor="middle" class="mono white">pₜ = P(stepₜ correct | x, step≤t)</text>
+      <text x="165" y="105" text-anchor="middle" class="mono white">S(y) = ∏ₜ pₜ</text>
+      <rect x="55" y="125" width="220" height="30" rx="9" fill="#ffffff" fill-opacity=".18"/>
+      <text x="165" y="146" text-anchor="middle" class="small white">返回 arg max S(y)</text>
+    </g>
+  </g>
+
+  <g transform="translate(60 430)" filter="url(#shadow)">
+    <rect width="1280" height="275" rx="24" fill="#fff" stroke="#cbd5e1"/>
+    <text x="32" y="43" class="h">同一条解答，监督信号落在哪里？</text>
+    <line x1="640" y1="25" x2="640" y2="245" stroke="#e2e8f0" stroke-width="2"/>
+    <g transform="translate(32 70)">
+      <rect width="570" height="160" rx="18" fill="#fff7ed" stroke="#fb923c"/>
+      <text x="24" y="35" class="h">ORM · outcome supervision</text>
+      <g transform="translate(25 60)">
+        <rect width="105" height="48" rx="11" fill="#f1f5f9"/><text x="52" y="30" text-anchor="middle" class="body">step 1</text>
+        <path d="M112 24H148" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+        <rect x="158" width="105" height="48" rx="11" fill="#f1f5f9"/><text x="210" y="30" text-anchor="middle" class="body">step 2</text>
+        <path d="M270 24H306" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+        <rect x="316" width="105" height="48" rx="11" fill="#f1f5f9"/><text x="368" y="30" text-anchor="middle" class="body">step T</text>
+        <rect x="444" y="-5" width="78" height="58" rx="14" fill="#fee2e2" stroke="#ef4444"/><text x="483" y="20" text-anchor="middle" class="small red">最终</text><text x="483" y="40" text-anchor="middle" class="small red">0 / 1</text>
+      </g>
+      <text x="25" y="139" class="small">负标签只说“某处错了”；模型自己承担长程 credit assignment。</text>
+    </g>
+    <g transform="translate(678 70)">
+      <rect width="570" height="160" rx="18" fill="#ecfdf5" stroke="#34d399"/>
+      <text x="24" y="35" class="h">PRM · process supervision</text>
+      <g transform="translate(25 60)">
+        <rect width="105" height="48" rx="11" fill="#d1fae5"/><text x="52" y="30" text-anchor="middle" class="body green">step 1 · +</text>
+        <path d="M112 24H148" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+        <rect x="158" width="105" height="48" rx="11" fill="#d1fae5"/><text x="210" y="30" text-anchor="middle" class="body green">step 2 · +</text>
+        <path d="M270 24H306" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+        <rect x="316" width="105" height="48" rx="11" fill="#fee2e2" stroke="#ef4444"/><text x="368" y="30" text-anchor="middle" class="body red">step 3 · −</text>
+        <rect x="444" y="-5" width="88" height="58" rx="14" fill="#f1f5f9"/><text x="488" y="20" text-anchor="middle" class="small">此处停止</text><text x="488" y="40" text-anchor="middle" class="small">后缀不标</text>
+      </g>
+      <text x="25" y="139" class="small">同时给出正确前缀长度与第一处错误位置，监督更密、更精确。</text>
+    </g>
+  </g>
+  <text x="60" y="752" class="small">注意：将 PRM 分数接入强化学习是自然后续，但不属于本文实验范围；本文用 best-of-N 衡量 reward model 的可靠性。</text>
+</svg>

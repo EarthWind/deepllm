@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">PRM800K 主动学习的数据闭环</title>
+  <desc id="desc">当前过程奖励模型从大量候选中挑选高分但最终答案错误的欺骗性解答，交给人类逐步标注，再用于重训奖励模型。小规模消融估计该方法比均匀标注高 2.6 倍数据效率。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#ecfeff"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#0891b2"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".10"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#64748b"/></marker>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.sub{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 20px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.mono{font:600 14px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#164e63}.white{fill:#fff}.green{fill:#047857}.red{fill:#b91c1c}</style>
+  </defs>
+  <rect width="1400" height="760" fill="url(#bg)"/>
+  <text x="60" y="54" class="title">把标注预算花在“最会骗过当前 PRM 的错误解答”上</text>
+  <text x="60" y="84" class="sub">明显错误的信息量低；高分但答案错误的轨迹保证当前验证器至少漏掉了一处错误。</text>
+
+  <g transform="translate(60 125)" filter="url(#shadow)">
+    <rect width="1280" height="390" rx="28" fill="#fff" stroke="#cbd5e1"/>
+    <g transform="translate(32 88)">
+      <rect width="205" height="180" rx="20" fill="#eff6ff" stroke="#60a5fa"/>
+      <circle cx="36" cy="36" r="19" fill="#2563eb"/><text x="36" y="43" text-anchor="middle" class="h white">1</text>
+      <text x="67" y="42" class="h">大候选池</text>
+      <text x="24" y="79" class="body">每题采样许多完整解答</text>
+      <text x="24" y="107" class="mono">y₁, y₂, …, y₁₀₀₀</text>
+      <text x="24" y="143" class="small">生成器固定</text>
+      <path d="M213 90H264" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(306 88)">
+      <rect width="205" height="180" rx="20" fill="#f5f3ff" stroke="#a78bfa"/>
+      <circle cx="36" cy="36" r="19" fill="#7c3aed"/><text x="36" y="43" text-anchor="middle" class="h white">2</text>
+      <text x="67" y="42" class="h">双重筛选</text>
+      <text x="24" y="79" class="body">当前 PRM：高分</text>
+      <text x="24" y="107" class="body">答案检查：错误</text>
+      <rect x="24" y="128" width="157" height="32" rx="10" fill="#fee2e2"/>
+      <text x="102" y="150" text-anchor="middle" class="small red">convincing wrong</text>
+      <path d="M213 90H264" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(580 69)">
+      <rect width="250" height="218" rx="20" fill="#fff7ed" stroke="#fb923c"/>
+      <circle cx="36" cy="36" r="19" fill="#f97316"/><text x="36" y="43" text-anchor="middle" class="h white">3</text>
+      <text x="67" y="42" class="h">人类逐步标注</text>
+      <g transform="translate(24 69)">
+        <rect width="202" height="32" rx="9" fill="#d1fae5"/><text x="12" y="22" class="small green">step 1：positive</text>
+        <rect y="42" width="202" height="32" rx="9" fill="#f1f5f9"/><text x="12" y="64" class="small">step 2：neutral</text>
+        <rect y="84" width="202" height="32" rx="9" fill="#fee2e2"/><text x="12" y="106" class="small red">step 3：negative → 停止</text>
+      </g>
+      <text x="24" y="202" class="small">质量控制题持续校准标注者</text>
+      <path d="M258 109H309" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(900 88)">
+      <rect width="205" height="180" rx="20" fill="#ecfdf5" stroke="#34d399"/>
+      <circle cx="36" cy="36" r="19" fill="#059669"/><text x="36" y="43" text-anchor="middle" class="h white">4</text>
+      <text x="67" y="42" class="h">重训 PRM</text>
+      <text x="24" y="79" class="body">加入最新困难样本</text>
+      <text x="24" y="107" class="body">更新错误边界判断</text>
+      <text x="24" y="143" class="small">进入下一代数据收集</text>
+      <path d="M213 90H264" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <g transform="translate(1174 88)">
+      <rect width="74" height="180" rx="20" fill="url(#blue)"/>
+      <path d="M37 126C37 265 -928 300 -1028 208" fill="none" stroke="#0891b2" stroke-width="3" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
+      <text x="37" y="51" text-anchor="middle" class="h white">循环</text>
+      <text x="37" y="82" text-anchor="middle" class="small white">更难</text>
+      <text x="37" y="105" text-anchor="middle" class="small white">更值钱</text>
+    </g>
+  </g>
+
+  <g transform="translate(60 555)">
+    <rect width="620" height="130" rx="22" fill="#fff" stroke="#a5b4fc"/>
+    <text x="28" y="38" class="h">PRM800K 规模</text>
+    <text x="28" y="77" class="mono">800K step labels · 75K solutions · 12K problems</text>
+    <text x="28" y="105" class="small">训练集混入 4,500 道原 MATH test 题，因此只在另留的 500 题评估。</text>
+    <rect x="720" width="620" height="130" rx="22" fill="url(#blue)"/>
+    <text x="748" y="40" class="h white">小规模合成监督消融</text>
+    <text x="748" y="83" class="title white">约 2.6× 数据效率</text>
+    <text x="1038" y="83" class="small white">相对均匀标注；由拟合曲线斜率估计</text>
+  </g>
+  <text x="60" y="724" class="small">论文也报告了迭代重训 selector 的不稳定性：该变体没有优于固定 selector，不能把闭环收益视为无条件保证。</text>
+</svg>
