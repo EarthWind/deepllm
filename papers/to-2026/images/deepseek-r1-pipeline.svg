@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="780" viewBox="0 0 1600 780" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-R1 四阶段训练流水线</title>
+  <desc id="desc">从冷启动监督微调、推理强化学习、拒绝采样与再监督微调，到全场景强化学习。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171933"/></linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#67e8f9"/></marker>
+    <filter id="s"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity=".28"/></filter>
+    <style>.title{font:700 35px system-ui,sans-serif;fill:#f8fafc}.sub{font:18px system-ui,sans-serif;fill:#94a3b8}.n{font:800 46px system-ui,sans-serif;fill:#071426}.h{font:700 23px system-ui,sans-serif;fill:#f8fafc}.t{font:17px system-ui,sans-serif;fill:#dbeafe}.sm{font:15px system-ui,sans-serif;fill:#a5b4fc}.tag{font:700 15px system-ui,sans-serif;fill:#071426}</style>
+  </defs>
+  <rect width="1600" height="780" rx="28" fill="url(#bg)"/>
+  <text x="70" y="68" class="title">DeepSeek-R1：两次 SFT 与两次 RL 交替</text>
+  <text x="70" y="103" class="sub">R1-Zero 是“纯 RL 可行性实验”；最终 R1 则主动引入人类先验、数据再生与偏好对齐</text>
+
+  <g filter="url(#s)">
+    <rect x="65" y="165" width="335" height="420" rx="26" fill="#102b3f" stroke="#38bdf8" stroke-width="2"/>
+    <circle cx="115" cy="215" r="30" fill="#67e8f9"/><text x="115" y="231" class="n" text-anchor="middle">1</text>
+    <text x="165" y="211" class="h">冷启动 SFT</text><text x="165" y="239" class="sm">给 RL 一个可读起点</text>
+    <rect x="100" y="278" width="120" height="32" rx="16" fill="#67e8f9"/><text x="160" y="300" class="tag" text-anchor="middle">数千条长 CoT</text>
+    <text x="100" y="350" class="t">· few-shot 长 CoT</text><text x="100" y="385" class="t">· 反思 / 验证式生成</text><text x="100" y="420" class="t">· R1-Zero 输出再加工</text><text x="100" y="455" class="t">· 人工后处理与筛选</text>
+    <line x1="100" y1="485" x2="365" y2="485" stroke="#334155"/>
+    <text x="100" y="525" class="sm">输出：可读 reasoning + summary</text><text x="100" y="552" class="sm">起点：DeepSeek-V3-Base</text>
+  </g>
+  <path d="M400 375H445" stroke="#67e8f9" stroke-width="5" marker-end="url(#a)"/>
+  <g filter="url(#s)">
+    <rect x="460" y="165" width="335" height="420" rx="26" fill="#20204a" stroke="#818cf8" stroke-width="2"/>
+    <circle cx="510" cy="215" r="30" fill="#a5b4fc"/><text x="510" y="231" class="n" text-anchor="middle">2</text>
+    <text x="560" y="211" class="h">推理导向 RL</text><text x="560" y="239" class="sm">强化 math / code / STEM / logic</text>
+    <rect x="495" y="278" width="112" height="32" rx="16" fill="#a5b4fc"/><text x="551" y="300" class="tag" text-anchor="middle">大规模 GRPO</text>
+    <text x="495" y="350" class="t">· 正确性规则奖励</text><text x="495" y="385" class="t">· 语言一致性奖励</text><text x="495" y="420" class="t">· 两项直接相加</text><text x="495" y="455" class="t">· 训练至推理任务收敛</text>
+    <line x1="495" y1="485" x2="760" y2="485" stroke="#3f3f65"/>
+    <text x="495" y="525" class="sm">可读性提高，但消融显示</text><text x="495" y="552" class="sm">语言一致性略损性能</text>
+  </g>
+  <path d="M795 375H840" stroke="#67e8f9" stroke-width="5" marker-end="url(#a)"/>
+  <g filter="url(#s)">
+    <rect x="855" y="165" width="335" height="420" rx="26" fill="#163429" stroke="#34d399" stroke-width="2"/>
+    <circle cx="905" cy="215" r="30" fill="#6ee7b7"/><text x="905" y="231" class="n" text-anchor="middle">3</text>
+    <text x="955" y="211" class="h">拒绝采样 + SFT</text><text x="955" y="239" class="sm">把已发现策略固化回模型</text>
+    <rect x="890" y="278" width="218" height="32" rx="16" fill="#6ee7b7"/><text x="999" y="300" class="tag" text-anchor="middle">约 600K + 200K = 800K</text>
+    <text x="890" y="350" class="t">· 正确 reasoning：约 600K</text><text x="890" y="385" class="t">· 非 reasoning：约 200K</text><text x="890" y="420" class="t">· 过滤混语、长段、代码块</text><text x="890" y="455" class="t">· V3-Base 训练 2 epochs</text>
+    <line x1="890" y1="485" x2="1155" y2="485" stroke="#285547"/>
+    <text x="890" y="525" class="sm">规则可判任务 + V3 生成式判断</text><text x="890" y="552" class="sm">并补写作、事实 QA、翻译等</text>
+  </g>
+  <path d="M1190 375H1235" stroke="#67e8f9" stroke-width="5" marker-end="url(#a)"/>
+  <g filter="url(#s)">
+    <rect x="1250" y="165" width="285" height="420" rx="26" fill="#35203b" stroke="#e879f9" stroke-width="2"/>
+    <circle cx="1300" cy="215" r="30" fill="#f0abfc"/><text x="1300" y="231" class="n" text-anchor="middle">4</text>
+    <text x="1350" y="211" class="h">全场景 RL</text><text x="1350" y="239" class="sm">推理 + 人类偏好</text>
+    <rect x="1285" y="278" width="120" height="32" rx="16" fill="#f0abfc"/><text x="1345" y="300" class="tag" text-anchor="middle">第二次 RL</text>
+    <text x="1285" y="350" class="t">· 推理：规则奖励</text><text x="1285" y="385" class="t">· 通用：偏好 reward model</text><text x="1285" y="420" class="t">· helpfulness 看 summary</text><text x="1285" y="455" class="t">· harmlessness 看全文</text>
+    <line x1="1285" y1="485" x2="1500" y2="485" stroke="#5c315f"/>
+    <text x="1285" y="525" class="sm">最终 checkpoint</text><text x="1285" y="552" class="sm">DeepSeek-R1</text>
+  </g>
+
+  <g transform="translate(245 650)">
+    <rect width="1110" height="72" rx="20" fill="#0b1b31" stroke="#334155"/>
+    <text x="555" y="30" class="h" text-anchor="middle">SFT 提供可模仿的数据分布 · RL 根据结果优劣改变生成概率</text>
+    <text x="555" y="56" class="sm" text-anchor="middle">四阶段不是一次训练循环，而是 checkpoint → 采样 → 清洗 → 重训 → 再对齐的迭代系统</text>
+  </g>
+</svg>

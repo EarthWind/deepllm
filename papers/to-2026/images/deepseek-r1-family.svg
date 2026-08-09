@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="650" viewBox="0 0 1440 650" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-R1 三条模型路线</title>
+  <desc id="desc">区分 R1-Zero、R1 和 R1-Distill 的底座、训练信号与目标。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071325"/><stop offset="1" stop-color="#101a39"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity=".25"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#67e8f9"/></marker>
+    <style>
+      .title{font:700 34px system-ui,sans-serif;fill:#f8fafc}.sub{font:18px system-ui,sans-serif;fill:#94a3b8}.h{font:700 25px system-ui,sans-serif;fill:#f8fafc}.t{font:18px system-ui,sans-serif;fill:#dbeafe}.small{font:16px system-ui,sans-serif;fill:#a5b4fc}.pill{font:700 15px system-ui,sans-serif;fill:#071325}
+    </style>
+  </defs>
+  <rect width="1440" height="650" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="title">先分清名字：R1 论文不是一个单模型故事</text>
+  <text x="70" y="104" class="sub">三条路线共享“推理能力”主题，但训练起点、监督信号和交付形态不同</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="155" width="1300" height="105" rx="22" fill="#13213d" stroke="#334155"/>
+    <rect x="100" y="180" width="235" height="56" rx="16" fill="#1e3a5f" stroke="#38bdf8"/>
+    <text x="217" y="215" class="h" text-anchor="middle">DeepSeek-V3-Base</text>
+    <text x="385" y="198" class="t">MoE 底座</text><text x="385" y="227" class="small">671B 总参数 · 每 token 激活 37B</text>
+    <path d="M720 207H920" stroke="#67e8f9" stroke-width="4" marker-end="url(#arrow)"/>
+    <text x="810" y="190" class="small" text-anchor="middle">后训练，而非新 backbone</text>
+    <rect x="955" y="180" width="370" height="56" rx="16" fill="#122f38" stroke="#2dd4bf"/>
+    <text x="1140" y="215" class="h" text-anchor="middle">Reasoning Policy</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="305" width="390" height="270" rx="24" fill="#102b3f" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="98" y="330" width="98" height="30" rx="15" fill="#67e8f9"/><text x="147" y="351" class="pill" text-anchor="middle">实验路线</text>
+    <text x="98" y="402" class="h">DeepSeek-R1-Zero</text>
+    <text x="98" y="442" class="t">Base → 直接大规模 GRPO</text>
+    <text x="98" y="478" class="t">奖励：正确性 + 格式</text>
+    <text x="98" y="514" class="t">没有冷启动 SFT</text>
+    <text x="98" y="550" class="small">验证“纯 RL 能否激发推理行为”</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="525" y="305" width="390" height="270" rx="24" fill="#20204a" stroke="#818cf8" stroke-width="2"/>
+    <rect x="553" y="330" width="98" height="30" rx="15" fill="#a5b4fc"/><text x="602" y="351" class="pill" text-anchor="middle">完整模型</text>
+    <text x="553" y="402" class="h">DeepSeek-R1</text>
+    <text x="553" y="442" class="t">2 次 SFT + 2 次 RL</text>
+    <text x="553" y="478" class="t">冷启动、拒绝采样、全场景对齐</text>
+    <text x="553" y="514" class="t">兼顾推理、可读性与通用能力</text>
+    <text x="553" y="550" class="small">论文最终旗舰 checkpoint</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="980" y="305" width="390" height="270" rx="24" fill="#30203c" stroke="#e879f9" stroke-width="2"/>
+    <rect x="1008" y="330" width="98" height="30" rx="15" fill="#f0abfc"/><text x="1057" y="351" class="pill" text-anchor="middle">迁移路线</text>
+    <text x="1008" y="402" class="h">R1-Distill</text>
+    <text x="1008" y="442" class="t">R1 生成约 800K 样本</text>
+    <text x="1008" y="478" class="t">Qwen / Llama 仅做 SFT</text>
+    <text x="1008" y="514" class="t">1.5B、7B、8B、14B、32B、70B</text>
+    <text x="1008" y="550" class="small">不是“在小模型上复刻 R1 的 RL”</text>
+  </g>
+</svg>

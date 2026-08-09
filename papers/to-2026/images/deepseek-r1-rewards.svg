@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="710" viewBox="0 0 1440 710" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-R1 不同阶段的奖励组成</title>
+  <desc id="desc">R1-Zero 使用准确率和格式规则奖励；R1 推理强化学习增加语言一致性；全场景强化学习混合规则与偏好模型。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061424"/><stop offset="1" stop-color="#171831"/></linearGradient>
+    <style>.title{font:700 34px system-ui,sans-serif;fill:#f8fafc}.sub{font:18px system-ui,sans-serif;fill:#94a3b8}.h{font:700 22px system-ui,sans-serif;fill:#f8fafc}.t{font:17px system-ui,sans-serif;fill:#dbeafe}.sm{font:15px system-ui,sans-serif;fill:#94a3b8}.tag{font:700 15px system-ui,sans-serif;fill:#071426}</style>
+  </defs>
+  <rect width="1440" height="710" rx="28" fill="url(#bg)"/>
+  <text x="70" y="68" class="title">Reward 不是一个模型：不同阶段使用不同信号</text>
+  <text x="70" y="102" class="sub">“R1 不用 reward model”只对 R1-Zero 和可验证推理信号成立；最终全场景 RL 明确使用偏好 reward model</text>
+  <g transform="translate(70 155)">
+    <rect width="390" height="400" rx="24" fill="#102b3f" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="30" y="28" width="112" height="31" rx="15" fill="#67e8f9"/><text x="86" y="50" class="tag" text-anchor="middle">R1-Zero</text>
+    <text x="30" y="105" class="h">规则奖励：可执行、便宜</text>
+    <rect x="30" y="135" width="330" height="78" rx="17" fill="#12352f" stroke="#2dd4bf"/><text x="55" y="167" class="t">✓ Accuracy</text><text x="55" y="193" class="sm">数学终值、代码测试用例</text>
+    <rect x="30" y="230" width="330" height="78" rx="17" fill="#20204a" stroke="#818cf8"/><text x="55" y="262" class="t">✓ Format</text><text x="55" y="288" class="sm">reasoning 放在 &lt;think&gt; 标签内</text>
+    <text x="30" y="352" class="sm">不使用 neural outcome / process RM</text><text x="30" y="378" class="sm">原因：reward hacking、重训成本、复杂度</text>
+  </g>
+  <g transform="translate(525 155)">
+    <rect width="390" height="400" rx="24" fill="#20204a" stroke="#818cf8" stroke-width="2"/>
+    <rect x="30" y="28" width="130" height="31" rx="15" fill="#a5b4fc"/><text x="95" y="50" class="tag" text-anchor="middle">R1 推理 RL</text>
+    <text x="30" y="105" class="h">规则奖励 + 可读性约束</text>
+    <rect x="30" y="135" width="330" height="78" rx="17" fill="#12352f" stroke="#2dd4bf"/><text x="55" y="167" class="t">✓ Reasoning accuracy</text><text x="55" y="193" class="sm">math / code / science / logic</text>
+    <rect x="30" y="230" width="330" height="78" rx="17" fill="#35203b" stroke="#e879f9"/><text x="55" y="262" class="t">+ Language consistency</text><text x="55" y="288" class="sm">CoT 中目标语言词的占比</text>
+    <text x="30" y="352" class="sm">两项直接相加；消融中性能略降，</text><text x="30" y="378" class="sm">换来更符合人类偏好的可读输出</text>
+  </g>
+  <g transform="translate(980 155)">
+    <rect width="390" height="400" rx="24" fill="#35203b" stroke="#e879f9" stroke-width="2"/>
+    <rect x="30" y="28" width="128" height="31" rx="15" fill="#f0abfc"/><text x="94" y="50" class="tag" text-anchor="middle">R1 全场景 RL</text>
+    <text x="30" y="105" class="h">规则信号 + 偏好模型</text>
+    <rect x="30" y="135" width="330" height="78" rx="17" fill="#12352f" stroke="#2dd4bf"/><text x="55" y="167" class="t">推理任务：规则奖励</text><text x="55" y="193" class="sm">延续 R1-Zero 的方法</text>
+    <rect x="30" y="230" width="330" height="110" rx="17" fill="#172440" stroke="#818cf8"/><text x="55" y="262" class="t">通用任务：preference RM</text><text x="55" y="289" class="sm">helpfulness 只评价最终 summary</text><text x="55" y="316" class="sm">harmlessness 评价 reasoning + summary</text>
+    <text x="30" y="378" class="sm">解决开放任务无法硬判“唯一正确”的问题</text>
+  </g>
+  <g transform="translate(185 610)"><rect width="1070" height="58" rx="18" fill="#0c1d33" stroke="#334155"/><text x="535" y="36" class="t" text-anchor="middle">工程原则：先问“这个输出能否被可靠验证”，再决定使用规则、生成式判断还是人类偏好模型。</text></g>
+</svg>

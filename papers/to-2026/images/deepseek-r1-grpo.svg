@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">GRPO 的组内相对优化流程</title>
+  <desc id="desc">同一提示生成多个回答，用规则奖励组内标准化优势，再结合裁剪和参考策略 KL 更新策略，不需要价值模型。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061525"/><stop offset="1" stop-color="#151733"/></linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#67e8f9"/></marker>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity=".25"/></filter>
+    <style>
+      .title{font:700 34px system-ui,sans-serif;fill:#f8fafc}.sub{font:18px system-ui,sans-serif;fill:#94a3b8}.h{font:700 22px system-ui,sans-serif;fill:#f8fafc}.t{font:17px system-ui,sans-serif;fill:#dbeafe}.sm{font:15px system-ui,sans-serif;fill:#94a3b8}.mono{font:17px ui-monospace,monospace;fill:#cffafe}.num{font:700 18px system-ui,sans-serif;fill:#071525}
+    </style>
+  </defs>
+  <rect width="1440" height="820" rx="28" fill="url(#bg)"/>
+  <text x="70" y="66" class="title">GRPO：不训练 critic，用同题回答组构造相对基线</text>
+  <text x="70" y="100" class="sub">下图是一轮数据流；old policy 用于重要性比率，reference policy 用于 KL 约束</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="155" width="210" height="125" rx="22" fill="#102b3f" stroke="#38bdf8"/>
+    <circle cx="105" cy="187" r="17" fill="#67e8f9"/><text x="105" y="193" class="num" text-anchor="middle">1</text>
+    <text x="135" y="194" class="h">采样问题 q</text>
+    <text x="100" y="234" class="t">同一个 prompt</text><text x="100" y="259" class="sm">q ~ P(Q)</text>
+  </g>
+  <path d="M280 217H365" stroke="#67e8f9" stroke-width="4" marker-end="url(#a)"/>
+  <g filter="url(#shadow)">
+    <rect x="380" y="140" width="290" height="155" rx="22" fill="#172440" stroke="#818cf8"/>
+    <circle cx="415" cy="172" r="17" fill="#a5b4fc"/><text x="415" y="178" class="num" text-anchor="middle">2</text>
+    <text x="445" y="179" class="h">组采样 G 个回答</text>
+    <text x="415" y="220" class="mono">o₁, o₂, …, o_G</text>
+    <text x="415" y="254" class="sm">来自冻结快照 π_old(·|q)</text>
+    <text x="415" y="278" class="sm">不是 G 个不同问题</text>
+  </g>
+  <path d="M670 217H755" stroke="#67e8f9" stroke-width="4" marker-end="url(#a)"/>
+  <g filter="url(#shadow)">
+    <rect x="770" y="140" width="285" height="155" rx="22" fill="#12352f" stroke="#2dd4bf"/>
+    <circle cx="805" cy="172" r="17" fill="#5eead4"/><text x="805" y="178" class="num" text-anchor="middle">3</text>
+    <text x="835" y="179" class="h">规则验证</text>
+    <text x="805" y="220" class="t">正确性 · 格式</text>
+    <text x="805" y="254" class="sm">数学答案 / 编译器测试</text>
+    <text x="805" y="278" class="sm">得到 r₁ … r_G</text>
+  </g>
+  <path d="M1055 217H1140" stroke="#67e8f9" stroke-width="4" marker-end="url(#a)"/>
+  <g filter="url(#shadow)">
+    <rect x="1155" y="140" width="215" height="155" rx="22" fill="#33203d" stroke="#e879f9"/>
+    <circle cx="1190" cy="172" r="17" fill="#f0abfc"/><text x="1190" y="178" class="num" text-anchor="middle">4</text>
+    <text x="1220" y="179" class="h">组内标准化</text>
+    <text x="1190" y="224" class="mono">Aᵢ=(rᵢ-μ)/σ</text>
+    <text x="1190" y="259" class="sm">只比较同题 rollout</text>
+    <text x="1190" y="282" class="sm">消除绝对 reward 尺度</text>
+  </g>
+
+  <path d="M1260 295V365H995" fill="none" stroke="#67e8f9" stroke-width="4" marker-end="url(#a)"/>
+  <g filter="url(#shadow)">
+    <rect x="510" y="350" width="500" height="225" rx="24" fill="#14203a" stroke="#60a5fa" stroke-width="2"/>
+    <circle cx="550" cy="388" r="17" fill="#93c5fd"/><text x="550" y="394" class="num" text-anchor="middle">5</text>
+    <text x="585" y="396" class="h">最大化 clipped surrogate − β·KL</text>
+    <text x="550" y="444" class="mono">ρᵢ = πθ(oᵢ|q) / π_old(oᵢ|q)</text>
+    <text x="550" y="484" class="mono">min(ρᵢAᵢ, clip(ρᵢ)Aᵢ)</text>
+    <text x="550" y="524" class="mono">D = x − log x − 1,  x = π_ref / πθ</text>
+    <text x="550" y="555" class="sm">clip 限制单次更新；KL 防止策略远离参考模型</text>
+  </g>
+  <path d="M510 465H395" stroke="#67e8f9" stroke-width="4" marker-end="url(#a)"/>
+  <g filter="url(#shadow)">
+    <rect x="95" y="390" width="300" height="150" rx="22" fill="#102b3f" stroke="#38bdf8"/>
+    <text x="130" y="438" class="h">更新当前策略 πθ</text>
+    <text x="130" y="477" class="t">loss = −J_GRPO</text>
+    <text x="130" y="510" class="sm">再冻结为下一轮 π_old</text>
+  </g>
+
+  <g transform="translate(70 635)">
+    <rect width="1300" height="125" rx="22" fill="#0c1c31" stroke="#334155"/>
+    <text x="32" y="42" class="h">为什么叫 Group Relative？</text>
+    <text x="32" y="78" class="t">同题高于组均值 → Aᵢ &gt; 0；低于组均值 → Aᵢ &lt; 0；若全组 reward 相同 → σ=0，实践中必须安全处理。</text>
+    <rect x="1020" y="30" width="238" height="60" rx="18" fill="#12352f" stroke="#2dd4bf"/>
+    <text x="1139" y="56" class="h" text-anchor="middle">不需要 value critic</text>
+    <text x="1139" y="80" class="sm" text-anchor="middle">但仍需 policy / old / ref</text>
+  </g>
+</svg>

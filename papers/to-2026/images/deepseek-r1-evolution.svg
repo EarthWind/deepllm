@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="680" viewBox="0 0 1440 680" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-R1-Zero 自演化的可观测结果</title>
+  <desc id="desc">AIME 2024 pass@1 从 15.6 提升至 71.0，cons@64 为 86.7，同时回答长度增长并出现重检策略。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061424"/><stop offset="1" stop-color="#151a39"/></linearGradient>
+    <linearGradient id="area" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#38bdf8" stop-opacity=".05"/><stop offset="1" stop-color="#38bdf8" stop-opacity=".55"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <style>.title{font:700 34px system-ui,sans-serif;fill:#f8fafc}.sub{font:18px system-ui,sans-serif;fill:#94a3b8}.h{font:700 23px system-ui,sans-serif;fill:#f8fafc}.t{font:17px system-ui,sans-serif;fill:#dbeafe}.sm{font:15px system-ui,sans-serif;fill:#94a3b8}.big{font:800 45px system-ui,sans-serif;fill:#67e8f9}</style>
+  </defs>
+  <rect width="1440" height="680" rx="28" fill="url(#bg)"/>
+  <text x="70" y="68" class="title">R1-Zero 的“自演化”：观察到策略变化，不等于证明意识</text>
+  <text x="70" y="102" class="sub">论文报告的是 RL 训练中的行为与指标，不应把拟人化措辞扩展为心智结论</text>
+
+  <g transform="translate(75 155)">
+    <rect width="780" height="420" rx="24" fill="#0c1d33" stroke="#334155"/>
+    <text x="35" y="48" class="h">AIME 2024：R1-Zero 随 RL 训练提升</text>
+    <line x1="85" y1="330" x2="720" y2="330" stroke="#475569" stroke-width="2"/>
+    <line x1="85" y1="85" x2="85" y2="330" stroke="#475569" stroke-width="2"/>
+    <g class="sm" text-anchor="end"><text x="72" y="335">0</text><text x="72" y="275">20</text><text x="72" y="215">40</text><text x="72" y="155">60</text><text x="72" y="95">80</text></g>
+    <g stroke="#263a52"><line x1="85" y1="270" x2="720" y2="270"/><line x1="85" y1="210" x2="720" y2="210"/><line x1="85" y1="150" x2="720" y2="150"/><line x1="85" y1="90" x2="720" y2="90"/></g>
+    <path d="M110 283 C230 275 300 242 385 220 S535 165 680 117 L680 330H110Z" fill="url(#area)"/>
+    <path d="M110 283 C230 275 300 242 385 220 S535 165 680 117" fill="none" stroke="#38bdf8" stroke-width="6" filter="url(#glow)"/>
+    <circle cx="110" cy="283" r="8" fill="#67e8f9"/><circle cx="680" cy="117" r="8" fill="#67e8f9"/>
+    <text x="110" y="255" class="big" text-anchor="middle">15.6%</text><text x="680" y="90" class="big" text-anchor="middle">71.0%</text>
+    <text x="110" y="365" class="sm" text-anchor="middle">初始 checkpoint</text><text x="680" y="365" class="sm" text-anchor="middle">数千 RL steps 后</text>
+    <text x="390" y="400" class="sm" text-anchor="middle">pass@1：每题采样 16 个回答后计算平均正确率</text>
+  </g>
+  <g transform="translate(895 155)">
+    <rect width="470" height="420" rx="24" fill="#16213c" stroke="#818cf8"/>
+    <text x="35" y="48" class="h">同时出现的行为</text>
+    <circle cx="70" cy="105" r="25" fill="#1e3a5f" stroke="#38bdf8"/><text x="70" y="112" class="h" text-anchor="middle">1</text>
+    <text x="115" y="101" class="t">平均回答长度持续增长</text><text x="115" y="128" class="sm">数百到数千 reasoning tokens</text>
+    <circle cx="70" cy="185" r="25" fill="#28305c" stroke="#818cf8"/><text x="70" y="192" class="h" text-anchor="middle">2</text>
+    <text x="115" y="181" class="t">重检先前步骤、换解法</text><text x="115" y="208" class="sm">反思行为并非模板显式要求</text>
+    <circle cx="70" cy="265" r="25" fill="#183d34" stroke="#34d399"/><text x="70" y="272" class="h" text-anchor="middle">3</text>
+    <text x="115" y="261" class="t">多数投票进一步提升</text><text x="115" y="288" class="sm">AIME cons@64 = 86.7%</text>
+    <rect x="35" y="325" width="400" height="62" rx="17" fill="#35203b" stroke="#e879f9"/>
+    <text x="235" y="351" class="t" text-anchor="middle">“aha moment”是可见文本模式</text><text x="235" y="375" class="sm" text-anchor="middle">不是意识、自我体验或必然因果证据</text>
+  </g>
+  <text x="720" y="635" class="sm" text-anchor="middle">数据来自论文 v1 Figure 2、Figure 3 与 Table 2；曲线为概念性重绘，端点数值为论文报告值</text>
+</svg>

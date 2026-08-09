@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-R1 蒸馏路线与小模型结果</title>
+  <desc id="desc">DeepSeek-R1 生成八十万样本，对六个 Qwen 和 Llama 底座做监督微调，并比较 32B 蒸馏和直接强化学习。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171831"/></linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#67e8f9"/></marker>
+    <style>.title{font:700 34px system-ui,sans-serif;fill:#f8fafc}.sub{font:18px system-ui,sans-serif;fill:#94a3b8}.h{font:700 22px system-ui,sans-serif;fill:#f8fafc}.t{font:17px system-ui,sans-serif;fill:#dbeafe}.sm{font:15px system-ui,sans-serif;fill:#94a3b8}.num{font:800 27px system-ui,sans-serif;fill:#67e8f9}.bar{font:700 15px system-ui,sans-serif;fill:#f8fafc}</style>
+  </defs>
+  <rect width="1440" height="760" rx="28" fill="url(#bg)"/>
+  <text x="70" y="68" class="title">蒸馏不是缩小 R1 权重，而是模仿 R1 生成的数据</text>
+  <text x="70" y="102" class="sub">论文对六个现成 dense base model 仅做 SFT；它们没有复刻旗舰 R1 的两轮 RL</text>
+
+  <g transform="translate(70 150)">
+    <rect width="265" height="150" rx="24" fill="#20204a" stroke="#818cf8"/>
+    <text x="132" y="47" class="h" text-anchor="middle">教师：DeepSeek-R1</text><text x="132" y="88" class="t" text-anchor="middle">采样 + 清洗</text><text x="132" y="121" class="sm" text-anchor="middle">长 reasoning 与最终答案</text>
+  </g>
+  <path d="M335 225H465" stroke="#67e8f9" stroke-width="5" marker-end="url(#a)"/>
+  <g transform="translate(480 150)">
+    <rect width="250" height="150" rx="24" fill="#12352f" stroke="#2dd4bf"/>
+    <text x="125" y="48" class="num" text-anchor="middle">约 800K</text><text x="125" y="86" class="t" text-anchor="middle">精选训练样本</text><text x="125" y="119" class="sm" text-anchor="middle">600K reasoning + 200K 通用</text>
+  </g>
+  <path d="M730 225H860" stroke="#67e8f9" stroke-width="5" marker-end="url(#a)"/>
+  <g transform="translate(875 135)">
+    <rect width="495" height="180" rx="24" fill="#102b3f" stroke="#38bdf8"/>
+    <text x="30" y="44" class="h">学生底座 → 只做监督微调</text>
+    <g class="t"><text x="30" y="87">Qwen2.5-Math：1.5B · 7B</text><text x="30" y="120">Qwen2.5：14B · 32B</text><text x="30" y="153">Llama-3.1-8B · Llama-3.3-70B-Instruct</text></g>
+  </g>
+
+  <g transform="translate(70 365)">
+    <rect width="1300" height="320" rx="24" fill="#0c1d33" stroke="#334155"/>
+    <text x="35" y="48" class="h">同一 Qwen-32B：直接 RL 与 R1 蒸馏的论文对照（pass@1，%）</text>
+    <text x="35" y="78" class="sm">蓝色：DeepSeek-R1-Zero-Qwen-32B（训练 &gt;10K RL steps）　紫色：DeepSeek-R1-Distill-Qwen-32B</text>
+
+    <g transform="translate(65 110)">
+      <text x="0" y="25" class="t">AIME 2024</text><rect x="160" y="5" width="235" height="28" rx="8" fill="#38bdf8"/><text x="405" y="25" class="bar">47.0</text><rect x="160" y="42" width="363" height="28" rx="8" fill="#a78bfa"/><text x="533" y="62" class="bar">72.6</text>
+      <text x="0" y="112" class="t">MATH-500</text><rect x="160" y="92" width="458" height="28" rx="8" fill="#38bdf8"/><text x="628" y="112" class="bar">91.6</text><rect x="160" y="129" width="472" height="28" rx="8" fill="#a78bfa"/><text x="642" y="149" class="bar">94.3</text>
+      <text x="700" y="25" class="t">GPQA Diamond</text><rect x="865" y="5" width="330" height="28" rx="8" fill="#38bdf8"/><text x="1205" y="25" class="bar">55.0</text><rect x="865" y="42" width="373" height="28" rx="8" fill="#a78bfa"/><text x="1248" y="62" class="bar">62.1</text>
+      <text x="700" y="112" class="t">LiveCodeBench</text><rect x="865" y="92" width="241" height="28" rx="8" fill="#38bdf8"/><text x="1116" y="112" class="bar">40.2</text><rect x="865" y="129" width="343" height="28" rx="8" fill="#a78bfa"/><text x="1218" y="149" class="bar">57.2</text>
+    </g>
+    <text x="650" y="296" class="sm" text-anchor="middle">结论范围：对论文这套 32B 配置，强教师的数据迁移明显优于让小模型独立发现同样的策略；不等于“RL 对小模型永远无效”。</text>
+  </g>
+</svg>
