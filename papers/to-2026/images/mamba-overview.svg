@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Attention、LTI SSM 与 Mamba 的记忆策略</title>
+  <desc id="desc">对比三种序列模型保存上下文、内容选择、训练路径和增量推理状态的差异。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06121f"/><stop offset="1" stop-color="#132039"/></linearGradient>
+    <filter id="s"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity=".28"/></filter>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:750;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.name{font-size:27px;font-weight:750;fill:#fff}.h{font-size:19px;font-weight:700;fill:#eef4ff}.body{font-size:16px;fill:#d2deed}.small{font-size:14px;fill:#9fb2cc}.metric{font-size:23px;font-weight:800}.card{stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">同一条长序列，三种“记忆过去”的办法</text>
+  <text x="64" y="107" class="sub">Attention 不压缩上下文；LTI SSM 固定压缩；Mamba 用输入依赖动力学做选择性压缩</text>
+  <g transform="translate(64 158)" filter="url(#s)">
+    <rect width="404" height="498" rx="26" fill="#142a47" stroke="#38bdf8" class="card"/>
+    <rect width="404" height="82" rx="26" fill="#075985"/><path d="M0 56h404v27H0z" fill="#075985"/><text x="28" y="52" class="name">Self-Attention</text>
+    <text x="28" y="126" class="h">记忆策略：保留全部上下文</text>
+    <g transform="translate(35 155)" stroke="#38bdf8" opacity=".85"><circle cx="20" cy="20" r="11" fill="#0c4a6e"/><circle cx="83" cy="20" r="11" fill="#0c4a6e"/><circle cx="146" cy="20" r="11" fill="#0c4a6e"/><circle cx="209" cy="20" r="11" fill="#0c4a6e"/><circle cx="272" cy="20" r="11" fill="#0c4a6e"/><circle cx="335" cy="20" r="11" fill="#0c4a6e"/><path d="M20 20 83 20M20 20 146 20M20 20 209 20M20 20 272 20M20 20 335 20M83 20 209 20M146 20 272 20M209 20 335 20"/></g>
+    <text x="28" y="233" class="body">每个 token 可按内容读取历史 token</text><text x="28" y="267" class="body">表达直接，但显式维护 KV cache</text>
+    <path d="M28 296h348" stroke="#31516c"/>
+    <text x="28" y="335" class="small">训练注意力计算</text><text x="28" y="372" class="metric" fill="#7dd3fc">O(L²D)</text>
+    <text x="214" y="335" class="small">单层增量状态</text><text x="214" y="372" class="metric" fill="#7dd3fc">O(LD)</text>
+    <text x="28" y="423" class="small">优势：内容寻址、任意两点直接交互</text><text x="28" y="457" class="small">代价：上下文越长，存储与读取越重</text>
+  </g>
+  <g transform="translate(518 158)" filter="url(#s)">
+    <rect width="404" height="498" rx="26" fill="#26244a" stroke="#8b8cf8" class="card"/>
+    <rect width="404" height="82" rx="26" fill="#4338ca"/><path d="M0 56h404v27H0z" fill="#4338ca"/><text x="28" y="52" class="name">LTI Structured SSM</text>
+    <text x="28" y="126" class="h">记忆策略：固定动力学压缩</text>
+    <g transform="translate(32 151)"><rect width="54" height="48" rx="9" fill="#4f46e5"/><rect x="68" width="54" height="48" rx="9" fill="#4f46e5"/><rect x="136" width="54" height="48" rx="9" fill="#4f46e5"/><path d="M194 24h46" stroke="#a5b4fc" stroke-width="4"/><rect x="246" y="-6" width="105" height="60" rx="14" fill="#312e81" stroke="#a5b4fc"/><text x="298" y="30" class="h" text-anchor="middle">固定状态</text></g>
+    <text x="28" y="233" class="body">Δ、A、B、C 对所有位置相同</text><text x="28" y="267" class="body">递推等价于固定全局卷积</text>
+    <path d="M28 296h348" stroke="#4c4775"/>
+    <text x="28" y="335" class="small">递推训练计算</text><text x="28" y="372" class="metric" fill="#c7d2fe">O(LDN)</text>
+    <text x="214" y="335" class="small">单层增量状态</text><text x="214" y="372" class="metric" fill="#c7d2fe">O(DN)</text>
+    <text x="28" y="423" class="small">优势：卷积训练、递推推理、固定状态</text><text x="28" y="457" class="small">弱点：固定规则难以按 token 选择信息</text>
+  </g>
+  <g transform="translate(972 158)" filter="url(#s)">
+    <rect width="404" height="498" rx="26" fill="#14382f" stroke="#34d399" class="card"/>
+    <rect width="404" height="82" rx="26" fill="#047857"/><path d="M0 56h404v27H0z" fill="#047857"/><text x="28" y="52" class="name">Mamba / S6</text>
+    <text x="28" y="126" class="h">记忆策略：选择性压缩</text>
+    <g transform="translate(28 151)"><g fill="#334e49"><rect width="44" height="44" rx="8"/><rect x="54" width="44" height="44" rx="8"/><rect x="108" width="44" height="44" rx="8"/><rect x="162" width="44" height="44" rx="8"/><rect x="216" width="44" height="44" rx="8"/></g><rect x="54" width="44" height="44" rx="8" fill="#f59e0b"/><rect x="162" width="44" height="44" rx="8" fill="#34d399"/><path d="M270 22h34" stroke="#6ee7b7" stroke-width="4"/><rect x="310" y="-8" width="62" height="60" rx="14" fill="#064e3b" stroke="#6ee7b7"/></g>
+    <text x="28" y="233" class="body">A 固定；Δₜ、Bₜ、Cₜ 依赖输入</text><text x="28" y="267" class="body">失去卷积形式，改用 selective scan</text>
+    <path d="M28 296h348" stroke="#31584e"/>
+    <text x="28" y="335" class="small">训练扫描计算</text><text x="28" y="372" class="metric" fill="#6ee7b7">O(LDN)</text>
+    <text x="214" y="335" class="small">单层增量状态</text><text x="214" y="372" class="metric" fill="#6ee7b7">O(DN)</text>
+    <text x="28" y="423" class="small">优势：按内容保留、忽略或重置状态</text><text x="28" y="457" class="small">代价：有限状态不是无损历史数据库</text>
+  </g>
+  <g transform="translate(64 706)"><rect width="1312" height="130" rx="22" fill="#0c1829" stroke="#334861"/><text x="28" y="43" class="h">最重要的区别不是“有没有矩阵乘法”，而是上下文是否被压缩</text><text x="28" y="80" class="body">Attention 把历史保存在可寻址 KV 中；Mamba 每层把任意长度历史压入固定大小 D×N 状态。线性扩展由这个约束带来，信息瓶颈也由它带来。</text><text x="28" y="108" class="small">复杂度省略 batch、层数和常数；FlashAttention 可降低工作内存，但不会把注意力的 L² 计算变成线性。</text></g>
+</svg>

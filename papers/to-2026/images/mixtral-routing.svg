@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Mixtral Top-2 路由的四个步骤</title>
+  <desc id="desc">Router 产生八个 logits，保留最大的两个，在这两个值之间做 Softmax，分别执行两个专家并按权重加和；批量实现会按专家重排 token 后再合并。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081328"/><stop offset="1" stop-color="#211f4c"/></linearGradient>
+    <linearGradient id="purple" x1="0" x2="1"><stop stop-color="#6257e7"/><stop offset="1" stop-color="#328bd2"/></linearGradient>
+    <linearGradient id="hot" x1="0" x2="1"><stop stop-color="#ffc24c"/><stop offset="1" stop-color="#ff7e58"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#020617" flood-opacity=".4"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#9eb4d5"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f7faff}.sub{font-size:16px;fill:#aabbd7}.step{font-size:15px;font-weight:760;fill:#b9c8e2}.head{font-size:21px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dbe7f7}.small{font-size:13px;fill:#9eafcc}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f3f7ff}.dark{font-size:16px;font-weight:750;fill:#182238}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="56" y="61" class="sans title">Top-2 路由：选择是离散的，混合权重是连续的</text>
+  <text x="56" y="94" class="sans sub">一个 token 的手算示例；同一过程会在每个 token、每一层独立发生</text>
+
+  <g filter="url(#shadow)"><rect x="47" y="131" width="276" height="310" rx="22" fill="#10233d" stroke="#496587"/></g>
+  <circle cx="79" cy="166" r="17" fill="#3a5180"/><text x="79" y="172" text-anchor="middle" class="sans step">1</text>
+  <text x="109" y="173" class="sans head">计算 8 个 logits</text>
+  <text x="70" y="213" class="sans mono">ℓ = x W<tspan baseline-shift="sub" font-size="11">g</tspan></text>
+  <text x="70" y="244" class="sans small">示例：</text>
+  <g class="sans body">
+    <text x="73" y="279">E0</text><rect x="107" y="261" width="151" height="22" rx="7" fill="#2d4770"/><rect x="107" y="261" width="144" height="22" rx="7" fill="#5d58df"/><text x="272" y="279" text-anchor="end">2.4</text>
+    <text x="73" y="313">E1</text><rect x="107" y="295" width="151" height="22" rx="7" fill="#2d4770"/><rect x="107" y="295" width="84" height="22" rx="7" fill="#406a99"/><text x="272" y="313" text-anchor="end">0.9</text>
+    <text x="73" y="347">E2</text><rect x="107" y="329" width="151" height="22" rx="7" fill="#2d4770"/><rect x="107" y="329" width="38" height="22" rx="7" fill="#406a99"/><text x="272" y="347" text-anchor="end">−0.2</text>
+    <text x="73" y="381">E3</text><rect x="107" y="363" width="151" height="22" rx="7" fill="#2d4770"/><rect x="107" y="363" width="121" height="22" rx="7" fill="#ff9860"/><text x="272" y="381" text-anchor="end">1.8</text>
+  </g>
+  <text x="70" y="416" class="sans small">其余 E4…E7 省略</text>
+
+  <path d="M323 286H365" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)"><rect x="379" y="131" width="245" height="310" rx="22" fill="#10233d" stroke="#496587"/></g>
+  <circle cx="411" cy="166" r="17" fill="#3a5180"/><text x="411" y="172" text-anchor="middle" class="sans step">2</text>
+  <text x="441" y="173" class="sans head">保留 Top-2</text>
+  <rect x="414" y="219" width="174" height="68" rx="15" fill="url(#purple)"/>
+  <text x="501" y="247" text-anchor="middle" class="sans head">Expert 0</text>
+  <text x="501" y="271" text-anchor="middle" class="sans mono">ℓ₀ = 2.4</text>
+  <rect x="414" y="307" width="174" height="68" rx="15" fill="url(#hot)"/>
+  <text x="501" y="335" text-anchor="middle" class="sans head">Expert 3</text>
+  <text x="501" y="359" text-anchor="middle" class="sans dark">ℓ₃ = 1.8</text>
+  <text x="501" y="410" text-anchor="middle" class="sans small">未选专家的 gate = 0</text>
+
+  <path d="M624 286H666" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)"><rect x="680" y="131" width="245" height="310" rx="22" fill="#10233d" stroke="#496587"/></g>
+  <circle cx="712" cy="166" r="17" fill="#3a5180"/><text x="712" y="172" text-anchor="middle" class="sans step">3</text>
+  <text x="742" y="173" class="sans head">仅在两者间 Softmax</text>
+  <text x="802" y="217" text-anchor="middle" class="sans mono">g = softmax([2.4, 1.8])</text>
+  <circle cx="760" cy="292" r="58" fill="#6257e7"/>
+  <text x="760" y="286" text-anchor="middle" class="sans head">g₀</text>
+  <text x="760" y="313" text-anchor="middle" class="sans head">0.646</text>
+  <circle cx="849" cy="313" r="45" fill="#ff965d"/>
+  <text x="849" y="307" text-anchor="middle" class="sans head">g₃</text>
+  <text x="849" y="332" text-anchor="middle" class="sans head">0.354</text>
+  <text x="802" y="395" text-anchor="middle" class="sans mono">g₀ + g₃ = 1</text>
+  <text x="802" y="419" text-anchor="middle" class="sans small">Top-K 后归一化不能漏掉</text>
+
+  <path d="M925 286H967" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <g filter="url(#shadow)"><rect x="981" y="131" width="252" height="310" rx="22" fill="#10233d" stroke="#496587"/></g>
+  <circle cx="1013" cy="166" r="17" fill="#3a5180"/><text x="1013" y="172" text-anchor="middle" class="sans step">4</text>
+  <text x="1043" y="173" class="sans head">执行、缩放、相加</text>
+  <rect x="1016" y="219" width="181" height="56" rx="13" fill="#3e3a8e"/>
+  <text x="1107" y="253" text-anchor="middle" class="sans body">0.646 · E₀(x)</text>
+  <rect x="1016" y="298" width="181" height="56" rx="13" fill="#a65a43"/>
+  <text x="1107" y="332" text-anchor="middle" class="sans body">0.354 · E₃(x)</text>
+  <circle cx="1107" cy="387" r="22" fill="#eef4ff"/><text x="1107" y="394" text-anchor="middle" class="sans dark">Σ</text>
+  <path d="M1107 275V365M1107 354V365" stroke="#ffad6a" stroke-width="3"/>
+  <text x="1107" y="421" text-anchor="middle" class="sans small">写回原 token 位置</text>
+
+  <rect x="48" y="478" width="1185" height="190" rx="22" fill="#0d1c32" stroke="#3e5678"/>
+  <text x="75" y="513" class="sans head">批量实现：不是逐 token 跑 Python 循环，而是 Dispatch → Grouped GEMM → Combine</text>
+  <rect x="75" y="539" width="202" height="75" rx="14" fill="#203858"/>
+  <text x="176" y="568" text-anchor="middle" class="sans mono">X [T, d]</text>
+  <text x="176" y="593" text-anchor="middle" class="sans small">展平 batch 与序列</text>
+  <path d="M277 576H339" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="352" y="539" width="225" height="75" rx="14" fill="#2d3d73"/>
+  <text x="465" y="568" text-anchor="middle" class="sans mono">indices, gates [T, 2]</text>
+  <text x="465" y="593" text-anchor="middle" class="sans small">每 token 生成两条 assignment</text>
+  <path d="M577 576H639" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="652" y="529" width="253" height="95" rx="14" fill="url(#purple)"/>
+  <text x="779" y="561" text-anchor="middle" class="sans head">按 expert_id 分组</text>
+  <text x="779" y="586" text-anchor="middle" class="sans body">8 组 SwiGLU / grouped GEMM</text>
+  <text x="779" y="608" text-anchor="middle" class="sans small">每组 token 数可以不同</text>
+  <path d="M905 576H967" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="980" y="539" width="222" height="75" rx="14" fill="#35435c"/>
+  <text x="1091" y="568" text-anchor="middle" class="sans mono">index_add → Y [T, d]</text>
+  <text x="1091" y="593" text-anchor="middle" class="sans small">按 gate 加权并恢复顺序</text>
+  <text x="75" y="647" class="sans small">等价写法：先对 8 个 logits 做 Softmax，再取 Top-2 并重新归一化；最终仍等于只对两项 logits 做 Softmax。</text>
+</svg>

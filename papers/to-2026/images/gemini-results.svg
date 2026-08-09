@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 980" role="img" aria-labelledby="title desc">
+  <title id="title">Gemini Ultra 选定基准成绩与评测协议</title><desc id="desc">比较 Gemini Ultra 和 GPT-4 或 GPT-4V 在 MMLU、HumanEval、MMMU、TextVQA、DocVQA 和 MathVista 上的报告成绩，并提示协议差异。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071320"/><stop offset="1" stop-color="#151a34"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.h{font-size:20px;font-weight:700;fill:#f8fafc}.body{font-size:16px;fill:#cfdbeb}.small{font-size:14px;fill:#9fb2cc}.val{font-size:15px;font-weight:700;fill:#fff}.grid{stroke:#30425d;stroke-width:1}</style>
+  </defs>
+  <rect width="1440" height="980" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">代表性结果：强，但先把协议写在数字旁边</text>
+  <text x="64" y="107" class="sub">来自 2023 年 v1 技术报告；所有条形均从 0 开始，长度对应准确率或 pass@1（%）</text>
+  <g transform="translate(64 146)">
+    <rect width="922" height="716" rx="22" fill="#0d1a2d" stroke="#31445f"/>
+    <g transform="translate(220 50)"><line x1="0" y1="0" x2="0" y2="600" class="grid"/><line x1="160" y1="0" x2="160" y2="600" class="grid"/><line x1="320" y1="0" x2="320" y2="600" class="grid"/><line x1="480" y1="0" x2="480" y2="600" class="grid"/><line x1="640" y1="0" x2="640" y2="600" class="grid"/><text x="0" y="-15" class="small" text-anchor="middle">0</text><text x="160" y="-15" class="small" text-anchor="middle">25</text><text x="320" y="-15" class="small" text-anchor="middle">50</text><text x="480" y="-15" class="small" text-anchor="middle">75</text><text x="640" y="-15" class="small" text-anchor="middle">100</text></g>
+    <g transform="translate(24 82)"><text y="18" class="h">MMLU</text><text y="43" class="small">路由 CoT@32</text><rect x="196" width="576" height="28" rx="7" fill="#7c3aed"/><text x="780" y="20" class="val">90.04</text><rect x="196" y="35" width="559" height="28" rx="7" fill="#2563eb"/><text x="763" y="55" class="val">87.29</text></g>
+    <g transform="translate(24 187)"><text y="18" class="h">HumanEval</text><text y="43" class="small">Ultra 为指令微调 0-shot</text><rect x="196" width="476" height="28" rx="7" fill="#7c3aed"/><text x="680" y="20" class="val">74.4</text><rect x="196" y="35" width="429" height="28" rx="7" fill="#2563eb"/><text x="633" y="55" class="val">67.0</text></g>
+    <g transform="translate(24 292)"><text y="18" class="h">MMMU</text><text y="43" class="small">pass@1，zero-shot</text><rect x="196" width="380" height="28" rx="7" fill="#7c3aed"/><text x="584" y="20" class="val">59.4</text><rect x="196" y="35" width="364" height="28" rx="7" fill="#2563eb"/><text x="568" y="55" class="val">56.8</text></g>
+    <g transform="translate(24 397)"><text y="18" class="h">TextVQA</text><text y="43" class="small">pixel only，无外部 OCR</text><rect x="196" width="527" height="28" rx="7" fill="#7c3aed"/><text x="731" y="20" class="val">82.3</text><rect x="196" y="35" width="499" height="28" rx="7" fill="#2563eb"/><text x="703" y="55" class="val">78.0</text></g>
+    <g transform="translate(24 502)"><text y="18" class="h">DocVQA</text><text y="43" class="small">pixel only，无外部 OCR</text><rect x="196" width="582" height="28" rx="7" fill="#7c3aed"/><text x="786" y="20" class="val">90.9</text><rect x="196" y="35" width="566" height="28" rx="7" fill="#2563eb"/><text x="770" y="55" class="val">88.4</text></g>
+    <g transform="translate(24 607)"><text y="18" class="h">MathVista</text><text y="43" class="small">zero-shot</text><rect x="196" width="339" height="28" rx="7" fill="#7c3aed"/><text x="543" y="20" class="val">53.0</text><rect x="196" y="35" width="319" height="28" rx="7" fill="#2563eb"/><text x="523" y="55" class="val">49.9</text></g>
+    <g transform="translate(642 674)"><rect width="16" height="16" rx="4" fill="#7c3aed"/><text x="24" y="14" class="small">Gemini Ultra</text><rect x="132" width="16" height="16" rx="4" fill="#2563eb"/><text x="156" y="14" class="small">GPT-4 / GPT-4V</text></g>
+  </g>
+  <g transform="translate(1014 146)">
+    <rect width="362" height="716" rx="22" fill="#121d31" stroke="#354863"/>
+    <text x="24" y="46" class="h">比较时必须带上的脚注</text>
+    <g transform="translate(24 78)"><circle cx="11" cy="11" r="11" fill="#f59e0b"/><text x="11" y="17" text-anchor="middle" class="val">1</text><text x="38" y="15" class="body">MMLU headline 使用 32 次采样</text><text x="38" y="43" class="small">不是单次普通 5-shot</text></g>
+    <g transform="translate(24 161)"><circle cx="11" cy="11" r="11" fill="#f59e0b"/><text x="11" y="17" text-anchor="middle" class="val">2</text><text x="38" y="15" class="body">GPT-4 数字来源混合</text><text x="38" y="43" class="small">有 API 自测，也有外部报告值</text></g>
+    <g transform="translate(24 244)"><circle cx="11" cy="11" r="11" fill="#f59e0b"/><text x="11" y="17" text-anchor="middle" class="val">3</text><text x="38" y="15" class="body">视觉表是 zero-shot greedy</text><text x="38" y="43" class="small">但个别对手使用不同 shot / CoT</text></g>
+    <g transform="translate(24 327)"><circle cx="11" cy="11" r="11" fill="#f59e0b"/><text x="11" y="17" text-anchor="middle" class="val">4</text><text x="38" y="15" class="body">“超过 GPT-4V”不等于绝对 SOTA</text><text x="38" y="43" class="small">AI2D、VQAv2 上有更高微调模型</text></g>
+    <g transform="translate(24 410)"><circle cx="11" cy="11" r="11" fill="#f59e0b"/><text x="11" y="17" text-anchor="middle" class="val">5</text><text x="38" y="15" class="body">闭源模型不可完全复现实验</text><text x="38" y="43" class="small">prompt、过滤与权重细节有限</text></g>
+    <path d="M24 493h314" stroke="#344761"/>
+    <text x="24" y="535" class="h">更稳妥的结论</text><text x="24" y="574" class="body">Gemini Ultra 在报告覆盖的</text><text x="24" y="605" class="body">语言和视觉任务上整体很强；</text><text x="24" y="636" class="body">单个 headline 不能脱离采样预算、</text><text x="24" y="667" class="body">shot 数、工具链与对手来源。</text>
+  </g>
+  <g transform="translate(64 892)"><rect width="1312" height="52" rx="15" fill="#14332f" stroke="#34d399"/><text x="24" y="33" class="body">表中视觉任务均按报告所称 pixel-only、无外部 OCR；MMMU 使用 Ultra pass@1 59.4，而不是 Maj1@32 的 62.4。</text></g>
+</svg>
