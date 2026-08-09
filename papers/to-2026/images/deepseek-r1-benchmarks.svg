@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="740" viewBox="0 0 1440 740" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-R1 与 OpenAI o1-1217 关键基准对比</title>
+  <desc id="desc">对比 AIME、MATH-500、GPQA Diamond、LiveCodeBench、Codeforces 和 SWE-bench Verified 的论文报告结果。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061424"/><stop offset="1" stop-color="#161933"/></linearGradient>
+    <style>.title{font:700 34px system-ui,sans-serif;fill:#f8fafc}.sub{font:18px system-ui,sans-serif;fill:#94a3b8}.h{font:700 19px system-ui,sans-serif;fill:#f8fafc}.t{font:16px system-ui,sans-serif;fill:#cbd5e1}.v{font:800 17px system-ui,sans-serif;fill:#f8fafc}.sm{font:14px system-ui,sans-serif;fill:#94a3b8}</style>
+  </defs>
+  <rect width="1440" height="740" rx="28" fill="url(#bg)"/>
+  <text x="70" y="68" class="title">旗舰 R1 的结果：数学接近或略高，GPQA 与竞赛编程仍有输赢</text>
+  <text x="70" y="102" class="sub">论文 v1；蓝色为 DeepSeek-R1，灰紫为 OpenAI-o1-1217。不同指标不能横向比较绝对高度。</text>
+
+  <g transform="translate(70 145)">
+    <rect width="1300" height="500" rx="24" fill="#0c1d33" stroke="#334155"/>
+    <g transform="translate(40 55)">
+      <text x="0" y="18" class="h">AIME 2024 · pass@1</text><rect x="340" width="503" height="26" rx="7" fill="#38bdf8"/><text x="854" y="19" class="v">79.8</text><rect x="340" y="33" width="499" height="26" rx="7" fill="#7c83a8"/><text x="850" y="52" class="v">79.2</text>
+    </g>
+    <g transform="translate(40 125)">
+      <text x="0" y="18" class="h">MATH-500 · pass@1</text><rect x="340" width="613" height="26" rx="7" fill="#38bdf8"/><text x="964" y="19" class="v">97.3</text><rect x="340" y="33" width="607" height="26" rx="7" fill="#7c83a8"/><text x="958" y="52" class="v">96.4</text>
+    </g>
+    <g transform="translate(40 195)">
+      <text x="0" y="18" class="h">GPQA Diamond · pass@1</text><rect x="340" width="450" height="26" rx="7" fill="#38bdf8"/><text x="801" y="19" class="v">71.5</text><rect x="340" y="33" width="477" height="26" rx="7" fill="#7c83a8"/><text x="828" y="52" class="v">75.7</text>
+    </g>
+    <g transform="translate(40 265)">
+      <text x="0" y="18" class="h">LiveCodeBench · pass@1</text><rect x="340" width="415" height="26" rx="7" fill="#38bdf8"/><text x="766" y="19" class="v">65.9</text><rect x="340" y="33" width="399" height="26" rx="7" fill="#7c83a8"/><text x="750" y="52" class="v">63.4</text>
+    </g>
+    <g transform="translate(40 335)">
+      <text x="0" y="18" class="h">Codeforces · percentile</text><rect x="340" width="607" height="26" rx="7" fill="#38bdf8"/><text x="958" y="19" class="v">96.3</text><rect x="340" y="33" width="609" height="26" rx="7" fill="#7c83a8"/><text x="960" y="52" class="v">96.6</text>
+    </g>
+    <g transform="translate(40 405)">
+      <text x="0" y="18" class="h">SWE-bench Verified · resolved</text><rect x="340" width="310" height="26" rx="7" fill="#38bdf8"/><text x="661" y="19" class="v">49.2</text><rect x="340" y="33" width="308" height="26" rx="7" fill="#7c83a8"/><text x="659" y="52" class="v">48.9</text>
+    </g>
+    <g transform="translate(1060 55)"><rect width="225" height="92" rx="18" fill="#14243f"/><rect x="20" y="20" width="38" height="14" rx="5" fill="#38bdf8"/><text x="72" y="33" class="t">DeepSeek-R1</text><rect x="20" y="58" width="38" height="14" rx="5" fill="#7c83a8"/><text x="72" y="71" class="t">o1-1217</text></g>
+    <g transform="translate(1060 195)"><rect width="225" height="170" rx="18" fill="#14243f"/><text x="20" y="36" class="h">必须同时看协议</text><text x="20" y="70" class="sm">temperature = 0.6</text><text x="20" y="97" class="sm">top-p = 0.95</text><text x="20" y="124" class="sm">4–64 次采样求均值</text><text x="20" y="151" class="sm">最大生成 32,768 tokens</text></g>
+  </g>
+  <text x="720" y="695" class="sm" text-anchor="middle">o1-1217 数值由论文转引官方报告；这不是相同开源评测栈下的完全可复现实验</text>
+</svg>
