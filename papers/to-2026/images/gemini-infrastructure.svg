@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Gemini Ultra 训练基础设施</title><desc id="desc">Ultra 跨数据中心、跨 TPUv4 SuperPod 训练，Pod 内模型并行、Pod 间数据并行，并用内存冗余提高有效训练时间。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061423"/><stop offset="1" stop-color="#17213a"/></linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#67e8f9"/></marker>
+    <filter id="s"><feDropShadow dx="0" dy="7" stdDeviation="10" flood-opacity=".25"/></filter>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.h{font-size:21px;font-weight:700;fill:#f8fafc}.body{font-size:16px;fill:#cfdbeb}.small{font-size:14px;fill:#9fb2cc}.metric{font-size:44px;font-weight:800}.line{fill:none;stroke:#67e8f9;stroke-width:3;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">Ultra 的难点不只在模型，也在“持续跑下去”</text>
+  <text x="64" y="107" class="sub">报告披露：TPUv4 / TPUv5e、JAX + Pathways、GSPMD / XLA，以及面向大规模故障的恢复机制</text>
+  <g transform="translate(64 158)" filter="url(#s)">
+    <rect width="600" height="343" rx="24" fill="#10263c" stroke="#38bdf8"/>
+    <text x="28" y="47" class="h">数据中心 A</text><text x="445" y="47" class="small">TPUv4 SuperPod</text>
+    <g transform="translate(28 78)">
+      <rect width="544" height="96" rx="16" fill="#0a1a2b"/>
+      <text x="20" y="32" class="body">最多 4096 颗芯片</text><text x="20" y="61" class="small">光交换机把 4×4×4 cube 重配置为 3D torus</text><text x="20" y="84" class="small">重配置时间约 10 秒</text>
+      <g transform="translate(390 19)" fill="#38bdf8"><circle cx="0" cy="0" r="7"/><circle cx="35" cy="0" r="7"/><circle cx="70" cy="0" r="7"/><circle cx="105" cy="0" r="7"/><circle cx="0" cy="30" r="7"/><circle cx="35" cy="30" r="7"/><circle cx="70" cy="30" r="7"/><circle cx="105" cy="30" r="7"/><circle cx="0" cy="60" r="7"/><circle cx="35" cy="60" r="7"/><circle cx="70" cy="60" r="7"/><circle cx="105" cy="60" r="7"/></g>
+    </g>
+    <rect x="28" y="201" width="260" height="112" rx="16" fill="#12304d"/><text x="48" y="237" class="h">Pod 内</text><text x="48" y="270" class="body">模型并行</text><text x="48" y="295" class="small">切分参数与计算</text>
+    <rect x="312" y="201" width="260" height="112" rx="16" fill="#192c53"/><text x="332" y="237" class="h">Pod 间</text><text x="332" y="270" class="body">数据并行</text><text x="332" y="295" class="small">跨 SuperPod 扩展</text>
+  </g>
+  <g transform="translate(776 158)" filter="url(#s)">
+    <rect width="600" height="343" rx="24" fill="#1d2149" stroke="#818cf8"/>
+    <text x="28" y="47" class="h">数据中心 B / 更多 SuperPod</text><text x="405" y="47" class="small">跨站点训练</text>
+    <g transform="translate(28 78)"><rect width="544" height="96" rx="16" fill="#10152f"/><text x="20" y="34" class="body">JAX + Pathways：single-controller 编程模型</text><text x="20" y="64" class="small">GSPMD / XLA 自动分区；MegaScale 调度 collective</text><text x="20" y="86" class="small">通信与计算重叠，降低同步空泡</text></g>
+    <rect x="28" y="201" width="544" height="112" rx="16" fill="#261f4f"/><text x="48" y="237" class="h">为什么要跨数据中心？</text><text x="48" y="270" class="body">单个物理园区无法容纳 Ultra 所需的全部加速器</text><text x="48" y="297" class="small">代价是更复杂的网络、同步、调度与故障恢复</text>
+  </g>
+  <path d="M667 332 C710 300 732 300 774 332" class="line"/>
+  <g transform="translate(64 548)">
+    <rect width="1312" height="280" rx="24" fill="#101a2d" stroke="#3c4d68"/>
+    <text x="28" y="48" class="h">可靠性是训练算法的一部分</text>
+    <g transform="translate(28 78)"><rect width="377" height="154" rx="18" fill="#122c3e"/><text x="20" y="38" class="h">故障现实</text><text x="20" y="74" class="body">静默数据损坏规模上约每</text><text x="20" y="113" class="metric" fill="#67e8f9">1–2 周</text><text x="20" y="140" class="small">就应预期出现一次</text></g>
+    <g transform="translate(433 78)"><rect width="421" height="154" rx="18" fill="#252448"/><text x="20" y="38" class="h">恢复策略</text><text x="20" y="72" class="body">内存中保留冗余模型状态</text><text x="20" y="104" class="body">确定性重放、扫描器、热备</text><text x="20" y="134" class="small">减少依赖慢速持久化 checkpoint</text></g>
+    <g transform="translate(882 78)"><rect width="374" height="154" rx="18" fill="#15352f"/><text x="20" y="38" class="h">最大规模 goodput</text><text x="20" y="102" class="metric" fill="#6ee7b7">85% → 97%</text><text x="20" y="134" class="small">有效训练时间占比</text></g>
+  </g>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 940" role="img" aria-labelledby="title desc">
+  <title id="title">Gemini Ultra 在 MMLU 上的不确定性路由评估</title><desc id="desc">采样 32 条思维链，如果共识足够高就采用多数答案，否则回退到无思维链贪心答案；并比较不同推理协议的成绩。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071321"/><stop offset="1" stop-color="#161b35"/></linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#67e8f9"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.h{font-size:20px;font-weight:700;fill:#f8fafc}.body{font-size:16px;fill:#cfdbeb}.small{font-size:14px;fill:#9fb2cc}.score{font-size:24px;font-weight:800;fill:#fff}.line{stroke:#67e8f9;stroke-width:3;fill:none;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1440" height="940" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">90.04% 不是普通 5-shot：先看推理协议，再看榜单</text>
+  <text x="64" y="107" class="sub">MMLU 的 uncertainty-routed CoT@32：共识高时信多数，分歧大时回退到不写思维链的贪心答案</text>
+  <g transform="translate(64 161)">
+    <rect width="210" height="120" rx="22" fill="#112a43" stroke="#38bdf8"/><text x="105" y="50" class="h" text-anchor="middle">同一道题</text><text x="105" y="83" class="body" text-anchor="middle">few-shot prompt</text>
+  </g>
+  <path d="M275 221H354" class="line"/>
+  <g transform="translate(366 143)">
+    <rect width="286" height="156" rx="22" fill="#1c2852" stroke="#818cf8"/><text x="143" y="45" class="h" text-anchor="middle">采样 k = 32 条 CoT</text>
+    <g transform="translate(25 70)" fill="#818cf8"><circle cx="8" cy="8" r="8"/><circle cx="38" cy="8" r="8"/><circle cx="68" cy="8" r="8"/><circle cx="98" cy="8" r="8"/><circle cx="128" cy="8" r="8"/><circle cx="158" cy="8" r="8"/><circle cx="188" cy="8" r="8"/><circle cx="218" cy="8" r="8"/><circle cx="8" cy="40" r="8"/><circle cx="38" cy="40" r="8"/><circle cx="68" cy="40" r="8"/><circle cx="98" cy="40" r="8"/><circle cx="128" cy="40" r="8"/><circle cx="158" cy="40" r="8"/><circle cx="188" cy="40" r="8"/><circle cx="218" cy="40" r="8"/></g>
+  </g>
+  <path d="M653 221H732" class="line"/>
+  <g transform="translate(744 143)"><path d="M150 0 300 78 150 156 0 78z" fill="#33285b" stroke="#c084fc" stroke-width="2"/><text x="150" y="67" class="h" text-anchor="middle">答案共识率</text><text x="150" y="96" class="body" text-anchor="middle">≥ 验证集阈值？</text></g>
+  <path d="M1045 190 C1100 160 1122 160 1180 175" class="line"/><path d="M1045 252 C1100 280 1122 288 1180 286" class="line"/>
+  <g transform="translate(1192 132)"><rect width="184" height="100" rx="20" fill="#143c37" stroke="#34d399"/><text x="92" y="40" class="h" text-anchor="middle">是</text><text x="92" y="71" class="body" text-anchor="middle">采用多数答案</text><rect y="132" width="184" height="100" rx="20" fill="#3a2525" stroke="#fb7185"/><text x="92" y="172" class="h" text-anchor="middle">否</text><text x="92" y="203" class="body" text-anchor="middle">回退 greedy</text></g>
+  <text x="853" y="349" class="small">阈值在验证集上调；它是测试时计算策略，不是新训练 checkpoint</text>
+  <g transform="translate(64 403)">
+    <rect width="1312" height="411" rx="24" fill="#0e1a2d" stroke="#344660"/>
+    <text x="28" y="47" class="h">同一张 MMLU，不同推理协议得到不同数字</text>
+    <text x="28" y="79" class="small">准确率（%）；条形从 80% 起，仅用于放大协议差异</text>
+    <text x="28" y="132" class="body">Gemini Ultra</text>
+    <g transform="translate(215 106)"><text x="0" y="25" class="small">greedy</text><rect x="125" width="278" height="34" rx="8" fill="#164e63"/><text x="414" y="25" class="score">83.96</text><text x="510" y="25" class="small">单次、无 CoT</text></g>
+    <g transform="translate(215 158)"><text x="0" y="25" class="small">CoT@32</text><rect x="125" width="333" height="34" rx="8" fill="#3730a3"/><text x="469" y="25" class="score">84.99</text><text x="565" y="25" class="small">普通多数投票</text></g>
+    <g transform="translate(215 210)"><text x="0" y="25" class="small">路由 CoT@32</text><rect x="125" width="603" height="34" rx="8" fill="#7c3aed"/><text x="739" y="25" class="score">90.04</text><text x="835" y="25" class="small">论文 headline</text></g>
+    <text x="28" y="304" class="body">GPT-4（报告通过 API 自测）· greedy</text>
+    <g transform="translate(215 278)"><rect x="125" width="292" height="34" rx="8" fill="#155e75"/><text x="428" y="25" class="score">84.21</text></g>
+    <g transform="translate(215 330)"><text x="0" y="25" class="small">CoT@32 / 路由</text><rect x="125" width="454" height="34" rx="8" fill="#4338ca"/><text x="590" y="25" class="score">87.29</text><text x="686" y="25" class="small">两种结果相同</text></g>
+  </g>
+  <g transform="translate(64 844)"><rect width="1312" height="56" rx="16" fill="#3a260c" stroke="#f59e0b"/><text x="24" y="36" class="body" fill="#fde68a">同协议的普通 5-shot：Ultra 83.7，GPT-4 86.4。结论应写成“路由 CoT@32 达 90.04”，而不是笼统说“Gemini MMLU 90%”。</text></g>
+</svg>

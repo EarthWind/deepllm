@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">Gemini 1.0 Ultra Pro Nano 家族</title><desc id="desc">比较 Ultra、Pro、Nano-1 和 Nano-2 的目标、参数披露和部署取舍。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081426"/><stop offset="1" stop-color="#151732"/></linearGradient>
+    <filter id="s"><feDropShadow dx="0" dy="9" stdDeviation="13" flood-opacity=".3"/></filter>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.name{font-size:29px;font-weight:750;fill:#fff}.h{font-size:20px;font-weight:700;fill:#eaf2ff}.body{font-size:16px;fill:#cfdbeb}.small{font-size:14px;fill:#9fb2cc}.pill{font-size:14px;font-weight:700}</style>
+  </defs>
+  <rect width="1440" height="820" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">Gemini 不是单个模型，而是一组延迟—能力取舍</text>
+  <text x="64" y="107" class="sub">只有 Nano 的参数量在 2023 技术报告中公开；卡片面积不代表参数规模</text>
+  <g transform="translate(64 159)" filter="url(#s)">
+    <rect width="404" height="438" rx="26" fill="#12294a" stroke="#38bdf8" stroke-width="2"/>
+    <rect width="404" height="90" rx="26" fill="#075985"/><path d="M0 64h404v27H0z" fill="#075985"/><text x="28" y="56" class="name">Ultra</text>
+    <rect x="276" y="28" width="102" height="31" rx="15" fill="#082f49"/><text x="327" y="49" class="pill" text-anchor="middle" fill="#7dd3fc">能力优先</text>
+    <text x="28" y="137" class="h">定位</text><text x="28" y="172" class="body">最复杂的推理与多模态任务</text>
+    <text x="28" y="222" class="h">参数量</text><text x="28" y="257" class="body">未披露（不要用传闻数字填空）</text>
+    <text x="28" y="307" class="h">训练与服务</text><text x="28" y="342" class="body">跨多座数据中心的大规模 TPUv4</text><text x="28" y="376" class="body">能力高，成本与延迟目标不是 Nano 级</text>
+  </g>
+  <g transform="translate(496 159)" filter="url(#s)">
+    <rect width="404" height="438" rx="26" fill="#24215a" stroke="#818cf8" stroke-width="2"/>
+    <rect width="404" height="90" rx="26" fill="#4338ca"/><path d="M0 64h404v27H0z" fill="#4338ca"/><text x="28" y="56" class="name">Pro</text>
+    <rect x="275" y="28" width="103" height="31" rx="15" fill="#312e81"/><text x="326" y="49" class="pill" text-anchor="middle" fill="#c7d2fe">均衡版本</text>
+    <text x="28" y="137" class="h">定位</text><text x="28" y="172" class="body">可扩展、广泛任务与产品服务</text>
+    <text x="28" y="222" class="h">参数量</text><text x="28" y="257" class="body">未披露</text>
+    <text x="28" y="307" class="h">优化目标</text><text x="28" y="342" class="body">在性能、推理成本与延迟之间平衡</text><text x="28" y="376" class="body">不能从名称推断与 Ultra 的比例</text>
+  </g>
+  <g transform="translate(928 159)" filter="url(#s)">
+    <rect width="448" height="438" rx="26" fill="#14352f" stroke="#34d399" stroke-width="2"/>
+    <rect width="448" height="90" rx="26" fill="#047857"/><path d="M0 64h448v27H0z" fill="#047857"/><text x="28" y="56" class="name">Nano</text>
+    <rect x="318" y="28" width="104" height="31" rx="15" fill="#064e3b"/><text x="370" y="49" class="pill" text-anchor="middle" fill="#a7f3d0">端侧部署</text>
+    <g transform="translate(25 121)"><rect width="190" height="126" rx="18" fill="#0b2724"/><text x="20" y="35" class="h">Nano-1</text><text x="20" y="76" class="name" fill="#6ee7b7">1.8B</text><text x="20" y="104" class="small">参数</text><rect x="208" width="190" height="126" rx="18" fill="#0b2724"/><text x="228" y="35" class="h">Nano-2</text><text x="228" y="76" class="name" fill="#6ee7b7">3.25B</text><text x="228" y="104" class="small">参数</text></g>
+    <text x="25" y="298" class="h">压缩链路</text><text x="25" y="333" class="body">由更大的 Gemini 模型蒸馏</text><text x="25" y="367" class="body">部署时进行 4-bit 量化</text><text x="25" y="401" class="body">为内存受限、离线和低延迟场景设计</text>
+  </g>
+  <g transform="translate(64 640)">
+    <rect width="1312" height="116" rx="20" fill="#0b1729" stroke="#304764"/>
+    <text x="28" y="42" class="h">读表规则</text>
+    <text x="28" y="78" class="body">“家族化”不是把同一 checkpoint 简单裁剪三份，而是针对能力、服务成本和端侧约束设置不同模型与训练目标。报告没有给出 Ultra / Pro 的参数量。</text>
+  </g>
+</svg>

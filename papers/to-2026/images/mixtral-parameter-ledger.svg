@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Mixtral 总参数、活跃参数、权重显存与 KV Cache 账本</title>
+  <desc id="desc">Mixtral 约有 46.7B 总参数，但每个 token 只使用两个专家，活跃参数约 12.9B。全部权重仍需驻留。32K BF16 KV Cache 因 GQA 每条序列约需 4 GiB。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#23224d"/></linearGradient>
+    <linearGradient id="experts" x1="0" x2="1"><stop stop-color="#6559e7"/><stop offset="1" stop-color="#3488d1"/></linearGradient>
+    <linearGradient id="active" x1="0" x2="1"><stop stop-color="#ffc34d"/><stop offset="1" stop-color="#ff7d59"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#020617" flood-opacity=".38"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f7faff}.sub{font-size:16px;fill:#acbdd8}.head{font-size:21px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dbe6f6}.small{font-size:13px;fill:#9eafca}.big{font-size:36px;font-weight:780;fill:#fff}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f4f7ff}.dark{font-size:14px;font-weight:750;fill:#1a2335}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="56" y="61" class="sans title">三本账要分开：总参数 ≠ 活跃参数 ≠ 运行显存</text>
+  <text x="56" y="94" class="sans sub">按公开结构参数重建；数字采用十进制 B，内存同时给出 GB 与 GiB 口径</text>
+
+  <g filter="url(#shadow)"><rect x="50" y="128" width="1180" height="228" rx="22" fill="#10233b" stroke="#496482"/></g>
+  <text x="78" y="166" class="sans head">完整模型：46.703B 参数</text>
+  <rect x="78" y="190" width="1095" height="64" rx="14" fill="#253b5a"/>
+  <rect x="78" y="190" width="1057" height="64" rx="14" fill="url(#experts)"/>
+  <rect x="1135" y="190" width="31" height="64" fill="#22a4b8"/>
+  <rect x="1166" y="190" width="7" height="64" rx="3" fill="#98b2d0"/>
+  <text x="606" y="218" text-anchor="middle" class="sans head">8 × 32 个 SwiGLU：45.097B</text>
+  <text x="606" y="241" text-anchor="middle" class="sans small">96.6% 参数都在专家 FFN 中</text>
+  <text x="1120" y="282" text-anchor="end" class="sans small">Attention：1.342B</text>
+  <text x="1177" y="306" text-anchor="end" class="sans small">Embedding + LM Head：0.262B；Router + Norm 约 0.001B</text>
+
+  <text x="78" y="327" class="sans body">单层单专家：3 × 4096 × 14336 = 176.161M　·　单层 8 个专家：1.409B</text>
+
+  <g filter="url(#shadow)"><rect x="50" y="382" width="744" height="282" rx="22" fill="#10233b" stroke="#496482"/></g>
+  <text x="78" y="421" class="sans head">每 token 活跃：12.880B 参数</text>
+  <text x="760" y="421" text-anchor="end" class="sans small">约占总参数 27.6%</text>
+  <rect x="78" y="448" width="682" height="68" rx="15" fill="#253b5a"/>
+  <rect x="78" y="448" width="188" height="68" rx="15" fill="url(#active)"/>
+  <text x="172" y="477" text-anchor="middle" class="sans head">12.880B</text>
+  <text x="172" y="500" text-anchor="middle" class="sans dark">2/8 专家 + 共享主干</text>
+  <text x="524" y="489" text-anchor="middle" class="sans body">其余 6 个专家不参与当前 token 的 FFN 计算</text>
+  <text x="78" y="551" class="sans mono">活跃 = 32 × (2 × 176.161M + 共享层参数) + 词表两端</text>
+  <text x="78" y="581" class="sans body">11.274B 活跃专家参数 + 1.606B 共享参数 ≈ 12.9B</text>
+  <rect x="78" y="606" width="682" height="34" rx="10" fill="#182d49"/>
+  <text x="419" y="628" text-anchor="middle" class="sans small">“8×7B”不是 8 个独立 7B 模型：Attention、Norm、Embedding 都共享</text>
+
+  <g filter="url(#shadow)"><rect x="820" y="382" width="410" height="282" rx="22" fill="#10233b" stroke="#496482"/></g>
+  <text x="848" y="421" class="sans head">驻留与上下文内存</text>
+  <text x="848" y="459" class="sans body">全量权重 payload（未计元数据）</text>
+  <text x="848" y="491" class="sans mono">BF16　93.4 GB ≈ 87.0 GiB</text>
+  <text x="848" y="519" class="sans mono">INT8　46.7 GB ≈ 43.5 GiB</text>
+  <text x="848" y="547" class="sans mono">4-bit　23.4 GB ≈ 21.7 GiB</text>
+  <path d="M848 566H1200" stroke="#405a7d"/>
+  <text x="848" y="593" class="sans body">32K、BF16、单序列 KV Cache</text>
+  <text x="848" y="620" class="sans mono">2 × 32 × 8 × 128 × 32768 × 2 B</text>
+  <text x="1200" y="647" text-anchor="end" class="sans head">= 4 GiB</text>
+  <text x="848" y="647" class="sans small">GQA 比 32 个 KV 头的 MHA 少 4×</text>
+</svg>

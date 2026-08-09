@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 880" role="img" aria-labelledby="title desc">
+  <title id="title">Gemini 1.0 报告披露的多模态架构边界</title>
+  <desc id="desc">文本、图像、音频和视频按原顺序进入 Transformer 解码器并生成文本或离散图像 token；同时标明未披露的内部细节。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#101a34"/></linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset=".55" stop-color="#6366f1"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-opacity=".28"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#67e8f9"/></marker>
+    <style>
+      text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.h{font-size:22px;font-weight:700;fill:#f8fafc}.body{font-size:16px;fill:#cfdbeb}.small{font-size:14px;fill:#9fb2cc}.tag{font-size:14px;font-weight:700}.card{fill:#111f35;stroke:#2e4666;stroke-width:1.5}.line{stroke:#67e8f9;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1440" height="880" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">Gemini 1.0：报告披露到哪一层？</text>
+  <text x="64" y="107" class="sub">蓝色 = 技术报告明确陈述　·　橙色 = 便于理解的抽象，不能反推私有实现</text>
+  <g transform="translate(64 154)">
+    <rect width="210" height="94" rx="16" class="card"/><circle cx="32" cy="31" r="12" fill="#38bdf8"/><text x="56" y="37" class="h">文本</text><text x="24" y="70" class="small">SentencePiece token</text>
+    <rect y="112" width="210" height="94" rx="16" class="card"/><rect x="20" y="132" width="28" height="24" rx="4" fill="#34d399"/><text x="56" y="149" class="h">图像</text><text x="24" y="182" class="small">自然图、图表、PDF</text>
+    <rect y="224" width="210" height="94" rx="16" class="card"/><path d="M20 272 q10-30 20 0t20 0" stroke="#c084fc" stroke-width="4" fill="none"/><text x="76" y="261" class="h">音频</text><text x="24" y="294" class="small">16 kHz，USM 特征</text>
+    <rect y="336" width="210" height="94" rx="16" class="card"/><path d="M21 359h45v31H21z M27 359v31M60 359v31" stroke="#f59e0b" stroke-width="3" fill="none"/><text x="80" y="379" class="h">视频</text><text x="24" y="412" class="small">按帧序列放入上下文</text>
+  </g>
+  <path d="M286 201 C355 201 353 289 420 307" class="line"/><path d="M286 313 C350 313 360 322 420 329" class="line"/><path d="M286 425 C350 425 360 370 420 353" class="line"/><path d="M286 537 C350 537 358 410 420 378" class="line"/>
+  <g transform="translate(430 205)" filter="url(#shadow)">
+    <rect width="360" height="290" rx="24" fill="#0d2238" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="22" y="20" width="104" height="28" rx="14" fill="#063c5a"/><text x="74" y="40" class="tag" text-anchor="middle" fill="#67e8f9">报告明确</text>
+    <text x="28" y="86" class="h">交错的多模态序列</text>
+    <g transform="translate(28 113)"><rect width="48" height="44" rx="8" fill="#0ea5e9"/><rect x="56" width="48" height="44" rx="8" fill="#10b981"/><rect x="112" width="48" height="44" rx="8" fill="#0ea5e9"/><rect x="168" width="48" height="44" rx="8" fill="#a855f7"/><rect x="224" width="48" height="44" rx="8" fill="#f59e0b"/><rect x="280" width="48" height="44" rx="8" fill="#0ea5e9"/></g>
+    <text x="28" y="189" class="body">保留“文字 → 图 → 追问 → 音频/视频”的顺序</text>
+    <text x="28" y="220" class="body">视觉输入支持可变分辨率</text>
+    <text x="28" y="251" class="body">上下文长度：32K token</text>
+  </g>
+  <path d="M802 350 H881" class="line"/>
+  <g transform="translate(893 177)" filter="url(#shadow)">
+    <rect width="310" height="346" rx="28" fill="url(#core)"/>
+    <text x="155" y="69" class="h" text-anchor="middle">Transformer Decoder</text>
+    <g opacity=".88"><rect x="45" y="96" width="220" height="42" rx="10" fill="#18275b"/><rect x="45" y="151" width="220" height="42" rx="10" fill="#172554"/><rect x="45" y="206" width="220" height="42" rx="10" fill="#312e81"/></g>
+    <text x="155" y="124" class="body" text-anchor="middle">因果自注意力</text><text x="155" y="179" class="body" text-anchor="middle">高效注意力，例如 MQA</text><text x="155" y="234" class="body" text-anchor="middle">跨模态联合推理</text>
+    <text x="155" y="292" class="small" text-anchor="middle" fill="#e0e7ff">报告没有公开层数与隐藏维度</text>
+  </g>
+  <path d="M1216 295 H1285" class="line"/><path d="M1216 405 H1285" class="line"/>
+  <g transform="translate(1294 249)"><rect width="110" height="86" rx="16" fill="#0b3150" stroke="#38bdf8"/><text x="55" y="38" class="h" text-anchor="middle">文本</text><text x="55" y="65" class="small" text-anchor="middle">token</text><rect y="112" width="110" height="86" rx="16" fill="#143c37" stroke="#34d399"/><text x="55" y="150" class="h" text-anchor="middle">图像</text><text x="55" y="177" class="small" text-anchor="middle">离散 token</text></g>
+  <g transform="translate(64 658)">
+    <rect width="1312" height="158" rx="22" fill="#1b1b24" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="22" y="20" width="104" height="28" rx="14" fill="#4a2b09"/><text x="74" y="40" class="tag" text-anchor="middle" fill="#fbbf24">没有披露</text>
+    <text x="24" y="85" class="body">Ultra / Pro 参数量　·　具体层数与宽度　·　视觉前端、连接器和投影层的精确结构　·　训练 token 总数与数据配比</text>
+    <text x="24" y="122" class="body">因此“编码器 → projector → backbone”只能作为教学接口图，不能写成 Gemini 的已知源码结构；报告也没有说 Gemini 1.0 是 MoE。</text>
+  </g>
+</svg>

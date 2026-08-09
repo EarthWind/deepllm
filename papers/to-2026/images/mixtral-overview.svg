@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Mixtral 单个 Decoder Block 总览</title>
+  <desc id="desc">Mixtral 保留稠密的分组查询注意力，并把每层前馈网络替换为八选二的稀疏 SwiGLU 专家层。两个专家输出按路由权重相加后回到残差主干。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#22234e"/></linearGradient>
+    <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#176ea0"/><stop offset="1" stop-color="#18a6b8"/></linearGradient>
+    <linearGradient id="router" x1="0" x2="1"><stop stop-color="#5e55df"/><stop offset="1" stop-color="#268ac8"/></linearGradient>
+    <linearGradient id="hot" x1="0" x2="1"><stop stop-color="#ffb33d"/><stop offset="1" stop-color="#ff785e"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#020617" flood-opacity=".38"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#9eb4d5"/></marker>
+    <marker id="hotArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#ff9b55"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f7faff}.sub{font-size:16px;fill:#aebddb}.head{font-size:21px;font-weight:750;fill:#fff}.body{font-size:15px;fill:#d8e6f7}.small{font-size:13px;fill:#9fb0cf}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#edf5ff}.dark{font-size:15px;font-weight:700;fill:#182238}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="56" y="61" class="sans title">Mixtral：Mistral 主干 + 每层 8 选 2 的稀疏 SwiGLU</text>
+  <text x="56" y="94" class="sans sub">32 个 Decoder Block · 4096 隐藏维度 · 32K 全稠密上下文 · 每个 token、每一层都重新路由</text>
+
+  <g filter="url(#shadow)">
+    <rect x="52" y="126" width="1176" height="524" rx="24" fill="#10233b" stroke="#4b6588" stroke-width="2"/>
+  </g>
+  <rect x="78" y="160" width="126" height="70" rx="15" fill="#263c5d"/>
+  <text x="141" y="190" text-anchor="middle" class="sans head">输入 x<tspan baseline-shift="sub" font-size="13">ℓ</tspan></text>
+  <text x="141" y="214" text-anchor="middle" class="sans small">[B, T, 4096]</text>
+  <path d="M204 195H252" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="265" y="160" width="154" height="70" rx="15" fill="#213a5b" stroke="#5f7da4"/>
+  <text x="342" y="190" text-anchor="middle" class="sans head">RMSNorm</text>
+  <text x="342" y="214" text-anchor="middle" class="sans small">Pre-Norm</text>
+  <path d="M419 195H467" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="480" y="151" width="252" height="88" rx="17" fill="url(#blue)"/>
+  <text x="606" y="185" text-anchor="middle" class="sans head">Causal Self-Attention</text>
+  <text x="606" y="211" text-anchor="middle" class="sans body">GQA：32 个 Q 头 / 8 个 KV 头</text>
+  <path d="M732 195H780" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <circle cx="805" cy="195" r="23" fill="#293f61" stroke="#8da4c5"/><text x="805" y="202" text-anchor="middle" class="sans head">+</text>
+  <path d="M141 230V276H805V218" fill="none" stroke="#637c9f" stroke-width="2.5"/>
+  <text x="446" y="269" text-anchor="middle" class="sans small">第一条残差</text>
+  <path d="M828 195H878" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="891" y="160" width="154" height="70" rx="15" fill="#213a5b" stroke="#5f7da4"/>
+  <text x="968" y="190" text-anchor="middle" class="sans head">RMSNorm</text>
+  <text x="968" y="214" text-anchor="middle" class="sans small">送入 MoE</text>
+  <path d="M1045 195H1093" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="1098" y="151" width="103" height="88" rx="17" fill="url(#router)"/>
+  <text x="1149" y="185" text-anchor="middle" class="sans head">Router</text>
+  <text x="1149" y="211" text-anchor="middle" class="sans small">4096 → 8</text>
+
+  <path d="M1149 239V298" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="1149" y="274" text-anchor="middle" class="sans small">Top-2</text>
+
+  <g opacity=".57">
+    <rect x="91" y="346" width="119" height="67" rx="14" fill="#253a59" stroke="#607797"/><text x="151" y="374" text-anchor="middle" class="sans body">Expert 0</text><text x="151" y="396" text-anchor="middle" class="sans small">SwiGLU</text>
+    <rect x="226" y="346" width="119" height="67" rx="14" fill="#253a59" stroke="#607797"/><text x="286" y="374" text-anchor="middle" class="sans body">Expert 1</text><text x="286" y="396" text-anchor="middle" class="sans small">SwiGLU</text>
+    <rect x="496" y="346" width="119" height="67" rx="14" fill="#253a59" stroke="#607797"/><text x="556" y="374" text-anchor="middle" class="sans body">Expert 3</text><text x="556" y="396" text-anchor="middle" class="sans small">SwiGLU</text>
+    <rect x="631" y="346" width="119" height="67" rx="14" fill="#253a59" stroke="#607797"/><text x="691" y="374" text-anchor="middle" class="sans body">Expert 4</text><text x="691" y="396" text-anchor="middle" class="sans small">SwiGLU</text>
+    <rect x="901" y="346" width="119" height="67" rx="14" fill="#253a59" stroke="#607797"/><text x="961" y="374" text-anchor="middle" class="sans body">Expert 6</text><text x="961" y="396" text-anchor="middle" class="sans small">SwiGLU</text>
+    <rect x="1036" y="346" width="119" height="67" rx="14" fill="#253a59" stroke="#607797"/><text x="1096" y="374" text-anchor="middle" class="sans body">Expert 7</text><text x="1096" y="396" text-anchor="middle" class="sans small">SwiGLU</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="361" y="337" width="119" height="84" rx="15" fill="url(#hot)"/><text x="421" y="371" text-anchor="middle" class="sans head">Expert 2</text><text x="421" y="397" text-anchor="middle" class="sans dark">g₂ · E₂(x)</text>
+    <rect x="766" y="337" width="119" height="84" rx="15" fill="url(#hot)"/><text x="826" y="371" text-anchor="middle" class="sans head">Expert 5</text><text x="826" y="397" text-anchor="middle" class="sans dark">g₅ · E₅(x)</text>
+  </g>
+  <path d="M1149 306C990 306 970 327 826 337" fill="none" stroke="#ff9b55" stroke-width="5" marker-end="url(#hotArrow)"/>
+  <path d="M1149 306C825 284 639 302 421 337" fill="none" stroke="#ff9b55" stroke-width="5" marker-end="url(#hotArrow)"/>
+  <path d="M1149 306C1118 326 1111 333 1096 346M1149 306C1011 298 986 325 961 346M1149 306C754 288 710 325 691 346M1149 306C642 278 576 320 556 346M1149 306C450 270 305 322 286 346M1149 306C385 263 171 319 151 346" fill="none" stroke="#4e6687" stroke-width="1.6"/>
+
+  <path d="M421 421V475H620M826 421V475H660" fill="none" stroke="#ff9b55" stroke-width="4"/>
+  <circle cx="640" cy="475" r="26" fill="#f0f5ff"/><text x="640" y="482" text-anchor="middle" class="sans dark">Σ</text>
+  <text x="640" y="522" text-anchor="middle" class="sans mono">m = g₂E₂(x) + g₅E₅(x)，g₂ + g₅ = 1</text>
+  <path d="M666 475H766" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <circle cx="795" cy="475" r="23" fill="#293f61" stroke="#8da4c5"/><text x="795" y="482" text-anchor="middle" class="sans head">+</text>
+  <path d="M805 218V444" fill="none" stroke="#637c9f" stroke-width="2.5"/>
+  <text x="819" y="448" class="sans small">第二条残差</text>
+  <path d="M818 475H916" stroke="#9eb4d5" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="929" y="441" width="201" height="68" rx="15" fill="#263c5d"/>
+  <text x="1030" y="470" text-anchor="middle" class="sans head">输出 x<tspan baseline-shift="sub" font-size="13">ℓ+1</tspan></text>
+  <text x="1030" y="493" text-anchor="middle" class="sans small">进入下一 Decoder Block</text>
+
+  <rect x="83" y="558" width="1104" height="60" rx="15" fill="#0d1c32" stroke="#344d70"/>
+  <text x="105" y="583" class="sans body">不变：RoPE、RMSNorm、因果 Attention、残差主干</text>
+  <text x="105" y="606" class="sans body">关键变化：每一层的单个 FFN → 8 个参数独立的 SwiGLU；当前 token 只计算其中 2 个</text>
+  <text x="1060" y="592" text-anchor="middle" class="sans small">上述结构 × 32 层</text>
+</svg>

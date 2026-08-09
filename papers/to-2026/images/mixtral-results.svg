@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Mixtral 与 Llama 2 70B 的论文结果对比</title>
+  <desc id="desc">论文统一评测管线下，Mixtral 在 MMLU、HumanEval、MBPP、MATH 与 GSM8K 上优于 Llama 2 70B，但 WinoGrande 较低。Mixtral 每 token 活跃参数为 13B。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#23224d"/></linearGradient>
+    <linearGradient id="mix" x1="0" x2="1"><stop stop-color="#ffc54e"/><stop offset="1" stop-color="#ff7b59"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#020617" flood-opacity=".38"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f7faff}.sub{font-size:16px;fill:#acbdd8}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dbe6f6}.small{font-size:13px;fill:#9eafca}.value{font-size:14px;font-weight:750;fill:#fff}.dark{font-size:14px;font-weight:750;fill:#1a2335}</style>
+  </defs>
+  <rect width="1280" height="760" rx="28" fill="url(#bg)"/>
+  <text x="56" y="61" class="sans title">Mixtral 论文结果：13B 活跃参数对比 Llama 2 70B</text>
+  <text x="56" y="94" class="sans sub">论文 Table 2；作者用同一评测管线重跑模型。横条以 100 分为满刻度，不代表指标之间可以直接平均。</text>
+
+  <rect x="889" y="42" width="138" height="28" rx="8" fill="#4a6386"/><text x="958" y="61" text-anchor="middle" class="sans small">Llama 2 70B</text>
+  <rect x="1044" y="42" width="138" height="28" rx="8" fill="url(#mix)"/><text x="1113" y="61" text-anchor="middle" class="sans dark">Mixtral 8×7B</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="128" width="1184" height="502" rx="22" fill="#10233b" stroke="#496482"/></g>
+  <text x="80" y="167" class="sans head">基准</text><text x="255" y="167" class="sans head">得分（%）</text><text x="1138" y="167" text-anchor="middle" class="sans head">差值</text>
+
+  <g class="sans body">
+    <text x="80" y="217">MMLU · 5-shot</text>
+    <rect x="255" y="190" width="699" height="20" rx="7" fill="#4a6386"/><text x="964" y="206" class="sans value">69.9</text>
+    <rect x="255" y="217" width="706" height="20" rx="7" fill="url(#mix)"/><text x="971" y="233" class="sans value">70.6</text>
+    <text x="1138" y="222" text-anchor="middle" class="sans value">+0.7</text>
+
+    <text x="80" y="287">HumanEval · 0-shot</text>
+    <rect x="255" y="260" width="293" height="20" rx="7" fill="#4a6386"/><text x="558" y="276" class="sans value">29.3</text>
+    <rect x="255" y="287" width="402" height="20" rx="7" fill="url(#mix)"/><text x="667" y="303" class="sans value">40.2</text>
+    <text x="1138" y="292" text-anchor="middle" class="sans value">+10.9</text>
+
+    <text x="80" y="357">MBPP · 3-shot</text>
+    <rect x="255" y="330" width="498" height="20" rx="7" fill="#4a6386"/><text x="763" y="346" class="sans value">49.8</text>
+    <rect x="255" y="357" width="607" height="20" rx="7" fill="url(#mix)"/><text x="872" y="373" class="sans value">60.7</text>
+    <text x="1138" y="362" text-anchor="middle" class="sans value">+10.9</text>
+
+    <text x="80" y="427">MATH · maj@4</text>
+    <rect x="255" y="400" width="138" height="20" rx="7" fill="#4a6386"/><text x="403" y="416" class="sans value">13.8</text>
+    <rect x="255" y="427" width="284" height="20" rx="7" fill="url(#mix)"/><text x="549" y="443" class="sans value">28.4</text>
+    <text x="1138" y="432" text-anchor="middle" class="sans value">+14.6</text>
+
+    <text x="80" y="497">GSM8K · maj@8</text>
+    <rect x="255" y="470" width="696" height="20" rx="7" fill="#4a6386"/><text x="961" y="486" class="sans value">69.6</text>
+    <rect x="255" y="497" width="744" height="20" rx="7" fill="url(#mix)"/><text x="1009" y="513" class="sans value">74.4</text>
+    <text x="1138" y="502" text-anchor="middle" class="sans value">+4.8</text>
+
+    <text x="80" y="567">WinoGrande · 0-shot</text>
+    <rect x="255" y="540" width="804" height="20" rx="7" fill="#4a6386"/><text x="1069" y="556" class="sans value">80.4</text>
+    <rect x="255" y="567" width="772" height="20" rx="7" fill="url(#mix)"/><text x="1037" y="583" class="sans value">77.2</text>
+    <text x="1138" y="572" text-anchor="middle" class="sans value">−3.2</text>
+  </g>
+  <line x1="255" y1="184" x2="255" y2="595" stroke="#607796"/><line x1="755" y1="184" x2="755" y2="595" stroke="#314b6d" stroke-dasharray="5 7"/><line x1="1255" y1="184" x2="1255" y2="595" stroke="#314b6d"/>
+
+  <rect x="48" y="654" width="1184" height="67" rx="16" fill="#0d1c32" stroke="#3e5678"/>
+  <text x="72" y="681" class="sans body">边界：活跃参数与主要 FLOPs 相关，但不计 46.7B 权重驻留、路由/通信、硬件利用率；“质量接近 70B”也不是所有任务都获胜。</text>
+  <text x="72" y="704" class="sans small">论文还报告：32K passkey 合成任务达到 100% 检索准确率；这只能证明该设置下的检索能力，不等价于所有真实长上下文任务都可靠。</text>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Mixtral 专家并行的两次跨设备交换</title>
+  <desc id="desc">专家被分布到四个设备。Router 先按 expert id 将 token 发送到对应设备，各设备执行本地专家，然后把结果送回原位置并按路由权重合并。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#211f49"/></linearGradient>
+    <linearGradient id="router" x1="0" x2="1"><stop stop-color="#6257e5"/><stop offset="1" stop-color="#2f8ed2"/></linearGradient>
+    <linearGradient id="hot" x1="0" x2="1"><stop stop-color="#ffc44e"/><stop offset="1" stop-color="#ff7a59"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#020617" flood-opacity=".38"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#96afd2"/></marker>
+    <marker id="hotArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#ff9d59"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f7faff}.sub{font-size:16px;fill:#acbdd8}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dbe6f6}.small{font-size:13px;fill:#9eafca}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f7ff}.dark{font-size:15px;font-weight:750;fill:#1a2335}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="56" y="61" class="sans title">专家并行：数学只有 Top-2，系统却有两次 All-to-All</text>
+  <text x="56" y="94" class="sans sub">示意：8 个专家分布在 4 张卡；真实布局还可能叠加数据并行、张量并行和流水线并行</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="132" width="260" height="467" rx="22" fill="#10233b" stroke="#496482"/></g>
+  <text x="178" y="171" text-anchor="middle" class="sans head">原始 token 顺序</text>
+  <g class="sans body">
+    <rect x="78" y="202" width="200" height="46" rx="12" fill="#263d5d"/><text x="96" y="231">t0</text><text x="260" y="231" text-anchor="end">E2 · E6</text>
+    <rect x="78" y="262" width="200" height="46" rx="12" fill="#263d5d"/><text x="96" y="291">t1</text><text x="260" y="291" text-anchor="end">E0 · E3</text>
+    <rect x="78" y="322" width="200" height="46" rx="12" fill="#263d5d"/><text x="96" y="351">t2</text><text x="260" y="351" text-anchor="end">E6 · E7</text>
+    <rect x="78" y="382" width="200" height="46" rx="12" fill="#263d5d"/><text x="96" y="411">t3</text><text x="260" y="411" text-anchor="end">E2 · E5</text>
+  </g>
+  <rect x="78" y="460" width="200" height="74" rx="15" fill="url(#router)"/>
+  <text x="178" y="490" text-anchor="middle" class="sans head">Router</text>
+  <text x="178" y="516" text-anchor="middle" class="sans small">产生 2T 条 assignment</text>
+  <text x="178" y="570" text-anchor="middle" class="sans small">同一 token 的两份副本</text>
+  <text x="178" y="588" text-anchor="middle" class="sans small">可能发往不同设备</text>
+
+  <path d="M308 358H373" stroke="#ff9d59" stroke-width="4" marker-end="url(#hotArrow)"/>
+  <text x="341" y="336" text-anchor="middle" class="sans small">第一次</text>
+  <text x="341" y="393" text-anchor="middle" class="sans small">All-to-All</text>
+
+  <g filter="url(#shadow)"><rect x="387" y="132" width="504" height="467" rx="22" fill="#10233b" stroke="#496482"/></g>
+  <text x="639" y="171" text-anchor="middle" class="sans head">按 expert_id 重排，在专家所在设备计算</text>
+  <g>
+    <rect x="419" y="205" width="208" height="145" rx="17" fill="#1a3653" stroke="#22a7b9"/>
+    <text x="523" y="235" text-anchor="middle" class="sans head">Device 0</text>
+    <rect x="443" y="255" width="69" height="61" rx="12" fill="#2d4e70"/><text x="478" y="291" text-anchor="middle" class="sans body">E0</text>
+    <rect x="533" y="255" width="69" height="61" rx="12" fill="#2d4e70"/><text x="568" y="291" text-anchor="middle" class="sans body">E1</text>
+
+    <rect x="651" y="205" width="208" height="145" rx="17" fill="#1a3653" stroke="#22a7b9"/>
+    <text x="755" y="235" text-anchor="middle" class="sans head">Device 1</text>
+    <rect x="675" y="255" width="69" height="61" rx="12" fill="url(#hot)"/><text x="710" y="291" text-anchor="middle" class="sans dark">E2</text>
+    <rect x="765" y="255" width="69" height="61" rx="12" fill="#2d4e70"/><text x="800" y="291" text-anchor="middle" class="sans body">E3</text>
+
+    <rect x="419" y="380" width="208" height="145" rx="17" fill="#1a3653" stroke="#22a7b9"/>
+    <text x="523" y="410" text-anchor="middle" class="sans head">Device 2</text>
+    <rect x="443" y="430" width="69" height="61" rx="12" fill="#2d4e70"/><text x="478" y="466" text-anchor="middle" class="sans body">E4</text>
+    <rect x="533" y="430" width="69" height="61" rx="12" fill="#2d4e70"/><text x="568" y="466" text-anchor="middle" class="sans body">E5</text>
+
+    <rect x="651" y="380" width="208" height="145" rx="17" fill="#1a3653" stroke="#22a7b9"/>
+    <text x="755" y="410" text-anchor="middle" class="sans head">Device 3</text>
+    <rect x="675" y="430" width="69" height="61" rx="12" fill="url(#hot)"/><text x="710" y="466" text-anchor="middle" class="sans dark">E6</text>
+    <rect x="765" y="430" width="69" height="61" rx="12" fill="#2d4e70"/><text x="800" y="466" text-anchor="middle" class="sans body">E7</text>
+  </g>
+  <text x="639" y="561" text-anchor="middle" class="sans mono">local grouped GEMM：SiLU(W₁x) ⊙ W₃x → W₂</text>
+  <text x="639" y="583" text-anchor="middle" class="sans small">热门专家决定该步的尾部延迟；算力空闲的卡无法自动替它完成计算</text>
+
+  <path d="M891 358H956" stroke="#ff9d59" stroke-width="4" marker-end="url(#hotArrow)"/>
+  <text x="923" y="336" text-anchor="middle" class="sans small">第二次</text>
+  <text x="923" y="393" text-anchor="middle" class="sans small">All-to-All</text>
+
+  <g filter="url(#shadow)"><rect x="970" y="132" width="262" height="467" rx="22" fill="#10233b" stroke="#496482"/></g>
+  <text x="1101" y="171" text-anchor="middle" class="sans head">返回并合并</text>
+  <rect x="1002" y="211" width="198" height="95" rx="16" fill="#263d5d"/>
+  <text x="1101" y="243" text-anchor="middle" class="sans body">恢复 token_id</text>
+  <text x="1101" y="270" text-anchor="middle" class="sans body">乘 gate weight</text>
+  <text x="1101" y="293" text-anchor="middle" class="sans small">index_add / scatter-add</text>
+  <path d="M1101 306V353" stroke="#96afd2" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="1002" y="366" width="198" height="86" rx="16" fill="url(#router)"/>
+  <text x="1101" y="397" text-anchor="middle" class="sans head">y<tspan baseline-shift="sub" font-size="12">t</tspan> = Σ g<tspan baseline-shift="sub" font-size="12">t,e</tspan>E<tspan baseline-shift="sub" font-size="12">e</tspan>(x<tspan baseline-shift="sub" font-size="12">t</tspan>)</text>
+  <text x="1101" y="430" text-anchor="middle" class="sans small">回到残差主干</text>
+  <rect x="1002" y="489" width="198" height="72" rx="15" fill="#312b25" stroke="#d89243"/>
+  <text x="1101" y="517" text-anchor="middle" class="sans body">通信量与 2T 成正比</text>
+  <text x="1101" y="542" text-anchor="middle" class="sans small">还受拓扑、精度、并行布局影响</text>
+
+  <rect x="48" y="624" width="1184" height="53" rx="14" fill="#0d1c32" stroke="#3e5678"/>
+  <text x="70" y="648" class="sans body">为何大 batch 更友好：每个专家一次能收到更多 token，矩阵乘的算术强度更高，固定的调度与通信开销更容易摊薄。</text>
+  <text x="70" y="668" class="sans small">因此“活跃参数约 13B”只描述主要计算规模，不保证延迟等同于任意 13B 稠密模型。</text>
+</svg>

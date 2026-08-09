@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Gemini 1.0 预训练、后训练与安全评估流程</title><desc id="desc">多模态多语言数据经过联合预训练、监督微调、奖励模型和 RLHF，并通过开发、保障、外部伙伴与红队测试。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07121f"/><stop offset="1" stop-color="#151a35"/></linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#67e8f9"/></marker>
+    <filter id="s"><feDropShadow dx="0" dy="7" stdDeviation="10" flood-opacity=".25"/></filter>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.h{font-size:21px;font-weight:700;fill:#f8fafc}.body{font-size:16px;fill:#cfdbeb}.small{font-size:14px;fill:#9fb2cc}.num{font-size:18px;font-weight:800;fill:#07121f}.line{stroke:#67e8f9;stroke-width:3;fill:none;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">从“联合预训练”到“可部署行为”</text>
+  <text x="64" y="107" class="sub">流程来自 2023 报告的公开层级；数据配比、总 token 数和 RLHF 算法细节未披露</text>
+  <g transform="translate(64 161)" filter="url(#s)">
+    <rect width="260" height="330" rx="24" fill="#102740" stroke="#38bdf8"/>
+    <circle cx="35" cy="37" r="18" fill="#67e8f9"/><text x="35" y="44" class="num" text-anchor="middle">1</text><text x="68" y="44" class="h">训练语料</text>
+    <text x="26" y="91" class="body">网页文档与书籍</text><text x="26" y="124" class="body">代码</text><text x="26" y="157" class="body">图像与图文对</text><text x="26" y="190" class="body">音频与视频</text><text x="26" y="223" class="body">多语言数据</text>
+    <path d="M26 247h208" stroke="#2d4d68"/><text x="26" y="278" class="small">启发式 + 模型分类器过滤</text><text x="26" y="305" class="small">安全过滤 + 评测集去污染</text>
+  </g>
+  <path d="M334 326H384" class="line"/>
+  <g transform="translate(396 161)" filter="url(#s)">
+    <rect width="282" height="330" rx="24" fill="#1d2856" stroke="#818cf8"/>
+    <circle cx="35" cy="37" r="18" fill="#a5b4fc"/><text x="35" y="44" class="num" text-anchor="middle">2</text><text x="68" y="44" class="h">联合预训练</text>
+    <text x="26" y="92" class="body">Transformer decoder</text><text x="26" y="126" class="body">交错多模态上下文</text><text x="26" y="160" class="body">SentencePiece tokenizer</text><text x="26" y="194" class="body">32K 上下文</text>
+    <path d="M26 219h230" stroke="#3c4778"/><text x="26" y="250" class="small">最大模型：按 Chinchilla 思路</text><text x="26" y="278" class="small">小模型：为推理预算训练更多 token</text><text x="26" y="306" class="small">后期提高领域相关数据权重</text>
+  </g>
+  <path d="M689 326H739" class="line"/>
+  <g transform="translate(751 161)" filter="url(#s)">
+    <rect width="264" height="330" rx="24" fill="#252149" stroke="#a78bfa"/>
+    <circle cx="35" cy="37" r="18" fill="#c4b5fd"/><text x="35" y="44" class="num" text-anchor="middle">3</text><text x="68" y="44" class="h">监督微调</text>
+    <text x="26" y="96" class="body">高质量指令—回答</text><text x="26" y="132" class="body">文本与多模态任务</text><text x="26" y="168" class="body">目标行为示范</text>
+    <path d="M26 196h212" stroke="#4c4270"/><text x="26" y="231" class="small">把预训练能力组织成</text><text x="26" y="258" class="small">可跟随指令的交互行为</text><text x="26" y="293" class="small">不是简单增加知识</text>
+  </g>
+  <path d="M1026 326H1076" class="line"/>
+  <g transform="translate(1088 161)" filter="url(#s)">
+    <rect width="288" height="330" rx="24" fill="#17352f" stroke="#34d399"/>
+    <circle cx="35" cy="37" r="18" fill="#6ee7b7"/><text x="35" y="44" class="num" text-anchor="middle">4</text><text x="68" y="44" class="h">奖励模型 + RLHF</text>
+    <text x="26" y="96" class="body">多头奖励模型</text><text x="26" y="133" class="body">有用性</text><text x="26" y="169" class="body">事实性</text><text x="26" y="205" class="body">安全性</text>
+    <path d="M26 229h236" stroke="#31574d"/><text x="26" y="263" class="small">多目标加权组合</text><text x="26" y="291" class="small">约 20 类危害定制数据</text>
+  </g>
+  <g transform="translate(64 548)">
+    <rect width="1312" height="280" rx="24" fill="#101a2d" stroke="#3b4d68"/>
+    <text x="28" y="46" class="h">四层评估围栏：不是一次 benchmark 就结束</text>
+    <g transform="translate(28 76)"><rect width="286" height="135" rx="17" fill="#102d41"/><text x="20" y="38" class="h">开发评估</text><text x="20" y="72" class="body">训练团队日常迭代</text><text x="20" y="103" class="small">发现能力与行为问题</text></g>
+    <g transform="translate(334 76)"><rect width="286" height="135" rx="17" fill="#1c2b50"/><text x="20" y="38" class="h">保障评估</text><text x="20" y="72" class="body">开发团队外 + 保留集</text><text x="20" y="103" class="small">降低“自己出题自己考”</text></g>
+    <g transform="translate(640 76)"><rect width="286" height="135" rx="17" fill="#29244b"/><text x="20" y="38" class="h">外部伙伴</text><text x="20" y="72" class="body">独立机构与领域专家</text><text x="20" y="103" class="small">扩大情境与攻击面</text></g>
+    <g transform="translate(946 76)"><rect width="310" height="135" rx="17" fill="#34232e"/><text x="20" y="38" class="h">内部红队</text><text x="20" y="72" class="body">主动寻找滥用与失败路径</text><text x="20" y="103" class="small">事实性、儿童安全、网络、生物风险等</text></g>
+    <text x="28" y="252" class="small">报告给出流程和部分指标变化，但没有给出足以复现实验的完整后训练数据与超参数。</text>
+  </g>
+</svg>
