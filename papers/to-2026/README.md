@@ -1,6 +1,6 @@
 # 论文原理文档索引
 
-`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 1 篇基础论文（`Transformer`）；扩展阅读暂以总导读和原文链接为主。
+`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa` 与 `BART` 五篇基础 / 迁移论文，共 35 篇；其余扩展阅读暂以总导读和原文链接为主。
 增强版已补充：`论文链接`、`代表公式 / 关键表达`、`前置阅读`、`读完接着看`。
 
 ## 文件列表
@@ -36,11 +36,15 @@
 - `28_Gemini_2023_原理.md`: `Gemini` - 多模态基础模型
 - `29_Mamba_2023_原理.md`: `Mamba` - 后 Transformer 路线
 - `30_DeepSeek_R1_2025_原理.md`: `DeepSeek-R1` - Reasoning Model / 强化学习
+- `31_ULMFiT_2018_原理.md`: `ULMFiT` - 通用语言模型微调 / 迁移学习
+- `32_ELMo_2018_原理.md`: `ELMo` - 深层上下文词表示 / 特征式迁移
+- `33_RoBERTa_2019_原理.md`: `RoBERTa` - BERT 预训练配方 / 动态掩码 / 充分训练
+- `34_BART_2019_原理.md`: `BART` - 去噪序列到序列预训练 / 理解与生成统一
 
 ## 建议阅读顺序
 
 0. 基础骨架：`Transformer`
-1. 预训练主线：`BERT -> GPT -> GPT-2 -> T5 -> GPT-3`
+1. 预训练主线：`ULMFiT -> ELMo -> GPT -> BERT -> RoBERTa -> GPT-2 -> BART -> T5 -> GPT-3`
 2. 扩展律主线：`Scaling Laws -> Chinchilla -> PaLM`
 3. 对齐主线：`FLAN -> InstructGPT -> Constitutional AI -> DPO`
 4. 推理主线：`Chain-of-Thought -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> DeepSeek-R1`

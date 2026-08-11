@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">BART 去噪序列到序列预训练的数据流</title>
+  <desc id="desc">原始文档经句子打乱和文本填空产生损坏文档，由双向编码器理解，再由带交叉注意力的从左到右解码器重建完整原文。</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity=".10"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/></marker>
+    <style>
+      .title{font:700 30px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#475569}.panel{font:700 20px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#0f172a}.label{font:600 14px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#475569}.tiny{font:500 11.5px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#64748b}.mono{font:700 14px "JetBrains Mono",Consolas,monospace;fill:#1d4ed8}.white{font:700 15px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#fff}.arrow{fill:none;stroke:#64748b;stroke-width:2.2;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1400" height="860" fill="#f8fafc"/>
+  <text x="70" y="58" class="title">BART：先把文档破坏，再让 Encoder–Decoder 重建原文</text>
+  <text x="70" y="90" class="subtitle">Encoder 双向读取全部损坏输入；Decoder 只看左侧原文前缀，并通过 cross-attention 条件化于 Encoder 表示。</text>
+
+  <g filter="url(#shadow)"><rect x="55" y="135" width="300" height="610" rx="18" fill="#fff" stroke="#fdba74"/></g>
+  <text x="85" y="177" class="panel">① 构造损坏文档</text>
+  <text x="85" y="203" class="small">最终 large：全句打乱 + 30% text infilling</text>
+  <rect x="85" y="235" width="240" height="70" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="105" y="263" class="label">原文 x</text><text x="105" y="287" class="small">A B C . D E . F G H .</text>
+  <path d="M205 314 C185 344 225 352 205 382" class="arrow"/>
+  <rect x="85" y="392" width="240" height="88" rx="12" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="105" y="419" class="label">句子顺序被打乱</text><text x="105" y="445" class="small">F G H . A B C . D E .</text>
+  <text x="105" y="466" class="tiny">长程结构不再可信</text>
+  <path d="M205 490 C185 520 225 528 205 558" class="arrow"/>
+  <rect x="85" y="568" width="240" height="92" rx="12" fill="#fff1f2" stroke="#fb7185"/>
+  <text x="105" y="596" class="label">span 压成单个 &lt;mask&gt;</text>
+  <text x="105" y="622" class="small">F &lt;mask&gt; . A B C . &lt;mask&gt; .</text>
+  <text x="105" y="644" class="tiny">输入长度可以改变</text>
+  <rect x="85" y="685" width="240" height="36" rx="9" fill="#ffedd5"/>
+  <text x="205" y="708" text-anchor="middle" class="mono" fill="#c2410c">C(x)</text>
+
+  <path d="M355 438 L420 438" class="arrow"/>
+  <g filter="url(#shadow)"><rect x="425" y="135" width="300" height="610" rx="18" fill="#fff" stroke="#60a5fa"/></g>
+  <text x="575" y="177" text-anchor="middle" class="panel">② 双向 Encoder</text>
+  <text x="575" y="203" text-anchor="middle" class="small">每个输入位置同时看左、右上下文</text>
+  <rect x="475" y="236" width="200" height="390" rx="20" fill="#eff6ff" stroke="#60a5fa"/>
+  <g fill="#2563eb">
+    <rect x="500" y="540" width="150" height="38" rx="8" opacity=".38"/><rect x="500" y="490" width="150" height="38" rx="8" opacity=".46"/><rect x="500" y="440" width="150" height="38" rx="8" opacity=".54"/><rect x="500" y="390" width="150" height="38" rx="8" opacity=".62"/><rect x="500" y="340" width="150" height="38" rx="8" opacity=".70"/><rect x="500" y="290" width="150" height="38" rx="8" opacity=".80"/>
+  </g>
+  <g stroke="#dbeafe" stroke-width="2"><path d="M525 309 L625 309"/><path d="M525 359 L625 359"/><path d="M525 409 L625 409"/><path d="M525 459 L625 459"/><path d="M525 509 L625 509"/><path d="M525 559 L625 559"/></g>
+  <text x="575" y="268" text-anchor="middle" class="white">Transformer Encoder</text>
+  <text x="575" y="607" text-anchor="middle" class="mono">12 layers · H=1024</text>
+  <rect x="475" y="652" width="200" height="69" rx="12" fill="#dbeafe"/>
+  <text x="575" y="680" text-anchor="middle" class="label">输出记忆 H</text>
+  <text x="575" y="704" text-anchor="middle" class="tiny">损坏文档的上下文化表示</text>
+
+  <path d="M725 438 C770 438 770 438 815 438" class="arrow"/>
+  <text x="770" y="417" text-anchor="middle" class="tiny">cross-attention</text>
+  <g filter="url(#shadow)"><rect x="820" y="135" width="300" height="610" rx="18" fill="#fff" stroke="#f59e0b"/></g>
+  <text x="970" y="177" text-anchor="middle" class="panel">③ 自回归 Decoder</text>
+  <text x="970" y="203" text-anchor="middle" class="small">causal self-attention + cross-attention</text>
+  <rect x="870" y="236" width="200" height="390" rx="20" fill="#fffbeb" stroke="#f59e0b"/>
+  <g fill="#d97706">
+    <rect x="895" y="540" width="150" height="38" rx="8" opacity=".38"/><rect x="895" y="490" width="150" height="38" rx="8" opacity=".46"/><rect x="895" y="440" width="150" height="38" rx="8" opacity=".54"/><rect x="895" y="390" width="150" height="38" rx="8" opacity=".62"/><rect x="895" y="340" width="150" height="38" rx="8" opacity=".70"/><rect x="895" y="290" width="150" height="38" rx="8" opacity=".80"/>
+  </g>
+  <g stroke="#fef3c7" stroke-width="2"><path d="M920 309 L1020 309"/><path d="M920 359 L1020 359"/><path d="M920 409 L1020 409"/><path d="M920 459 L1020 459"/><path d="M920 509 L1020 509"/><path d="M920 559 L1020 559"/></g>
+  <text x="970" y="268" text-anchor="middle" class="white">Transformer Decoder</text>
+  <text x="970" y="607" text-anchor="middle" class="mono" fill="#b45309">12 layers · H=1024</text>
+  <rect x="870" y="652" width="200" height="69" rx="12" fill="#fef3c7"/>
+  <text x="970" y="680" text-anchor="middle" class="label">teacher forcing 输入</text>
+  <text x="970" y="704" text-anchor="middle" class="tiny">&lt;s&gt;, x₁, …, xₜ₋₁</text>
+
+  <path d="M1120 438 L1175 438" class="arrow"/>
+  <g filter="url(#shadow)"><rect x="1180" y="135" width="165" height="610" rx="18" fill="#fff" stroke="#86efac"/></g>
+  <text x="1262" y="177" text-anchor="middle" class="panel">④ 重建 x</text>
+  <text x="1262" y="203" text-anchor="middle" class="small">逐 token 预测</text>
+  <g>
+    <rect x="1210" y="250" width="105" height="42" rx="9" fill="#ecfdf5" stroke="#6ee7b7"/><text x="1262" y="277" text-anchor="middle" class="mono" fill="#047857">A</text>
+    <rect x="1210" y="310" width="105" height="42" rx="9" fill="#ecfdf5" stroke="#6ee7b7"/><text x="1262" y="337" text-anchor="middle" class="mono" fill="#047857">B</text>
+    <rect x="1210" y="370" width="105" height="42" rx="9" fill="#ecfdf5" stroke="#6ee7b7"/><text x="1262" y="397" text-anchor="middle" class="mono" fill="#047857">C</text>
+    <rect x="1210" y="430" width="105" height="42" rx="9" fill="#ecfdf5" stroke="#6ee7b7"/><text x="1262" y="457" text-anchor="middle" class="mono" fill="#047857">D</text>
+    <rect x="1210" y="490" width="105" height="42" rx="9" fill="#ecfdf5" stroke="#6ee7b7"/><text x="1262" y="517" text-anchor="middle" class="mono" fill="#047857">E</text>
+    <rect x="1210" y="550" width="105" height="42" rx="9" fill="#ecfdf5" stroke="#6ee7b7"/><text x="1262" y="577" text-anchor="middle" class="mono" fill="#047857">…</text>
+  </g>
+  <text x="1262" y="632" text-anchor="middle" class="tiny">标签不是噪声文本</text>
+  <text x="1262" y="653" text-anchor="middle" class="tiny">而是完整原始文档</text>
+  <rect x="1205" y="680" width="115" height="41" rx="9" fill="#dcfce7"/>
+  <text x="1262" y="706" text-anchor="middle" class="mono" fill="#047857">NLL(x)</text>
+
+  <rect x="55" y="785" width="1290" height="45" rx="11" fill="#e2e8f0"/>
+  <text x="700" y="813" text-anchor="middle" class="label">核心目标：−Σₜ log pθ(xₜ | x&lt;ₜ, C(x))；Encoder 与 Decoder 无需逐位置对齐，因此噪声可以删除、插入、压缩或重排文本。</text>
+</svg>

@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">ULMFiT 的六任务测试误差改进、预训练消融与低样本效率</title>
+  <desc id="desc">左侧水平条形图展示 ULMFiT 相对论文各数据集对比表中最强既有结果的测试误差相对下降；右侧分组条形图展示 IMDb、TREC-6、AG 上有无 WikiText-103 预训练的验证误差；底部展示一百个标签时相当于从头训练所需标签数的倍数。</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <style>
+      .title { font: 700 30px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .panel-title { font: 700 20px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 14px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .small { font: 400 13px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .tiny { font: 500 12px Inter, "Noto Sans SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .mono { font: 600 13px "JetBrains Mono", "SFMono-Regular", Consolas, monospace; fill: #334155; }
+      .value { font: 700 14px "JetBrains Mono", "SFMono-Regular", Consolas, monospace; fill: #1e3a8a; }
+      .card-value { font: 700 28px "JetBrains Mono", "SFMono-Regular", Consolas, monospace; fill: #1d4ed8; }
+      .axis { stroke: #94a3b8; stroke-width: 1.5; }
+      .grid { stroke: #e2e8f0; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="900" fill="#f8fafc"/>
+  <text x="70" y="60" class="title">最重要的结果不是只赢一个榜，而是在规模差异极大的六个任务上都稳定迁移</text>
+  <text x="70" y="92" class="subtitle">所有柱均为 error rate（越低越好）；相对误差下降不能与“准确率提升了同样百分点”混为一谈。</text>
+
+  <!-- small research blossom, locked top-right -->
+  <g transform="translate(1310 58)" fill="none" stroke="#94a3b8" stroke-width="1.5" opacity="0.8">
+    <ellipse cx="0" cy="-12" rx="6" ry="12"/>
+    <ellipse cx="12" cy="0" rx="12" ry="6"/>
+    <ellipse cx="0" cy="12" rx="6" ry="12"/>
+    <ellipse cx="-12" cy="0" rx="12" ry="6"/>
+    <circle cx="0" cy="0" r="3" fill="#f59e0b" stroke="none"/>
+  </g>
+
+  <!-- Left panel -->
+  <g filter="url(#shadow)">
+    <rect x="55" y="130" width="660" height="540" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+  </g>
+  <text x="85" y="175" class="panel-title">六个数据集的测试误差相对下降</text>
+  <text x="85" y="203" class="small">基线为论文 Table 2/3 中每个数据集列出的最低既有 error；单位：%</text>
+
+  <line x1="188" y1="244" x2="650" y2="244" class="axis"/>
+  <line x1="188" y1="244" x2="188" y2="589" class="axis"/>
+  <line x1="280.4" y1="244" x2="280.4" y2="589" class="grid"/>
+  <line x1="372.8" y1="244" x2="372.8" y2="589" class="grid"/>
+  <line x1="465.2" y1="244" x2="465.2" y2="589" class="grid"/>
+  <line x1="557.6" y1="244" x2="557.6" y2="589" class="grid"/>
+  <line x1="650" y1="244" x2="650" y2="589" class="grid"/>
+  <text x="188" y="231" text-anchor="middle" class="tiny">0</text>
+  <text x="280.4" y="231" text-anchor="middle" class="tiny">5</text>
+  <text x="372.8" y="231" text-anchor="middle" class="tiny">10</text>
+  <text x="465.2" y="231" text-anchor="middle" class="tiny">15</text>
+  <text x="557.6" y="231" text-anchor="middle" class="tiny">20</text>
+  <text x="650" y="231" text-anchor="middle" class="tiny">25%</text>
+
+  <text x="171" y="289" text-anchor="end" class="label">IMDb</text>
+  <text x="171" y="343" text-anchor="end" class="label">TREC-6</text>
+  <text x="171" y="397" text-anchor="end" class="label">AG</text>
+  <text x="171" y="451" text-anchor="end" class="label">DBpedia</text>
+  <text x="171" y="505" text-anchor="end" class="label">Yelp-bi</text>
+  <text x="171" y="559" text-anchor="end" class="label">Yelp-full</text>
+
+  <rect x="188" y="268" width="406.6" height="31" rx="5" fill="#2563eb"/>
+  <rect x="188" y="322" width="142.1" height="31" rx="5" fill="#93c5fd" stroke="#2563eb"/>
+  <rect x="188" y="376" width="438.7" height="31" rx="5" fill="#2563eb"/>
+  <rect x="188" y="430" width="88.0" height="31" rx="5" fill="#93c5fd" stroke="#2563eb"/>
+  <rect x="188" y="484" width="336.0" height="31" rx="5" fill="#2563eb"/>
+  <rect x="188" y="538" width="36.3" height="31" rx="5" fill="#93c5fd" stroke="#2563eb"/>
+
+  <text x="606" y="289" class="value">22.0%</text>
+  <text x="341" y="343" class="value">7.7%</text>
+  <text x="638" y="397" class="value">23.7%</text>
+  <text x="287" y="451" class="value">4.8%</text>
+  <text x="535" y="505" class="value">18.2%</text>
+  <text x="235" y="559" class="value">2.0%</text>
+
+  <rect x="85" y="612" width="600" height="34" rx="9" fill="#fff7ed"/>
+  <text x="385" y="634" text-anchor="middle" class="small">TREC-6 测试集仅 500 条；论文明确说明该项改进不具统计显著性。</text>
+
+  <!-- Right panel -->
+  <g filter="url(#shadow)">
+    <rect x="755" y="130" width="590" height="540" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+  </g>
+  <text x="785" y="175" class="panel-title">WikiText-103 预训练消融</text>
+  <text x="785" y="203" class="small">ULMFiT 单向模型验证误差；同一微调配方，仅改变是否通用预训练</text>
+
+  <rect x="990" y="220" width="14" height="14" rx="2" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="1012" y="232" class="small">无预训练</text>
+  <rect x="1110" y="220" width="14" height="14" rx="2" fill="#2563eb"/>
+  <text x="1132" y="232" class="small">有预训练</text>
+
+  <line x1="825" y1="594" x2="1300" y2="594" class="axis"/>
+  <line x1="825" y1="262" x2="825" y2="594" class="axis"/>
+  <line x1="825" y1="538.7" x2="1300" y2="538.7" class="grid"/>
+  <line x1="825" y1="483.3" x2="1300" y2="483.3" class="grid"/>
+  <line x1="825" y1="428" x2="1300" y2="428" class="grid"/>
+  <line x1="825" y1="372.7" x2="1300" y2="372.7" class="grid"/>
+  <line x1="825" y1="317.3" x2="1300" y2="317.3" class="grid"/>
+  <line x1="825" y1="262" x2="1300" y2="262" class="grid"/>
+  <text x="812" y="598" text-anchor="end" class="tiny">0</text>
+  <text x="812" y="543" text-anchor="end" class="tiny">2</text>
+  <text x="812" y="488" text-anchor="end" class="tiny">4</text>
+  <text x="812" y="433" text-anchor="end" class="tiny">6</text>
+  <text x="812" y="378" text-anchor="end" class="tiny">8</text>
+  <text x="812" y="322" text-anchor="end" class="tiny">10</text>
+  <text x="812" y="267" text-anchor="end" class="tiny">12%</text>
+
+  <!-- IMDb bars -->
+  <rect x="887" y="438.2" width="48" height="155.8" rx="5" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="943" y="455.7" width="48" height="138.3" rx="5" fill="#2563eb"/>
+  <text x="911" y="428" text-anchor="middle" class="mono">5.63</text>
+  <text x="967" y="446" text-anchor="middle" class="value">5.00</text>
+  <text x="939" y="621" text-anchor="middle" class="label">IMDb</text>
+
+  <!-- TREC bars -->
+  <rect x="1030" y="298.8" width="48" height="295.2" rx="5" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="1086" y="436.6" width="48" height="157.4" rx="5" fill="#2563eb"/>
+  <text x="1054" y="289" text-anchor="middle" class="mono">10.67</text>
+  <text x="1110" y="427" text-anchor="middle" class="value">5.69</text>
+  <text x="1082" y="621" text-anchor="middle" class="label">TREC-6</text>
+
+  <!-- AG bars -->
+  <rect x="1173" y="441.3" width="48" height="152.7" rx="5" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <rect x="1229" y="445.1" width="48" height="148.9" rx="5" fill="#2563eb"/>
+  <text x="1197" y="431" text-anchor="middle" class="mono">5.52</text>
+  <text x="1253" y="435" text-anchor="middle" class="value">5.38</text>
+  <text x="1225" y="621" text-anchor="middle" class="label">AG</text>
+
+  <text x="1050" y="649" text-anchor="middle" class="small">预训练收益在小型 TREC-6 最突出；在大型 AG 上仍有小幅改善。</text>
+
+  <!-- Bottom low-shot strip -->
+  <text x="70" y="718" class="panel-title">100 个标签时，预训练把标注效率放大到什么程度？</text>
+  <text x="70" y="744" class="small">“相当于”指论文 Figure 3 中达到与从头训练相近的验证误差，不表示所有数据规模和任务都遵守固定倍数。</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="770" width="290" height="98" rx="14" fill="#ffffff" stroke="#bfdbfe"/>
+    <rect x="390" y="770" width="290" height="98" rx="14" fill="#ffffff" stroke="#bfdbfe"/>
+    <rect x="710" y="770" width="290" height="98" rx="14" fill="#ffffff" stroke="#fdba74"/>
+    <rect x="1030" y="770" width="300" height="98" rx="14" fill="#ffffff" stroke="#fdba74"/>
+  </g>
+  <text x="95" y="802" class="label">IMDb · 仅用有标签文本</text>
+  <text x="95" y="840" class="card-value">10×</text>
+  <text x="158" y="840" class="small">从头训练标签量</text>
+
+  <text x="415" y="802" class="label">AG · 仅用有标签文本</text>
+  <text x="415" y="840" class="card-value">20×</text>
+  <text x="478" y="840" class="small">从头训练标签量</text>
+
+  <text x="735" y="802" class="label">IMDb · 再用 50k 未标注</text>
+  <text x="735" y="840" class="card-value" fill="#c2410c">100×</text>
+  <text x="817" y="840" class="small">从头训练标签量</text>
+
+  <text x="1055" y="802" class="label">AG · 再用 100k 未标注</text>
+  <text x="1055" y="840" class="card-value" fill="#c2410c">50×</text>
+  <text x="1128" y="840" class="small">从头训练标签量</text>
+
+  <text x="70" y="891" class="tiny">来源：Howard &amp; Ruder (2018), Tables 2–4 and Figure 3。误差下降按表中数值计算；四舍五入到 0.1%。</text>
+</svg>

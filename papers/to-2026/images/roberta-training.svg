@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="880" viewBox="0 0 1400 880" role="img" aria-labelledby="title desc">
+  <title id="title">RoBERTa 的语料构成、批量等预算消融与最终训练预算</title>
+  <desc id="desc">左侧列出五个语料来源的四个容量组分。右上解释原 BERT 训练可换算为不同批量下相同的二点五六亿序列；右下展示最终 RoBERTa 大模型训练约四十点九六亿序列，是该参照的十六倍。</desc>
+  <defs><filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity=".10"/></filter><style>.title{font:700 30px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#475569}.panel{font:700 20px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#0f172a}.label{font:600 14px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#475569}.tiny{font:500 11.5px Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#64748b}.value{font:700 16px "JetBrains Mono",Consolas,monospace;fill:#1d4ed8}.big{font:700 30px "JetBrains Mono",Consolas,monospace;fill:#1d4ed8}.axis{stroke:#94a3b8;stroke-width:1.5}.grid{stroke:#e2e8f0;stroke-width:1}</style></defs>
+  <rect width="1400" height="880" fill="#f8fafc"/><text x="70" y="58" class="title">“训练更充分”必须同时看数据、batch、steps 与 sequence length</text><text x="70" y="90" class="subtitle">只比较优化器更新次数会得出相反结论：RoBERTa 是 500K 步，但每一步吞吐的序列约为 BERT 的 32 倍。</text>
+  <g filter="url(#shadow)"><rect x="55" y="130" width="610" height="670" rx="18" fill="#fff" stroke="#cbd5e1"/></g><text x="85" y="172" class="panel">五个英文语料，论文报告 160+ GB 未压缩文本</text><text x="85" y="198" class="small">BookCorpus 与 Wikipedia 合并计 16GB；其余三个来源分别计量。</text>
+  <line x1="205" y1="247" x2="610" y2="247" class="axis"/><line x1="205" y1="247" x2="205" y2="555" class="axis"/>
+  <g class="tiny"><text x="205" y="233" text-anchor="middle">0</text><text x="306" y="233" text-anchor="middle">20</text><text x="408" y="233" text-anchor="middle">40</text><text x="509" y="233" text-anchor="middle">60</text><text x="610" y="233" text-anchor="middle">80 GB</text></g>
+  <g class="grid"><line x1="306" y1="247" x2="306" y2="555"/><line x1="408" y1="247" x2="408" y2="555"/><line x1="509" y1="247" x2="509" y2="555"/><line x1="610" y1="247" x2="610" y2="555"/></g>
+  <text x="188" y="306" text-anchor="end" class="label">Books + Wiki</text><rect x="205" y="282" width="81" height="34" rx="6" fill="#93c5fd"/><text x="298" y="305" class="value">16</text>
+  <text x="188" y="374" text-anchor="end" class="label">CC-News</text><rect x="205" y="350" width="385" height="34" rx="6" fill="#2563eb"/><text x="600" y="373" class="value">76</text>
+  <text x="188" y="442" text-anchor="end" class="label">OpenWebText</text><rect x="205" y="418" width="192" height="34" rx="6" fill="#60a5fa"/><text x="408" y="441" class="value">38</text>
+  <text x="188" y="510" text-anchor="end" class="label">Stories</text><rect x="205" y="486" width="157" height="34" rx="6" fill="#f59e0b"/><text x="373" y="509" class="value" fill="#b45309">31</text>
+  <rect x="85" y="588" width="550" height="86" rx="13" fill="#eff6ff" stroke="#93c5fd"/><text x="110" y="620" class="label">按表中名义容量相加：16 + 76 + 38 + 31 = 161 GB</text><text x="110" y="648" class="small">论文正文保守写作 “over 160GB”；不能把 161 当成精确字节统计。</text>
+  <rect x="85" y="696" width="550" height="72" rx="13" fill="#fff7ed" stroke="#fdba74"/><text x="110" y="725" class="label">混杂变量提醒</text><text x="110" y="750" class="small">论文同时增加数据量和领域多样性，不能仅凭该消融把收益归因给其中一个。</text>
+
+  <g filter="url(#shadow)"><rect x="705" y="130" width="640" height="345" rx="18" fill="#fff" stroke="#cbd5e1"/></g><text x="735" y="172" class="panel">第一阶段：固定看到的序列数，公平比较 batch</text><text x="735" y="198" class="small">2K 与 8K 分别指 2,048 与 8,192；论文表格把 31,250 四舍五入为 31K。</text>
+  <g>
+    <rect x="745" y="236" width="560" height="55" rx="11" fill="#f8fafc" stroke="#cbd5e1"/><text x="770" y="270" class="value" fill="#334155">256 × 1,000,000</text><text x="1082" y="270" class="label">= 256M sequences</text>
+    <rect x="745" y="306" width="560" height="55" rx="11" fill="#eff6ff" stroke="#93c5fd"/><text x="770" y="340" class="value">2,048 × 125,000</text><text x="1082" y="340" class="label">= 256M sequences</text>
+    <rect x="745" y="376" width="560" height="55" rx="11" fill="#eff6ff" stroke="#93c5fd"/><text x="770" y="410" class="value">8,192 × 31,250</text><text x="1082" y="410" class="label">= 256M sequences</text>
+  </g>
+  <text x="735" y="458" class="tiny">Table 3 的 MLM ppl：3.99 → 3.68 → 3.77；2K 最好，8K 仍便于分布式并行。三组学习率分别单独调优。</text>
+
+  <g filter="url(#shadow)"><rect x="705" y="510" width="640" height="290" rx="18" fill="#fff" stroke="#93c5fd"/></g><text x="735" y="552" class="panel">第二阶段：最终 RoBERTa 不再固定相同预算</text><rect x="745" y="585" width="560" height="94" rx="14" fill="#dbeafe" stroke="#2563eb"/><text x="1025" y="620" text-anchor="middle" class="big">8,192 × 500,000 = 4.096B</text><text x="1025" y="651" text-anchor="middle" class="label">约为 256M 序列参照预算的 16×</text>
+  <rect x="745" y="700" width="270" height="68" rx="12" fill="#ecfdf5" stroke="#6ee7b7"/><text x="768" y="729" class="label">全程最大长度 ≤ 512</text><text x="768" y="752" class="tiny">不设 128-token 前 90% 阶段</text><rect x="1035" y="700" width="270" height="68" rx="12" fill="#fff7ed" stroke="#fdba74"/><text x="1058" y="729" class="label">large：1,024 V100</text><text x="1058" y="752" class="tiny">论文称 100K 步约训练一天</text>
+  <text x="55" y="846" class="tiny">“16×”比较的是 batch × steps 的序列暴露数，不等同于精确 FLOPs：真实 token 数、padding、序列打包与硬件利用率都会影响计算量。</text>
+</svg>
