@@ -487,10 +487,10 @@
 
 | 编号 | 论文 | 为什么值得读 | 阅读重点 |
 |---:|---|---|---|
-| 31 | [ULMFiT (2018)](https://arxiv.org/abs/1801.06146) — `Universal Language Model Fine-tuning for Text Classification` | 在 BERT 之前系统证明通用语言模型预训练可以迁移到下游任务。 | 判别式微调、逐层解冻、倾斜三角学习率。 |
-| 32 | [ELMo (2018)](https://arxiv.org/abs/1802.05365) — `Deep Contextualized Word Representations` | 把“词的表示取决于上下文”推到 NLP 主舞台，是静态词向量到预训练模型的关键桥梁。 | 双向语言模型、分层表示、contextual embedding。 |
-| 33 | [RoBERTa (2019)](https://arxiv.org/abs/1907.11692) — `A Robustly Optimized BERT Pretraining Approach` | 说明 BERT 的大量收益来自更充分的数据、训练和目标设计，而不只是新架构。 | 去掉 NSP、动态 masking、批量与训练时长。 |
-| 34 | [BART (2019)](https://arxiv.org/abs/1910.13461) — `Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension` | 把双向编码器与自回归解码器结合起来，成为生成式 encoder-decoder 的经典基线。 | 文本破坏任务、去噪预训练、生成与理解的统一。 |
+| 31 | [ULMFiT (2018)](https://arxiv.org/abs/1801.06146) — `Universal Language Model Fine-tuning for Text Classification` · [中文详解](31_ULMFiT_2018_原理.md) | 在 BERT 之前系统证明通用语言模型预训练可以迁移到下游任务。 | 判别式微调、逐层解冻、倾斜三角学习率。 |
+| 32 | [ELMo (2018)](https://arxiv.org/abs/1802.05365) — `Deep Contextualized Word Representations` · [中文详解](32_ELMo_2018_原理.md) | 把“词的表示取决于上下文”推到 NLP 主舞台，是静态词向量到预训练模型的关键桥梁。 | 双向语言模型、分层表示、contextual embedding。 |
+| 33 | [RoBERTa (2019)](https://arxiv.org/abs/1907.11692) — `A Robustly Optimized BERT Pretraining Approach` · [中文详解](33_RoBERTa_2019_原理.md) | 说明 BERT 的大量收益来自更充分的数据、训练和目标设计，而不只是新架构。 | 去掉 NSP、动态 masking、批量与训练时长。 |
+| 34 | [BART (2019)](https://arxiv.org/abs/1910.13461) — `Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension` · [中文详解](34_BART_2019_原理.md) | 把双向编码器与自回归解码器结合起来，成为生成式 encoder-decoder 的经典基线。 | 文本破坏任务、去噪预训练、生成与理解的统一。 |
 | 35 | [Sentence-BERT (2019)](https://arxiv.org/abs/1908.10084) — `Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks` | 让 BERT 产生可高效检索的句向量，直接影响语义搜索与后来的 RAG embedding。 | 双塔结构、对比/孪生训练、相似度检索。 |
 | 36 | [DPR (2020)](https://arxiv.org/abs/2004.04906) — `Dense Passage Retrieval for Open-Domain Question Answering` | 奠定现代稠密检索的双编码器范式，是理解 RAG 检索器的前置论文。 | in-batch negatives、问题/段落双塔、召回率评估。 |
 | 37 | [The Pile (2020/2021)](https://arxiv.org/abs/2101.00027) — `The Pile: An 800GB Dataset of Diverse Text for Language Modeling` | 代表开源大模型从“只开权重”走向公开数据配方的早期努力。 | 数据来源配比、去重与污染、数据治理。 |
