@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Megatron-LM 的 MLP 张量并行</title>
+  <desc id="desc">第一层权重按列切分，GeLU 在各 GPU 本地执行，第二层权重按行切分，最后一次 all-reduce 求和。</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#08182b"/><stop offset="1" stop-color="#133249"/></linearGradient><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0l10 5-10 5z" fill="#72deef"/></marker><filter id="s"><feDropShadow dy="7" stdDeviation="8" flood-opacity=".25"/></filter><style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f5fbff;font-size:30px;font-weight:750}.sub{fill:#9ebed1;font-size:15px}.h{fill:#ecf9ff;font-size:18px;font-weight:700}.b{fill:#bdd6e4;font-size:14px}.m{fill:#76e8db;font-size:17px;font-weight:750}.tiny{fill:#89aabd;font-size:12px}.card{fill:#0c2b40;stroke:#315b73}</style></defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="64">两次 GEMM 成对切分：把非线性留在本地，把同步推迟到末端</text>
+  <text class="sub" x="55" y="94">Y = GeLU(XA)B · 示例为 2-way tensor parallel；p-way 完全同理</text>
+  <g transform="translate(55 137)" filter="url(#s)">
+    <rect class="card" width="1090" height="464" rx="20"/>
+    <g transform="translate(24 50)">
+      <rect width="115" height="145" rx="12" fill="#153d53" stroke="#4d849c"/><text class="h" x="57" y="65" text-anchor="middle">输入 X</text><text class="tiny" x="57" y="92" text-anchor="middle">[bs, h]</text><text class="tiny" x="57" y="116" text-anchor="middle">每 rank 复制</text>
+      <path d="M129 72h48" stroke="#72deef" stroke-width="3" marker-end="url(#a)"/>
+      <g transform="translate(193)">
+        <rect width="170" height="145" rx="12" fill="#153d53" stroke="#4d849c"/><path d="M85 0v145" stroke="#8e74e8" stroke-width="3"/>
+        <text class="h" x="85" y="-15" text-anchor="middle">A 按输出列切</text><text class="m" x="42" y="67" text-anchor="middle">A₁</text><text class="m" x="128" y="67" text-anchor="middle" fill="#b9a9ff">A₂</text><text class="tiny" x="85" y="108" text-anchor="middle">[h, 4h/p]</text>
+      </g>
+      <path d="M379 72h48" stroke="#72deef" stroke-width="3" marker-end="url(#a)"/>
+      <g transform="translate(443)"><rect width="140" height="145" rx="12" fill="#124b55" stroke="#3ccbbe"/><path d="M70 0v145" stroke="#8e74e8" stroke-width="3"/><text class="h" x="70" y="-15" text-anchor="middle">本地 GeLU</text><text class="m" x="35" y="65" text-anchor="middle">H₁</text><text x="105" y="65" text-anchor="middle" fill="#b9a9ff" font-size="17" font-weight="750">H₂</text><text class="tiny" x="70" y="108" text-anchor="middle">不通信</text></g>
+      <path d="M599 72h48" stroke="#72deef" stroke-width="3" marker-end="url(#a)"/>
+      <g transform="translate(663)"><rect width="170" height="145" rx="12" fill="#153d53" stroke="#4d849c"/><path d="M0 72.5h170" stroke="#8e74e8" stroke-width="3"/><text class="h" x="85" y="-15" text-anchor="middle">B 按输入行切</text><text class="m" x="85" y="43" text-anchor="middle">B₁</text><text x="85" y="116" text-anchor="middle" fill="#b9a9ff" font-size="17" font-weight="750">B₂</text><text class="tiny" x="144" y="67" text-anchor="end">[4h/p,h]</text></g>
+      <path d="M849 72h48" stroke="#72deef" stroke-width="3" marker-end="url(#a)"/>
+      <g transform="translate(913)"><rect width="105" height="63" rx="11" fill="#17465c" stroke="#4e91aa"/><text class="m" x="52" y="39" text-anchor="middle">Y₁</text><rect y="82" width="105" height="63" rx="11" fill="#332d58" stroke="#8e74e8"/><text x="52" y="121" text-anchor="middle" fill="#c5b8ff" font-size="17" font-weight="750">Y₂</text></g>
+    </g>
+    <path d="M988 234v50H877" fill="none" stroke="#f0b95e" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="605" y="267" width="272" height="72" rx="14" fill="#3b3023" stroke="#c28742"/><text x="741" y="296" text-anchor="middle" fill="#ffe2a8" font-size="18" font-weight="750">SUM all-reduce</text><text x="741" y="320" text-anchor="middle" fill="#e6c58b" font-size="13">Y = Y₁ + Y₂</text>
+    <path d="M605 303H527" stroke="#72deef" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="335" y="267" width="192" height="72" rx="14" fill="#12505a" stroke="#3ccbbe"/><text class="h" x="431" y="296" text-anchor="middle">完整输出 Y</text><text class="tiny" x="431" y="320" text-anchor="middle">进入 dropout + residual</text>
+    <g transform="translate(24 376)"><rect width="1042" height="61" rx="12" fill="#102537" stroke="#294d63"/><text class="b" x="20" y="25">Forward：每个 MLP 仅 1 次 all-reduce</text><text class="b" x="364" y="25">Backward：X 的梯度再 1 次 all-reduce</text><text class="b" x="762" y="25">Aᵢ、Bᵢ 梯度留在本 rank</text><text class="tiny" x="20" y="47">关键不是“随便切矩阵”，而是让 GeLU(XAᵢ) 在同步之前成立。</text></g>
+  </g>
+  <text class="tiny" x="55" y="635">若把 A 按输入行切，必须先求和再 GeLU，因为 GeLU(U+V) ≠ GeLU(U)+GeLU(V)，会多一个同步点。</text>
+</svg>

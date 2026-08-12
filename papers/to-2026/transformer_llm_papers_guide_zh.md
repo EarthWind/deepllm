@@ -501,7 +501,7 @@
 
 | 编号 | 论文 | 为什么值得读 | 阅读重点 |
 |---:|---|---|---|
-| 40 | [Megatron-LM (2019)](https://arxiv.org/abs/1909.08053) — `Training Multi-Billion Parameter Language Models Using Model Parallelism` | 奠定大模型张量并行的工程主线，解释单卡放不下时如何拆分矩阵计算。 | tensor parallel、通信开销、与数据/流水线并行的组合。 |
+| 40 | [Megatron-LM (2019)](https://arxiv.org/abs/1909.08053) — `Training Multi-Billion Parameter Language Models Using Model Parallelism` · [中文详解](40_Megatron_LM_2019_原理.md) | 奠定大模型张量并行的工程主线，解释单卡放不下时如何拆分矩阵计算。 | tensor parallel、通信开销、与数据/流水线并行的组合。 |
 | 41 | [ZeRO (2019/2020)](https://arxiv.org/abs/1910.02054) — `ZeRO: Memory Optimizations Toward Training Trillion Parameter Models` | 把优化器状态、梯度和参数分片，显著改变大模型训练的显存边界。 | ZeRO 三阶段、冗余状态、通信—显存权衡。 |
 | 42 | [GPTQ (2022)](https://arxiv.org/abs/2210.17323) — `Accurate Post-Training Quantization for Generative Pre-trained Transformers` | 代表基于二阶信息的权重量化路线，让大模型低比特部署成为标准课题。 | 逐层误差补偿、3/4-bit 权重量化、精度—速度关系。 |
 | 43 | [Speculative Decoding (2022/2023)](https://arxiv.org/abs/2211.17192) — `Fast Inference from Transformers via Speculative Decoding` | 用小模型起草、大模型并行验证多个 token，在不改变目标分布的前提下加速解码。 | 接受/拒绝机制、无损采样、draft/target 配比。 |
