@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">DPR 检索、负例消融、问答和效率结果</title>
+  <desc id="desc">上方比较五个数据集的 BM25 与单数据集 DPR Top-20 accuracy；中部展示 Natural Questions 负例训练消融；底部列出问答准确率和索引效率。</desc>
+  <defs>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e7eefb}.h1{font-size:30px;font-weight:800}.h2{font-size:21px;font-weight:800}.body{font-size:16px}.small{font-size:14px}.tiny{font-size:12px}.muted{fill:#91a4c6}.num{font-family:"JetBrains Mono",Consolas,monospace;font-size:14px;font-weight:700}.card{fill:#0b182b;stroke:#2b4163;stroke-width:1.5}.grid{stroke:#293c59;stroke-width:1}.bm{fill:#687990;stroke:#8190a4}.dpr{fill:#22b8d6;stroke:#67e8f9}.hard{fill:#d89614;stroke:#fbbf24}
+    </style>
+  </defs>
+  <rect width="1200" height="900" rx="24" fill="#081321"/>
+  <text x="48" y="58" class="t h1">DPR 论文结果：检索增益来自训练配方，也有明确反例</text>
+  <text x="48" y="90" class="t body muted">所有柱形从 0 开始；Top-k accuracy 表示前 k 个 passages 中至少一个包含答案</text>
+  <g transform="translate(1125 42)" opacity=".75"><circle cx="0" cy="0" r="8" fill="#22b8d6"/><circle cx="15" cy="0" r="8" fill="#0e7490"/><circle cx="7.5" cy="-13" r="8" fill="#67e8f9"/><circle cx="7.5" cy="13" r="8" fill="#155e75"/></g>
+
+  <g transform="translate(38 120)">
+    <rect width="1124" height="350" rx="20" class="card"/>
+    <text x="23" y="38" class="t h2">BM25 与 Single DPR 的 Top-20 retrieval accuracy</text>
+    <text x="23" y="63" class="t small muted">test set，百分比；Single 表示每个数据集单独训练 DPR</text>
+    <g transform="translate(170 89)">
+      <path d="M0 0V158M198 0V158M396 0V158M594 0V158M792 0V158" class="grid"/>
+      <text x="0" y="181" text-anchor="middle" class="t tiny muted">0</text><text x="198" y="181" text-anchor="middle" class="t tiny muted">20</text><text x="396" y="181" text-anchor="middle" class="t tiny muted">40</text><text x="594" y="181" text-anchor="middle" class="t tiny muted">60</text><text x="792" y="181" text-anchor="middle" class="t tiny muted">80</text>
+      <g transform="translate(0 8)"><text x="-14" y="24" text-anchor="end" class="t small">Natural Questions</text><rect y="0" width="585" height="18" rx="4" class="bm"/><rect y="22" width="776" height="18" rx="4" class="dpr"/><text x="593" y="14" class="t num">59.1</text><text x="784" y="37" class="t num" fill="#67e8f9">78.4</text></g>
+      <g transform="translate(0 54)"><text x="-14" y="24" text-anchor="end" class="t small">TriviaQA</text><rect y="0" width="662" height="18" rx="4" class="bm"/><rect y="22" width="786" height="18" rx="4" class="dpr"/><text x="670" y="14" class="t num">66.9</text><text x="794" y="37" class="t num" fill="#67e8f9">79.4</text></g>
+      <g transform="translate(0 100)"><text x="-14" y="24" text-anchor="end" class="t small">WebQuestions</text><rect y="0" width="545" height="18" rx="4" class="bm"/><rect y="22" width="725" height="18" rx="4" class="dpr"/><text x="553" y="14" class="t num">55.0</text><text x="733" y="37" class="t num" fill="#67e8f9">73.2</text></g>
+      <g transform="translate(0 146)"><text x="-14" y="24" text-anchor="end" class="t small">CuratedTREC</text><rect y="0" width="702" height="18" rx="4" class="bm"/><rect y="22" width="790" height="18" rx="4" class="dpr"/><text x="710" y="14" class="t num">70.9</text><text x="798" y="37" class="t num" fill="#67e8f9">79.8</text></g>
+      <g transform="translate(0 192)"><text x="-14" y="24" text-anchor="end" class="t small">SQuAD</text><rect y="0" width="681" height="18" rx="4" class="bm"/><rect y="22" width="626" height="18" rx="4" class="dpr"/><text x="689" y="14" class="t num">68.8</text><text x="634" y="37" class="t num" fill="#67e8f9">63.2</text></g>
+      <g transform="translate(611 -20)"><rect width="16" height="10" rx="2" class="bm"/><text x="23" y="9" class="t tiny">BM25</text><rect x="82" width="16" height="10" rx="2" class="dpr"/><text x="105" y="9" class="t tiny">DPR</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(38 496)">
+    <rect width="708" height="258" rx="20" class="card"/>
+    <text x="22" y="38" class="t h2">Natural Questions 负例训练消融</text>
+    <text x="22" y="62" class="t small muted">dev Top-5 accuracy；横轴从 0 开始</text>
+    <g transform="translate(193 82)">
+      <path d="M0 0V144M150 0V144M300 0V144M450 0V144" class="grid"/>
+      <g transform="translate(0 4)"><text x="-12" y="15" text-anchor="end" class="t tiny muted">1-of-N Random, 7</text><rect width="302" height="19" rx="4" class="bm"/><text x="310" y="15" class="t num">47.0</text></g>
+      <g transform="translate(0 31)"><text x="-12" y="15" text-anchor="end" class="t tiny">IB Gold, 7</text><rect width="329" height="19" rx="4" class="dpr"/><text x="337" y="15" class="t num">51.1</text></g>
+      <g transform="translate(0 58)"><text x="-12" y="15" text-anchor="end" class="t tiny">IB Gold, 31</text><rect width="335" height="19" rx="4" class="dpr"/><text x="343" y="15" class="t num">52.1</text></g>
+      <g transform="translate(0 85)"><text x="-12" y="15" text-anchor="end" class="t tiny">IB Gold, 127</text><rect width="359" height="19" rx="4" class="dpr"/><text x="367" y="15" class="t num">55.8</text></g>
+      <g transform="translate(0 112)"><text x="-12" y="15" text-anchor="end" class="t tiny" fill="#fbbf24">IB G. + BM25(1), 31+32</text><rect width="418" height="19" rx="4" class="hard"/><text x="426" y="15" class="t num" fill="#fbbf24">65.0</text></g>
+      <g transform="translate(0 139)"><text x="-12" y="15" text-anchor="end" class="t tiny" fill="#fbbf24">IB G. + BM25(1), 127+128</text><rect width="423" height="19" rx="4" class="hard"/><text x="431" y="15" class="t num" fill="#fbbf24">65.8</text></g>
+      <text x="0" y="181" text-anchor="middle" class="t tiny muted">0</text><text x="150" y="181" text-anchor="middle" class="t tiny muted">25</text><text x="300" y="181" text-anchor="middle" class="t tiny muted">50</text><text x="450" y="181" text-anchor="middle" class="t tiny muted">75%</text>
+    </g>
+  </g>
+
+  <g transform="translate(772 496)">
+    <rect width="390" height="258" rx="20" class="card"/>
+    <text x="22" y="38" class="t h2">Natural Questions 端到端 QA</text>
+    <text x="22" y="62" class="t small muted">Exact Match，Single setting</text>
+    <g transform="translate(22 84)">
+      <rect width="346" height="64" rx="13" fill="#132038" stroke="#61738a"/><text x="18" y="27" class="t small">BM25 + Reader</text><text x="326" y="43" text-anchor="end" class="t h2">32.6</text>
+      <rect y="78" width="346" height="64" rx="13" fill="#102d3d" stroke="#22d3ee"/><text x="18" y="105" class="t small">DPR + Reader</text><text x="326" y="121" text-anchor="end" class="t h2" fill="#67e8f9">41.5</text>
+      <text x="173" y="170" text-anchor="middle" class="t small muted">Joint retriever-reader ablation：39.8 EM</text>
+    </g>
+  </g>
+
+  <g transform="translate(38 780)">
+    <rect width="1124" height="86" rx="18" class="card"/>
+    <g transform="translate(22 17)"><text class="t small muted" y="15">检索吞吐</text><text x="0" y="45" class="t h2" fill="#67e8f9">995.0 q/s</text><text x="133" y="45" class="t small muted">DPR Top-100</text></g>
+    <path d="M307 14V72M615 14V72M884 14V72" stroke="#30445f"/>
+    <g transform="translate(330 17)"><text class="t small muted" y="15">BM25/Lucene</text><text x="0" y="45" class="t h2">23.7 q/s</text><text x="113" y="45" class="t small muted">每 CPU thread</text></g>
+    <g transform="translate(638 17)"><text class="t small muted" y="15">2,100 万段落编码</text><text x="0" y="45" class="t h2" fill="#fbbf24">8.8 h</text><text x="78" y="45" class="t small muted">8 GPUs</text></g>
+    <g transform="translate(907 17)"><text class="t small muted" y="15">FAISS 建索引</text><text x="0" y="45" class="t h2" fill="#fbbf24">8.5 h</text><text x="79" y="45" class="t small muted">单服务器</text></g>
+  </g>
+</svg>

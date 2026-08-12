@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">基础模型适配不是一种方法，而是一组访问与资源交换</title>
+  <desc id="desc">比较提示、表示加分类头、参数高效微调、全量微调和系统组装在访问权限、数据、计算、隔离和控制上的差异。</desc>
+  <defs><linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071a31"/><stop offset="1" stop-color="#102c49"/></linearGradient><style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e7f3ff}.h{font-size:28px;font-weight:700}.sub{font-size:15px;fill:#9fb8d0}.t{font-size:17px;font-weight:700}.s{font-size:13px;fill:#b9ccdd}.tiny{font-size:11.5px;fill:#8ba8c3}.card{fill:#112f4a;stroke:#355d7c;stroke-width:1.5}</style></defs>
+  <rect width="1200" height="620" rx="24" fill="url(#bg4)"/>
+  <text x="600" y="48" text-anchor="middle" class="h">适配不是“微调”的同义词：先写清访问、资源与控制边界</text>
+  <text x="600" y="76" text-anchor="middle" class="sub">报告把 foundation model 视为未完成的中间工件；真正上线的是模型、规则、检索、验证与人机流程组成的系统</text>
+  <g transform="translate(34 122)">
+    <rect width="210" height="302" rx="18" class="card"/><circle cx="105" cy="56" r="30" fill="#1c5e7e" stroke="#56d8ff"/><text x="105" y="62" text-anchor="middle" class="t">Prompt</text>
+    <text x="24" y="112" class="s">访问：黑盒输入 / 输出</text><text x="24" y="140" class="s">更新：无参数更新</text><text x="24" y="168" class="s">优势：启动快、可切换</text><text x="24" y="196" class="s">代价：上下文与行为脆弱</text>
+    <rect x="24" y="224" width="162" height="46" rx="11" fill="#173e59"/><text x="105" y="244" text-anchor="middle" class="tiny">必须记录模板、示例</text><text x="105" y="261" text-anchor="middle" class="tiny">模型版本与采样设置</text>
+  </g>
+  <g transform="translate(264 122)">
+    <rect width="210" height="302" rx="18" class="card"/><circle cx="105" cy="56" r="30" fill="#284e7a" stroke="#8eaaff"/><text x="105" y="62" text-anchor="middle" class="t">Head</text>
+    <text x="24" y="112" class="s">访问：隐藏表示</text><text x="24" y="140" class="s">更新：任务头 / 线性探针</text><text x="24" y="168" class="s">优势：便宜、底座稳定</text><text x="24" y="196" class="s">代价：受冻结表示上限</text>
+    <rect x="24" y="224" width="162" height="46" rx="11" fill="#1e3b61"/><text x="105" y="244" text-anchor="middle" class="tiny">能测“表示可用”</text><text x="105" y="261" text-anchor="middle" class="tiny">不能代表所有适配方法</text>
+  </g>
+  <g transform="translate(494 108)">
+    <rect width="210" height="330" rx="18" fill="#123b55" stroke="#53d4c3" stroke-width="2"/><circle cx="105" cy="63" r="34" fill="#1d6b67" stroke="#66e3d2"/><text x="105" y="69" text-anchor="middle" class="t">PEFT</text>
+    <text x="24" y="126" class="s">访问：权重 / 梯度的一部分</text><text x="24" y="154" class="s">更新：adapter / low-rank</text><text x="24" y="182" class="s">优势：参数与存储效率</text><text x="24" y="210" class="s">代价：仍继承底座缺陷</text>
+    <rect x="24" y="238" width="162" height="57" rx="11" fill="#174b57"/><text x="105" y="259" text-anchor="middle" class="tiny">评价必须同时固定</text><text x="105" y="276" text-anchor="middle" class="tiny">数据、参数预算与访问级别</text>
+  </g>
+  <g transform="translate(724 122)">
+    <rect width="210" height="302" rx="18" class="card"/><circle cx="105" cy="56" r="30" fill="#60435d" stroke="#d998e7"/><text x="105" y="62" text-anchor="middle" class="t">Full FT</text>
+    <text x="24" y="112" class="s">访问：完整参数与梯度</text><text x="24" y="140" class="s">更新：全部权重</text><text x="24" y="168" class="s">优势：最大可塑性</text><text x="24" y="196" class="s">代价：计算、漂移、遗忘</text>
+    <rect x="24" y="224" width="162" height="46" rx="11" fill="#49374f"/><text x="105" y="244" text-anchor="middle" class="tiny">新 checkpoint 本身</text><text x="105" y="261" text-anchor="middle" class="tiny">也要版本化与重审</text>
+  </g>
+  <g transform="translate(954 122)">
+    <rect width="210" height="302" rx="18" fill="#3b303d" stroke="#e7a355" stroke-width="1.7"/><circle cx="105" cy="56" r="30" fill="#754d42" stroke="#ffc172"/><text x="105" y="62" text-anchor="middle" class="t">System</text>
+    <text x="24" y="112" class="s">检索、工具、规则、验证</text><text x="24" y="140" class="s">权限、人审、拒答、申诉</text><text x="24" y="168" class="s">优势：按情境增加约束</text><text x="24" y="196" class="s">代价：系统边界更复杂</text>
+    <rect x="24" y="224" width="162" height="46" rx="11" fill="#533e3e"/><text x="105" y="244" text-anchor="middle" class="tiny">部署评价对象应是</text><text x="105" y="261" text-anchor="middle" class="tiny">完整系统而非裸模型</text>
+  </g>
+  <path d="M80 475H1120" stroke="#517694" stroke-width="4"/><path d="M80 475L100 464V486z" fill="#55d9ff"/><path d="M1120 475L1100 464V486z" fill="#f1ad5b"/>
+  <text x="80" y="510" class="s" fill="#5bdcff">更少访问 / 更快试验</text><text x="1120" y="510" text-anchor="end" class="s" fill="#ffc276">更多控制 / 更高责任</text>
+  <g transform="translate(190 540)"><rect width="820" height="46" rx="16" fill="#142f48" stroke="#3b5e79"/><text x="410" y="29" text-anchor="middle" class="s">公平比较 = 固定底座 + 适配数据 + 访问权限 + 参数 / FLOPs / 延迟预算 + 安全约束</text></g>
+</svg>

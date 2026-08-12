@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">The Pile 从多源文本到语言模型训练分片的整体流程</title>
+  <desc id="desc">二十二个异构文本来源经过组件特定抽取、过滤、规范化和有限去重，按人工 epochs 加权混合为三十个训练分片，并划出验证集与测试集。</desc>
+  <defs>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e9f0fb}.h1{font-size:30px;font-weight:800}.h2{font-size:21px;font-weight:750}.body{font-size:16px}.small{font-size:14px}.mono{font-family:"JetBrains Mono",Consolas,monospace}.muted{fill:#92a5c4}.card{fill:#0c192b;stroke:#30496d;stroke-width:1.5}.cyan{fill:#0f3547;stroke:#22d3ee}.amber{fill:#3a2d18;stroke:#f59e0b}.blue{fill:#172a49;stroke:#60a5fa}.olive{fill:#213526;stroke:#84cc70}.coral{fill:#3a2327;stroke:#fb7185}.arrow{fill:none;stroke:#6685ad;stroke-width:2.2;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#6685ad"/></marker>
+  </defs>
+  <rect width="1200" height="760" rx="24" fill="#081321"/>
+  <text x="48" y="58" class="t h1">The Pile：不是一堆网页，而是一份可重混合的数据配方</text>
+  <text x="48" y="90" class="t body muted">825.18 GiB 原始文本 · 22 个 components · 人工重采样后一个混合周期约 1,254.20 GiB</text>
+
+  <g transform="translate(42 132)">
+    <rect width="280" height="455" rx="20" class="card"/>
+    <text x="22" y="39" class="t h2">异构来源</text>
+    <text x="22" y="64" class="t small muted">括号为最终字节权重的分析分组</text>
+    <g transform="translate(18 70)">
+      <rect width="244" height="58" rx="12" class="cyan"/><text x="18" y="25" class="t body">通用 Web / 社区</text><text x="226" y="39" text-anchor="end" class="t h2 mono">33.87%</text>
+      <rect y="70" width="244" height="58" rx="12" class="amber"/><text x="18" y="95" class="t body">学术 / 医学</text><text x="226" y="109" text-anchor="end" class="t h2 mono">27.11%</text>
+      <rect y="140" width="244" height="58" rx="12" class="blue"/><text x="18" y="165" class="t body">专业 / 结构化文本</text><text x="226" y="179" text-anchor="end" class="t h2 mono">18.60%</text>
+      <rect y="210" width="244" height="58" rx="12" class="olive"/><text x="18" y="235" class="t body">书籍 / 百科</text><text x="226" y="249" text-anchor="end" class="t h2 mono">16.52%</text>
+      <rect y="280" width="244" height="58" rx="12" class="coral"/><text x="18" y="305" class="t body">对话 / 平行文本</text><text x="226" y="319" text-anchor="end" class="t h2 mono">3.90%</text>
+    </g>
+    <text x="140" y="426" text-anchor="middle" class="t small muted">分组为本文便于读图的归类</text>
+    <text x="140" y="447" text-anchor="middle" class="t small muted">论文单位仍是 22 个原始组件</text>
+  </g>
+
+  <path d="M322 360H366" class="arrow"/>
+  <g transform="translate(370 132)">
+    <rect width="360" height="455" rx="20" class="card"/>
+    <text x="22" y="39" class="t h2">组件特定处理</text>
+    <text x="22" y="64" class="t small muted">没有一个过滤器能适配所有文本模态</text>
+    <g transform="translate(22 92)">
+      <rect width="316" height="58" rx="12" fill="#102037" stroke="#365274"/><circle cx="29" cy="29" r="14" fill="#123849" stroke="#22d3ee"/><text x="29" y="34" text-anchor="middle" class="t mono">1</text><text x="55" y="25" class="t body">采集与抽取</text><text x="55" y="45" class="t small muted">WARC / XML / TeX / API / dump</text>
+      <rect y="70" width="316" height="58" rx="12" fill="#102037" stroke="#365274"/><circle cx="29" cy="99" r="14" fill="#3a2d18" stroke="#f59e0b"/><text x="29" y="104" text-anchor="middle" class="t mono">2</text><text x="55" y="95" class="t body">质量与语言过滤</text><text x="55" y="115" class="t small muted">来源特定规则，不是统一清洗</text>
+      <rect y="140" width="316" height="58" rx="12" fill="#102037" stroke="#365274"/><circle cx="29" cy="169" r="14" fill="#172a49" stroke="#60a5fa"/><text x="29" y="174" text-anchor="middle" class="t mono">3</text><text x="55" y="165" class="t body">规范化为文档</text><text x="55" y="185" class="t small muted">text + source metadata</text>
+      <rect y="210" width="316" height="58" rx="12" fill="#102037" stroke="#365274"/><circle cx="29" cy="239" r="14" fill="#3a2327" stroke="#fb7185"/><text x="29" y="244" text-anchor="middle" class="t mono">4</text><text x="55" y="235" class="t body">有限近重复去重</text><text x="55" y="255" class="t small muted">仅 Pile-CC 与 OWT2 使用 MinHashLSH</text>
+      <rect y="280" width="316" height="58" rx="12" fill="#102037" stroke="#365274"/><circle cx="29" cy="309" r="14" fill="#213526" stroke="#84cc70"/><text x="29" y="314" text-anchor="middle" class="t mono">5</text><text x="55" y="305" class="t body">held-out 精确移除</text><text x="55" y="325" class="t small muted">训练集删掉验证 / 测试中逐字出现的元素</text>
+    </g>
+  </g>
+
+  <path d="M730 360H774" class="arrow"/>
+  <g transform="translate(778 132)">
+    <rect width="380" height="455" rx="20" class="card"/>
+    <text x="22" y="39" class="t h2">加权混合与交错输出</text>
+    <text x="22" y="64" class="t small muted">高质量 / 小组件重复更多，但任何组件不超过 3 epochs</text>
+    <rect x="22" y="88" width="336" height="74" rx="14" fill="#111f35" stroke="#3d587b"/>
+    <text x="190" y="118" text-anchor="middle" class="t body mono">pᵢ ∝ raw_sizeᵢ × epochsᵢ</text>
+    <text x="190" y="145" text-anchor="middle" class="t small muted">825.18 GiB → 1,254.20 GiB effective cycle</text>
+    <g transform="translate(22 188)">
+      <rect width="336" height="154" rx="16" fill="#0f1c31" stroke="#344b6b"/>
+      <g fill="#172a49" stroke="#60a5fa">
+        <rect x="20" y="20" width="42" height="42" rx="7"/><rect x="72" y="20" width="42" height="42" rx="7"/><rect x="124" y="20" width="42" height="42" rx="7"/><rect x="176" y="20" width="42" height="42" rx="7"/><rect x="228" y="20" width="42" height="42" rx="7"/><rect x="280" y="20" width="36" height="42" rx="7"/>
+        <rect x="20" y="72" width="42" height="42" rx="7"/><rect x="72" y="72" width="42" height="42" rx="7"/><rect x="124" y="72" width="42" height="42" rx="7"/><rect x="176" y="72" width="42" height="42" rx="7"/><rect x="228" y="72" width="42" height="42" rx="7"/><rect x="280" y="72" width="36" height="42" rx="7"/>
+      </g>
+      <text x="168" y="139" text-anchor="middle" class="t body">30 个交错 piles / shards</text>
+    </g>
+    <g transform="translate(22 366)">
+      <rect width="78" height="56" rx="12" class="cyan"/><text x="39" y="24" text-anchor="middle" class="t small">train</text><text x="39" y="44" text-anchor="middle" class="t small mono">main</text>
+      <rect x="86" width="78" height="56" rx="12" class="amber"/><text x="125" y="24" text-anchor="middle" class="t small">validation</text><text x="125" y="44" text-anchor="middle" class="t small mono">~0.1%</text>
+      <rect x="172" width="78" height="56" rx="12" class="coral"/><text x="211" y="24" text-anchor="middle" class="t small">test</text><text x="211" y="44" text-anchor="middle" class="t small mono">~0.1%</text>
+      <rect x="258" width="78" height="56" rx="12" fill="#17253b" stroke="#92a5c4"/><text x="297" y="24" text-anchor="middle" class="t small">reserve</text><text x="297" y="44" text-anchor="middle" class="t small mono">~8 GiB</text>
+    </g>
+  </g>
+
+  <g transform="translate(42 620)">
+    <rect width="1116" height="92" rx="18" fill="#0d1a2c" stroke="#30496d"/>
+    <text x="24" y="34" class="t h2">关键边界</text>
+    <text x="190" y="31" class="t body"><tspan fill="#fb7185">不是全局去重</tspan><tspan class="muted">：跨组件与跨 split 仍可能重复</tspan></text>
+    <text x="190" y="61" class="t body"><tspan fill="#f59e0b">不是纯英语</tspan><tspan class="muted">：fastText 粗估 97.4% English</tspan></text>
+    <text x="650" y="31" class="t body"><tspan fill="#60a5fa">不是统一许可证</tspan><tspan class="muted">：必须逐组件检查权利与用途</tspan></text>
+    <text x="650" y="61" class="t body"><tspan fill="#84cc70">不是自动无污染</tspan><tspan class="muted">：下游 benchmark 需另做 overlap removal</tspan></text>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">OLMo-7B 学习率日程</title>
+  <desc id="desc">5000 步 warmup，线性衰减到峰值十分之一，最后 1000 步 cooldown 到零。</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#08172a"/><stop offset="1" stop-color="#102f46"/></linearGradient><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#3cdbcd" stop-opacity=".42"/><stop offset="1" stop-color="#3cdbcd" stop-opacity=".02"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f4fbff;font-size:30px;font-weight:750}.sub{fill:#9ebdd0;font-size:15px}.h{fill:#ebf9ff;font-size:18px;font-weight:700}.b{fill:#b9d4e2;font-size:14px}.tiny{fill:#88aabd;font-size:12px}</style></defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="56" y="64">学习率最后“归零”，不是无关紧要的收尾</text>
+  <text class="sub" x="56" y="94">OLMo-7B：peak 3×10⁻⁴ · warmup 5,000 steps · AdamW β=(0.9, 0.95), ε=10⁻⁵, wd=0.1</text>
+  <g transform="translate(84 148)">
+    <line x1="0" y1="402" x2="1020" y2="402" stroke="#7193a7" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="0" y2="402" stroke="#7193a7" stroke-width="1.5"/>
+    <g stroke="#315067" stroke-dasharray="5 7"><line x1="0" y1="40" x2="1020" y2="40"/><line x1="0" y1="366" x2="1020" y2="366"/></g>
+    <text class="b" x="-15" y="45" text-anchor="end">3e−4</text><text class="b" x="-15" y="371" text-anchor="end">3e−5</text><text class="b" x="-15" y="407" text-anchor="end">0</text>
+    <path d="M0 402L60 40L945 366L1020 402V402H0Z" fill="url(#area)"/>
+    <path d="M0 402L60 40L945 366L1020 402" fill="none" stroke="#46dfd0" stroke-width="5" filter="url(#glow)"/>
+    <line x1="60" y1="40" x2="60" y2="418" stroke="#75cad7" stroke-dasharray="4 6"/>
+    <line x1="945" y1="366" x2="945" y2="418" stroke="#f0bd62" stroke-dasharray="4 6"/>
+    <text class="b" x="60" y="440" text-anchor="middle">5,000</text><text class="b" x="945" y="440" text-anchor="middle">T−1,000</text><text class="b" x="1020" y="440" text-anchor="middle">T</text>
+    <text class="tiny" x="510" y="451" text-anchor="middle">training step（示意；T 由训练 token / global batch 决定）</text>
+
+    <rect x="17" y="286" width="174" height="61" rx="11" fill="#123b50" stroke="#3b839b"/><text class="h" x="104" y="311" text-anchor="middle">① warmup</text><text class="tiny" x="104" y="332" text-anchor="middle">0 → peak</text>
+    <rect x="382" y="107" width="219" height="61" rx="11" fill="#123b50" stroke="#3b839b"/><text class="h" x="491" y="132" text-anchor="middle">② linear decay</text><text class="tiny" x="491" y="153" text-anchor="middle">peak → 0.1 × peak</text>
+    <rect x="814" y="256" width="193" height="72" rx="11" fill="#3c3023" stroke="#c68c43"/><text class="h" x="910" y="282" text-anchor="middle" fill="#ffe3aa">③ cooldown</text><text class="tiny" x="910" y="304" text-anchor="middle" fill="#e6c28a">最后 1,000 step → 0</text>
+  </g>
+  <g transform="translate(83 646)">
+    <circle cx="7" cy="-4" r="7" fill="#f0bd62"/><text x="24" y="1" fill="#d8e8f0" font-size="14">论文报告：final cooldown 带来下游评测提升；因此 final checkpoint 不等于任一中途 checkpoint 的简单外推。</text>
+  </g>
+</svg>

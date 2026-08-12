@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">OLMo 数据顺序与分布式训练系统</title>
+  <desc id="desc">从文档追加 EOS、拼接 2048 token 样本、确定性顺序到 FSDP 分片、混合精度和定期评测检查点。</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07172a"/><stop offset="1" stop-color="#102f46"/></linearGradient><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0l10 5-10 5z" fill="#59d6e8"/></marker><filter id="s"><feDropShadow dy="7" stdDeviation="8" flood-opacity=".25"/></filter><style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f3fbff;font-size:30px;font-weight:750}.sub{fill:#9ebdd0;font-size:15px}.h{fill:#ebf8ff;font-size:18px;font-weight:700}.b{fill:#b7d3e2;font-size:14px}.tiny{fill:#89aabd;font-size:12px}.chip{fill:#17475d;stroke:#3e829b}</style></defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="56" y="64">从“一篇文档”到“第 173,000 步看过什么”</text>
+  <text class="sub" x="56" y="94">开放 data order 让 checkpoint、batch 与原始来源可以沿同一条链对齐</text>
+
+  <g transform="translate(55 143)" filter="url(#s)">
+    <rect width="1090" height="176" rx="20" fill="#0b293e" stroke="#315b73"/>
+    <text class="h" x="24" y="37">1 · 构造 token stream</text>
+    <g transform="translate(25 62)">
+      <rect class="chip" width="145" height="55" rx="10"/><text class="b" x="72" y="24" text-anchor="middle">文档 A tokens</text><text x="72" y="43" text-anchor="middle" fill="#60dacd" font-size="12">… 17 42 91</text>
+      <rect x="181" class="chip" width="64" height="55" rx="10"/><text x="213" y="34" text-anchor="middle" fill="#f5c670" font-size="16" font-weight="700">EOS</text>
+      <rect x="281" class="chip" width="145" height="55" rx="10"/><text class="b" x="353" y="24" text-anchor="middle">文档 B tokens</text><text x="353" y="43" text-anchor="middle" fill="#60dacd" font-size="12">… 8 12 76</text>
+      <rect x="462" class="chip" width="64" height="55" rx="10"/><text x="494" y="34" text-anchor="middle" fill="#f5c670" font-size="16" font-weight="700">EOS</text>
+      <path d="M550 28h55" stroke="#59d6e8" stroke-width="3" marker-end="url(#a)"/>
+      <rect x="629" y="-6" width="405" height="68" rx="12" fill="#124555" stroke="#3ec4bc"/>
+      <text class="h" x="832" y="23" text-anchor="middle">连续切成 2,048-token instances</text>
+      <text class="tiny" x="832" y="47" text-anchor="middle">一个 instance 可跨文档；EOS 保留边界语义</text>
+    </g>
+    <text class="tiny" x="25" y="151">不是“每篇文档补到 2048”：那会浪费 token，也改变短文档比例。</text>
+  </g>
+
+  <g transform="translate(55 345)">
+    <rect width="513" height="266" rx="20" fill="#0b293e" stroke="#315b73"/>
+    <text class="h" x="24" y="38">2 · 顺序是实验的一部分</text>
+    <g transform="translate(25 67)">
+      <rect width="126" height="54" rx="10" fill="#17475d" stroke="#3e829b"/><text class="b" x="63" y="23" text-anchor="middle">seed + epoch</text><text class="tiny" x="63" y="42" text-anchor="middle">确定性 shuffle</text>
+      <path d="M141 27h47" stroke="#59d6e8" stroke-width="3" marker-end="url(#a)"/>
+      <rect x="204" width="122" height="54" rx="10" fill="#17475d" stroke="#3e829b"/><text class="b" x="265" y="23" text-anchor="middle">batch manifest</text><text class="tiny" x="265" y="42" text-anchor="middle">doc / source / hash</text>
+      <path d="M341 27h47" stroke="#59d6e8" stroke-width="3" marker-end="url(#a)"/>
+      <rect x="404" width="59" height="54" rx="10" fill="#185b65" stroke="#4bd6c7"/><text x="434" y="34" text-anchor="middle" fill="#b8fff6" font-size="16" font-weight="700">step</text>
+    </g>
+    <text class="b" x="25" y="157">同一个 seed + artifact → 同一步能定位同一批数据</text>
+    <text class="b" x="25" y="187">窗口来源比例 → 发现 shuffle / batch 组成异常</text>
+    <text class="b" x="25" y="217">checkpoint 对齐 → 研究能力何时形成或退化</text>
+    <text class="tiny" x="25" y="244">这正是“开放训练过程”比 final weights 多出的因果抓手。</text>
+  </g>
+
+  <g transform="translate(593 345)">
+    <rect width="552" height="266" rx="20" fill="#0b293e" stroke="#315b73"/>
+    <text class="h" x="24" y="38">3 · FSDP 与数值精度</text>
+    <g transform="translate(26 65)">
+      <g><rect width="104" height="69" rx="10" fill="#1a5062" stroke="#51aabd"/><text class="h" x="52" y="29" text-anchor="middle">GPU 0</text><text class="tiny" x="52" y="51" text-anchor="middle">W₀ + opt₀</text></g>
+      <g transform="translate(122)"><rect width="104" height="69" rx="10" fill="#1a5062" stroke="#51aabd"/><text class="h" x="52" y="29" text-anchor="middle">GPU 1</text><text class="tiny" x="52" y="51" text-anchor="middle">W₁ + opt₁</text></g>
+      <g transform="translate(244)"><rect width="104" height="69" rx="10" fill="#1a5062" stroke="#51aabd"/><text class="h" x="52" y="29" text-anchor="middle">GPU …</text><text class="tiny" x="52" y="51" text-anchor="middle">sharded</text></g>
+      <g transform="translate(366)"><rect width="104" height="69" rx="10" fill="#1a5062" stroke="#51aabd"/><text class="h" x="52" y="29" text-anchor="middle">GPU N</text><text class="tiny" x="52" y="51" text-anchor="middle">Wₙ + optₙ</text></g>
+    </g>
+    <text class="b" x="26" y="166">BF16：forward / backward</text><text class="b" x="300" y="166">FP32：sharded weights / optimizer</text>
+    <text class="b" x="26" y="195">FP32：softmax 与 gradient reduce</text><text class="b" x="300" y="195">global grad norm ≤ 1</text>
+    <rect x="26" y="218" width="500" height="29" rx="8" fill="#143f50"/><text x="276" y="238" text-anchor="middle" fill="#80e6da" font-size="13">每 1,000 step：评测 + checkpoint + 日志</text>
+  </g>
+</svg>

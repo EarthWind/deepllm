@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">The Pile 的组成权重</title>
+  <desc id="desc">顶部按本文分析分组展示五类文本占最终字节权重的比例，底部列出论文二十二个组件的精确最终权重。</desc>
+  <defs>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e9f0fb}.h1{font-size:30px;font-weight:800}.h2{font-size:20px;font-weight:750}.body{font-size:15px}.small{font-size:13px}.mono{font-family:"JetBrains Mono",Consolas,monospace}.muted{fill:#92a5c4}.card{fill:#0c192b;stroke:#30496d;stroke-width:1.4}.grid{stroke:#243854;stroke-width:1}.bar{fill:#25638a;stroke:#67e8f9;stroke-width:1}.value{fill:#dff8ff;font-family:"JetBrains Mono",Consolas,monospace;font-size:14px}
+    </style>
+  </defs>
+  <rect width="1200" height="900" rx="24" fill="#081321"/>
+  <text x="48" y="58" class="t h1">The Pile mixture：大组件给规模，小组件用重采样争取存在感</text>
+  <text x="48" y="90" class="t body muted">Weight 是加权后一个完整混合周期中的字节占比；不是原始文件占比，也不是 token 占比</text>
+
+  <g transform="translate(48 122)">
+    <rect width="1104" height="154" rx="18" class="card"/>
+    <text x="22" y="34" class="t h2">最终权重按文本功能分组</text>
+    <text x="22" y="58" class="t small muted">本文为读图所作分组；精确 component 权重见下方</text>
+    <g transform="translate(22 78)">
+      <rect width="359" height="42" rx="8" fill="#155e75"/><rect x="359" width="287" height="42" fill="#a16207"/><rect x="646" width="197" height="42" fill="#1d4ed8"/><rect x="843" width="175" height="42" fill="#4d7c0f"/><rect x="1018" width="42" height="42" rx="8" fill="#be445d"/>
+      <text x="179" y="27" text-anchor="middle" class="t body">Web / 社区 33.87%</text>
+      <text x="502" y="27" text-anchor="middle" class="t body">学术 / 医学 27.11%</text>
+      <text x="744" y="27" text-anchor="middle" class="t small">专业 / 结构化 18.60%</text>
+      <text x="930" y="27" text-anchor="middle" class="t small">书籍 / 百科 16.52%</text>
+      <path d="M1039 45V63H913" fill="none" stroke="#fb7185"/>
+      <text x="908" y="68" text-anchor="end" class="t small" fill="#fb7185">对话 / 平行 3.90%</text>
+    </g>
+  </g>
+
+  <g transform="translate(48 302)">
+    <rect width="540" height="548" rx="18" class="card"/>
+    <text x="22" y="38" class="t h2">排名 1–11</text><text x="516" y="38" text-anchor="end" class="t small muted">最终字节权重</text>
+    <path d="M220 57V515M295 57V515M370 57V515M445 57V515" class="grid"/>
+    <g class="t body">
+      <text x="20" y="82">Pile-CC</text><rect x="220" y="66" width="272" height="18" rx="4" class="bar"/><text x="510" y="81" text-anchor="end" class="value">18.11%</text>
+      <text x="20" y="122">PubMed Central</text><rect x="220" y="106" width="216" height="18" rx="4" class="bar"/><text x="510" y="121" text-anchor="end" class="value">14.40%</text>
+      <text x="20" y="162">Books3</text><rect x="220" y="146" width="181" height="18" rx="4" class="bar"/><text x="510" y="161" text-anchor="end" class="value">12.07%</text>
+      <text x="20" y="202">OpenWebText2</text><rect x="220" y="186" width="150" height="18" rx="4" class="bar"/><text x="510" y="201" text-anchor="end" class="value">10.01%</text>
+      <text x="20" y="242">ArXiv</text><rect x="220" y="226" width="134" height="18" rx="4" class="bar"/><text x="510" y="241" text-anchor="end" class="value">8.96%</text>
+      <text x="20" y="282">GitHub</text><rect x="220" y="266" width="114" height="18" rx="4" class="bar"/><text x="510" y="281" text-anchor="end" class="value">7.59%</text>
+      <text x="20" y="322">FreeLaw</text><rect x="220" y="306" width="92" height="18" rx="4" class="bar"/><text x="510" y="321" text-anchor="end" class="value">6.12%</text>
+      <text x="20" y="362">Stack Exchange</text><rect x="220" y="346" width="77" height="18" rx="4" class="bar"/><text x="510" y="361" text-anchor="end" class="value">5.13%</text>
+      <text x="20" y="402">USPTO Backgrounds</text><rect x="220" y="386" width="55" height="18" rx="4" class="bar"/><text x="510" y="401" text-anchor="end" class="value">3.65%</text>
+      <text x="20" y="442">PubMed Abstracts</text><rect x="220" y="426" width="46" height="18" rx="4" class="bar"/><text x="510" y="441" text-anchor="end" class="value">3.07%</text>
+      <text x="20" y="482">Gutenberg (PG-19)</text><rect x="220" y="466" width="33" height="18" rx="4" class="bar"/><text x="510" y="481" text-anchor="end" class="value">2.17%</text>
+    </g>
+    <text x="220" y="527" class="t small muted">0%</text><text x="370" y="527" text-anchor="middle" class="t small muted">10%</text><text x="510" y="527" text-anchor="end" class="t small muted">约 20%</text>
+  </g>
+
+  <g transform="translate(612 302)">
+    <rect width="540" height="548" rx="18" class="card"/>
+    <text x="22" y="38" class="t h2">排名 12–22</text><text x="516" y="38" text-anchor="end" class="t small muted">直接标签保留小组件可见性</text>
+    <path d="M220 57V515M295 57V515M370 57V515M445 57V515" class="grid"/>
+    <g class="t body">
+      <text x="20" y="82">OpenSubtitles</text><rect x="220" y="66" width="23" height="18" rx="4" class="bar"/><text x="510" y="81" text-anchor="end" class="value">1.55%</text>
+      <text x="20" y="122">Wikipedia (en)</text><rect x="220" y="106" width="23" height="18" rx="4" class="bar"/><text x="510" y="121" text-anchor="end" class="value">1.53%</text>
+      <text x="20" y="162">DM Mathematics</text><rect x="220" y="146" width="19" height="18" rx="4" class="bar"/><text x="510" y="161" text-anchor="end" class="value">1.24%</text>
+      <text x="20" y="202">Ubuntu IRC</text><rect x="220" y="186" width="13" height="18" rx="4" class="bar"/><text x="510" y="201" text-anchor="end" class="value">0.88%</text>
+      <text x="20" y="242">BookCorpus2</text><rect x="220" y="226" width="11" height="18" rx="4" class="bar"/><text x="510" y="241" text-anchor="end" class="value">0.75%</text>
+      <text x="20" y="282">EuroParl</text><rect x="220" y="266" width="11" height="18" rx="4" class="bar"/><text x="510" y="281" text-anchor="end" class="value">0.73%</text>
+      <text x="20" y="322">HackerNews</text><rect x="220" y="306" width="9" height="18" rx="4" class="bar"/><text x="510" y="321" text-anchor="end" class="value">0.62%</text>
+      <text x="20" y="362">YouTube Subtitles</text><rect x="220" y="346" width="9" height="18" rx="4" class="bar"/><text x="510" y="361" text-anchor="end" class="value">0.60%</text>
+      <text x="20" y="402">PhilPapers</text><rect x="220" y="386" width="6" height="18" rx="4" class="bar"/><text x="510" y="401" text-anchor="end" class="value">0.38%</text>
+      <text x="20" y="442">NIH ExPorter</text><rect x="220" y="426" width="5" height="18" rx="4" class="bar"/><text x="510" y="441" text-anchor="end" class="value">0.30%</text>
+      <text x="20" y="482">Enron Emails</text><rect x="220" y="466" width="3" height="18" rx="3" class="bar"/><text x="510" y="481" text-anchor="end" class="value">0.14%</text>
+    </g>
+    <text x="220" y="527" class="t small muted">与左图共用 0–20% 标尺；小条的精确值以标签为准</text>
+  </g>
+  <text x="600" y="879" text-anchor="middle" class="t small muted">来源：论文 Table 1；因表格数值四舍五入，显示合计为 100.00%</text>
+</svg>

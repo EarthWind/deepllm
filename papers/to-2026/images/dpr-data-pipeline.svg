@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">DPR 的 Wikipedia 语料处理与监督构造</title>
+  <desc id="desc">展示 Wikipedia 清洗、固定一百词切段、标题拼接、向量索引，以及 gold、远程监督和三类负例来源。</desc>
+  <defs>
+    <marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#38bdf8"/></marker>
+    <marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#f59e0b"/></marker>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e7eefb}.h1{font-size:30px;font-weight:800}.h2{font-size:22px;font-weight:800}.body{font-size:17px}.small{font-size:15px}.tiny{font-size:13px}.muted{fill:#91a4c6}.formula{font-family:"JetBrains Mono",Consolas,monospace;font-size:16px}.card{fill:#0b182b;stroke:#2b4163;stroke-width:1.5}.node{fill:#12213a;stroke:#4a627f;stroke-width:1.5}.cyan{fill:#102a3c;stroke:#22d3ee;stroke-width:1.6}.amber{fill:#302719;stroke:#f59e0b;stroke-width:1.6}
+    </style>
+  </defs>
+  <rect width="1200" height="760" rx="24" fill="#081321"/>
+  <text x="48" y="58" class="t h1">训练一个 Retriever，先定义“检索单元”和“正负样本”</text>
+  <text x="48" y="91" class="t body muted">DPR 的简单架构建立在具体语料切分、答案匹配与负例采样之上</text>
+
+  <g transform="translate(38 126)">
+    <rect width="1124" height="258" rx="22" class="card"/>
+    <text x="22" y="43" class="t h2">Wikipedia passage collection</text>
+    <text x="22" y="69" class="t small muted">2018-12-20 English Wikipedia dump</text>
+    <g transform="translate(49 99)">
+      <rect width="174" height="112" rx="15" class="node"/><text x="87" y="36" text-anchor="middle" class="t body">原始 articles</text><text x="87" y="65" text-anchor="middle" class="t small muted">正文 + 半结构数据</text><text x="87" y="91" text-anchor="middle" class="t tiny muted">Wikipedia dump</text>
+      <path d="M185 56H234" stroke="#38bdf8" stroke-width="3" marker-end="url(#a1)"/>
+      <rect x="246" width="174" height="112" rx="15" class="node"/><text x="333" y="31" text-anchor="middle" class="t body">DrQA 清洗</text><text x="333" y="59" text-anchor="middle" class="t small muted">移除 tables / lists</text><text x="333" y="84" text-anchor="middle" class="t small muted">infobox / 消歧页</text>
+      <path d="M431 56H480" stroke="#38bdf8" stroke-width="3" marker-end="url(#a1)"/>
+      <rect x="492" width="192" height="112" rx="15" class="cyan"/><text x="588" y="31" text-anchor="middle" class="t body">每 100 words 切段</text><text x="588" y="59" text-anchor="middle" class="t small muted">固定长度 · 不重叠</text><text x="588" y="84" text-anchor="middle" class="t small muted">自然段落初试更差</text>
+      <path d="M695 56H744" stroke="#38bdf8" stroke-width="3" marker-end="url(#a1)"/>
+      <rect x="756" width="252" height="112" rx="15" class="amber"/><text x="882" y="29" text-anchor="middle" class="t body">title [SEP] passage</text><text x="882" y="61" text-anchor="middle" class="t h2" fill="#fbbf24">21,015,324</text><text x="882" y="88" text-anchor="middle" class="t small muted">passages → E_P → FAISS</text>
+    </g>
+  </g>
+
+  <g transform="translate(38 410)">
+    <rect width="546" height="287" rx="22" class="card"/>
+    <text x="22" y="43" class="t h2">Positive passage 怎样来</text>
+    <g transform="translate(22 74)">
+      <rect width="502" height="82" rx="14" class="cyan"/>
+      <text x="18" y="29" class="t body">Gold context match</text><text x="18" y="57" class="t small muted">NQ / SQuAD：把原 gold context 对齐到候选池</text>
+      <rect y="101" width="502" height="104" rx="14" class="node"/>
+      <text x="18" y="131" class="t body">Distant supervision</text><text x="18" y="159" class="t small muted">TriviaQA / WQ / TREC：用 q + answer 跑 BM25</text><text x="18" y="184" class="t small" fill="#fbbf24">取 Top-100 中排名最高且包含答案的 passage</text>
+    </g>
+    <text x="273" y="263" text-anchor="middle" class="t tiny muted">没找到或无法对齐的训练问题会被丢弃</text>
+  </g>
+
+  <g transform="translate(610 410)">
+    <rect width="552" height="287" rx="22" class="card"/>
+    <text x="22" y="43" class="t h2">Negative passage 三种来源</text>
+    <g transform="translate(22 74)">
+      <rect width="158" height="143" rx="14" class="node"/><text x="79" y="31" text-anchor="middle" class="t body">Random</text><text x="79" y="61" text-anchor="middle" class="t small muted">全语料随机</text><text x="79" y="89" text-anchor="middle" class="t tiny muted">通常较容易</text><text x="79" y="119" text-anchor="middle" class="t formula">p⁻</text>
+      <rect x="174" width="158" height="143" rx="14" class="amber"/><text x="253" y="31" text-anchor="middle" class="t body">BM25 hard</text><text x="253" y="61" text-anchor="middle" class="t small muted">词面很像</text><text x="253" y="89" text-anchor="middle" class="t tiny muted">但不含答案</text><text x="253" y="119" text-anchor="middle" class="t formula" fill="#fbbf24">pᴴ</text>
+      <rect x="348" width="158" height="143" rx="14" class="cyan"/><text x="427" y="31" text-anchor="middle" class="t body">Gold in-batch</text><text x="427" y="61" text-anchor="middle" class="t small muted">其他问题的 p⁺</text><text x="427" y="89" text-anchor="middle" class="t tiny muted">无需额外编码</text><text x="427" y="119" text-anchor="middle" class="t formula" fill="#67e8f9">B−1</text>
+    </g>
+    <text x="276" y="249" text-anchor="middle" class="t small">最佳论文配置：Gold in-batch + 每题 1 个 BM25 hard negative</text>
+    <text x="276" y="273" text-anchor="middle" class="t tiny muted">“不含答案字符串”不保证语义上真的不相关</text>
+  </g>
+  <text x="600" y="734" text-anchor="middle" class="t small muted">Top-k accuracy 的 positive 定义依赖答案字符串；它衡量可回答性上界，不等于段落语义相关性的完整判断</text>
+</svg>

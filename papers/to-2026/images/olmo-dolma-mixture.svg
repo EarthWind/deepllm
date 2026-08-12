@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Dolma 完整语料构成</title>
+  <desc id="desc">OLMo 论文 Table 2 的六类来源、token 数和占比，并强调完整 corpus 比例不等同于任一训练运行的精确采样比例。</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#08182c"/><stop offset="1" stop-color="#102f46"/></linearGradient><filter id="s"><feDropShadow dy="8" stdDeviation="10" flood-opacity=".25"/></filter><style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f4fbff;font-size:30px;font-weight:750}.sub{fill:#9ebdd0;font-size:15px}.h{fill:#ebf9ff;font-size:19px;font-weight:700}.b{fill:#bdd6e4;font-size:14px}.v{fill:#f3fbff;font-size:16px;font-weight:700}.tiny{fill:#8dacbf;font-size:12px}</style></defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="56" y="64">Dolma：2.668T-token 开放预训练语料的“原料账本”</text>
+  <text class="sub" x="56" y="94">论文 Table 2 · 11,519 GB · 约 43.67 亿文档；下面按 token 数计算占比</text>
+  <g transform="translate(58 138)" filter="url(#s)">
+    <rect width="1084" height="131" rx="19" fill="#0b293f" stroke="#315b73"/>
+    <text class="h" x="25" y="38">完整 Dolma token 构成</text>
+    <g transform="translate(25 59)">
+      <rect width="1034" height="42" rx="10" fill="#17344a"/>
+      <rect width="844.9" height="42" rx="10" fill="#2fc5bb"/><rect x="844.9" width="132.5" height="42" fill="#4e9fe1"/>
+      <rect x="977.4" width="31.0" height="42" fill="#846fe1"/><rect x="1008.4" width="22.1" height="42" fill="#e3a54c"/>
+      <rect x="1030.5" width="2.0" height="42" fill="#e47e8d"/><rect x="1032.5" width="1.5" height="42" rx="1" fill="#b7d66e"/>
+      <text x="422" y="27" text-anchor="middle" fill="#052c35" font-size="15" font-weight="800">Common Crawl 81.71%</text>
+      <text x="911" y="27" text-anchor="middle" fill="#071e3b" font-size="14" font-weight="800">GitHub 12.82%</text>
+    </g>
+  </g>
+  <g transform="translate(58 294)">
+    <rect width="685" height="307" rx="19" fill="#0b293f" stroke="#315b73"/>
+    <text class="h" x="24" y="39">来源明细</text>
+    <g transform="translate(24 68)">
+      <g><circle cx="8" cy="0" r="7" fill="#2fc5bb"/><text class="v" x="27" y="5">Common Crawl</text><text class="b" x="340" y="5">2,180B tokens</text><text class="v" x="627" y="5" text-anchor="end">81.71%</text></g>
+      <g transform="translate(0 41)"><circle cx="8" r="7" fill="#4e9fe1"/><text class="v" x="27" y="5">GitHub</text><text class="b" x="340" y="5">342B</text><text class="v" x="627" y="5" text-anchor="end">12.82%</text></g>
+      <g transform="translate(0 82)"><circle cx="8" r="7" fill="#846fe1"/><text class="v" x="27" y="5">Reddit</text><text class="b" x="340" y="5">80B</text><text class="v" x="627" y="5" text-anchor="end">3.00%</text></g>
+      <g transform="translate(0 123)"><circle cx="8" r="7" fill="#e3a54c"/><text class="v" x="27" y="5">Semantic Scholar</text><text class="b" x="340" y="5">57B</text><text class="v" x="627" y="5" text-anchor="end">2.14%</text></g>
+      <g transform="translate(0 164)"><circle cx="8" r="7" fill="#e47e8d"/><text class="v" x="27" y="5">Project Gutenberg</text><text class="b" x="340" y="5">5.2B</text><text class="v" x="627" y="5" text-anchor="end">0.19%</text></g>
+      <g transform="translate(0 205)"><circle cx="8" r="7" fill="#b7d66e"/><text class="v" x="27" y="5">Wikipedia</text><text class="b" x="340" y="5">3.7B</text><text class="v" x="627" y="5" text-anchor="end">0.14%</text></g>
+    </g>
+  </g>
+  <g transform="translate(770 294)">
+    <rect width="372" height="144" rx="19" fill="#103445" stroke="#36bfb4"/>
+    <text class="h" x="22" y="37" fill="#aef8ee">先分源治理，再混合</text>
+    <text class="b" x="22" y="68">language → quality → content</text><text class="b" x="22" y="94">→ dedup → mixing → tokenization</text>
+    <text class="tiny" x="22" y="122">分源保留 metadata，才能定位行为来自哪里</text>
+    <rect y="164" width="372" height="143" rx="19" fill="#392c24" stroke="#b57b42"/>
+    <text class="h" x="22" y="201" fill="#ffe1ae">重要：别把两种比例混为一谈</text>
+    <text class="b" x="22" y="232">图中是完整 Dolma corpus 的统计；</text><text class="b" x="22" y="258">某个 OLMo run 的实际采样、重排与已见</text><text class="b" x="22" y="283">token 应以发布的 data-order artifact 为准。</text>
+  </g>
+  <text class="tiny" x="58" y="640">占比由论文表中的 2,667.9B token 原始值计算；由于表格四舍五入，正文通常写作 2.668T。</text>
+</svg>

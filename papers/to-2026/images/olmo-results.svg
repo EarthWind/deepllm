@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">OLMo 核心评测与适配结果</title>
+  <desc id="desc">左侧比较 7B 级模型八项任务平均分，右侧展示 OLMo base、SFT、SFT加DPO 的能力安全权衡。</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#08172a"/><stop offset="1" stop-color="#102f46"/></linearGradient><style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f4fbff;font-size:30px;font-weight:750}.sub{fill:#9ebdd0;font-size:15px}.h{fill:#eaf9ff;font-size:19px;font-weight:700}.b{fill:#bad3e1;font-size:14px}.v{fill:#f4fbff;font-size:14px;font-weight:700}.tiny{fill:#88aabd;font-size:12px}</style></defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="56" y="64">结果要读成“竞争力 + 可研究性”，而不是“全面领先”</text>
+  <text class="sub" x="56" y="94">论文 Table 3 / 4：同量级 base 平均分接近；DPO 改善偏好与安全，但能力指标并非单调上升</text>
+  <g transform="translate(56 137)">
+    <rect width="528" height="480" rx="20" fill="#0b293e" stroke="#315b73"/>
+    <text class="h" x="24" y="38">8 项 core tasks 平均准确率（%）</text>
+    <text class="tiny" x="24" y="61">ARC-C/E、BoolQ、HellaSwag、OpenBookQA、PIQA、SciQ、WinoGrande</text>
+    <g transform="translate(25 91)">
+      <g><text class="b" x="0" y="18">Llama 2</text><rect x="101" y="2" width="352.5" height="24" rx="6" fill="#51718a"/><text class="v" x="467" y="20">70.5</text></g>
+      <g transform="translate(0 52)"><text class="b" x="0" y="18">Falcon</text><rect x="101" y="2" width="351.5" height="24" rx="6" fill="#51718a"/><text class="v" x="467" y="20">70.3</text></g>
+      <g transform="translate(0 104)"><text class="b" x="0" y="18">MPT</text><rect x="101" y="2" width="349" height="24" rx="6" fill="#51718a"/><text class="v" x="467" y="20">69.8</text></g>
+      <g transform="translate(0 156)"><text class="b" x="0" y="18">LLaMA</text><rect x="101" y="2" width="348" height="24" rx="6" fill="#51718a"/><text class="v" x="467" y="20">69.6</text></g>
+      <g transform="translate(0 208)"><text x="0" y="18" fill="#79ecdf" font-size="15" font-weight="800">OLMo</text><rect x="101" y="0" width="346.5" height="28" rx="7" fill="#2fcabd"/><text x="467" y="20" fill="#7df1e3" font-size="15" font-weight="800">69.3</text></g>
+      <g transform="translate(0 260)"><text class="b" x="0" y="18">RPJ</text><rect x="101" y="2" width="333" height="24" rx="6" fill="#51718a"/><text class="v" x="467" y="20">66.6</text></g>
+      <g transform="translate(0 312)"><text class="b" x="0" y="18">Pythia</text><rect x="101" y="2" width="315" height="24" rx="6" fill="#51718a"/><text class="v" x="467" y="20">63.0</text></g>
+    </g>
+    <text class="tiny" x="24" y="458">条长以 0–100 的准确率直接缩放；不是统计显著性区间。</text>
+  </g>
+  <g transform="translate(610 137)">
+    <rect width="534" height="480" rx="20" fill="#0b293e" stroke="#315b73"/>
+    <text class="h" x="24" y="38">从 base → Tülu 2 SFT → DPO</text>
+    <g transform="translate(24 76)">
+      <text class="tiny" x="164" y="0" text-anchor="middle">Base</text><text class="tiny" x="274" y="0" text-anchor="middle">+SFT</text><text class="tiny" x="384" y="0" text-anchor="middle">+DPO</text>
+      <g transform="translate(0 37)"><text class="b" x="0" y="16">MMLU ↑</text><circle cx="164" cy="10" r="24" fill="#263e55"/><text class="v" x="164" y="15" text-anchor="middle">28.3</text><circle cx="274" cy="10" r="24" fill="#226f70"/><text class="v" x="274" y="15" text-anchor="middle">47.3</text><circle cx="384" cy="10" r="24" fill="#285b6a"/><text class="v" x="384" y="15" text-anchor="middle">46.2</text><path d="M409 10h54" stroke="#efb85a" stroke-width="2"/><text x="470" y="15" fill="#efc678" font-size="12">略降</text></g>
+      <g transform="translate(0 112)"><text class="b" x="0" y="16">AlpacaEval ↑</text><text class="tiny" x="164" y="15" text-anchor="middle">—</text><circle cx="274" cy="10" r="24" fill="#226f70"/><text class="v" x="274" y="15" text-anchor="middle">57.0</text><circle cx="384" cy="10" r="24" fill="#27a99f"/><text class="v" x="384" y="15" text-anchor="middle">69.3</text></g>
+      <g transform="translate(0 187)"><text class="b" x="0" y="8">ToxiGen</text><text class="tiny" x="0" y="27">毒性率 ↓</text><circle cx="164" cy="10" r="24" fill="#774655"/><text class="v" x="164" y="15" text-anchor="middle">81.4</text><circle cx="274" cy="10" r="24" fill="#3b786e"/><text class="v" x="274" y="15" text-anchor="middle">14.4</text><circle cx="384" cy="10" r="24" fill="#27a99f"/><text class="v" x="384" y="15" text-anchor="middle">1.7</text></g>
+      <g transform="translate(0 262)"><text class="b" x="0" y="8">TruthfulQA</text><text class="tiny" x="0" y="27">truth/info ↑</text><circle cx="164" cy="10" r="24" fill="#263e55"/><text class="v" x="164" y="15" text-anchor="middle">31.6</text><circle cx="274" cy="10" r="24" fill="#226f70"/><text class="v" x="274" y="15" text-anchor="middle">41.2</text><circle cx="384" cy="10" r="24" fill="#27a99f"/><text class="v" x="384" y="15" text-anchor="middle">52.0</text></g>
+    </g>
+    <rect x="24" y="393" width="486" height="57" rx="11" fill="#3a3023" stroke="#a9783d"/>
+    <text x="267" y="416" text-anchor="middle" fill="#ffe1a4" font-size="14" font-weight="700">偏好优化是多目标移动，不是所有 benchmark 一起上升</text>
+    <text class="tiny" x="267" y="437" text-anchor="middle">论文附录中 GSM8K、BBH、TydiQA 等也出现 SFT → DPO 回落</text>
+  </g>
+</svg>

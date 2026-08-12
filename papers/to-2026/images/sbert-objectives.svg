@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Sentence-BERT 论文的三种训练目标</title>
+  <desc id="desc">分类目标使用句对和绝对差，回归目标拟合余弦相似度，三元组目标拉近正例并推远负例。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#15152e"/></linearGradient>
+    <marker id="arr1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#38bdf8"/></marker>
+    <marker id="arr2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#a78bfa"/></marker>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e5eefc}.h1{font-size:30px;font-weight:800}.h2{font-size:24px;font-weight:800}.body{font-size:17px}.small{font-size:15px}.muted{fill:#91a4c6}.formula{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px}.card{fill:#0c182c;stroke:#294064;stroke-width:1.5}.box{fill:#12233c;stroke:#3b82f6}.pill{fill:#152640;stroke:#516b91}
+    </style>
+  </defs>
+  <rect width="1200" height="760" rx="24" fill="url(#bg2)"/>
+  <text x="48" y="58" class="t h1">同一个双塔骨架，三种监督信号</text>
+  <text x="48" y="91" class="t body muted">训练目标决定向量空间学会什么；“Siamese”本身不是一种 loss</text>
+
+  <g transform="translate(40 128)">
+    <rect width="350" height="580" rx="22" class="card"/>
+    <rect x="20" y="18" width="104" height="30" rx="15" fill="#0e3340" stroke="#22d3ee"/><text x="72" y="39" text-anchor="middle" class="t small" fill="#67e8f9">NLI 分类</text>
+    <text x="22" y="84" class="t h2">Entail / Neutral / Contradict</text>
+    <text x="22" y="112" class="t small muted">SNLI + MultiNLI，约 100 万句对</text>
+    <circle cx="77" cy="180" r="31" fill="#12344a" stroke="#22d3ee" stroke-width="2"/><text x="77" y="187" text-anchor="middle" class="t h2">u</text>
+    <circle cx="273" cy="180" r="31" fill="#2a214a" stroke="#a78bfa" stroke-width="2"/><text x="273" y="187" text-anchor="middle" class="t h2">v</text>
+    <path d="M77 215V255H136" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arr1)"/><path d="M273 215V255H214" fill="none" stroke="#a78bfa" stroke-width="2.5" marker-end="url(#arr2)"/>
+    <rect x="78" y="270" width="194" height="58" rx="13" class="pill"/><text x="175" y="305" text-anchor="middle" class="t formula">[u, v, |u−v|]</text>
+    <path d="M175 331V366" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arr1)"/>
+    <rect x="87" y="380" width="176" height="54" rx="13" fill="#102d40" stroke="#22d3ee"/><text x="175" y="414" text-anchor="middle" class="t body">Linear + Softmax</text>
+    <rect x="22" y="464" width="306" height="82" rx="13" fill="#101b30" stroke="#334b6d"/>
+    <text x="175" y="491" text-anchor="middle" class="t formula" fill="#67e8f9">L = −log p(y | u,v)</text>
+    <text x="175" y="521" text-anchor="middle" class="t small muted">推理检索时丢弃分类头</text>
+    <text x="22" y="567" class="t small"><tspan fill="#67e8f9">作用：</tspan>先学通用语义关系空间</text>
+  </g>
+
+  <g transform="translate(425 128)">
+    <rect width="350" height="580" rx="22" class="card"/>
+    <rect x="20" y="18" width="104" height="30" rx="15" fill="#26204c" stroke="#a78bfa"/><text x="72" y="39" text-anchor="middle" class="t small" fill="#c4b5fd">STS 回归</text>
+    <text x="22" y="84" class="t h2">直接校准余弦相似度</text>
+    <text x="22" y="112" class="t small muted">STS Benchmark：8,628 个句对，标签 0–5</text>
+    <circle cx="77" cy="180" r="31" fill="#12344a" stroke="#22d3ee" stroke-width="2"/><text x="77" y="187" text-anchor="middle" class="t h2">u</text>
+    <circle cx="273" cy="180" r="31" fill="#2a214a" stroke="#a78bfa" stroke-width="2"/><text x="273" y="187" text-anchor="middle" class="t h2">v</text>
+    <path d="M106 180H244" stroke="#f8fafc" stroke-width="2" stroke-dasharray="7 6"/>
+    <rect x="98" y="239" width="154" height="60" rx="14" class="pill"/><text x="175" y="276" text-anchor="middle" class="t formula">cos(u, v)</text>
+    <path d="M175 304V350" stroke="#a78bfa" stroke-width="2.5" marker-end="url(#arr2)"/>
+    <rect x="61" y="364" width="228" height="70" rx="13" fill="#251e43" stroke="#a78bfa"/><text x="175" y="393" text-anchor="middle" class="t body">与金标相似度做 MSE</text><text x="175" y="418" text-anchor="middle" class="t small muted">工程中先统一到 0–1</text>
+    <rect x="22" y="464" width="306" height="82" rx="13" fill="#101b30" stroke="#334b6d"/>
+    <text x="175" y="491" text-anchor="middle" class="t formula" fill="#c4b5fd">L = (cos(u,v) − ŷ)²</text>
+    <text x="175" y="521" text-anchor="middle" class="t small muted">评价用 Spearman 秩相关</text>
+    <text x="22" y="567" class="t small"><tspan fill="#c4b5fd">作用：</tspan>对齐连续语义相似度</text>
+  </g>
+
+  <g transform="translate(810 128)">
+    <rect width="350" height="580" rx="22" class="card"/>
+    <rect x="20" y="18" width="120" height="30" rx="15" fill="#3a2521" stroke="#fb923c"/><text x="80" y="39" text-anchor="middle" class="t small" fill="#fdba74">Triplet 排序</text>
+    <text x="22" y="84" class="t h2">正例更近，负例更远</text>
+    <text x="22" y="112" class="t small muted">WikiSections：anchor / positive / negative</text>
+    <circle cx="175" cy="178" r="30" fill="#14374a" stroke="#22d3ee" stroke-width="2"/><text x="175" y="185" text-anchor="middle" class="t h2">a</text>
+    <circle cx="72" cy="278" r="27" fill="#183d35" stroke="#34d399" stroke-width="2"/><text x="72" y="285" text-anchor="middle" class="t h2">p</text>
+    <circle cx="288" cy="324" r="27" fill="#3a2029" stroke="#fb7185" stroke-width="2"/><text x="288" y="331" text-anchor="middle" class="t h2">n</text>
+    <path d="M153 199L92 257" stroke="#34d399" stroke-width="4"/><text x="91" y="220" class="t small" fill="#6ee7b7">近</text>
+    <path d="M198 198L270 298" stroke="#fb7185" stroke-width="2" stroke-dasharray="8 6"/><text x="259" y="242" class="t small" fill="#fda4af">远</text>
+    <rect x="22" y="383" width="306" height="110" rx="13" fill="#101b30" stroke="#334b6d"/>
+    <text x="175" y="417" text-anchor="middle" class="t formula" fill="#fdba74">L = max(d(a,p) −</text>
+    <text x="175" y="445" text-anchor="middle" class="t formula" fill="#fdba74">d(a,n) + ε, 0)</text>
+    <text x="175" y="476" text-anchor="middle" class="t small muted">论文：Euclidean，ε = 1</text>
+    <text x="22" y="533" class="t small"><tspan fill="#fdba74">作用：</tspan>直接优化相对距离约束</text>
+    <text x="22" y="566" class="t small muted">准确率：d(a,p) &lt; d(a,n)</text>
+  </g>
+
+  <text x="600" y="739" text-anchor="middle" class="t small muted">训练时可以接任务头；部署时保留共享 Encoder + Pooling，得到可复用句向量</text>
+</svg>
