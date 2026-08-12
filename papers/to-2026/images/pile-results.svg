@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="930" viewBox="0 0 1200 930" role="img" aria-labelledby="title desc">
+  <title id="title">The Pile 与 CC-100、Raw Common Crawl 的受控训练结果</title>
+  <desc id="desc">三个架构相同的十三亿参数模型分别在约四十GB数据上训练。The Pile 在自身测试BPB、WikiText困惑度和LAMBADA准确率上更好，但CC-100的LAMBADA困惑度略低；多领域测试显示The Pile的跨域优势。</desc>
+  <defs>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e9f0fb}.h1{font-size:30px;font-weight:800}.h2{font-size:20px;font-weight:760}.body{font-size:15px}.small{font-size:13px}.mono{font-family:"JetBrains Mono",Consolas,monospace}.muted{fill:#92a5c4}.card{fill:#0c192b;stroke:#30496d;stroke-width:1.5}.grid{stroke:#253954;stroke-width:1}.pile{fill:#155e75;stroke:#67e8f9;stroke-width:1}.cc{fill:#8a5915;stroke:#fbbf24;stroke-width:1}.raw{fill:#354762;stroke:#9aacc6;stroke-width:1}.value{fill:#eff7ff;font-family:"JetBrains Mono",Consolas,monospace;font-size:14px}
+    </style>
+  </defs>
+  <rect width="1200" height="930" rx="24" fill="#081321"/>
+  <text x="48" y="58" class="t h1">多样性带来跨域收益，但不是每个单项指标都赢</text>
+  <text x="48" y="90" class="t body muted">相同 1.3B 架构 · 每个训练集去污染后下采样至约 40GB · Pile / CC-100 (en) / Raw CC (en)</text>
+
+  <g transform="translate(42 126)">
+    <rect width="354" height="268" rx="18" class="card"/>
+    <text x="20" y="37" class="t h2">Pile test BPB</text><text x="334" y="37" text-anchor="end" class="t small muted">越低越好</text>
+    <path d="M132 60V228M213 60V228M294 60V228" class="grid"/>
+    <text x="20" y="91" class="t body">The Pile</text><rect x="132" y="74" width="151" height="24" rx="5" class="pile"/><text x="326" y="92" text-anchor="end" class="value">0.9433</text>
+    <text x="20" y="139" class="t body">CC-100</text><rect x="132" y="122" width="213" height="24" rx="5" class="cc"/><text x="326" y="140" text-anchor="end" class="value">1.3293</text>
+    <text x="20" y="187" class="t body">Raw CC</text><rect x="132" y="170" width="180" height="24" rx="5" class="raw"/><text x="326" y="188" text-anchor="end" class="value">1.1275</text>
+    <text x="20" y="238" class="t small muted">统一按 UTF-8 byte 归一化</text>
+  </g>
+
+  <g transform="translate(423 126)">
+    <rect width="354" height="268" rx="18" class="card"/>
+    <text x="20" y="37" class="t h2">WikiText PPL</text><text x="334" y="37" text-anchor="end" class="t small muted">越低越好</text>
+    <path d="M132 60V228M213 60V228M294 60V228" class="grid"/>
+    <text x="20" y="91" class="t body">The Pile</text><rect x="132" y="74" width="93" height="24" rx="5" class="pile"/><text x="326" y="92" text-anchor="end" class="value">5.59</text>
+    <text x="20" y="139" class="t body">CC-100</text><rect x="132" y="122" width="138" height="24" rx="5" class="cc"/><text x="326" y="140" text-anchor="end" class="value">8.27</text>
+    <text x="20" y="187" class="t body">Raw CC</text><rect x="132" y="170" width="196" height="24" rx="5" class="raw"/><text x="326" y="188" text-anchor="end" class="value">11.75</text>
+    <text x="20" y="238" class="t small muted">每 GPT-2 token 的 perplexity</text>
+  </g>
+
+  <g transform="translate(804 126)">
+    <rect width="354" height="268" rx="18" class="card"/>
+    <text x="20" y="37" class="t h2">LAMBADA</text><text x="334" y="37" text-anchor="end" class="t small muted">同一任务，两种读法</text>
+    <text x="20" y="72" class="t small muted">Accuracy · 越高越好</text>
+    <text x="20" y="101" class="t body">Pile</text><text x="102" y="101" class="value">50.1</text><text x="155" y="101" class="t body">CC-100</text><text x="245" y="101" class="value">49.7</text><text x="20" y="126" class="t body">Raw CC</text><text x="102" y="126" class="value">43.8</text>
+    <path d="M20 148H334" class="grid"/>
+    <text x="20" y="178" class="t small muted">Perplexity · 越低越好</text>
+    <text x="20" y="207" class="t body">Pile</text><text x="102" y="207" class="value">12.78</text><text x="155" y="207" class="t body">CC-100</text><text x="245" y="207" class="value" fill="#fbbf24">11.78</text><text x="20" y="232" class="t body">Raw CC</text><text x="102" y="232" class="value">19.84</text>
+    <text x="334" y="248" text-anchor="end" class="t small" fill="#fbbf24">反例：CC-100 的 PPL 更低</text>
+  </g>
+
+  <g transform="translate(42 426)">
+    <rect width="1116" height="440" rx="20" class="card"/>
+    <text x="22" y="40" class="t h2">选定 Pile components 上的 BPB</text>
+    <text x="1092" y="40" text-anchor="end" class="t small muted">越低越好 · 论文 Table 4 · 仅展示领域差异最清楚的 5 项</text>
+    <g transform="translate(24 64)">
+      <rect x="0" y="0" width="12" height="12" class="pile"/><text x="20" y="11" class="t small">The Pile</text><rect x="105" y="0" width="12" height="12" class="cc"/><text x="125" y="11" class="t small">CC-100 (en)</text>
+      <path d="M250 34V335M450 34V335M650 34V335M850 34V335" class="grid"/>
+      <g class="t body">
+        <text x="0" y="73">ArXiv</text><rect x="150" y="53" width="159" height="15" rx="4" class="pile"/><rect x="150" y="73" width="363" height="15" rx="4" class="cc"/><text x="323" y="66" class="value">0.7945</text><text x="527" y="86" class="value">1.8159</text>
+        <text x="0" y="137">GitHub</text><rect x="150" y="117" width="112" height="15" rx="4" class="pile"/><rect x="150" y="137" width="330" height="15" rx="4" class="cc"/><text x="276" y="130" class="value">0.5597</text><text x="494" y="150" class="value">1.6509</text>
+        <text x="0" y="201">DM Mathematics</text><rect x="150" y="181" width="304" height="15" rx="4" class="pile"/><rect x="150" y="201" width="636" height="15" rx="4" class="cc"/><text x="468" y="194" class="value">1.5206</text><text x="800" y="214" class="value">3.1774</text>
+        <text x="0" y="265">EuroParl</text><rect x="150" y="245" width="224" height="15" rx="4" class="pile"/><rect x="150" y="265" width="543" height="15" rx="4" class="cc"/><text x="388" y="258" class="value">1.1202</text><text x="707" y="278" class="value">2.7141</text>
+        <text x="0" y="329">PubMed Central</text><rect x="150" y="309" width="127" height="15" rx="4" class="pile"/><rect x="150" y="329" width="226" height="15" rx="4" class="cc"/><text x="291" y="322" class="value">0.6332</text><text x="390" y="342" class="value">1.1311</text>
+      </g>
+      <text x="150" y="372" class="t small muted">0</text><text x="350" y="372" text-anchor="middle" class="t small muted">1</text><text x="550" y="372" text-anchor="middle" class="t small muted">2</text><text x="750" y="372" text-anchor="middle" class="t small muted">3 BPB</text>
+    </g>
+  </g>
+  <text x="600" y="902" text-anchor="middle" class="t small muted">受控实验支持“多样训练数据改善跨域覆盖”，不证明混合权重最优，也不隔离每个组件的独立因果贡献</text>
+</svg>

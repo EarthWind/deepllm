@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">基础模型范式：涌现与同质化</title>
+  <desc id="desc">从机器学习到深度学习再到基础模型，系统中被自动学习的部分不断增加，共享依赖也从算法和架构推进到模型本身。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06192f"/><stop offset="1" stop-color="#0b2745"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#35d5ff"/><stop offset="1" stop-color="#6b8cff"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <style>
+      text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#dcecff}.h{font-size:30px;font-weight:700}.sub{font-size:16px;fill:#91afd0}.label{font-size:19px;font-weight:700}.small{font-size:15px;fill:#b8cbe0}.tiny{font-size:13px;fill:#8eabc8}.card{fill:#102e4c;stroke:#2e5a7d;stroke-width:1.5}.accent{fill:url(#cyan)}
+    </style>
+  </defs>
+  <rect width="1200" height="700" rx="24" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#8fdcff"><path d="M0 100H1200M0 200H1200M0 300H1200M0 400H1200M0 500H1200M0 600H1200"/><path d="M100 0V700M200 0V700M300 0V700M400 0V700M500 0V700M600 0V700M700 0V700M800 0V700M900 0V700M1000 0V700M1100 0V700"/></g>
+  <text x="600" y="50" text-anchor="middle" class="h">AI 构建方式的两条同时演进的轴</text>
+  <text x="600" y="78" text-anchor="middle" class="sub">更多行为从数据中涌现；更多系统共享同一层技术底座</text>
+
+  <text x="55" y="135" class="label" fill="#52d9ff">涌现：什么不再由人逐项编写？</text>
+  <path d="M75 270H1125" stroke="url(#cyan)" stroke-width="4"/>
+  <g>
+    <rect x="55" y="155" width="320" height="175" rx="18" class="card"/>
+    <circle cx="95" cy="195" r="18" fill="#253f5c" stroke="#6fa6d7"/><text x="95" y="201" text-anchor="middle" class="label">1</text>
+    <text x="130" y="202" class="label">机器学习</text><text x="85" y="240" class="small">任务做法 how</text><text x="85" y="268" class="tiny">从标注样例与学习算法中产生</text>
+    <rect x="85" y="292" width="255" height="8" rx="4" fill="#315e80"/><rect x="85" y="292" width="92" height="8" rx="4" fill="#40ceee"/>
+  </g>
+  <g>
+    <rect x="440" y="155" width="320" height="175" rx="18" class="card"/>
+    <circle cx="480" cy="195" r="18" fill="#253f5c" stroke="#6fa6d7"/><text x="480" y="201" text-anchor="middle" class="label">2</text>
+    <text x="515" y="202" class="label">深度学习</text><text x="470" y="240" class="small">高层特征 representation</text><text x="470" y="268" class="tiny">从原始像素、声音与文本中产生</text>
+    <rect x="470" y="292" width="255" height="8" rx="4" fill="#315e80"/><rect x="470" y="292" width="170" height="8" rx="4" fill="#4fb7ff"/>
+  </g>
+  <g>
+    <rect x="825" y="155" width="320" height="175" rx="18" fill="#123859" stroke="#45ccff" stroke-width="2" filter="url(#glow)"/>
+    <circle cx="865" cy="195" r="18" fill="#215b7c" stroke="#5de0ff"/><text x="865" y="201" text-anchor="middle" class="label">3</text>
+    <text x="900" y="202" class="label">基础模型</text><text x="855" y="240" class="small">高级功能与适配方式</text><text x="855" y="268" class="tiny">如上下文学习，未被逐项显式构造</text>
+    <rect x="855" y="292" width="255" height="8" rx="4" fill="#315e80"/><rect x="855" y="292" width="238" height="8" rx="4" fill="url(#cyan)"/>
+  </g>
+
+  <text x="55" y="390" class="label" fill="#ffbd62">同质化：哪一层变成共同依赖？</text>
+  <g transform="translate(55 420)">
+    <rect width="320" height="190" rx="18" class="card"/>
+    <text x="160" y="36" text-anchor="middle" class="label">共享学习算法</text>
+    <rect x="118" y="62" width="84" height="42" rx="10" fill="#236384" stroke="#55d6fa"/><text x="160" y="88" text-anchor="middle" class="small">算法</text>
+    <path d="M160 104V127M80 127H240M80 127V145M160 127V145M240 127V145" stroke="#77a8c8" stroke-width="2"/>
+    <rect x="42" y="145" width="75" height="28" rx="7" fill="#203f5c"/><rect x="123" y="145" width="75" height="28" rx="7" fill="#203f5c"/><rect x="204" y="145" width="75" height="28" rx="7" fill="#203f5c"/>
+    <text x="160" y="184" text-anchor="middle" class="tiny">每个任务仍有特征与模型</text>
+  </g>
+  <g transform="translate(440 420)">
+    <rect width="320" height="190" rx="18" class="card"/>
+    <text x="160" y="36" text-anchor="middle" class="label">共享模型架构</text>
+    <g fill="#24597a" stroke="#5ab8ee"><rect x="115" y="58" width="90" height="18" rx="5"/><rect x="105" y="80" width="110" height="18" rx="5"/><rect x="95" y="102" width="130" height="18" rx="5"/></g>
+    <path d="M160 120V140M80 140H240M80 140V152M160 140V152M240 140V152" stroke="#77a8c8" stroke-width="2"/>
+    <text x="80" y="173" text-anchor="middle" class="tiny">视觉</text><text x="160" y="173" text-anchor="middle" class="tiny">语言</text><text x="240" y="173" text-anchor="middle" class="tiny">语音</text>
+  </g>
+  <g transform="translate(825 420)">
+    <rect width="320" height="190" rx="18" fill="#352c39" stroke="#f0a64f" stroke-width="2"/>
+    <text x="160" y="36" text-anchor="middle" class="label">共享模型本身</text>
+    <circle cx="160" cy="88" r="34" fill="#174e6d" stroke="#55d9ff" stroke-width="2"/><g fill="#78e1ff"><circle cx="145" cy="80" r="4"/><circle cx="175" cy="78" r="4"/><circle cx="160" cy="98" r="4"/></g><path d="M145 80L160 98 175 78 145 80" fill="none" stroke="#78e1ff"/>
+    <path d="M160 122V140M70 140H250M70 140V151M115 140V151M160 140V151M205 140V151M250 140V151" stroke="#e6a653" stroke-width="2"/>
+    <text x="160" y="176" text-anchor="middle" class="tiny">一次改进广泛复用；一次缺陷广泛继承</text>
+  </g>
+  <rect x="290" y="642" width="620" height="37" rx="18" fill="#132f49" stroke="#345c78"/>
+  <text x="600" y="666" text-anchor="middle" class="small">高杠杆不是纯收益：涌现增加不确定性，同质化扩大影响半径</text>
+</svg>

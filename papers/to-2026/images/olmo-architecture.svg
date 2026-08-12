@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">OLMo-7B 架构拆解</title>
+  <desc id="desc">展示 32 层顺序式 decoder block、RoPE 全头注意力、SwiGLU、非参数层归一化与参数账本。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#08182c"/><stop offset="1" stop-color="#102e45"/></linearGradient>
+    <linearGradient id="cyan"><stop stop-color="#1ac7bd"/><stop offset="1" stop-color="#52bdf2"/></linearGradient>
+    <filter id="s"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-opacity=".28"/></filter>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0l10 5-10 5z" fill="#6edcf2"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f3fbff;font-size:30px;font-weight:750}.sub{fill:#9ebed1;font-size:15px}.h{fill:#e9f8ff;font-size:19px;font-weight:700}.b{fill:#b9d4e3;font-size:14px}.num{fill:#5ce4d4;font-size:23px;font-weight:800}.tiny{fill:#88aabd;font-size:12px}</style>
+  </defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="56" y="64">OLMo-7B：刻意朴素、可测量的 decoder-only Transformer</text>
+  <text class="sub" x="56" y="94">创新不在新 block，而在完整训练链路的公开；下面的参数账本约为 6.89B</text>
+
+  <g transform="translate(62 137)" filter="url(#s)">
+    <rect width="572" height="472" rx="22" fill="#0b273d" stroke="#315b73"/>
+    <text class="h" x="26" y="39">一个顺序式 decoder block × 32</text>
+    <rect x="196" y="402" width="180" height="46" rx="12" fill="#133d53" stroke="#4787a0"/><text class="h" x="286" y="431" text-anchor="middle">输入残差流 x</text>
+    <path d="M286 402v-34" stroke="#6edcf2" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="176" y="316" width="220" height="50" rx="12" fill="#15475b" stroke="#43a1b5"/>
+    <text class="h" x="286" y="338" text-anchor="middle">LayerNorm</text><text class="tiny" x="286" y="357" text-anchor="middle">无可学习 gain / bias</text>
+    <path d="M286 316v-36" stroke="#6edcf2" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="143" y="216" width="286" height="62" rx="13" fill="#155466" stroke="#4dc2cb"/>
+    <text class="h" x="286" y="241" text-anchor="middle">Full Multi-Head Attention</text>
+    <text class="b" x="286" y="264" text-anchor="middle">32 heads · RoPE · Q/K/V/O 无 bias</text>
+    <path d="M286 216v-36" stroke="#6edcf2" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="176" y="128" width="220" height="50" rx="12" fill="#15475b" stroke="#43a1b5"/>
+    <text class="h" x="286" y="150" text-anchor="middle">LayerNorm</text><text class="tiny" x="286" y="169" text-anchor="middle">仍无 affine 参数</text>
+    <path d="M286 128v-35" stroke="#6edcf2" stroke-width="3" marker-end="url(#a)"/>
+    <rect x="143" y="57" width="286" height="34" rx="12" fill="url(#cyan)"/>
+    <text x="286" y="80" text-anchor="middle" fill="#062437" font-size="18" font-weight="800">SwiGLU MLP · hidden 11,008</text>
+
+    <path d="M112 425H86V247h53" fill="none" stroke="#f2b85b" stroke-width="2.5" marker-end="url(#a)"/>
+    <text x="78" y="339" transform="rotate(-90 78 339)" fill="#f2c777" font-size="13">residual add</text>
+    <path d="M460 247h27v-173h-54" fill="none" stroke="#f2b85b" stroke-width="2.5" marker-end="url(#a)"/>
+    <text x="502" y="171" transform="rotate(-90 502 171)" fill="#f2c777" font-size="13">residual add</text>
+  </g>
+
+  <g transform="translate(672 137)">
+    <rect width="466" height="257" rx="22" fill="#0d293e" stroke="#315b73"/>
+    <text class="h" x="24" y="39">论文中的关键形状</text>
+    <g transform="translate(24 67)">
+      <g><text class="num" x="0" y="24">32</text><text class="b" x="0" y="47">层</text></g>
+      <g transform="translate(100)"><text class="num" x="0" y="24">4,096</text><text class="b" x="0" y="47">d_model</text></g>
+      <g transform="translate(232)"><text class="num" x="0" y="24">32</text><text class="b" x="0" y="47">attention heads</text></g>
+      <g transform="translate(0 86)"><text class="num" x="0" y="24">2,048</text><text class="b" x="0" y="47">context</text></g>
+      <g transform="translate(100 86)"><text class="num" x="0" y="24">50,280</text><text class="b" x="0" y="47">真实词表</text></g>
+      <g transform="translate(232 86)"><text class="num" x="0" y="24">50,304</text><text class="b" x="0" y="47">矩阵 padding</text></g>
+    </g>
+    <text class="tiny" x="24" y="231">OLMo-7B 不做 input/output embedding weight tying</text>
+
+    <rect y="281" width="466" height="191" rx="22" fill="#0d293e" stroke="#315b73"/>
+    <text class="h" x="24" y="320">参数账本（无 bias、LN 无参数）</text>
+    <g class="b">
+      <text x="24" y="353">Embedding</text><text x="442" y="353" text-anchor="end">206.0M</text>
+      <text x="24" y="380">每层 attention：4d²</text><text x="442" y="380" text-anchor="end">67.1M</text>
+      <text x="24" y="407">每层 SwiGLU：3dm</text><text x="442" y="407" text-anchor="end">135.3M</text>
+      <text x="24" y="434">32 blocks + untied LM head</text><text x="442" y="434" text-anchor="end">6.888B</text>
+    </g>
+    <line x1="24" y1="447" x2="442" y2="447" stroke="#3e7189"/>
+    <text class="tiny" x="24" y="467">“7B”是模型档位名称；精确值取决于词表与实现细节</text>
+  </g>
+</svg>

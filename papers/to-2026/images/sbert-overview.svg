@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Cross-Encoder 与 Sentence-BERT 双塔结构对比</title>
+  <desc id="desc">左侧展示每个句对联合编码的 Cross-Encoder，右侧展示共享权重、独立编码、池化后用余弦比较的 Sentence-BERT。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#101a35"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#60a5fa"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowC" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#38bdf8"/></marker>
+    <marker id="arrowV" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#a78bfa"/></marker>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e5eefc}
+      .muted{fill:#91a4c6}.small{font-size:16px}.body{font-size:18px}.label{font-size:15px;font-weight:700;letter-spacing:.08em}
+      .h1{font-size:30px;font-weight:800}.h2{font-size:23px;font-weight:750}.formula{font-family:"JetBrains Mono",Consolas,monospace;font-size:18px}
+      .card{fill:#0b172b;stroke:#263b5e;stroke-width:1.5}.token{fill:#132642;stroke:#3b82f6}.tokenV{fill:#201b42;stroke:#8b5cf6}
+    </style>
+  </defs>
+  <rect width="1200" height="760" rx="24" fill="url(#bg)"/>
+  <path d="M0 122H1200M600 122V725" stroke="#20314e" stroke-width="1" opacity=".8"/>
+  <text x="48" y="58" class="t h1">从“逐对判断”到“先编码，再比较”</text>
+  <text x="48" y="91" class="t body muted">计算瓶颈不在余弦，而在是否要为每一对句子重新运行 Transformer</text>
+
+  <g transform="translate(42 146)">
+    <rect width="516" height="526" rx="22" class="card"/>
+    <rect x="20" y="19" width="134" height="31" rx="15" fill="#3b1729" stroke="#fb7185"/>
+    <text x="87" y="41" text-anchor="middle" class="t label" fill="#fda4af">CROSS-ENCODER</text>
+    <text x="24" y="83" class="t h2">句对联合进入 BERT</text>
+    <text x="24" y="112" class="t small muted">token 级 cross-attention 强，但每换一对都要重算</text>
+
+    <g transform="translate(26 154)">
+      <text x="0" y="18" class="t small" fill="#67e8f9">句子 A</text>
+      <rect x="70" y="0" width="50" height="29" rx="7" class="token"/><rect x="127" y="0" width="50" height="29" rx="7" class="token"/><rect x="184" y="0" width="50" height="29" rx="7" class="token"/>
+      <text x="0" y="69" class="t small" fill="#c4b5fd">句子 B</text>
+      <rect x="70" y="51" width="50" height="29" rx="7" class="tokenV"/><rect x="127" y="51" width="50" height="29" rx="7" class="tokenV"/><rect x="184" y="51" width="50" height="29" rx="7" class="tokenV"/>
+      <path d="M250 40H292" stroke="#fb7185" stroke-width="3" marker-end="url(#arrowC)"/>
+      <rect x="303" y="-4" width="156" height="91" rx="16" fill="#251729" stroke="#fb7185" stroke-width="2"/>
+      <text x="381" y="31" text-anchor="middle" class="t h2">BERT</text>
+      <text x="381" y="59" text-anchor="middle" class="t small muted">[CLS] A [SEP] B</text>
+    </g>
+
+    <path d="M405 246V296" stroke="#fb7185" stroke-width="3" marker-end="url(#arrowC)"/>
+    <rect x="310" y="313" width="190" height="73" rx="16" fill="#32182a" stroke="#fb7185"/>
+    <text x="405" y="342" text-anchor="middle" class="t body">分类 / 回归分数</text>
+    <text x="405" y="369" text-anchor="middle" class="t small muted">不能单独缓存 A</text>
+    <rect x="24" y="420" width="468" height="78" rx="14" fill="#101b2e" stroke="#33445f"/>
+    <text x="42" y="449" class="t small muted">10,000 句子全部两两比较</text>
+    <text x="42" y="479" class="t formula" fill="#fda4af">n(n−1)/2 = 49,995,000 次 BERT</text>
+  </g>
+
+  <g transform="translate(642 146)">
+    <rect width="516" height="526" rx="22" class="card"/>
+    <rect x="20" y="19" width="116" height="31" rx="15" fill="#0d2b37" stroke="#22d3ee"/>
+    <text x="78" y="41" text-anchor="middle" class="t label" fill="#67e8f9">SBERT</text>
+    <text x="24" y="83" class="t h2">两个逻辑分支，共享一套参数</text>
+    <text x="24" y="112" class="t small muted">每句独立编码一次，向量可缓存、索引和复用</text>
+
+    <g transform="translate(24 142)">
+      <rect x="0" y="8" width="100" height="44" rx="10" fill="#102d40" stroke="#22d3ee"/><text x="50" y="36" text-anchor="middle" class="t small">句子 A</text>
+      <rect x="0" y="125" width="100" height="44" rx="10" fill="#261d46" stroke="#a78bfa"/><text x="50" y="153" text-anchor="middle" class="t small">句子 B</text>
+      <path d="M105 30H143" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrowC)"/>
+      <path d="M105 147H143" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrowV)"/>
+      <rect x="153" y="0" width="126" height="60" rx="13" fill="#102640" stroke="#38bdf8" stroke-width="2"/><text x="216" y="27" text-anchor="middle" class="t body">BERT θ</text><text x="216" y="48" text-anchor="middle" class="t small muted">共享权重</text>
+      <rect x="153" y="117" width="126" height="60" rx="13" fill="#211d42" stroke="#a78bfa" stroke-width="2"/><text x="216" y="144" text-anchor="middle" class="t body">BERT θ</text><text x="216" y="165" text-anchor="middle" class="t small muted">同一个 θ</text>
+      <path d="M216 64V112" stroke="#f8fafc" stroke-width="2" stroke-dasharray="5 5"/><text x="231" y="94" class="t small muted">tie</text>
+      <path d="M284 30H316" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrowC)"/><path d="M284 147H316" stroke="#a78bfa" stroke-width="3" marker-end="url(#arrowV)"/>
+      <rect x="327" y="0" width="100" height="60" rx="13" fill="#102640" stroke="#38bdf8"/><text x="377" y="27" text-anchor="middle" class="t small">MEAN</text><text x="377" y="48" text-anchor="middle" class="t small muted">pooling</text>
+      <rect x="327" y="117" width="100" height="60" rx="13" fill="#211d42" stroke="#a78bfa"/><text x="377" y="144" text-anchor="middle" class="t small">MEAN</text><text x="377" y="165" text-anchor="middle" class="t small muted">pooling</text>
+      <circle cx="465" cy="30" r="16" fill="#22d3ee" filter="url(#glow)"/><text x="465" y="36" text-anchor="middle" class="t small">u</text>
+      <circle cx="465" cy="147" r="16" fill="#a78bfa" filter="url(#glow)"/><text x="465" y="153" text-anchor="middle" class="t small">v</text>
+      <path d="M465 51V125" stroke="#f8fafc" stroke-width="2" stroke-dasharray="6 5"/>
+      <rect x="379" y="75" width="79" height="28" rx="14" fill="#17233a" stroke="#64748b"/><text x="418" y="95" text-anchor="middle" class="t small">cosine</text>
+    </g>
+
+    <rect x="24" y="360" width="468" height="55" rx="13" fill="#10243a" stroke="#22d3ee"/>
+    <text x="258" y="394" text-anchor="middle" class="t formula" fill="#67e8f9">s(A,B) = cos(u, v)</text>
+    <rect x="24" y="430" width="468" height="68" rx="14" fill="#101b2e" stroke="#33445f"/>
+    <text x="42" y="457" class="t small muted">昂贵编码：n 次；精确全配对仍需便宜的向量比较</text>
+    <text x="42" y="483" class="t formula" fill="#67e8f9">O(n·Encoder) + O(n²d)</text>
+  </g>
+
+  <rect x="170" y="700" width="860" height="36" rx="18" fill="#14213a" stroke="#2d4669"/>
+  <text x="600" y="724" text-anchor="middle" class="t small"><tspan fill="#fda4af">Cross-Encoder：</tspan>交互更强　<tspan fill="#67e8f9">SBERT：</tspan>句向量可复用、适合检索</text>
+</svg>

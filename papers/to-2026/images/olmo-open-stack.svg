@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">OLMo 的开放科学栈</title>
+  <desc id="desc">从数据、训练、检查点到评测和适配的六层开放工件，以及仅开放权重无法回答的问题。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07172b"/><stop offset="1" stop-color="#102c43"/></linearGradient>
+    <linearGradient id="open" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#25d6c8"/><stop offset="1" stop-color="#5bc0ff"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity=".25"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#69d7ff"/></marker>
+    <style>
+      text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f4fbff;font-size:30px;font-weight:700}.sub{fill:#a8c5d8;font-size:15px}.h{fill:#eaf8ff;font-size:20px;font-weight:700}.body{fill:#b9d3e2;font-size:14px}.n{fill:#062238;font-size:14px;font-weight:800}.small{fill:#8fb1c5;font-size:12px}.card{fill:#0d2a40;stroke:#315771;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="58" y="67">“开放模型”不是一个文件，而是一条可追溯的科学链</text>
+  <text class="sub" x="58" y="96">OLMo 把问题从“能否下载权重”推进到“能否解释、复查并改变训练过程”</text>
+
+  <g transform="translate(52 136)" filter="url(#shadow)">
+    <rect class="card" width="765" height="476" rx="20"/>
+    <text class="h" x="28" y="39">OLMo 发布栈</text>
+    <text class="small" x="584" y="38">由下而上，可复现性逐层增强</text>
+    <g transform="translate(28 61)">
+      <rect x="0" y="342" width="709" height="58" rx="12" fill="#143951" stroke="#2c6880"/>
+      <circle cx="31" cy="371" r="17" fill="#1c9b98"/><text class="n" x="26" y="376">1</text>
+      <text class="h" x="61" y="366">Dolma 数据与治理工具</text><text class="body" x="61" y="387">来源、过滤、去重、混合、数据分析</text>
+
+      <rect x="18" y="274" width="673" height="58" rx="12" fill="#143d55" stroke="#32809a"/>
+      <circle cx="49" cy="303" r="17" fill="#22b5ad"/><text class="n" x="44" y="308">2</text>
+      <text class="h" x="79" y="298">模型与训练代码</text><text class="body" x="79" y="319">架构、优化器、分布式策略、依赖版本</text>
+
+      <rect x="36" y="206" width="637" height="58" rx="12" fill="#16465e" stroke="#3b93ad"/>
+      <circle cx="67" cy="235" r="17" fill="#28c9bc"/><text class="n" x="62" y="240">3</text>
+      <text class="h" x="97" y="230">训练顺序、指标与日志</text><text class="body" x="97" y="251">某一步看过什么、loss 如何变化、故障如何处理</text>
+
+      <rect x="54" y="138" width="601" height="58" rx="12" fill="#175067" stroke="#46a9c1"/>
+      <circle cx="85" cy="167" r="17" fill="#38d6c9"/><text class="n" x="80" y="172">4</text>
+      <text class="h" x="115" y="162">500+ 中间检查点</text><text class="body" x="115" y="183">每 1,000 step 观察能力、偏差和记忆何时形成</text>
+
+      <rect x="72" y="70" width="565" height="58" rx="12" fill="#185a70" stroke="#53bfd5"/>
+      <circle cx="103" cy="99" r="17" fill="#45dfd0"/><text class="n" x="98" y="104">5</text>
+      <text class="h" x="133" y="94">评测代码与数据</text><text class="body" x="133" y="115">Catwalk、Paloma、规范化方式与去污染</text>
+
+      <rect x="90" y="2" width="529" height="58" rx="12" fill="url(#open)" stroke="#9af7ed"/>
+      <circle cx="121" cy="31" r="17" fill="#e8fffb"/><text class="n" x="116" y="36">6</text>
+      <text x="151" y="26" fill="#062238" font-size="20" font-weight="800">适配代码、数据与 SFT / DPO 权重</text>
+      <text x="151" y="47" fill="#0c4b5d" font-size="14">从 base 到 assistant 的每一步也能审计</text>
+    </g>
+  </g>
+
+  <g transform="translate(850 136)">
+    <rect width="298" height="205" rx="20" fill="#331e2a" stroke="#8c5367"/>
+    <text class="h" x="24" y="38" fill="#ffdce7">若只有 final weights</text>
+    <g fill="#eeb9c8" font-size="15">
+      <text x="24" y="77">• 哪些数据造成这个行为？</text><text x="24" y="108">• 能力在训练何时出现？</text>
+      <text x="24" y="139">• 一次异常来自代码还是数据？</text><text x="24" y="170">• 评测是否泄漏或偏向某领域？</text>
+    </g>
+    <text x="149" y="195" text-anchor="middle" fill="#ff9fba" font-size="13">多数问题仍不可回答</text>
+
+    <path d="M149 227v48" stroke="#69d7ff" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect y="293" width="298" height="183" rx="20" fill="#0d3a43" stroke="#3dcabd"/>
+    <text class="h" x="24" y="333" fill="#bafff4">有完整 artifacts</text>
+    <g fill="#b7e9e4" font-size="15">
+      <text x="24" y="371">✓ 重建 batch 与 token 位置</text><text x="24" y="402">✓ 对照中间 checkpoint</text>
+      <text x="24" y="433">✓ 重跑或替换一个环节</text>
+    </g>
+    <text x="149" y="462" text-anchor="middle" fill="#6fe6d7" font-size="13">“可用”升级为“可研究”</text>
+  </g>
+</svg>

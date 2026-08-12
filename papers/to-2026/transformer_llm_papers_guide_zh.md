@@ -491,11 +491,11 @@
 | 32 | [ELMo (2018)](https://arxiv.org/abs/1802.05365) — `Deep Contextualized Word Representations` · [中文详解](32_ELMo_2018_原理.md) | 把“词的表示取决于上下文”推到 NLP 主舞台，是静态词向量到预训练模型的关键桥梁。 | 双向语言模型、分层表示、contextual embedding。 |
 | 33 | [RoBERTa (2019)](https://arxiv.org/abs/1907.11692) — `A Robustly Optimized BERT Pretraining Approach` · [中文详解](33_RoBERTa_2019_原理.md) | 说明 BERT 的大量收益来自更充分的数据、训练和目标设计，而不只是新架构。 | 去掉 NSP、动态 masking、批量与训练时长。 |
 | 34 | [BART (2019)](https://arxiv.org/abs/1910.13461) — `Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension` · [中文详解](34_BART_2019_原理.md) | 把双向编码器与自回归解码器结合起来，成为生成式 encoder-decoder 的经典基线。 | 文本破坏任务、去噪预训练、生成与理解的统一。 |
-| 35 | [Sentence-BERT (2019)](https://arxiv.org/abs/1908.10084) — `Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks` | 让 BERT 产生可高效检索的句向量，直接影响语义搜索与后来的 RAG embedding。 | 双塔结构、对比/孪生训练、相似度检索。 |
-| 36 | [DPR (2020)](https://arxiv.org/abs/2004.04906) — `Dense Passage Retrieval for Open-Domain Question Answering` | 奠定现代稠密检索的双编码器范式，是理解 RAG 检索器的前置论文。 | in-batch negatives、问题/段落双塔、召回率评估。 |
-| 37 | [The Pile (2020/2021)](https://arxiv.org/abs/2101.00027) — `The Pile: An 800GB Dataset of Diverse Text for Language Modeling` | 代表开源大模型从“只开权重”走向公开数据配方的早期努力。 | 数据来源配比、去重与污染、数据治理。 |
-| 38 | [Foundation Models Report (2021)](https://arxiv.org/abs/2108.07258) — `On the Opportunities and Risks of Foundation Models` | 系统定义并讨论“基础模型”范式，把技术、应用和社会风险放进同一框架。 | 同质化带来的杠杆与系统性风险、评测与治理。 |
-| 39 | [OLMo (2024)](https://arxiv.org/abs/2402.00838) — `OLMo: Accelerating the Science of Language Models` | 不只开放权重，还开放数据、代码、日志和中间检查点，是可复现 LLM 科学的重要样板。 | 真正的开放性、训练过程分析、开放数据链路。 |
+| 35 | [Sentence-BERT (2019)](https://arxiv.org/abs/1908.10084) — `Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks` · [中文详解](35_Sentence_BERT_2019_原理.md) | 让 BERT 产生可高效检索的句向量，直接影响语义搜索与后来的 RAG embedding。 | 双塔结构、对比/孪生训练、相似度检索。 |
+| 36 | [DPR (2020)](https://arxiv.org/abs/2004.04906) — `Dense Passage Retrieval for Open-Domain Question Answering` · [中文详解](36_DPR_2020_原理.md) | 奠定现代稠密检索的双编码器范式，是理解 RAG 检索器的前置论文。 | in-batch negatives、问题/段落双塔、召回率评估。 |
+| 37 | [The Pile (2020/2021)](https://arxiv.org/abs/2101.00027) — `The Pile: An 800GB Dataset of Diverse Text for Language Modeling` · [中文详解](37_The_Pile_2020_原理.md) | 代表开源大模型从“只开权重”走向公开数据配方的早期努力。 | 数据来源配比、去重与污染、数据治理。 |
+| 38 | [Foundation Models Report (2021)](https://arxiv.org/abs/2108.07258) — `On the Opportunities and Risks of Foundation Models` · [中文详解](38_Foundation_Models_Report_2021_原理.md) | 系统定义并讨论“基础模型”范式，把技术、应用和社会风险放进同一框架。 | 同质化带来的杠杆与系统性风险、评测与治理。 |
+| 39 | [OLMo (2024)](https://arxiv.org/abs/2402.00838) — `OLMo: Accelerating the Science of Language Models` · [中文详解](39_OLMo_2024_原理.md) | 不只开放权重，还开放数据、代码、日志和中间检查点，是可复现 LLM 科学的重要样板。 | 真正的开放性、训练过程分析、开放数据链路。 |
 
 ### 3.2 大规模训练、架构与推理系统
 
@@ -940,7 +940,7 @@
 - BERT 路线偏理解
 - GPT 路线偏生成
 - T5 提供统一任务接口
-- `ULMFiT / ELMo / RoBERTa / BART` 解释这条范式并非一步形成
+- `ULMFiT / ELMo / RoBERTa / BART / Sentence-BERT / DPR` 解释这条范式并非一步形成
 
 ### 2. 为什么规模会带来能力变化
 

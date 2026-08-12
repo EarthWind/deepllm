@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">同质化把独立小故障变成共同模式尾部风险</title>
+  <desc id="desc">比较多个独立模型与多个共享同一基础模型的系统。边际失败率相同，但共享底座造成相关失效和更大的同时失败概率。</desc>
+  <defs><linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07182c"/><stop offset="1" stop-color="#13263f"/></linearGradient><style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e6f1fc}.h{font-size:29px;font-weight:700}.sub{font-size:15px;fill:#9db6ce}.t{font-size:19px;font-weight:700}.s{font-size:14px;fill:#bdccdb}.tiny{font-size:12px;fill:#8da7bf}</style></defs>
+  <rect width="1200" height="700" rx="24" fill="url(#bg5)"/>
+  <text x="600" y="48" text-anchor="middle" class="h">同样的单系统失败率，不同的依赖结构会产生完全不同的尾部风险</text>
+  <text x="600" y="77" text-anchor="middle" class="sub">Homogenization 的关键不是平均值，而是错误相关性、影响半径与恢复耦合</text>
+  <g transform="translate(55 115)">
+    <rect width="500" height="430" rx="22" fill="#102f49" stroke="#376080" stroke-width="1.6"/>
+    <text x="250" y="40" text-anchor="middle" class="t" fill="#75dbf6">多样化底座：主要是独立失败</text>
+    <g transform="translate(42 83)">
+      <g fill="#1e506f" stroke="#5bcfee"><circle cx="55" cy="55" r="34"/><circle cx="200" cy="55" r="34"/><circle cx="345" cy="55" r="34"/><circle cx="55" cy="190" r="34"/><circle cx="200" cy="190" r="34"/><circle cx="345" cy="190" r="34"/></g>
+      <g class="tiny" text-anchor="middle"><text x="55" y="60">M₁</text><text x="200" y="60">M₂</text><text x="345" y="60">M₃</text><text x="55" y="195">M₄</text><text x="200" y="195">M₅</text><text x="345" y="195">M₆</text></g>
+      <g fill="#29425a" stroke="#7592a9"><rect x="22" y="100" width="66" height="35" rx="8"/><rect x="167" y="100" width="66" height="35" rx="8"/><rect x="312" y="100" width="66" height="35" rx="8"/><rect x="22" y="235" width="66" height="35" rx="8"/><rect x="167" y="235" width="66" height="35" rx="8"/><rect x="312" y="235" width="66" height="35" rx="8"/></g>
+      <g class="tiny" text-anchor="middle"><text x="55" y="123">系统</text><text x="200" y="123">系统</text><text x="345" y="123">系统</text><text x="55" y="258">系统</text><text x="200" y="258">系统</text><text x="345" y="258">系统</text></g>
+      <g stroke="#65bddc" stroke-width="2"><path d="M55 89V100"/><path d="M200 89V100"/><path d="M345 89V100"/><path d="M55 224V235"/><path d="M200 224V235"/><path d="M345 224V235"/></g>
+    </g>
+    <rect x="56" y="375" width="388" height="35" rx="14" fill="#163b55"/><text x="250" y="398" text-anchor="middle" class="s">一个错误通常只击中一个或少数系统</text>
+  </g>
+  <g transform="translate(645 115)">
+    <rect width="500" height="430" rx="22" fill="#392c39" stroke="#d38954" stroke-width="1.8"/>
+    <text x="250" y="40" text-anchor="middle" class="t" fill="#ffbd6d">共享底座：common-mode failure</text>
+    <g transform="translate(178 70)"><rect width="144" height="76" rx="16" fill="#174c6c" stroke="#5bd8ff" stroke-width="2"/><text x="72" y="35" text-anchor="middle" class="s">同一个 FM</text><text x="72" y="58" text-anchor="middle" class="tiny">缺陷 C</text></g>
+    <g stroke="#ed9f5c" stroke-width="2.5"><path d="M250 146V180M90 180H410M90 180V225M154 180V225M218 180V225M282 180V225M346 180V225M410 180V225"/></g>
+    <g transform="translate(57 225)" fill="#513940" stroke="#e69d5e"><rect width="66" height="46" rx="9"/><rect x="64" width="66" height="46" rx="9"/><rect x="128" width="66" height="46" rx="9"/><rect x="192" width="66" height="46" rx="9"/><rect x="256" width="66" height="46" rx="9"/><rect x="320" width="66" height="46" rx="9"/></g>
+    <g class="tiny" text-anchor="middle"><text x="90" y="254">医疗</text><text x="154" y="254">法律</text><text x="218" y="254">教育</text><text x="282" y="254">搜索</text><text x="346" y="254">客服</text><text x="410" y="254">机器人</text></g>
+    <path d="M72 303H428" stroke="#f36d5c" stroke-width="8" opacity=".25"/>
+    <g fill="#f27761"><circle cx="90" cy="303" r="9"/><circle cx="154" cy="303" r="9"/><circle cx="218" cy="303" r="9"/><circle cx="282" cy="303" r="9"/><circle cx="346" cy="303" r="9"/><circle cx="410" cy="303" r="9"/></g>
+    <rect x="44" y="340" width="412" height="70" rx="14" fill="#52373f"/><text x="250" y="368" text-anchor="middle" class="s">底座失败时，多领域同时失败</text><text x="250" y="393" text-anchor="middle" class="tiny">相同数据、评测与供应商还会进一步增加相关性</text>
+  </g>
+  <g transform="translate(150 580)">
+    <rect width="900" height="87" rx="20" fill="#142e46" stroke="#526477"/>
+    <text x="32" y="33" class="s">教学代码示例：20 个系统，p(core)=2%，p(local)=3%，单系统边际失败率 q=4.94%</text>
+    <text x="32" y="62" class="s">E[失败数]=0.988（两种结构相同）</text><text x="405" y="62" class="s" fill="#ffbd70">P[至少 16 个同时失败]：共享 ≈ 2%</text><text x="785" y="62" class="tiny">独立 ≈ 5.04×10⁻¹⁸</text>
+  </g>
+</svg>

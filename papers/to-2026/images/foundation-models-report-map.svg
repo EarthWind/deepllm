@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Foundation Models Report 的四层问题地图</title>
+  <desc id="desc">报告从能力、应用、技术与社会四个维度研究基础模型，并强调四者之间必须相互约束。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06172b"/><stop offset="1" stop-color="#0e2d4e"/></linearGradient>
+    <radialGradient id="core"><stop stop-color="#2e91bb"/><stop offset="1" stop-color="#133b5c"/></radialGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e5f2ff}.h{font-size:29px;font-weight:700}.sub{font-size:15px;fill:#9cb6cf}.t{font-size:21px;font-weight:700}.s{font-size:14px;fill:#bed0e0}.tiny{font-size:12.5px;fill:#91aac3}</style>
+  </defs>
+  <rect width="1200" height="700" rx="24" fill="url(#bg3)"/>
+  <text x="600" y="48" text-anchor="middle" class="h">这不是一篇“更大模型更强”的论文，而是一张跨学科问题地图</text>
+  <text x="600" y="76" text-anchor="middle" class="sub">4 个部分、26 个主题：能力能否出现，应用是否成立，技术怎样验证，社会由谁承担后果</text>
+  <g opacity=".28" stroke="#63c9ed" stroke-width="2"><path d="M600 350L300 215M600 350L900 215M600 350L300 530M600 350L900 530"/></g>
+  <circle cx="600" cy="350" r="112" fill="url(#core)" stroke="#56d8ff" stroke-width="2.5"/>
+  <circle cx="600" cy="350" r="87" fill="none" stroke="#85e7ff" opacity=".25" stroke-dasharray="5 7"/>
+  <text x="600" y="332" text-anchor="middle" class="t">Foundation Model</text>
+  <text x="600" y="360" text-anchor="middle" class="s">广泛数据 + 规模化自监督</text>
+  <text x="600" y="384" text-anchor="middle" class="s">可适配、关键但未完成</text>
+
+  <g transform="translate(70 110)">
+    <rect width="430" height="210" rx="20" fill="#102f4d" stroke="#3b82a7" stroke-width="1.8"/>
+    <circle cx="42" cy="42" r="23" fill="#1c5879"/><text x="42" y="49" text-anchor="middle" class="t">2</text>
+    <text x="80" y="49" class="t" fill="#5edbff">能力 Capabilities</text><text x="395" y="49" text-anchor="end" class="tiny">6 节</text>
+    <text x="34" y="88" class="s">语言：变体、方言、低资源与 grounding</text><text x="34" y="115" class="s">视觉：Web 规模、自监督、多模态与具身</text><text x="34" y="142" class="s">机器人：真实世界数据、鲁棒性与安全</text><text x="34" y="169" class="s">推理与搜索 · 交互 · “理解”的哲学边界</text>
+    <text x="34" y="197" class="tiny">问题：模型会什么？我们怎样知道？</text>
+  </g>
+  <g transform="translate(700 110)">
+    <rect width="430" height="210" rx="20" fill="#1b304d" stroke="#647ed0" stroke-width="1.8"/>
+    <circle cx="42" cy="42" r="23" fill="#334c82"/><text x="42" y="49" text-anchor="middle" class="t">3</text>
+    <text x="80" y="49" class="t" fill="#9db2ff">应用 Applications</text><text x="395" y="49" text-anchor="end" class="tiny">3 节</text>
+    <text x="34" y="91" class="s">医疗 / 生物：多模态、专家稀缺、隐私与偏差</text><text x="34" y="124" class="s">法律：长文、证据溯源、事实性与责任</text><text x="34" y="157" class="s">教育：学生认知、个性化、隐私与可及性</text>
+    <text x="34" y="197" class="tiny">问题：在哪个情境、服务谁、错了会怎样？</text>
+  </g>
+  <g transform="translate(70 390)">
+    <rect width="430" height="230" rx="20" fill="#12354a" stroke="#42aa94" stroke-width="1.8"/>
+    <circle cx="42" cy="42" r="23" fill="#1d6a64"/><text x="42" y="49" text-anchor="middle" class="t">4</text>
+    <text x="80" y="49" class="t" fill="#67ddc4">技术 Technology</text><text x="395" y="49" text-anchor="end" class="tiny">11 节</text>
+    <text x="34" y="88" class="s">建模 · 训练 · 适配 · 评价 · 系统 · 数据</text><text x="34" y="117" class="s">安全与隐私 · 分布迁移鲁棒性 · AI 安全</text><text x="34" y="146" class="s">理论 · 可解释性（one model–many models）</text>
+    <rect x="34" y="168" width="362" height="35" rx="12" fill="#174459"/><text x="215" y="190" text-anchor="middle" class="tiny">准确率只是证据的一列，不是全部答案</text>
+    <text x="34" y="222" class="tiny">问题：怎样构建、适配、验证与运行？</text>
+  </g>
+  <g transform="translate(700 390)">
+    <rect width="430" height="230" rx="20" fill="#3a2d3b" stroke="#da8f55" stroke-width="1.8"/>
+    <circle cx="42" cy="42" r="23" fill="#71464a"/><text x="42" y="49" text-anchor="middle" class="t">5</text>
+    <text x="80" y="49" class="t" fill="#ffc078">社会 Society</text><text x="395" y="49" text-anchor="end" class="tiny">6 节</text>
+    <text x="34" y="88" class="s">不平等与公平 · 滥用 · 环境</text><text x="34" y="117" class="s">法律地位 · 经济 · 规模伦理</text><text x="34" y="146" class="s">同质化、权力集中、准入与发布规范</text>
+    <rect x="34" y="168" width="362" height="35" rx="12" fill="#533743"/><text x="215" y="190" text-anchor="middle" class="tiny">“可能的用途”不等于“值得部署的用途”</text>
+    <text x="34" y="222" class="tiny">问题：收益与权力怎样分配，谁能补救？</text>
+  </g>
+  <rect x="365" y="645" width="470" height="33" rx="16" fill="#142f49" stroke="#3f6280"/><text x="600" y="667" text-anchor="middle" class="tiny">四层不能拆开排队：应用约束评价，社会价值反过来约束技术设计</text>
+</svg>

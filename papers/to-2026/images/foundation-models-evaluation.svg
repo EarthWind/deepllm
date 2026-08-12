@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">基础模型评价：从单一总分转向多维证据和发布门槛</title>
+  <desc id="desc">平均准确率很高时，低资源语言与对抗切片仍可能失败。评价应包含内在能力、下游系统、资源和多利益相关者指标，并设硬门槛。</desc>
+  <defs><linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07192e"/><stop offset="1" stop-color="#102b48"/></linearGradient><style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e5f2ff}.h{font-size:28px;font-weight:700}.sub{font-size:15px;fill:#9db6ce}.t{font-size:18px;font-weight:700}.s{font-size:13.5px;fill:#becfdf}.tiny{font-size:11.5px;fill:#8ca8c2}</style></defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg6)"/>
+  <text x="600" y="47" text-anchor="middle" class="h">评价的目标不只是排名：还要理解、记录、决定是否可以部署</text>
+  <text x="600" y="76" text-anchor="middle" class="sub">直接测底座属性 + 控制适配资源的外在评价 + 面向具体利益相关者的系统门槛</text>
+  <g transform="translate(45 115)">
+    <rect width="500" height="460" rx="21" fill="#102f4a" stroke="#37617f" stroke-width="1.7"/>
+    <text x="250" y="39" text-anchor="middle" class="t" fill="#69d9f7">一个平均分怎样掩盖失败切片</text>
+    <line x1="75" y1="390" x2="455" y2="390" stroke="#66839b"/><line x1="75" y1="85" x2="75" y2="390" stroke="#66839b"/>
+    <line x1="75" y1="145" x2="455" y2="145" stroke="#f2b05d" stroke-width="2" stroke-dasharray="7 6"/><text x="450" y="136" text-anchor="end" class="tiny" fill="#ffc574">发布门槛</text>
+    <g>
+      <rect x="100" y="103" width="58" height="287" rx="8" fill="#45c5e6"/><rect x="195" y="204" width="58" height="186" rx="8" fill="#f09a58"/><rect x="290" y="140" width="58" height="250" rx="8" fill="#5b95e8"/><rect x="385" y="216" width="58" height="174" rx="8" fill="#e66d68"/>
+      <text x="129" y="94" text-anchor="middle" class="s">.94</text><text x="224" y="195" text-anchor="middle" class="s">.61</text><text x="319" y="131" text-anchor="middle" class="s">.82</text><text x="414" y="207" text-anchor="middle" class="s">.58</text>
+      <g class="tiny" text-anchor="middle"><text x="129" y="414">常见语言</text><text x="224" y="414">低资源</text><text x="224" y="430">语言</text><text x="319" y="414">长上下文</text><text x="414" y="414">对抗输入</text></g>
+    </g>
+    <rect x="66" y="444" width="368" height="42" rx="14" fill="#173e58"/><text x="250" y="461" text-anchor="middle" class="tiny">加权平均 0.8935，看起来优秀</text><text x="250" y="478" text-anchor="middle" class="tiny" fill="#ffbb71">但 2 个硬门槛失败 → 不应发布</text>
+  </g>
+  <g transform="translate(585 115)">
+    <rect width="570" height="460" rx="21" fill="#142f49" stroke="#536b83" stroke-width="1.7"/>
+    <text x="285" y="39" text-anchor="middle" class="t" fill="#b2c2ff">四张互补的证据表</text>
+    <g transform="translate(28 70)">
+      <rect width="245" height="145" rx="16" fill="#143c57" stroke="#3f7895"/><text x="20" y="31" class="t">A. 底座内在评价</text><text x="20" y="62" class="s">语言、推理、多模态能力</text><text x="20" y="87" class="s">偏差、记忆、可攻击面</text><text x="20" y="116" class="tiny">尽量直接测“原材料属性”</text>
+    </g>
+    <g transform="translate(298 70)">
+      <rect width="245" height="145" rx="16" fill="#203855" stroke="#627abb"/><text x="20" y="31" class="t">B. 适配后外在评价</text><text x="20" y="62" class="s">任务、领域与真实流程</text><text x="20" y="87" class="s">固定数据、访问与计算预算</text><text x="20" y="116" class="tiny">区分底座收益与适配收益</text>
+    </g>
+    <g transform="translate(28 237)">
+      <rect width="245" height="145" rx="16" fill="#173e46" stroke="#3f9586"/><text x="20" y="31" class="t">C. 系统与资源评价</text><text x="20" y="62" class="s">延迟、吞吐、可靠性、成本</text><text x="20" y="87" class="s">能耗、碳、人员与数据投入</text><text x="20" y="116" class="tiny">准确率之外的可行性</text>
+    </g>
+    <g transform="translate(298 237)">
+      <rect width="245" height="145" rx="16" fill="#423442" stroke="#bf7c55"/><text x="20" y="31" class="t">D. 影响与治理评价</text><text x="20" y="62" class="s">群体差异、滥用、申诉</text><text x="20" y="87" class="s">谁定义权重，谁承担错误</text><text x="20" y="116" class="tiny">不能被一个平均分吞掉</text>
+    </g>
+    <text x="285" y="421" text-anchor="middle" class="s">同一个模型对不同主体有不同效用函数</text><text x="285" y="445" text-anchor="middle" class="tiny">交互式权重可帮助看 trade-off，但高风险门槛不应被补偿性加权取消</text>
+  </g>
+  <g transform="translate(230 610)"><rect width="740" height="42" rx="16" fill="#3d313c" stroke="#d49053"/><text x="370" y="27" text-anchor="middle" class="s" fill="#ffc274">Release gate = 所有关键切片达标 + 证据齐全 + 监测 / 回滚 / 申诉就绪</text></g>
+</svg>

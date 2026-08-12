@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">基础模型生态链与反馈</title>
+  <desc id="desc">从人的数据创作开始，经数据策展、基础模型训练、应用适配、部署，最终影响人，并由监测和申诉反馈回各阶段。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07182d"/><stop offset="1" stop-color="#0c2948"/></linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#45d4f5"/><stop offset=".7" stop-color="#5d8cff"/><stop offset="1" stop-color="#f3aa52"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5 0 10z" fill="#69c9eb"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e4f1ff}.h{font-size:29px;font-weight:700}.sub{font-size:15px;fill:#9eb8d2}.t{font-size:18px;font-weight:700}.s{font-size:14px;fill:#b8cce0}.tiny{font-size:12px;fill:#86a7c5}.box{fill:#102f4c;stroke:#356183;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1200" height="650" rx="24" fill="url(#bg2)"/>
+  <text x="600" y="48" text-anchor="middle" class="h">社会影响来自整条生态链，不来自 checkpoint 一项</text>
+  <text x="600" y="76" text-anchor="middle" class="sub">构建模型、决定部署、承受后果可能属于不同主体；责任必须沿血缘可追溯</text>
+  <path d="M82 266H1118" stroke="url(#flow)" stroke-width="7" opacity=".45"/>
+  <g transform="translate(35 135)">
+    <rect width="190" height="262" rx="18" class="box"/><circle cx="95" cy="60" r="30" fill="#214b69" stroke="#5ccff1"/><circle cx="95" cy="53" r="9" fill="#92e7ff"/><path d="M75 84Q95 66 115 84" fill="none" stroke="#92e7ff" stroke-width="5"/>
+    <text x="95" y="115" text-anchor="middle" class="t">1. 数据创作</text><text x="95" y="145" text-anchor="middle" class="s">人、组织、环境</text><text x="95" y="174" text-anchor="middle" class="tiny">目的与语境</text><text x="95" y="196" text-anchor="middle" class="tiny">权利与同意</text><text x="95" y="218" text-anchor="middle" class="tiny">代表性与缺失</text>
+    <rect x="35" y="232" width="120" height="24" rx="12" fill="#173b59"/><text x="95" y="249" text-anchor="middle" class="tiny">datasheet / 来源</text>
+  </g>
+  <g transform="translate(270 135)">
+    <rect width="190" height="262" rx="18" class="box"/><path d="M55 40H135L116 74V94L92 105V74z" fill="#225d7d" stroke="#62d8f7" stroke-width="2"/>
+    <text x="95" y="115" text-anchor="middle" class="t">2. 数据策展</text><text x="95" y="145" text-anchor="middle" class="s">选择、过滤、混合</text><text x="95" y="174" text-anchor="middle" class="tiny">质量与去重</text><text x="95" y="196" text-anchor="middle" class="tiny">隐私与许可证</text><text x="95" y="218" text-anchor="middle" class="tiny">版本与删除</text>
+    <rect x="35" y="232" width="120" height="24" rx="12" fill="#173b59"/><text x="95" y="249" text-anchor="middle" class="tiny">data hub / 血缘</text>
+  </g>
+  <g transform="translate(505 120)">
+    <rect width="190" height="292" rx="18" fill="#123a59" stroke="#4fdcff" stroke-width="2.5"/>
+    <g transform="translate(52 26)" fill="#245f84" stroke="#66ddff"><rect width="86" height="20" rx="6"/><rect x="-10" y="25" width="106" height="20" rx="6"/><rect x="-20" y="50" width="126" height="20" rx="6"/></g>
+    <text x="95" y="130" text-anchor="middle" class="t">3. 基础模型训练</text><text x="95" y="160" text-anchor="middle" class="s">目标、架构、系统</text><text x="95" y="189" text-anchor="middle" class="tiny">能力与涌现</text><text x="95" y="211" text-anchor="middle" class="tiny">内在偏差与记忆</text><text x="95" y="233" text-anchor="middle" class="tiny">能耗与安全</text>
+    <rect x="27" y="257" width="136" height="25" rx="12" fill="#174966"/><text x="95" y="274" text-anchor="middle" class="tiny">model card / eval</text>
+  </g>
+  <g transform="translate(740 135)">
+    <rect width="190" height="262" rx="18" class="box"/><circle cx="95" cy="64" r="34" fill="#233e69" stroke="#8da6ff"/><path d="M74 64H116M95 43V85" stroke="#b9c7ff" stroke-width="7" stroke-linecap="round"/>
+    <text x="95" y="115" text-anchor="middle" class="t">4. 适配与组装</text><text x="95" y="145" text-anchor="middle" class="s">prompt / 微调 / 工具</text><text x="95" y="174" text-anchor="middle" class="tiny">领域数据与约束</text><text x="95" y="196" text-anchor="middle" class="tiny">验证、权限、兜底</text><text x="95" y="218" text-anchor="middle" class="tiny">不是“接 API”即结束</text>
+    <rect x="35" y="232" width="120" height="24" rx="12" fill="#173b59"/><text x="95" y="249" text-anchor="middle" class="tiny">system card / 测试</text>
+  </g>
+  <g transform="translate(975 135)">
+    <rect width="190" height="262" rx="18" fill="#352e3c" stroke="#e9a757" stroke-width="1.8"/><rect x="49" y="34" width="92" height="62" rx="9" fill="#4a3d46" stroke="#ffbd6d"/><path d="M60 49H130M60 63H112M60 77H122" stroke="#ffd199" stroke-width="4"/>
+    <text x="95" y="115" text-anchor="middle" class="t">5. 部署与影响</text><text x="95" y="145" text-anchor="middle" class="s">具体用户与情境</text><text x="95" y="174" text-anchor="middle" class="tiny">收益与外部伤害</text><text x="95" y="196" text-anchor="middle" class="tiny">申诉与补救</text><text x="95" y="218" text-anchor="middle" class="tiny">持续分布漂移</text>
+    <rect x="29" y="232" width="132" height="24" rx="12" fill="#543d42"/><text x="95" y="249" text-anchor="middle" class="tiny">monitor / incident</text>
+  </g>
+  <g stroke="#69c9eb" stroke-width="3" marker-end="url(#arrow)"><path d="M225 266H263"/><path d="M460 266H498"/><path d="M695 266H733"/><path d="M930 266H968"/></g>
+  <path d="M1070 430C1070 565 130 565 130 430" fill="none" stroke="#f1ae5b" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#arrow)"/>
+  <rect x="350" y="485" width="500" height="68" rx="18" fill="#152d45" stroke="#a06f43"/>
+  <text x="600" y="514" text-anchor="middle" class="t" fill="#ffca83">监测、事故、用户反馈与申诉必须逆向传播</text>
+  <text x="600" y="540" text-anchor="middle" class="sub">修 adapter 不一定能修底座；换底座后所有下游都应重新评测</text>
+  <text x="600" y="611" text-anchor="middle" class="s">Think ecosystem, act model：看全链路影响，也为自己可控制的工件建立证据</text>
+</svg>
