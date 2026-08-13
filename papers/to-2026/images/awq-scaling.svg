@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#89a2c8"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.h{font-size:34px;font-weight:800}.m{font-size:23px;font-weight:700}.s{font-size:18px}.muted{fill:#94a8c8}.code{font-family:"STIX Two Math","Times New Roman",serif}</style>
+  </defs>
+  <rect width="1400" height="900" rx="28" fill="url(#bg)"/>
+  <text x="66" y="66" class="h">等价缩放为何能保护显著权重：量化前函数不变，量化后有效步长变细</text>
+  <text x="66" y="104" class="s muted">以下分析针对一组权重；s&gt;1 放大显著权重，同时把对应 activation 除以 s</text>
+
+  <g transform="translate(65 145)">
+    <rect width="1270" height="175" rx="22" fill="#101f3b" stroke="#435b8b"/>
+    <text x="28" y="45" class="m">精确等价变换</text>
+    <text x="65" y="110" class="code" font-size="34">Y = WX = (W · diag(s)) · (diag(s)⁻¹ · X)</text>
+    <text x="790" y="78" class="s muted">权重输入列：W[:, j] ← W[:, j] · sⱼ</text>
+    <text x="790" y="113" class="s muted">对应特征：X[j, :] ← X[j, :] / sⱼ</text>
+    <text x="790" y="145" class="s" fill="#6ee8bd">量化之前，两个乘法严格抵消。</text>
+  </g>
+
+  <g transform="translate(65 355)">
+    <rect width="600" height="400" rx="24" fill="#0d2038" stroke="#315178"/>
+    <text x="28" y="46" class="m">缩放前：显著权重落在粗网格之间</text>
+    <text x="28" y="79" class="s muted">group 的量化步长由整体动态范围决定</text>
+    <g transform="translate(55 125)">
+      <line x1="30" y1="135" x2="485" y2="135" stroke="#6f86a7" stroke-width="3"/>
+      <g stroke="#526987" stroke-width="2"><line x1="55" y1="105" x2="55" y2="165"/><line x1="120" y1="105" x2="120" y2="165"/><line x1="185" y1="105" x2="185" y2="165"/><line x1="250" y1="105" x2="250" y2="165"/><line x1="315" y1="105" x2="315" y2="165"/><line x1="380" y1="105" x2="380" y2="165"/><line x1="445" y1="105" x2="445" y2="165"/></g>
+      <circle cx="217" cy="135" r="11" fill="#ffbd56"/><line x1="217" y1="135" x2="185" y2="135" stroke="#e86f64" stroke-width="5"/>
+      <text x="217" y="82" text-anchor="middle" class="s" fill="#ffd080">w：显著，但值不大</text>
+      <text x="201" y="205" text-anchor="middle" class="s muted">舍入误差 |δw|</text>
+      <rect x="38" y="225" width="424" height="72" rx="16" fill="#352629" stroke="#cb615f"/>
+      <text x="250" y="257" text-anchor="middle" class="s code">Err ≈ Δ · RoundErr(w/Δ) · x</text>
+      <text x="250" y="284" text-anchor="middle" class="s muted">x 很大，因此输出误差被放大</text>
+    </g>
+  </g>
+
+  <path d="M680 555H720" stroke="#89a2c8" stroke-width="4" marker-end="url(#arr)"/>
+
+  <g transform="translate(735 355)">
+    <rect width="600" height="400" rx="24" fill="#10283b" stroke="#39d0a4"/>
+    <text x="28" y="46" class="m" fill="#6ee8bd">缩放后：同一权重占据更多量化格</text>
+    <text x="28" y="79" class="s muted">若新步长 Δ′≈Δ，除回 s 后的有效误差约缩小 s 倍</text>
+    <g transform="translate(55 125)">
+      <line x1="30" y1="135" x2="485" y2="135" stroke="#6f86a7" stroke-width="3"/>
+      <g stroke="#526987" stroke-width="2"><line x1="55" y1="105" x2="55" y2="165"/><line x1="120" y1="105" x2="120" y2="165"/><line x1="185" y1="105" x2="185" y2="165"/><line x1="250" y1="105" x2="250" y2="165"/><line x1="315" y1="105" x2="315" y2="165"/><line x1="380" y1="105" x2="380" y2="165"/><line x1="445" y1="105" x2="445" y2="165"/></g>
+      <circle cx="373" cy="135" r="12" fill="#3dd7aa"/><line x1="373" y1="135" x2="380" y2="135" stroke="#3dd7aa" stroke-width="5"/>
+      <text x="373" y="82" text-anchor="middle" class="s" fill="#6ee8bd">w·s：被主动放大</text>
+      <text x="376" y="205" text-anchor="middle" class="s muted">量化后再除以 s</text>
+      <rect x="38" y="225" width="424" height="72" rx="16" fill="#14372f" stroke="#39d0a4"/>
+      <text x="250" y="257" text-anchor="middle" class="s code">Err′/Err ≈ (Δ′/Δ) · (1/s)</text>
+      <text x="250" y="284" text-anchor="middle" class="s muted">当 Δ′≈Δ 且 s&gt;1，显著通道误差下降</text>
+    </g>
+  </g>
+
+  <g transform="translate(65 790)">
+    <rect width="1270" height="62" rx="16" fill="#382b20" stroke="#d69645"/>
+    <text x="635" y="38" text-anchor="middle" class="s" fill="#ffd080">不能无限放大：s 太大会推高 group 的 Δ′，让非显著权重误差上升；所以 AWQ 搜索 α，而不是固定“越大越好”。</text>
+  </g>
+</svg>

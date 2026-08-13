@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" role="img" aria-labelledby="title desc">
+  <title id="title">GPTQ 相对 OBQ 的三个可扩展性改造</title>
+  <desc id="desc">GPTQ 用全行共享固定列顺序、128 列延迟批更新和带阻尼的 Cholesky 计算，把 OBQ 推到百亿乃至千亿参数模型。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071427"/><stop offset="1" stop-color="#171f45"/></linearGradient>
+    <linearGradient id="step" x2="1"><stop stop-color="#3d82d8"/><stop offset=".5" stop-color="#7860dd"/><stop offset="1" stop-color="#2dc2b8"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#86bfee"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#f0f5ff;font-size:18px;font-weight:720}.b{fill:#c4d4e9;font-size:14px}.tiny{fill:#91a9c6;font-size:12px}.formula{fill:#e1edff;font-size:16px;font-weight:650}.n{fill:#fff;font-size:23px;font-weight:800}</style>
+  </defs>
+  <rect width="1200" height="690" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="62">GPTQ 的新意不只在补偿公式，更在把 OBQ 变成可运行系统</text>
+  <text class="sub" x="55" y="94">误差补偿来自 OBQ；下面三步分别消掉行级重复、显存带宽瓶颈和数值崩溃</text>
+
+  <g transform="translate(55 139)">
+    <rect width="260" height="422" rx="22" fill="#101f38" stroke="#3b516d"/>
+    <rect width="260" height="53" rx="22" fill="#172a45"/><text class="h" x="130" y="33" text-anchor="middle">起点 · OBQ</text>
+    <g transform="translate(40 84)" fill="#426789"><rect width="34" height="34" rx="6"/><rect x="46" width="34" height="34" rx="6"/><rect x="92" width="34" height="34" rx="6"/><rect x="138" width="34" height="34" rx="6"/><rect y="46" width="34" height="34" rx="6"/><rect x="46" y="46" width="34" height="34" rx="6"/><rect x="92" y="46" width="34" height="34" rx="6"/><rect x="138" y="46" width="34" height="34" rx="6"/></g>
+    <path d="M55 193C92 154 155 232 207 180" fill="none" stroke="#ffae52" stroke-width="3" stroke-dasharray="6 5"/>
+    <text class="b" x="130" y="236" text-anchor="middle">每一行都搜索下一权重</text>
+    <text class="b" x="130" y="260" text-anchor="middle">每一步都更新逆 Hessian</text>
+    <rect x="28" y="293" width="204" height="54" rx="14" fill="#1d2942"/>
+    <text class="formula" x="130" y="326" text-anchor="middle">O(d<tspan baseline-shift="sub" font-size="11">row</tspan> · d<tspan baseline-shift="sub" font-size="11">col</tspan>³)</text>
+    <text class="tiny" x="130" y="379" text-anchor="middle">在 LLM 宽矩阵上不可接受</text>
+  </g>
+  <path d="M315 350H347" stroke="#86bfee" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g transform="translate(360 139)">
+    <rect width="240" height="422" rx="22" fill="#111f3c" stroke="#4a78ad"/>
+    <circle cx="35" cy="34" r="19" fill="#3b82cf"/><text class="n" x="35" y="42" text-anchor="middle">1</text>
+    <text class="h" x="68" y="40">固定共享顺序</text>
+    <g transform="translate(28 80)">
+      <g fill="#447fb2"><rect width="27" height="27" rx="5"/><rect x="34" width="27" height="27" rx="5"/><rect x="68" width="27" height="27" rx="5"/><rect x="102" width="27" height="27" rx="5"/><rect x="136" width="27" height="27" rx="5"/><rect x="170" width="27" height="27" rx="5"/></g>
+      <g fill="#705fd2" transform="translate(0 41)"><rect width="27" height="27" rx="5"/><rect x="34" width="27" height="27" rx="5"/><rect x="68" width="27" height="27" rx="5"/><rect x="102" width="27" height="27" rx="5"/><rect x="136" width="27" height="27" rx="5"/><rect x="170" width="27" height="27" rx="5"/></g>
+      <path d="M12 -9H181" stroke="#ffbd5c" stroke-width="3" marker-end="url(#arrow)"/>
+    </g>
+    <text class="b" x="120" y="185" text-anchor="middle">H 只由输入决定</text>
+    <text class="b" x="120" y="209" text-anchor="middle">所有输出行共用列顺序</text>
+    <text class="tiny" x="120" y="244" text-anchor="middle">逆更新：每列一次</text>
+    <rect x="21" y="281" width="198" height="67" rx="14" fill="#172d4d"/>
+    <text class="formula" x="120" y="308" text-anchor="middle">O(max{d<tspan baseline-shift="sub" font-size="11">row</tspan>d<tspan baseline-shift="sub" font-size="11">col</tspan>²,</text>
+    <text class="formula" x="120" y="334" text-anchor="middle">d<tspan baseline-shift="sub" font-size="11">col</tspan>³})</text>
+    <text class="tiny" x="120" y="383" text-anchor="middle">去掉最昂贵的行级重复</text>
+  </g>
+  <path d="M600 350H632" stroke="#86bfee" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g transform="translate(645 139)">
+    <rect width="240" height="422" rx="22" fill="#181e40" stroke="#715bc8"/>
+    <circle cx="35" cy="34" r="19" fill="#745fd4"/><text class="n" x="35" y="42" text-anchor="middle">2</text>
+    <text class="h" x="68" y="40">延迟批更新</text>
+    <g transform="translate(29 81)">
+      <rect width="182" height="96" rx="10" fill="#192d4c"/>
+      <g fill="#765fdd"><rect x="9" y="10" width="25" height="76"/><rect x="38" y="10" width="25" height="76"/><rect x="67" y="10" width="25" height="76"/></g>
+      <g fill="#355d84"><rect x="96" y="10" width="25" height="76"/><rect x="125" y="10" width="25" height="76"/><rect x="154" y="10" width="19" height="76"/></g>
+      <path d="M15 105H84" stroke="#ffbe55" stroke-width="3" marker-end="url(#arrow)"/><text x="95" y="121" text-anchor="middle" fill="#b8c9e1" font-size="11">块内逐列</text>
+    </g>
+    <text class="b" x="120" y="226" text-anchor="middle">B = 128 列先在缓存中处理</text>
+    <text class="b" x="120" y="250" text-anchor="middle">块外误差一次 GEMM 传播</text>
+    <rect x="24" y="281" width="192" height="67" rx="14" fill="#262650"/>
+    <text class="formula" x="120" y="309" text-anchor="middle">E · H<tspan baseline-shift="super" font-size="11">−1</tspan><tspan baseline-shift="sub" font-size="11">block,rest</tspan></text>
+    <text class="tiny" x="120" y="334" text-anchor="middle">理论 FLOPs 不变</text>
+    <text class="tiny" x="120" y="383" text-anchor="middle">把带宽受限 rank-1 更新变成高吞吐矩阵乘</text>
+  </g>
+  <path d="M885 350H917" stroke="#86bfee" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g transform="translate(930 139)">
+    <rect width="215" height="422" rx="22" fill="#102a39" stroke="#2cb5ae"/>
+    <circle cx="35" cy="34" r="19" fill="#27b8b0"/><text class="n" x="35" y="42" text-anchor="middle">3</text>
+    <text class="h" x="68" y="40">稳定逆曲率</text>
+    <g transform="translate(49 82)">
+      <path d="M0 99L58 0l58 99Z" fill="#17455b" stroke="#43c8bf" stroke-width="3"/>
+      <path d="M18 99L58 32l40 67" fill="none" stroke="#8ee4dd" stroke-width="3"/>
+      <circle cx="58" cy="57" r="9" fill="#f0ad4b"/>
+    </g>
+    <text class="formula" x="108" y="222" text-anchor="middle">H ← H + λI</text>
+    <text class="tiny" x="108" y="246" text-anchor="middle">λ = 1% · mean(diag(H))</text>
+    <rect x="21" y="281" width="173" height="67" rx="14" fill="#163949"/>
+    <text class="formula" x="108" y="309" text-anchor="middle">Cholesky(H<tspan baseline-shift="super" font-size="11">−1</tspan>)</text>
+    <text class="tiny" x="108" y="334" text-anchor="middle">预先得到所需行</text>
+    <text class="tiny" x="108" y="383" text-anchor="middle">避免反复 downdate 变成非正定</text>
+  </g>
+
+  <g transform="translate(55 591)"><rect width="1090" height="49" rx="14" fill="#102239" stroke="#2b4a63"/><text class="b" x="545" y="30" text-anchor="middle">结果：算法仍遵守逐列误差补偿，却能在单张 A100 上处理 175B / 176B 模型</text></g>
+  <text class="tiny" x="1145" y="671" text-anchor="end">“固定顺序”指跨行共享，不代表列顺序对精度永远无关</text>
+</svg>

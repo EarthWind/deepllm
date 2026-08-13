@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">GPTQ 对 Transformer 逐块校准和量化</title>
+  <desc id="desc">论文从 C4 抽取 128 个 2048 token 片段，每次加载一个 Transformer block，收集其中各线性层输入、量化权重，再运行已量化 block 为下一个 block 产生真实输入。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#182348"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#86c1ef"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#f0f5ff;font-size:18px;font-weight:720}.b{fill:#c4d4e9;font-size:14px}.tiny{fill:#91a9c6;font-size:12px}.n{fill:#fff;font-size:22px;font-weight:800}</style>
+  </defs>
+  <rect width="1200" height="650" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="62">整模量化不是“每层各做各的”：量化误差要向后传播</text>
+  <text class="sub" x="55" y="94">论文在单张 A100 上一次只处理一个 Transformer block；下一块看到的是前面已量化模型产生的输入</text>
+
+  <g transform="translate(55 145)">
+    <g>
+      <circle cx="45" cy="42" r="26" fill="#377fca"/><text class="n" x="45" y="50" text-anchor="middle">1</text>
+      <rect x="90" width="210" height="85" rx="17" fill="#15304e" stroke="#3d78aa"/>
+      <text class="h" x="195" y="32" text-anchor="middle">校准片段</text>
+      <text class="b" x="195" y="57" text-anchor="middle">C4 · 128 × 2048 token</text>
+      <text class="tiny" x="195" y="76" text-anchor="middle">随机、通用、无任务标签</text>
+    </g>
+    <path d="M300 42H355" stroke="#86c1ef" stroke-width="4" marker-end="url(#arrow)"/>
+    <g transform="translate(370)">
+      <circle cx="45" cy="42" r="26" fill="#6c5dd2"/><text class="n" x="45" y="50" text-anchor="middle">2</text>
+      <rect x="90" width="240" height="85" rx="17" fill="#1d294c" stroke="#705ed0"/>
+      <text class="h" x="210" y="31" text-anchor="middle">加载当前 block 到 GPU</text>
+      <text class="b" x="210" y="56" text-anchor="middle">论文所述：一个 block 含 6 个线性层</text>
+      <text class="tiny" x="210" y="76" text-anchor="middle">完整模型不必同时驻留单卡</text>
+    </g>
+    <path d="M700 42H755" stroke="#86c1ef" stroke-width="4" marker-end="url(#arrow)"/>
+    <g transform="translate(770)">
+      <circle cx="45" cy="42" r="26" fill="#25b8af"/><text class="n" x="45" y="50" text-anchor="middle">3</text>
+      <rect x="90" width="225" height="85" rx="17" fill="#143448" stroke="#2cbab2"/>
+      <text class="h" x="202" y="31" text-anchor="middle">收集每层输入</text>
+      <text class="b" x="202" y="56" text-anchor="middle">累积 H = 2XXᵀ</text>
+      <text class="tiny" x="202" y="76" text-anchor="middle">不保存标签，不反向传播</text>
+    </g>
+  </g>
+
+  <g transform="translate(55 300)">
+    <rect width="1090" height="205" rx="22" fill="#0e213b" stroke="#2e4b69"/>
+    <g transform="translate(28 33)">
+      <circle cx="27" cy="27" r="24" fill="#795ed9"/><text class="n" x="27" y="35" text-anchor="middle">4</text>
+      <text class="h" x="67" y="33">按层 GPTQ</text>
+      <g transform="translate(0 74)">
+        <rect width="120" height="67" rx="14" fill="#29315b" stroke="#7864d7"/><text x="60" y="30" text-anchor="middle" fill="#ddd8ff" font-size="14">Q / K / V / O</text><text class="tiny" x="60" y="52" text-anchor="middle">attention</text>
+        <path d="M120 34H169" stroke="#86c1ef" stroke-width="3" marker-end="url(#arrow)"/>
+        <rect x="183" width="120" height="67" rx="14" fill="#29315b" stroke="#7864d7"/><text x="243" y="30" text-anchor="middle" fill="#ddd8ff" font-size="14">FC1 / FC2</text><text class="tiny" x="243" y="52" text-anchor="middle">MLP</text>
+      </g>
+    </g>
+    <path d="M355 102H430" stroke="#86c1ef" stroke-width="4" marker-end="url(#arrow)"/>
+    <g transform="translate(445 33)">
+      <circle cx="27" cy="27" r="24" fill="#d9933e"/><text class="n" x="27" y="35" text-anchor="middle">5</text>
+      <text class="h" x="67" y="33">写回低比特 block</text>
+      <g transform="translate(0 74)"><rect width="300" height="67" rx="14" fill="#3a3046" stroke="#dc9c45"/><g transform="translate(18 13)" fill="#e1a145"><rect width="35" height="41"/><rect x="41" width="35" height="41"/><rect x="82" width="35" height="41"/></g><text x="211" y="31" text-anchor="middle" fill="#ffe1ad" font-size="14" font-weight="700">packed 3 / 4-bit</text><text class="tiny" x="211" y="52" text-anchor="middle">+ scale / zero point</text></g>
+    </g>
+    <path d="M745 102H820" stroke="#86c1ef" stroke-width="4" marker-end="url(#arrow)"/>
+    <g transform="translate(835 33)">
+      <circle cx="27" cy="27" r="24" fill="#26b8af"/><text class="n" x="27" y="35" text-anchor="middle">6</text>
+      <text class="h" x="67" y="33">重跑当前 block</text>
+      <rect y="74" width="225" height="67" rx="14" fill="#143747" stroke="#2cbab2"/>
+      <text x="112" y="102" text-anchor="middle" fill="#d6faf6" font-size="14" font-weight="700">量化后的输出 → 下一块输入</text>
+      <text class="tiny" x="112" y="125" text-anchor="middle">让后层适应前层真实量化误差</text>
+    </g>
+  </g>
+
+  <path d="M1002 505C1002 572 208 579 208 508" fill="none" stroke="#ffba54" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#arrow)"/>
+  <text x="600" y="566" text-anchor="middle" fill="#ffc971" font-size="15" font-weight="700">移动到下一个 Transformer block，重复步骤 2–6</text>
+  <g transform="translate(55 590)"><rect width="1090" height="39" rx="12" fill="#102139" stroke="#294861"/><text class="b" x="545" y="25" text-anchor="middle">这仍是一遍校准式 PTQ：没有训练 epoch、没有标签、没有参数梯度，但校准数据分布依然会影响结果。</text></g>
+</svg>

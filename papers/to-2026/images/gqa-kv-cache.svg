@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <linearGradient id="bar2" x1="0" x2="1"><stop stop-color="#3b78ff"/><stop offset="1" stop-color="#35d8aa"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#94a8c8}.h{font-size:34px;font-weight:800}.s{font-size:18px}.m{font-size:23px;font-weight:700}.v{font-size:20px;font-weight:800}.math{font-family:"STIX Two Math","Times New Roman",serif}</style>
+  </defs>
+  <rect width="1400" height="840" rx="28" fill="url(#bg2)"/>
+  <text x="66" y="66" class="h">KV Cache 为什么按 G 缩放：少存独立 K/V，不是少算 Query heads</text>
+  <text x="66" y="104" class="muted s">理想载荷，不含 allocator、padding、分页 metadata 与张量并行复制</text>
+
+  <g transform="translate(65 145)">
+    <rect width="1270" height="145" rx="22" fill="#101f3b" stroke="#41588c"/>
+    <text x="28" y="45" class="m">Cache 公式</text>
+    <text x="28" y="100" class="math" font-size="31">Bytes<tspan baseline-shift="sub" font-size="20">KV</tspan> = B · S · L · 2 · G · d<tspan baseline-shift="sub" font-size="20">h</tspan> · b</text>
+    <text x="700" y="55" class="s muted">B：batch　S：缓存 token 数　L：层数</text>
+    <text x="700" y="91" class="s muted">2：K 与 V　G：KV heads　dₕ：head dim　b：每元素字节</text>
+  </g>
+
+  <g transform="translate(65 325)">
+    <rect width="1270" height="365" rx="22" fill="#0d2038" stroke="#2b4565"/>
+    <text x="28" y="45" class="m">示例：B=1，S=4096，L=32，H=32，dₕ=128，BF16</text>
+    <g transform="translate(30 80)">
+      <text y="31" class="m">MHA · G=32</text><rect x="220" y="3" width="920" height="38" rx="11" fill="url(#bar2)"/><text x="1160" y="31" class="v">2048 MiB</text>
+      <g transform="translate(0 68)"><text y="31" class="m">GQA-8 · G=8</text><rect x="220" y="3" width="230" height="38" rx="11" fill="url(#bar2)"/><text x="470" y="31" class="v">512 MiB · 4× smaller</text></g>
+      <g transform="translate(0 136)"><text y="31" class="m">GQA-4 · G=4</text><rect x="220" y="3" width="115" height="38" rx="11" fill="url(#bar2)"/><text x="355" y="31" class="v">256 MiB · 8× smaller</text></g>
+      <g transform="translate(0 204)"><text y="31" class="m">MQA · G=1</text><rect x="220" y="3" width="29" height="38" rx="11" fill="#38dbaa"/><text x="275" y="31" class="v">64 MiB · 32× smaller</text></g>
+    </g>
+    <text x="30" y="340" class="s muted">同一公式还解释了：上下文或 batch 翻倍，Cache 也线性翻倍；减少 G 可直接换取更多并发或更长上下文。</text>
+  </g>
+
+  <g transform="translate(65 725)">
+    <rect width="1270" height="70" rx="18" fill="#39291f" stroke="#d8904f"/>
+    <text x="635" y="43" text-anchor="middle" class="s" fill="#ffd08b">注意力 score/加权求和仍为 H 个 Query heads：GQA 的主要收益是 KV 容量与读取带宽，不是把 H 个注意力图变成 G 个。</text>
+  </g>
+</svg>

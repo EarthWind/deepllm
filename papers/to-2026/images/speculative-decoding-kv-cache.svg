@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a35"/></linearGradient>
+    <marker id="a4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#91a7c7"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#95a8c7}.h{font-size:34px;font-weight:800}.s{font-size:19px}.m{font-size:23px;font-weight:700}.t{font-size:21px;font-weight:700}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg4)"/>
+  <text x="68" y="68" class="h">KV Cache 提交语义：只能提交“连续接受前缀 + 1 个目标 token”</text>
+  <text x="68" y="106" class="muted s">论文给出采样算法；生产实现还要让 target/draft 两套 cache 与实际输出严格对齐</text>
+
+  <g transform="translate(70 155)">
+    <rect width="1260" height="150" rx="22" fill="#0d2038" stroke="#29435f"/>
+    <text x="28" y="42" class="m">① verification 之前：前缀已提交，γ=5 个草稿暂存</text>
+    <g transform="translate(30 70)">
+      <rect width="116" height="56" rx="13" fill="#29405f"/><text x="58" y="36" text-anchor="middle" class="t">prefix</text>
+      <g transform="translate(145)">
+        <rect width="90" height="56" rx="13" fill="#153b38" stroke="#38dba4"/><text x="45" y="36" text-anchor="middle" class="t">x̃₁</text>
+        <rect x="105" width="90" height="56" rx="13" fill="#153b38" stroke="#38dba4"/><text x="150" y="36" text-anchor="middle" class="t">x̃₂</text>
+        <rect x="210" width="90" height="56" rx="13" fill="#153b38" stroke="#38dba4"/><text x="255" y="36" text-anchor="middle" class="t">x̃₃</text>
+        <rect x="315" width="90" height="56" rx="13" fill="#153b38" stroke="#38dba4"/><text x="360" y="36" text-anchor="middle" class="t">x̃₄</text>
+        <rect x="420" width="90" height="56" rx="13" fill="#153b38" stroke="#38dba4"/><text x="465" y="36" text-anchor="middle" class="t">x̃₅</text>
+      </g>
+      <path d="M680 28H770" stroke="#91a7c7" stroke-width="3" marker-end="url(#a4)"/>
+      <rect x="790" y="-6" width="390" height="68" rx="16" fill="#172b50" stroke="#598cff"/>
+      <text x="985" y="36" text-anchor="middle" class="t">Target 一次计算 p₁ … p₆</text>
+    </g>
+  </g>
+
+  <g transform="translate(70 340)">
+    <rect width="1260" height="180" rx="22" fill="#0d2038" stroke="#29435f"/>
+    <text x="28" y="42" class="m">② x̃₃ 首次拒绝：x̃₄、x̃₅ 即使“看起来合理”也不能保留</text>
+    <g transform="translate(30 75)">
+      <rect width="116" height="58" rx="13" fill="#29405f"/><text x="58" y="37" text-anchor="middle" class="t">prefix</text>
+      <rect x="145" width="90" height="58" rx="13" fill="#153b38" stroke="#38dba4"/><text x="190" y="37" text-anchor="middle" class="t">x̃₁ ✓</text>
+      <rect x="250" width="90" height="58" rx="13" fill="#153b38" stroke="#38dba4"/><text x="295" y="37" text-anchor="middle" class="t">x̃₂ ✓</text>
+      <rect x="355" width="90" height="58" rx="13" fill="#472337" stroke="#ff718f"/><text x="400" y="37" text-anchor="middle" class="t">x̃₃ ×</text>
+      <rect x="460" width="90" height="58" rx="13" fill="#282c3d" stroke="#6e7891" stroke-dasharray="7 5" opacity=".65"/><text x="505" y="37" text-anchor="middle" class="t" opacity=".7">x̃₄</text>
+      <rect x="565" width="90" height="58" rx="13" fill="#282c3d" stroke="#6e7891" stroke-dasharray="7 5" opacity=".65"/><text x="610" y="37" text-anchor="middle" class="t" opacity=".7">x̃₅</text>
+      <path d="M690 29H782" stroke="#91a7c7" stroke-width="3" marker-end="url(#a4)"/>
+      <rect x="800" width="370" height="58" rx="13" fill="#3a261f" stroke="#d87358"/>
+      <text x="985" y="37" text-anchor="middle" class="t" fill="#ffb197">truncate / rollback</text>
+    </g>
+    <text x="30" y="160" class="s muted">原因：x̃₄、x̃₅ 的条件上下文包含已拒绝的 x̃₃，因而对应 logits 与 KV 都不再有效。</text>
+  </g>
+
+  <g transform="translate(70 555)">
+    <rect width="1260" height="190" rx="22" fill="#0d2038" stroke="#29435f"/>
+    <text x="28" y="42" class="m">③ 原子提交：prefix + x̃₁ + x̃₂ + correction</text>
+    <g transform="translate(30 75)">
+      <rect width="116" height="58" rx="13" fill="#29405f"/><text x="58" y="37" text-anchor="middle" class="t">prefix</text>
+      <rect x="145" width="90" height="58" rx="13" fill="#153b38" stroke="#38dba4"/><text x="190" y="37" text-anchor="middle" class="t">x̃₁</text>
+      <rect x="250" width="90" height="58" rx="13" fill="#153b38" stroke="#38dba4"/><text x="295" y="37" text-anchor="middle" class="t">x̃₂</text>
+      <rect x="355" width="150" height="58" rx="13" fill="#173b5a" stroke="#55caff"/><text x="430" y="37" text-anchor="middle" class="t">correction</text>
+      <path d="M540 29H630" stroke="#91a7c7" stroke-width="3" marker-end="url(#a4)"/>
+      <rect x="650" width="520" height="58" rx="13" fill="#15362f" stroke="#38dba4"/>
+      <text x="910" y="37" text-anchor="middle" class="t">同步两套 cache，再开始下一轮</text>
+    </g>
+    <text x="30" y="164" class="s muted">全接受时则提交 x̃₁…x̃₅，再追加从 p₆ 采样的 bonus；EOS 或长度上限会提前截断。</text>
+  </g>
+</svg>

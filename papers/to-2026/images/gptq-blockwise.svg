@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img" aria-labelledby="title desc">
+  <title id="title">GPTQ 的 128 列延迟批更新</title>
+  <desc id="desc">在一个列块内仍逐列量化并更新，缓存缩放误差 E；块完成后再通过一次矩阵乘把总误差传播到右侧所有未量化列。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#172448"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#84bff0"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#f0f5ff;font-size:18px;font-weight:720}.b{fill:#c4d4e9;font-size:14px}.tiny{fill:#91a9c6;font-size:12px}.formula{fill:#e1edff;font-size:17px;font-weight:650}</style>
+  </defs>
+  <rect width="1200" height="660" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="62">Lazy Batch Update：数学仍然逐列，硬件改成按块搬运</text>
+  <text class="sub" x="55" y="94">下面展示当前 B 列块：紫色列在局部缓存中顺序处理，右侧蓝色大矩阵只在块结束时写一次</text>
+
+  <g transform="translate(55 145)">
+    <text class="h" x="0" y="0">工作权重 W</text>
+    <rect y="25" width="1090" height="202" rx="18" fill="#10233f" stroke="#314d70"/>
+    <g transform="translate(20 43)">
+      <g fill="#314c6b"><rect width="60" height="164" rx="8"/><rect x="67" width="60" height="164" rx="8"/></g>
+      <g transform="translate(141)" fill="#765fd7"><rect width="60" height="164" rx="8"/><rect x="67" width="60" height="164" rx="8"/><rect x="134" width="60" height="164" rx="8"/><rect x="201" width="60" height="164" rx="8"/></g>
+      <g transform="translate(416)" fill="#315779"><rect width="60" height="164" rx="8"/><rect x="67" width="60" height="164" rx="8"/><rect x="134" width="60" height="164" rx="8"/><rect x="201" width="60" height="164" rx="8"/><rect x="268" width="60" height="164" rx="8"/><rect x="335" width="60" height="164" rx="8"/><rect x="402" width="60" height="164" rx="8"/><rect x="469" width="60" height="164" rx="8"/></g>
+      <text x="64" y="86" text-anchor="middle" fill="#8fa9c7" font-size="14">已量化</text>
+      <text x="271" y="86" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">当前 block · B=128</text>
+      <text x="684" y="86" text-anchor="middle" fill="#b8cde4" font-size="16">尚未量化的列</text>
+      <path d="M154 177H386" stroke="#ffbb58" stroke-width="4" marker-end="url(#arrow)"/>
+      <text x="270" y="202" text-anchor="middle" fill="#ffc86d" font-size="13">j = i … i+B−1，严格逐列</text>
+    </g>
+  </g>
+
+  <g transform="translate(55 405)">
+    <rect width="315" height="160" rx="19" fill="#182344" stroke="#725ed2"/>
+    <text class="h" x="157" y="34" text-anchor="middle">① 块内局部更新</text>
+    <text class="formula" x="157" y="70" text-anchor="middle">q<tspan baseline-shift="sub" font-size="11">j</tspan> = quant(w<tspan baseline-shift="sub" font-size="11">j</tspan>)</text>
+    <text class="formula" x="157" y="101" text-anchor="middle">e<tspan baseline-shift="sub" font-size="11">j</tspan> = (w<tspan baseline-shift="sub" font-size="11">j</tspan> − q<tspan baseline-shift="sub" font-size="11">j</tspan>) / [H<tspan baseline-shift="super" font-size="11">−1</tspan>]<tspan baseline-shift="sub" font-size="11">jj</tspan></text>
+    <text class="tiny" x="157" y="134" text-anchor="middle">只更新当前块的剩余列，并把 e<tspan baseline-shift="sub" font-size="9">j</tspan> 写入 E</text>
+  </g>
+  <path d="M370 485H425" stroke="#84bff0" stroke-width="4" marker-end="url(#arrow)"/>
+  <g transform="translate(440 405)">
+    <rect width="300" height="160" rx="19" fill="#172d4b" stroke="#4380b6"/>
+    <text class="h" x="150" y="34" text-anchor="middle">② 累积误差矩阵 E</text>
+    <g transform="translate(47 57)">
+      <rect width="206" height="58" rx="10" fill="#23375a"/>
+      <g fill="#ffb452"><rect x="10" y="10" width="34" height="38" rx="5"/><rect x="48" y="10" width="34" height="38" rx="5"/><rect x="86" y="10" width="34" height="38" rx="5"/><rect x="124" y="10" width="34" height="38" rx="5"/><rect x="162" y="10" width="34" height="38" rx="5"/></g>
+    </g>
+    <text class="tiny" x="150" y="139" text-anchor="middle">shape：d<tspan baseline-shift="sub" font-size="9">row</tspan> × B</text>
+  </g>
+  <path d="M740 485H795" stroke="#84bff0" stroke-width="4" marker-end="url(#arrow)"/>
+  <g transform="translate(810 405)">
+    <rect width="335" height="160" rx="19" fill="#123143" stroke="#2cbcb3"/>
+    <text class="h" x="167" y="34" text-anchor="middle">③ 一次全局矩阵乘</text>
+    <text class="formula" x="167" y="77" text-anchor="middle">W<tspan baseline-shift="sub" font-size="11">:, i+B:</tspan> ← W<tspan baseline-shift="sub" font-size="11">:, i+B:</tspan></text>
+    <text class="formula" x="167" y="108" text-anchor="middle">− E · H<tspan baseline-shift="super" font-size="11">−1</tspan><tspan baseline-shift="sub" font-size="11">i:i+B, i+B:</tspan></text>
+    <text class="tiny" x="167" y="139" text-anchor="middle">高算术强度 GEMM；块外大矩阵只读写一次</text>
+  </g>
+
+  <g transform="translate(55 589)"><rect width="1090" height="40" rx="12" fill="#102139" stroke="#294861"/><text class="b" x="545" y="26" text-anchor="middle">不变量：一个块最终施加的总补偿与逐列 rank-1 传播一致；变化的是调度与内存访问，而不是目标函数。</text></g>
+</svg>

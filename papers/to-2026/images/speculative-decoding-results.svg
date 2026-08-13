@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a35"/></linearGradient>
+    <linearGradient id="bar" x1="0" x2="1"><stop stop-color="#3a78ff"/><stop offset="1" stop-color="#38dba4"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#95a8c7}.h{font-size:34px;font-weight:800}.s{font-size:18px}.m{font-size:22px;font-weight:700}.v{font-size:19px;font-weight:800}</style>
+  </defs>
+  <rect width="1400" height="860" rx="28" fill="url(#bg5)"/>
+  <text x="68" y="68" class="h">ICML 2023 最终版：T5-XXL（11B）在单 TPU v4、batch=1 上的实测加速</text>
+  <text x="68" y="106" class="muted s">同一现成 checkpoint；T=0 为 argmax，T=1 为标准采样。横条为相对 T5X 基线的 wall-time speedup。</text>
+
+  <g transform="translate(70 150)">
+    <rect width="1260" height="590" rx="22" fill="#0d2038" stroke="#29435f"/>
+    <g class="muted s"><text x="28" y="44">任务 / Draft / T</text><text x="345" y="44">γ</text><text x="410" y="44">α</text><text x="500" y="44">1×</text><text x="700" y="44">2×</text><text x="900" y="44">3×</text><text x="1100" y="44">4×</text></g>
+    <line x1="28" y1="58" x2="1218" y2="58" stroke="#34506e"/>
+    <g transform="translate(0 78)">
+      <g transform="translate(0 0)"><text x="28" y="26" class="m">En–De / small / 0</text><text x="350" y="26" class="s">7</text><text x="410" y="26" class="s">.75</text><rect x="500" y="4" width="680" height="30" rx="9" fill="url(#bar)"/><text x="1190" y="26" class="v">3.4×</text></g>
+      <g transform="translate(0 54)"><text x="28" y="26" class="m">En–De / base / 0</text><text x="350" y="26" class="s">7</text><text x="410" y="26" class="s">.80</text><rect x="500" y="4" width="560" height="30" rx="9" fill="url(#bar)"/><text x="1070" y="26" class="v">2.8×</text></g>
+      <g transform="translate(0 108)"><text x="28" y="26" class="m">En–De / large / 0</text><text x="350" y="26" class="s">7</text><text x="410" y="26" class="s">.82</text><rect x="500" y="4" width="340" height="30" rx="9" fill="url(#bar)"/><text x="850" y="26" class="v">1.7×</text></g>
+      <line x1="28" y1="150" x2="1218" y2="150" stroke="#29435f"/>
+      <g transform="translate(0 166)"><text x="28" y="26" class="m">En–De / small / 1</text><text x="350" y="26" class="s">7</text><text x="410" y="26" class="s">.62</text><rect x="500" y="4" width="520" height="30" rx="9" fill="url(#bar)"/><text x="1030" y="26" class="v">2.6×</text></g>
+      <g transform="translate(0 220)"><text x="28" y="26" class="m">En–De / base / 1</text><text x="350" y="26" class="s">5</text><text x="410" y="26" class="s">.68</text><rect x="500" y="4" width="480" height="30" rx="9" fill="url(#bar)"/><text x="990" y="26" class="v">2.4×</text></g>
+      <g transform="translate(0 274)"><text x="28" y="26" class="m">En–De / large / 1</text><text x="350" y="26" class="s">3</text><text x="410" y="26" class="s">.71</text><rect x="500" y="4" width="280" height="30" rx="9" fill="url(#bar)"/><text x="790" y="26" class="v">1.4×</text></g>
+      <line x1="28" y1="316" x2="1218" y2="316" stroke="#29435f"/>
+      <g transform="translate(0 332)"><text x="28" y="26" class="m">CNN/DM / small / 0</text><text x="350" y="26" class="s">5</text><text x="410" y="26" class="s">.65</text><rect x="500" y="4" width="620" height="30" rx="9" fill="url(#bar)"/><text x="1130" y="26" class="v">3.1×</text></g>
+      <g transform="translate(0 386)"><text x="28" y="26" class="m">CNN/DM / base / 0</text><text x="350" y="26" class="s">5</text><text x="410" y="26" class="s">.73</text><rect x="500" y="4" width="600" height="30" rx="9" fill="url(#bar)"/><text x="1110" y="26" class="v">3.0×</text></g>
+      <g transform="translate(0 440)"><text x="28" y="26" class="m">CNN/DM / small / 1</text><text x="350" y="26" class="s">5</text><text x="410" y="26" class="s">.53</text><rect x="500" y="4" width="460" height="30" rx="9" fill="url(#bar)"/><text x="970" y="26" class="v">2.3×</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(70 775)">
+    <rect width="1260" height="52" rx="16" fill="#332d1f" stroke="#d4aa47"/>
+    <text x="26" y="34" class="m" fill="#ffd477">反直觉：larger draft 的 α 更高，但 c 也更高；T5-small 多数组合反而最快。</text>
+  </g>
+</svg>

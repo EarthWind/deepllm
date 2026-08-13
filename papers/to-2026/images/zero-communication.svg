@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">普通数据并行与 ZeRO 各阶段的通信量</title>
+  <desc id="desc">论文的带宽主导简化分析中，普通数据并行一次梯度 all-reduce 等价于 P 的 reduce-scatter 加 P 的 all-gather。ZeRO Stage 1 和 2 用梯度 reduce-scatter 加更新参数 all-gather，仍是 2P；Stage 3 前向和反向各聚合一次参数，加梯度 reduce-scatter，共 3P。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#18264a"/></linearGradient>
+    <marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#5ca8ee"/></marker>
+    <marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#55dace"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#edf4ff;font-size:18px;font-weight:700}.b{fill:#bfd0e7;font-size:14px}.v{fill:#fff;font-size:28px;font-weight:800}.tiny{fill:#8ea7c6;font-size:12px}</style>
+  </defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="63">ZeRO 没有免费午餐，但前两步没有增加总通信量</text>
+  <text class="sub" x="55" y="94">论文简化模型按每个 process 的 data movement 计数，忽略 ring 的 (N−1)/N 修正、latency、拓扑与 overlap</text>
+
+  <g transform="translate(55 143)">
+    <g><rect width="340" height="423" rx="20" fill="#10233d" stroke="#334d6d"/><text class="h" x="22" y="39">普通 Data Parallel</text><text class="tiny" x="22" y="63">gradient all-reduce</text>
+      <g transform="translate(35 107)"><circle cx="28" cy="28" r="28" fill="#1f4a70"/><text x="28" y="34" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">∇θ</text><line x1="64" y1="28" x2="245" y2="28" stroke="#5ca8ee" stroke-width="4" marker-end="url(#a1)"/><text class="b" x="153" y="17" text-anchor="middle">reduce-scatter</text><text class="tiny" x="153" y="50" text-anchor="middle">P elements</text></g>
+      <g transform="translate(35 206)"><circle cx="28" cy="28" r="28" fill="#1f4a70"/><text x="28" y="34" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">∇θᵢ</text><line x1="64" y1="28" x2="245" y2="28" stroke="#5ca8ee" stroke-width="4" marker-end="url(#a1)"/><text class="b" x="153" y="17" text-anchor="middle">all-gather gradients</text><text class="tiny" x="153" y="50" text-anchor="middle">P elements</text></g>
+      <text class="v" x="170" y="337" text-anchor="middle">2P</text><text class="tiny" x="170" y="368" text-anchor="middle">每 rank 恢复完整平均 gradient</text>
+    </g>
+    <g transform="translate(375)"><rect width="340" height="423" rx="20" fill="#102b3b" stroke="#35c9bd"/><text class="h" x="22" y="39">ZeRO Stage 1 / 2</text><text class="tiny" x="22" y="63">把第二半的 payload 换成 updated params</text>
+      <g transform="translate(35 107)"><circle cx="28" cy="28" r="28" fill="#19534f"/><text x="28" y="34" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">∇θ</text><line x1="64" y1="28" x2="245" y2="28" stroke="#55dace" stroke-width="4" marker-end="url(#a2)"/><text class="b" x="153" y="17" text-anchor="middle">reduce-scatter</text><text class="tiny" x="153" y="50" text-anchor="middle">P elements</text></g>
+      <g transform="translate(35 206)"><circle cx="28" cy="28" r="28" fill="#19534f"/><text x="28" y="34" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">θᵢ′</text><line x1="64" y1="28" x2="245" y2="28" stroke="#55dace" stroke-width="4" marker-end="url(#a2)"/><text class="b" x="153" y="17" text-anchor="middle">all-gather parameters</text><text class="tiny" x="153" y="50" text-anchor="middle">P elements</text></g>
+      <text class="v" x="170" y="337" text-anchor="middle">2P</text><text class="tiny" x="170" y="368" text-anchor="middle">与 baseline 相同；语义仍是全局平均梯度</text>
+    </g>
+    <g transform="translate(750)"><rect width="340" height="423" rx="20" fill="#302f58" stroke="#8c76dd"/><text class="h" x="22" y="39">ZeRO Stage 3</text><text class="tiny" x="22" y="63">参数不常驻，按需 materialize 两次</text>
+      <g transform="translate(29 102)"><rect width="282" height="48" rx="10" fill="#413b70"/><text class="b" x="15" y="29">forward parameter all-gather</text><text x="259" y="30" text-anchor="end" fill="#ddd5ff" font-size="14" font-weight="800">P</text></g>
+      <g transform="translate(29 169)"><rect width="282" height="48" rx="10" fill="#413b70"/><text class="b" x="15" y="29">backward parameter all-gather</text><text x="259" y="30" text-anchor="end" fill="#ddd5ff" font-size="14" font-weight="800">P</text></g>
+      <g transform="translate(29 236)"><rect width="282" height="48" rx="10" fill="#244b63"/><text class="b" x="15" y="29">gradient reduce-scatter</text><text x="259" y="30" text-anchor="end" fill="#9ed3ff" font-size="14" font-weight="800">P</text></g>
+      <text class="v" x="170" y="337" text-anchor="middle">3P</text><text class="tiny" x="170" y="368" text-anchor="middle">baseline 的 1.5×，换来接近 N 倍容量</text>
+    </g>
+  </g>
+  <g transform="translate(55 596)"><rect width="1090" height="47" rx="12" fill="#10233d"/><text class="b" x="22" y="29">通信量相同 ≠ 时间相同：collective 类型、bucket 大小、跨节点带宽、prefetch 和 overlap 都会改变实际 step time。</text><text x="1068" y="29" text-anchor="end" fill="#70e4da" font-size="13" font-weight="700">2P → 2P → 3P</text></g>
+</svg>

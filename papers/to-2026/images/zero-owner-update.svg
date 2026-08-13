@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">ZeRO 的 owner-computes 更新流程</title>
+  <desc id="desc">四个数据并行 rank 先对梯度做 reduce-scatter，每个 rank 只用自己负责的梯度和 Adam 状态更新对应参数分片，再 all-gather 更新后的参数，恢复下一轮所需的完整参数副本。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#18264a"/></linearGradient>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="#64d8cf"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#edf4ff;font-size:18px;font-weight:700}.b{fill:#bfd0e7;font-size:14px}.tiny{fill:#8ea7c6;font-size:12px}.chip{fill:#061d2c;font-size:13px;font-weight:800}</style>
+  </defs>
+  <rect width="1200" height="700" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="63">关键不是“少算一次 Adam”，而是让每份状态只有一个 owner</text>
+  <text class="sub" x="55" y="94">4-way DP 教学示意 · 每个 rank 仍处理不同 microbatch；优化语义与平均梯度上的普通 Adam 等价</text>
+
+  <g transform="translate(55 134)">
+    <rect width="1090" height="125" rx="20" fill="#10233d" stroke="#334d6d"/>
+    <text class="h" x="24" y="36">① backward：每个 rank 产生本地完整 gradient</text>
+    <g transform="translate(35 58)">
+      <g><rect width="230" height="44" rx="10" fill="#1e3b5a"/><text class="b" x="16" y="28">rank 0 · g₀ = [A B C D]</text></g>
+      <g transform="translate(265)"><rect width="230" height="44" rx="10" fill="#1e3b5a"/><text class="b" x="16" y="28">rank 1 · g₁ = [A B C D]</text></g>
+      <g transform="translate(530)"><rect width="230" height="44" rx="10" fill="#1e3b5a"/><text class="b" x="16" y="28">rank 2 · g₂ = [A B C D]</text></g>
+      <g transform="translate(795)"><rect width="230" height="44" rx="10" fill="#1e3b5a"/><text class="b" x="16" y="28">rank 3 · g₃ = [A B C D]</text></g>
+    </g>
+  </g>
+
+  <path d="M600 269v40" stroke="#64d8cf" stroke-width="3" marker-end="url(#arr)"/><text x="620" y="296" fill="#70e4da" font-size="13" font-weight="700">REDUCE-SCATTER：求平均并按 owner 分发</text>
+
+  <g transform="translate(55 322)">
+    <rect width="1090" height="174" rx="20" fill="#10283c" stroke="#2f7d83"/>
+    <text class="h" x="24" y="36">② owner-computes：每个 rank 只更新自己的 1 / N</text>
+    <g transform="translate(35 60)">
+      <g><rect width="230" height="84" rx="12" fill="#113f46" stroke="#35c9bd"/><rect x="14" y="14" width="44" height="28" rx="7" fill="#35c9bd"/><text class="chip" x="36" y="33" text-anchor="middle">A</text><text class="b" x="70" y="34">ḡᴬ + Adamᴬ</text><text class="tiny" x="14" y="66">更新 parameter shard A</text></g>
+      <g transform="translate(265)"><rect width="230" height="84" rx="12" fill="#163a56" stroke="#5298df"/><rect x="14" y="14" width="44" height="28" rx="7" fill="#5298df"/><text class="chip" x="36" y="33" text-anchor="middle">B</text><text class="b" x="70" y="34">ḡᴮ + Adamᴮ</text><text class="tiny" x="14" y="66">更新 parameter shard B</text></g>
+      <g transform="translate(530)"><rect width="230" height="84" rx="12" fill="#302f58" stroke="#8c76dd"/><rect x="14" y="14" width="44" height="28" rx="7" fill="#8c76dd"/><text class="chip" x="36" y="33" text-anchor="middle">C</text><text class="b" x="70" y="34">ḡᶜ + Adamᶜ</text><text class="tiny" x="14" y="66">更新 parameter shard C</text></g>
+      <g transform="translate(795)"><rect width="230" height="84" rx="12" fill="#503928" stroke="#d99a52"/><rect x="14" y="14" width="44" height="28" rx="7" fill="#d99a52"/><text class="chip" x="36" y="33" text-anchor="middle">D</text><text class="b" x="70" y="34">ḡᴰ + Adamᴰ</text><text class="tiny" x="14" y="66">更新 parameter shard D</text></g>
+    </g>
+  </g>
+
+  <path d="M600 506v40" stroke="#64d8cf" stroke-width="3" marker-end="url(#arr)"/><text x="620" y="533" fill="#70e4da" font-size="13" font-weight="700">ALL-GATHER：收集更新后的 parameter shards</text>
+  <g transform="translate(55 559)"><rect width="1090" height="83" rx="18" fill="#10233d" stroke="#334d6d"/>
+    <text class="h" x="24" y="34">③ 下一 step 的参数视图</text><text class="b" x="24" y="61">Stage 1/2：每个 rank 恢复 [A′ B′ C′ D′]；Stage 3：仍只常驻自己的 shard，需要某层时才临时 gather</text>
+    <g transform="translate(783 21)"><rect width="57" height="40" rx="8" fill="#35c9bd"/><rect x="62" width="57" height="40" rx="8" fill="#5298df"/><rect x="124" width="57" height="40" rx="8" fill="#8c76dd"/><rect x="186" width="57" height="40" rx="8" fill="#d99a52"/><g class="chip" text-anchor="middle"><text x="28.5" y="26">A′</text><text x="90.5" y="26">B′</text><text x="152.5" y="26">C′</text><text x="214.5" y="26">D′</text></g></g>
+  </g>
+  <text class="tiny" x="55" y="674">Stage 1 与 Stage 2 的通信主干相同；差别在于 Stage 2 随 bucket reduce-scatter 后立即释放非本地 gradients，降低持久峰值。</text>
+</svg>

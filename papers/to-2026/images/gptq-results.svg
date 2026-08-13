@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740" role="img" aria-labelledby="title desc">
+  <title id="title">GPTQ 论文中的 175B 级准确率、量化时间与生成速度结果</title>
+  <desc id="desc">OPT-175B 和 BLOOM-176B 在 WikiText2 上的困惑度，单张 A100 的量化时间，以及三比特 OPT-175B 在 A100 和 A6000 上的每 token 延迟。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#182348"/></linearGradient>
+    <linearGradient id="q" x2="1"><stop stop-color="#715dd9"/><stop offset="1" stop-color="#2fc0b7"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#f0f5ff;font-size:18px;font-weight:720}.b{fill:#c4d4e9;font-size:14px}.tiny{fill:#91a9c6;font-size:12px}.v{fill:#fff;font-size:22px;font-weight:800}.good{fill:#76e0d6;font-size:14px;font-weight:700}.warn{fill:#ffbe68;font-size:14px;font-weight:700}</style>
+  </defs>
+  <rect width="1200" height="740" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="62">论文结果：3-bit 仍保持可用准确率，收益主要来自少搬权重</text>
+  <text class="sub" x="55" y="94">原论文 / arXiv v2 数据；困惑度越低越好，延迟越低越好</text>
+
+  <g transform="translate(55 135)">
+    <rect width="525" height="270" rx="22" fill="#101f39" stroke="#344e70"/>
+    <text class="h" x="25" y="36">WikiText2 perplexity</text>
+    <text class="tiny" x="500" y="36" text-anchor="end">注意：不同模型之间不横比绝对值</text>
+    <g transform="translate(25 68)">
+      <text class="b" x="0" y="28">OPT-175B</text>
+      <rect x="105" width="83" height="39" rx="10" fill="#35516f"/><text class="v" x="146" y="27" text-anchor="middle">8.34</text>
+      <rect x="198" width="83" height="39" rx="10" fill="#246f80"/><text class="v" x="239" y="27" text-anchor="middle">8.37</text>
+      <rect x="291" width="83" height="39" rx="10" fill="#6054b5"/><text class="v" x="332" y="27" text-anchor="middle">8.68</text>
+      <rect x="384" width="91" height="39" rx="10" fill="#583344" stroke="#c36a61"/><text x="429" y="26" text-anchor="middle" fill="#ffb4a4" font-size="17" font-weight="800">7.3×10³</text>
+      <text class="tiny" x="146" y="58" text-anchor="middle">FP16</text><text class="tiny" x="239" y="58" text-anchor="middle">GPTQ 4b</text><text class="tiny" x="332" y="58" text-anchor="middle">GPTQ 3b</text><text class="tiny" x="429" y="58" text-anchor="middle">RTN 3b</text>
+    </g>
+    <g transform="translate(25 172)">
+      <text class="b" x="0" y="28">BLOOM-176B</text>
+      <rect x="105" width="83" height="39" rx="10" fill="#35516f"/><text class="v" x="146" y="27" text-anchor="middle">8.11</text>
+      <rect x="198" width="83" height="39" rx="10" fill="#246f80"/><text class="v" x="239" y="27" text-anchor="middle">8.21</text>
+      <rect x="291" width="83" height="39" rx="10" fill="#6054b5"/><text class="v" x="332" y="27" text-anchor="middle">8.64</text>
+      <rect x="384" width="91" height="39" rx="10" fill="#583344" stroke="#c36a61"/><text x="429" y="26" text-anchor="middle" fill="#ffb4a4" font-size="17" font-weight="800">571</text>
+      <text class="tiny" x="146" y="58" text-anchor="middle">FP16</text><text class="tiny" x="239" y="58" text-anchor="middle">GPTQ 4b</text><text class="tiny" x="332" y="58" text-anchor="middle">GPTQ 3b</text><text class="tiny" x="429" y="58" text-anchor="middle">RTN 3b</text>
+    </g>
+  </g>
+
+  <g transform="translate(605 135)">
+    <rect width="540" height="270" rx="22" fill="#101f39" stroke="#344e70"/>
+    <text class="h" x="25" y="36">3-bit OPT-175B · batch 1 · 生成 128 tokens</text>
+    <g transform="translate(28 75)">
+      <text class="b" x="0" y="24">A100 80GB</text>
+      <rect x="112" width="328" height="31" rx="8" fill="#36506b"/><rect x="112" y="40" width="101" height="31" rx="8" fill="url(#q)"/>
+      <text class="tiny" x="500" y="21" text-anchor="end">FP16 · 230 ms/token · 5 GPUs</text><text class="good" x="500" y="62" text-anchor="end">3-bit · 71 ms · 1 GPU · 3.24×</text>
+    </g>
+    <g transform="translate(28 177)">
+      <text class="b" x="0" y="24">A6000 48GB</text>
+      <rect x="112" width="328" height="31" rx="8" fill="#36506b"/><rect x="112" y="40" width="72" height="31" rx="8" fill="url(#q)"/>
+      <text class="tiny" x="500" y="21" text-anchor="end">FP16 · 589 ms/token · 8 GPUs</text><text class="good" x="500" y="62" text-anchor="end">3-bit · 130 ms · 2 GPUs · 4.53×</text>
+    </g>
+  </g>
+
+  <g transform="translate(55 435)">
+    <rect width="1090" height="210" rx="22" fill="#0f213a" stroke="#2c4c68"/>
+    <text class="h" x="25" y="36">单张 A100 80GB 的离线量化时间</text>
+    <g transform="translate(25 63)">
+      <text class="tiny" x="0" y="17">OPT</text>
+      <g transform="translate(45)"><rect width="104" height="45" rx="10" fill="#1b3451"/><text class="b" x="52" y="20" text-anchor="middle">13B</text><text class="good" x="52" y="39" text-anchor="middle">20.9 min</text></g>
+      <g transform="translate(159)"><rect width="104" height="45" rx="10" fill="#1b3451"/><text class="b" x="52" y="20" text-anchor="middle">30B</text><text class="good" x="52" y="39" text-anchor="middle">44.9 min</text></g>
+      <g transform="translate(273)"><rect width="104" height="45" rx="10" fill="#1b3451"/><text class="b" x="52" y="20" text-anchor="middle">66B</text><text class="good" x="52" y="39" text-anchor="middle">1.6 h</text></g>
+      <g transform="translate(387)"><rect width="104" height="45" rx="10" fill="#29305b" stroke="#6d5fd0"/><text class="b" x="52" y="20" text-anchor="middle">175B</text><text class="good" x="52" y="39" text-anchor="middle">4.2 h</text></g>
+      <text class="tiny" x="555" y="17">BLOOM</text>
+      <g transform="translate(620)"><rect width="104" height="45" rx="10" fill="#173848"/><text class="b" x="52" y="20" text-anchor="middle">1.7B</text><text class="good" x="52" y="39" text-anchor="middle">2.9 min</text></g>
+      <g transform="translate(734)"><rect width="104" height="45" rx="10" fill="#173848"/><text class="b" x="52" y="20" text-anchor="middle">7.1B</text><text class="good" x="52" y="39" text-anchor="middle">10.0 min</text></g>
+      <g transform="translate(848)"><rect width="104" height="45" rx="10" fill="#193b47" stroke="#2bb9b1"/><text class="b" x="52" y="20" text-anchor="middle">176B</text><text class="good" x="52" y="39" text-anchor="middle">3.8 h</text></g>
+    </g>
+    <path d="M25 132H1065" stroke="#2b455e"/>
+    <circle cx="43" cy="163" r="7" fill="#31bdb4"/><text class="b" x="59" y="168">175B/176B 量化时间是数小时，而不是一次训练；论文全部模型均在单张 A100 上量化。</text>
+    <circle cx="43" cy="190" r="7" fill="#f0ad51"/><text class="b" x="59" y="195">速度来自特制 3-bit weight-only matvec kernel；不是任意硬件、任意 batch、任意 GPTQ 文件都会自动得到同样倍数。</text>
+  </g>
+  <text class="tiny" x="1145" y="710" text-anchor="end">RTN = round-to-nearest · 速度数据包含不同 GPU 数量，不能解读为纯单卡算力对比</text>
+</svg>

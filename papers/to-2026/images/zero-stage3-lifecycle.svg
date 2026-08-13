@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">ZeRO Stage 3 参数的时间生命周期</title>
+  <desc id="desc">参数分片平时分散常驻；在前向和反向传播到达某一层时临时聚合该层完整参数，计算结束后释放非本地分片，因此无需一直保存完整模型。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#18264a"/></linearGradient>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#8fadd0"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#edf4ff;font-size:18px;font-weight:700}.b{fill:#bfd0e7;font-size:14px}.tiny{fill:#8ea7c6;font-size:12px}.num{fill:#061d2c;font-size:13px;font-weight:800}</style>
+  </defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="63">Stage 3 的秘密是“时间”：完整参数只在使用窗口内存在</text>
+  <text class="sub" x="55" y="94">参数并没有消失；它从静态复制变成 persistent shards + layer-wise transient materialization</text>
+
+  <g transform="translate(55 138)"><rect width="1090" height="105" rx="20" fill="#10233d" stroke="#334d6d"/>
+    <text class="h" x="24" y="34">平时：每个 rank 只常驻自己的 parameter / gradient / optimizer shard</text>
+    <g transform="translate(660 22)"><g><rect width="82" height="55" rx="10" fill="#35c9bd"/><text class="num" x="41" y="34" text-anchor="middle">rank 0</text></g><g transform="translate(95)"><rect width="82" height="55" rx="10" fill="#5298df"/><text class="num" x="41" y="34" text-anchor="middle">rank 1</text></g><g transform="translate(190)"><rect width="82" height="55" rx="10" fill="#8c76dd"/><text class="num" x="41" y="34" text-anchor="middle">rank 2</text></g><g transform="translate(285)"><rect width="82" height="55" rx="10" fill="#d99a52"/><text class="num" x="41" y="34" text-anchor="middle">rank 3</text></g></g>
+    <text class="tiny" x="24" y="66">全模型常驻量 ≈ 16P / N；下面的完整层只是临时工作集</text>
+  </g>
+
+  <g transform="translate(55 286)">
+    <text class="h" x="0" y="0">Forward</text><text class="h" x="0" y="178">Backward</text>
+    <line x1="103" y1="-4" x2="1055" y2="-4" stroke="#8fadd0" stroke-width="2" marker-end="url(#arr)"/><line x1="103" y1="174" x2="1055" y2="174" stroke="#8fadd0" stroke-width="2" marker-end="url(#arr)"/>
+    <g transform="translate(115 23)">
+      <g><rect width="276" height="105" rx="16" fill="#102d3c" stroke="#35c9bd"/><text x="18" y="28" fill="#6de7dc" font-size="15" font-weight="750">Layer 0</text><text class="b" x="18" y="55">all-gather θ₀ → compute</text><text class="tiny" x="18" y="80">discard non-owned θ₀ shards</text></g>
+      <g transform="translate(321)"><rect width="276" height="105" rx="16" fill="#172f4b" stroke="#5298df"/><text x="18" y="28" fill="#8bc5ff" font-size="15" font-weight="750">Layer 1</text><text class="b" x="18" y="55">all-gather θ₁ → compute</text><text class="tiny" x="18" y="80">discard non-owned θ₁ shards</text></g>
+      <g transform="translate(642)"><rect width="276" height="105" rx="16" fill="#302f58" stroke="#8c76dd"/><text x="18" y="28" fill="#c9bcff" font-size="15" font-weight="750">Layer 2</text><text class="b" x="18" y="55">all-gather θ₂ → compute</text><text class="tiny" x="18" y="80">discard non-owned θ₂ shards</text></g>
+    </g>
+    <g transform="translate(115 201)">
+      <g><rect width="276" height="105" rx="16" fill="#302f58" stroke="#8c76dd"/><text x="18" y="28" fill="#c9bcff" font-size="15" font-weight="750">Layer 2</text><text class="b" x="18" y="55">re-gather θ₂ → gradients</text><text class="tiny" x="18" y="80">reduce-scatter ∇θ₂ to owners</text></g>
+      <g transform="translate(321)"><rect width="276" height="105" rx="16" fill="#172f4b" stroke="#5298df"/><text x="18" y="28" fill="#8bc5ff" font-size="15" font-weight="750">Layer 1</text><text class="b" x="18" y="55">re-gather θ₁ → gradients</text><text class="tiny" x="18" y="80">reduce-scatter ∇θ₁ to owners</text></g>
+      <g transform="translate(642)"><rect width="276" height="105" rx="16" fill="#102d3c" stroke="#35c9bd"/><text x="18" y="28" fill="#6de7dc" font-size="15" font-weight="750">Layer 0</text><text class="b" x="18" y="55">re-gather θ₀ → gradients</text><text class="tiny" x="18" y="80">reduce-scatter ∇θ₀ to owners</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(55 622)"><rect width="1090" height="36" rx="10" fill="#10233d"/><text class="tiny" x="545" y="23" text-anchor="middle">峰值还受最大 layer、prefetch bucket、通信 buffer 和未及时释放的参数影响，因此现实显存不是简单的 16P / N。</text></g>
+</svg>

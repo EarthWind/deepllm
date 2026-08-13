@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">ZeRO-R 对残余显存的三类优化</title>
+  <desc id="desc">ZeRO-R 不分片模型状态，而是处理 activation checkpoints、随模型增长的临时融合缓冲区和内存碎片；分片激活检查点可把论文 100B 示例中的每卡 33GB 降到约 2GB。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#18264a"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#edf4ff;font-size:18px;font-weight:700}.b{fill:#bfd0e7;font-size:14px}.v{fill:#fff;font-size:25px;font-weight:800}.tiny{fill:#8ea7c6;font-size:12px}</style>
+  </defs>
+  <rect width="1200" height="700" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="63">model states 分完以后，activation、buffer 和碎片会成为下一堵墙</text>
+  <text class="sub" x="55" y="94">ZeRO-R 是原论文的重要一半；它与今天“Stage 1/2/3”的 model-state 分级不是同一维度</text>
+
+  <g transform="translate(55 141)">
+    <g><rect width="350" height="455" rx="20" fill="#102b3b" stroke="#35c9bd"/><text class="h" x="22" y="40">P_a · 分片 activation checkpoint</text><text class="tiny" x="22" y="64">针对 MP ranks 上重复保存的 checkpoints</text>
+      <g transform="translate(25 105)"><rect width="300" height="55" rx="11" fill="#225b62"/><text class="b" x="17" y="24">复制 checkpoint</text><text class="v" x="282" y="38" text-anchor="end">33 GB</text></g>
+      <path d="M175 171v40" stroke="#5bdccf" stroke-width="3"/><path d="M166 202l9 11 9-11" fill="none" stroke="#5bdccf" stroke-width="3"/>
+      <g transform="translate(25 222)"><rect width="300" height="67" rx="11" fill="#143f4b" stroke="#35c9bd"/><text class="b" x="17" y="27">16-way MP 分片保存</text><text class="v" x="282" y="47" text-anchor="end">≈ 2 GB</text></g>
+      <text class="tiny" x="25" y="319">需要 backward 时 all-gather；超大模型还可</text><text class="tiny" x="25" y="341">把分片 checkpoint offload 到 CPU。</text>
+      <rect x="25" y="372" width="300" height="50" rx="10" fill="#182c42"/><text class="b" x="175" y="402" text-anchor="middle">100B · batch 32 · seq 1024 · MP 16</text>
+    </g>
+    <g transform="translate(370)"><rect width="350" height="455" rx="20" fill="#182b49" stroke="#4e8de5"/><text class="h" x="22" y="40">C_B · 固定大小临时 buffer</text><text class="tiny" x="22" y="64">吞吐需要大消息，但 buffer 不应随 P 无限长大</text>
+      <g transform="translate(25 107)"><text class="b" x="0" y="0">朴素 fused FP32 buffer</text><rect y="21" width="300" height="47" rx="10" fill="#315d87"/><text x="282" y="51" text-anchor="end" fill="#fff" font-size="17" font-weight="800">∝ model size</text><text class="tiny" x="0" y="91">论文例：3B parameters → 12 GB buffer</text></g>
+      <g transform="translate(25 251)"><text class="b" x="0" y="0">ZeRO constant-size buckets</text><rect y="21" width="88" height="47" rx="10" fill="#4e8de5"/><rect x="101" y="21" width="88" height="47" rx="10" fill="#4e8de5"/><rect x="202" y="21" width="88" height="47" rx="10" fill="#4e8de5"/><text class="tiny" x="0" y="91">足够大以吃满带宽，逐 bucket 复用同一上限</text></g>
+      <rect x="25" y="372" width="300" height="50" rx="10" fill="#182c42"/><text class="b" x="175" y="402" text-anchor="middle">memory O(P) → O(bucket size)</text>
+    </g>
+    <g transform="translate(740)"><rect width="350" height="455" rx="20" fill="#302f58" stroke="#8c76dd"/><text class="h" x="22" y="40">M_D · 主动内存去碎片</text><text class="tiny" x="22" y="64">按生命周期把长寿命对象搬进连续区</text>
+      <g transform="translate(25 107)"><text class="b" x="0" y="0">交错分配：有空闲，也可能找不到大连续块</text><g transform="translate(0 22)"><rect width="46" height="48" rx="5" fill="#8c76dd"/><rect x="51" width="22" height="48" rx="5" fill="#24374f"/><rect x="78" width="63" height="48" rx="5" fill="#4e8de5"/><rect x="146" width="27" height="48" rx="5" fill="#24374f"/><rect x="178" width="50" height="48" rx="5" fill="#8c76dd"/><rect x="233" width="67" height="48" rx="5" fill="#24374f"/></g><text class="tiny" x="0" y="93">论文观察极端情况下空闲超过 30% 仍 OOM</text></g>
+      <path d="M175 227v39" stroke="#b7a8f7" stroke-width="3"/><path d="M166 257l9 11 9-11" fill="none" stroke="#b7a8f7" stroke-width="3"/>
+      <g transform="translate(25 284)"><text class="b" x="0" y="0">预分配连续 activation / gradient 区</text><rect y="20" width="128" height="48" rx="7" fill="#8c76dd"/><rect x="134" y="20" width="112" height="48" rx="7" fill="#4e8de5"/><rect x="252" y="20" width="48" height="48" rx="7" fill="#24374f"/></g>
+      <rect x="25" y="372" width="300" height="50" rx="10" fill="#242747"/><text class="b" x="175" y="402" text-anchor="middle">减少 allocation failure 与 allocator 开销</text>
+    </g>
+  </g>
+  <text class="tiny" x="55" y="644">CPU activation offload 不是总会更快：PCIe 传输会降低吞吐，论文只在模型太大或可用 batch 太小时选择性启用。</text>
+</svg>
