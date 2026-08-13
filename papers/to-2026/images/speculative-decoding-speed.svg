@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a35"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#95a8c7}.h{font-size:34px;font-weight:800}.s{font-size:19px}.m{font-size:23px;font-weight:700}.math{font-family:"STIX Two Math","Times New Roman",serif}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg3)"/>
+  <text x="68" y="68" class="h">加速不是“γ+1 倍”：接受率 α、草稿成本 c 与 γ 共同决定甜点</text>
+  <text x="68" y="106" class="muted s">论文的 i.i.d. 近似模型；真实系统还受 kernel、KV Cache、batch 与调度影响</text>
+
+  <g transform="translate(70 150)">
+    <rect width="780" height="530" rx="22" fill="#0d2038" stroke="#29435f"/>
+    <text x="28" y="44" class="m">例：α=0.75，c=0.02 时的理论曲线</text>
+    <line x1="82" y1="445" x2="730" y2="445" stroke="#4b607e" stroke-width="2"/>
+    <line x1="82" y1="90" x2="82" y2="445" stroke="#4b607e" stroke-width="2"/>
+    <g class="muted s"><text x="48" y="451">1×</text><text x="48" y="344">2×</text><text x="48" y="237">3×</text><text x="48" y="130">4×</text></g>
+    <g class="muted s"><text x="106" y="480">1</text><text x="170" y="480">2</text><text x="234" y="480">3</text><text x="298" y="480">4</text><text x="362" y="480">5</text><text x="426" y="480">6</text><text x="490" y="480">7</text><text x="554" y="480">8</text><text x="618" y="480">9</text><text x="676" y="480">10</text><text x="358" y="515">lookahead γ</text></g>
+    <polyline points="114,368 178,314 242,276 306,249 370,231 434,220 498,213 562,209 626,208 690,209" fill="none" stroke="#38dbac" stroke-width="6"/>
+    <g fill="#65efc2" stroke="#071426" stroke-width="3"><circle cx="114" cy="368" r="8"/><circle cx="178" cy="314" r="8"/><circle cx="242" cy="276" r="8"/><circle cx="306" cy="249" r="8"/><circle cx="370" cy="231" r="8"/><circle cx="434" cy="220" r="8"/><circle cx="498" cy="213" r="8"/><circle cx="562" cy="209" r="8"/><circle cx="626" cy="208" r="10"/><circle cx="690" cy="209" r="8"/></g>
+    <path d="M626 190V132" stroke="#ffd06b" stroke-width="2"/>
+    <rect x="520" y="85" width="212" height="50" rx="14" fill="#3a301d" stroke="#e5b74d"/><text x="626" y="117" text-anchor="middle" class="s" fill="#ffd477">理论峰值约 γ=9</text>
+  </g>
+
+  <g transform="translate(890 150)">
+    <rect width="440" height="240" rx="22" fill="#101f3c" stroke="#42558d"/>
+    <text x="25" y="45" class="m">每轮期望提交 token</text>
+    <text x="25" y="100" class="math" font-size="32">E[N] = 1+α+⋯+α<tspan baseline-shift="super" font-size="22">γ</tspan></text>
+    <text x="25" y="148" class="math" font-size="30">= (1−α<tspan baseline-shift="super" font-size="20">γ+1</tspan>)/(1−α)</text>
+    <text x="25" y="202" class="s muted">包含“首拒绝后的修正”或“全接受后的 bonus”</text>
+    <rect y="270" width="440" height="250" rx="22" fill="#101f3c" stroke="#42558d"/>
+    <text x="25" y="316" class="m">期望 wall-time 加速</text>
+    <text x="25" y="378" class="math" font-size="29">S = (1−α<tspan baseline-shift="super" font-size="19">γ+1</tspan>)/[(1−α)(1+γc)]</text>
+    <text x="25" y="430" class="s muted">c = 一次 draft step / 一次 target step</text>
+    <text x="25" y="473" class="s muted">γ 增大：摊薄 target 轮次，但增加草稿成本与废稿</text>
+  </g>
+
+  <g transform="translate(70 716)">
+    <rect width="1260" height="62" rx="18" fill="#3a261f" stroke="#d66f55"/>
+    <text x="28" y="39" class="m" fill="#ffad92">论文公式是优化起点，不是部署承诺：应按真实长度桶、batch、硬件和采样配置实测 α、c、端到端延迟。</text>
+  </g>
+</svg>

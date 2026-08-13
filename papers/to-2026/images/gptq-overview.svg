@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">GPTQ 从校准到权重量化再到推理的全流程</title>
+  <desc id="desc">GPTQ 用少量无标签校准输入构造输入 Hessian，逐列量化权重并补偿误差，最终保存低比特码与量化参数；推理时激活仍为半精度。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#17254a"/></linearGradient>
+    <linearGradient id="blue" x2="1"><stop stop-color="#3386df"/><stop offset="1" stop-color="#63c7ef"/></linearGradient>
+    <linearGradient id="quant" x2="1"><stop stop-color="#725ce8"/><stop offset=".55" stop-color="#25c3c1"/><stop offset="1" stop-color="#f0a83b"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#82bdf2"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#f0f5ff;font-size:19px;font-weight:720}.b{fill:#c4d4e9;font-size:14px}.tiny{fill:#91a9c6;font-size:12px}.formula{fill:#ddecff;font-size:17px;font-weight:650}.pill{font-size:13px;font-weight:700}</style>
+  </defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="62">GPTQ：量化时看输入，推理时只带走压缩后的权重</text>
+  <text class="sub" x="55" y="94">目标不是让每个权重单独最接近，而是让整层输出 WX 与 QX 尽量一致</text>
+
+  <g transform="translate(52 138)">
+    <rect width="1096" height="330" rx="22" fill="#0d1e38" stroke="#2b4668"/>
+    <g transform="translate(28 35)">
+      <rect width="180" height="111" rx="17" fill="#132b4a" stroke="#3e77ac"/>
+      <text class="h" x="90" y="38" text-anchor="middle">校准输入 X</text>
+      <text class="b" x="90" y="68" text-anchor="middle">少量无标签 token</text>
+      <text class="tiny" x="90" y="91" text-anchor="middle">论文：C4 · 128 × 2048</text>
+    </g>
+    <g transform="translate(28 178)">
+      <rect width="180" height="111" rx="17" fill="#172744" stroke="#536c93"/>
+      <text class="h" x="90" y="38" text-anchor="middle">原权重 W</text>
+      <text class="b" x="90" y="68" text-anchor="middle">FP16 · 冻结</text>
+      <text class="tiny" x="90" y="91" text-anchor="middle">无梯度、无再训练</text>
+    </g>
+    <path d="M208 90H267" stroke="#82bdf2" stroke-width="4" marker-end="url(#arrow)"/>
+    <path d="M208 233H267" stroke="#82bdf2" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <g transform="translate(280 35)">
+      <rect width="236" height="254" rx="19" fill="#142747" stroke="#3e86c2"/>
+      <text class="h" x="118" y="36" text-anchor="middle">层级统计</text>
+      <rect x="25" y="59" width="186" height="64" rx="13" fill="#19395b"/>
+      <text class="formula" x="118" y="87" text-anchor="middle">H = 2XXᵀ</text>
+      <text class="tiny" x="118" y="109" text-anchor="middle">输入列之间的相关性</text>
+      <rect x="25" y="140" width="186" height="88" rx="13" fill="#172d50"/>
+      <text class="b" x="118" y="166" text-anchor="middle">每个输出行独立量化</text>
+      <text class="formula" x="118" y="193" text-anchor="middle">min ‖WX − QX‖²</text>
+      <text class="tiny" x="118" y="216" text-anchor="middle">所有行共享同一个 H</text>
+    </g>
+    <path d="M516 162H565" stroke="#82bdf2" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <g transform="translate(578 35)">
+      <rect width="245" height="254" rx="19" fill="#19264a" stroke="#765fdd"/>
+      <text class="h" x="122" y="36" text-anchor="middle">GPTQ 逐列决策</text>
+      <g transform="translate(25 62)">
+        <rect width="35" height="139" rx="7" fill="#4d79be"/><rect x="40" width="35" height="139" rx="7" fill="#5c6ad4"/><rect x="80" width="35" height="139" rx="7" fill="#785ddd"/><rect x="120" width="35" height="139" rx="7" fill="#369dbf"/><rect x="160" width="35" height="139" rx="7" fill="#2bbfb6"/>
+        <path d="M17 42C78 16 119 101 177 74" fill="none" stroke="#ffc365" stroke-width="4" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+        <text x="97" y="166" text-anchor="middle" fill="#b9cbe6" font-size="12">舍入误差 → 未来列补偿</text>
+      </g>
+      <rect x="35" y="218" width="175" height="27" rx="13" fill="#392d64"/>
+      <text class="pill" x="122" y="237" text-anchor="middle" fill="#d9d1ff">共享固定列顺序</text>
+    </g>
+    <path d="M823 162H869" stroke="#82bdf2" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <g transform="translate(882 35)">
+      <rect width="185" height="254" rx="19" fill="#153345" stroke="#2ec5b8"/>
+      <text class="h" x="92" y="36" text-anchor="middle">量化包 Q</text>
+      <rect x="25" y="57" width="135" height="83" rx="13" fill="url(#quant)"/>
+      <g fill="#0c1830" opacity=".8"><path d="M52 57v83M79 57v83M106 57v83M133 57v83"/><path d="M25 84h135M25 112h135"/></g>
+      <text x="92" y="108" text-anchor="middle" fill="white" font-size="21" font-weight="800">3 / 4 bit</text>
+      <text class="b" x="92" y="170" text-anchor="middle">packed codes</text>
+      <text class="b" x="92" y="195" text-anchor="middle">scales · zero points</text>
+      <text class="tiny" x="92" y="224" text-anchor="middle">另含分组/排列元数据</text>
+    </g>
+  </g>
+
+  <g transform="translate(52 495)">
+    <rect width="1096" height="135" rx="20" fill="#0f2038" stroke="#2d506b"/>
+    <text class="h" x="26" y="34">生成推理</text>
+    <rect x="27" y="53" width="173" height="53" rx="14" fill="#163251" stroke="#3a76a6"/><text class="b" x="113" y="76" text-anchor="middle">activation vector</text><text x="113" y="96" text-anchor="middle" fill="#79c5f1" font-size="14" font-weight="700">FP16</text>
+    <text x="224" y="86" fill="#8dbfe8" font-size="27">×</text>
+    <rect x="254" y="53" width="183" height="53" rx="14" fill="#213052" stroke="#715ed8"/><text class="b" x="345" y="76" text-anchor="middle">packed weights</text><text x="345" y="96" text-anchor="middle" fill="#c6b9ff" font-size="14" font-weight="700">3 / 4 bit</text>
+    <path d="M437 80H505" stroke="#82bdf2" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect x="519" y="47" width="258" height="65" rx="15" fill="#173449" stroke="#31bfb7"/><text x="648" y="74" text-anchor="middle" fill="#efffff" font-size="16" font-weight="700">动态反量化 + matvec</text><text class="tiny" x="648" y="97" text-anchor="middle">少搬权重，激活不量化</text>
+    <path d="M777 80H838" stroke="#82bdf2" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect x="852" y="53" width="217" height="53" rx="14" fill="#17384c" stroke="#37bfb6"/><text class="b" x="960" y="76" text-anchor="middle">output vector</text><text x="960" y="96" text-anchor="middle" fill="#75e0d5" font-size="14" font-weight="700">FP16</text>
+  </g>
+  <text class="tiny" x="1145" y="658" text-anchor="end">weight-only PTQ · calibration ≠ training</text>
+</svg>

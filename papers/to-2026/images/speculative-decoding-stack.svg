@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a35"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#95a8c7}.h{font-size:34px;font-weight:800}.s{font-size:19px}.m{font-size:23px;font-weight:700}.x{font-size:21px}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg6)"/>
+  <text x="68" y="68" class="h">从数学正确到线上加速：四层都要成立</text>
+  <text x="68" y="106" class="muted s">任何一层失配，都可能得到“分布没错但不快”或“很快但已不再精确”的系统</text>
+
+  <g transform="translate(160 155)">
+    <rect x="0" y="480" width="1080" height="120" rx="22" fill="#10233e" stroke="#4e79c7" stroke-width="2"/>
+    <text x="34" y="525" class="m">① 概率语义</text><text x="34" y="565" class="x">同一 token 空间；同一温度 / top-k / top-p 后的 p、q；p/q 接受；(p−q)₊ 修正</text>
+    <rect x="80" y="330" width="920" height="120" rx="22" fill="#112b3b" stroke="#3ca9bf" stroke-width="2"/>
+    <text x="114" y="375" class="m">② 模型执行</text><text x="114" y="415" class="x">Draft 串行 γ 步；Target 用 causal mask 一次验证 γ+1 个位置；bonus 不遗漏</text>
+    <rect x="160" y="180" width="760" height="120" rx="22" fill="#14312f" stroke="#3ac58f" stroke-width="2"/>
+    <text x="194" y="225" class="m">③ 状态管理</text><text x="194" y="265" class="x">两套 KV Cache、首拒绝 rollback、EOS/长度边界、RNG 与处理器顺序</text>
+    <rect x="240" y="30" width="600" height="120" rx="22" fill="#332a20" stroke="#d8a64c" stroke-width="2"/>
+    <text x="274" y="75" class="m">④ 服务调度</text><text x="274" y="115" class="x">batch raggedness、长度桶、显存、P50/P99、吞吐与延迟分别压测</text>
+  </g>
+</svg>

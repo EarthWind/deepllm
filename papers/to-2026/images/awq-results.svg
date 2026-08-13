@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.h{font-size:34px;font-weight:800}.m{font-size:23px;font-weight:700}.s{font-size:18px}.v{font-size:19px;font-weight:800}.muted{fill:#94a8c8}</style>
+  </defs>
+  <rect width="1400" height="900" rx="28" fill="url(#bg)"/>
+  <text x="66" y="66" class="h">MLSys 2024 主结果：3-bit 时 AWQ 优势更明显，4-bit 时继续缩小与 FP16 的差距</text>
+  <text x="66" y="104" class="s muted">WikiText-2 PPL↓；Llama-2-7B；所有量化方法均为 group size 128</text>
+
+  <g transform="translate(65 145)">
+    <rect width="615" height="485" rx="24" fill="#0d2038" stroke="#315077"/>
+    <text x="28" y="46" class="m">INT3-g128</text>
+    <text x="28" y="77" class="s muted">低 bit 放大量化算法差异</text>
+    <g transform="translate(34 115)">
+      <text y="30" class="m">FP16</text><rect x="150" y="4" width="274" height="35" rx="10" fill="#506f9a"/><text x="440" y="30" class="v">5.47</text>
+      <g transform="translate(0 65)"><text y="30" class="m">RTN</text><rect x="150" y="4" width="333" height="35" rx="10" fill="#c66561"/><text x="499" y="30" class="v">6.66</text></g>
+      <g transform="translate(0 130)"><text y="30" class="m">GPTQ</text><rect x="150" y="4" width="321" height="35" rx="10" fill="#8b70ca"/><text x="487" y="30" class="v">6.43</text></g>
+      <g transform="translate(0 195)"><text y="30" class="m">GPTQ-R</text><rect x="150" y="4" width="320" height="35" rx="10" fill="#756ca8"/><text x="486" y="30" class="v">6.42</text></g>
+      <g transform="translate(0 260)"><text y="30" class="m" fill="#6ee8bd">AWQ</text><rect x="150" y="4" width="311" height="35" rx="10" fill="#39d1a4"/><text x="477" y="30" class="v" fill="#6ee8bd">6.24</text></g>
+    </g>
+    <text x="307" y="452" text-anchor="middle" class="s muted">AWQ 相对 RTN 降低 0.42 PPL</text>
+  </g>
+
+  <g transform="translate(720 145)">
+    <rect width="615" height="485" rx="24" fill="#0d2038" stroke="#315077"/>
+    <text x="28" y="46" class="m">INT4-g128</text>
+    <text x="28" y="77" class="s muted">RTN 已很强，AWQ 仍为表中最佳量化值</text>
+    <g transform="translate(34 115)">
+      <text y="30" class="m">FP16</text><rect x="150" y="4" width="438" height="35" rx="10" fill="#506f9a"/><text x="565" y="30" text-anchor="end" class="v">5.47</text>
+      <g transform="translate(0 65)"><text y="30" class="m">RTN</text><rect x="150" y="4" width="459" height="35" rx="10" fill="#c66561"/><text x="580" y="30" text-anchor="end" class="v">5.73</text></g>
+      <g transform="translate(0 130)"><text y="30" class="m">GPTQ</text><rect x="150" y="4" width="455" height="35" rx="10" fill="#8b70ca"/><text x="576" y="30" text-anchor="end" class="v">5.69</text></g>
+      <g transform="translate(0 195)"><text y="30" class="m">GPTQ-R</text><rect x="150" y="4" width="450" height="35" rx="10" fill="#756ca8"/><text x="571" y="30" text-anchor="end" class="v">5.63</text></g>
+      <g transform="translate(0 260)"><text y="30" class="m" fill="#6ee8bd">AWQ</text><rect x="150" y="4" width="448" height="35" rx="10" fill="#39d1a4"/><text x="569" y="30" text-anchor="end" class="v" fill="#6ee8bd">5.60</text></g>
+    </g>
+    <text x="307" y="452" text-anchor="middle" class="s muted">距离 FP16 仅 0.13 PPL；不等于所有任务无损</text>
+  </g>
+
+  <g transform="translate(65 670)">
+    <rect width="1270" height="155" rx="23" fill="#10283b" stroke="#3bd1a5"/>
+    <text x="28" y="44" class="m">跨任务证据与系统结果</text>
+    <text x="28" y="83" class="s">OpenFlamingo-9B，COCO 32-shot CIDEr：FP16 81.70，INT4 RTN 77.13，GPTQ 74.98，AWQ 80.53。</text>
+    <text x="28" y="119" class="s">TinyChat：论文报告 RTX 4090 最多 3.9×、Jetson Orin 最多 3.5×，总体平均约 3.2-3.3× 相对 HuggingFace FP16。</text>
+  </g>
+  <text x="700" y="867" text-anchor="middle" class="s muted">PPL、CIDEr 与 tokens/s 来自不同模型、任务和实现；应分别读，不应合成一个“无损且固定 4×”的结论。</text>
+</svg>

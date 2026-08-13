@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">GPTQ 如何沿相关输入方向补偿量化误差</title>
+  <desc id="desc">当两个输入特征相关时，某个权重舍入后可调整尚未量化的相关权重，使层输出误差保持较小；逆 Hessian 决定补偿方向和代价。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071427"/><stop offset="1" stop-color="#191d43"/></linearGradient>
+    <radialGradient id="valley"><stop stop-color="#283d70" stop-opacity=".1"/><stop offset="1" stop-color="#263b6d" stop-opacity=".8"/></radialGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#ffbe55"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#f0f5ff;font-size:19px;font-weight:720}.b{fill:#c4d4e9;font-size:14px}.tiny{fill:#91a9c6;font-size:12px}.formula{fill:#e2edff;font-size:17px;font-weight:650}</style>
+  </defs>
+  <rect width="1200" height="700" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="62">量化一个权重，不等于独立地处理一个数</text>
+  <text class="sub" x="55" y="94">若输入特征彼此相关，改变未来权重可以抵消当前舍入对层输出造成的影响</text>
+
+  <g transform="translate(55 135)">
+    <rect width="440" height="375" rx="22" fill="#0f213c" stroke="#304c70"/>
+    <text class="h" x="24" y="36">二维直觉：输出误差是一条狭长谷底</text>
+    <g transform="translate(60 75)">
+      <path d="M20 245H335M45 270V10" stroke="#5d7597" stroke-width="2"/>
+      <text class="tiny" x="339" y="250">w₀</text><text class="tiny" x="31" y="12">w₁</text>
+      <g fill="none" stroke="#526aa5" stroke-width="2" transform="rotate(-31 180 138)">
+        <ellipse cx="180" cy="138" rx="145" ry="38"/><ellipse cx="180" cy="138" rx="110" ry="28"/><ellipse cx="180" cy="138" rx="76" ry="18"/>
+      </g>
+      <circle cx="177" cy="139" r="8" fill="#68d7cf"/><text x="189" y="128" fill="#80e4dd" font-size="13">原权重 w</text>
+      <path d="M177 139H242" stroke="#ffbe55" stroke-width="4" marker-end="url(#arrow)"/>
+      <circle cx="251" cy="139" r="8" fill="#f2a844"/><text x="260" y="130" fill="#ffd187" font-size="13">只舍入 w₀</text>
+      <path d="M251 139L270 110" stroke="#ff7d79" stroke-width="3" stroke-dasharray="7 5"/>
+      <circle cx="270" cy="110" r="8" fill="#8d75ef"/><text x="279" y="101" fill="#cabeff" font-size="13">再补偿 w₁</text>
+      <text class="tiny" x="177" y="292" text-anchor="middle">相关性越强，等误差椭圆越倾斜；补偿空间越有价值</text>
+    </g>
+  </g>
+
+  <g transform="translate(520 135)">
+    <rect width="625" height="375" rx="22" fill="#101f3a" stroke="#3a4878"/>
+    <text class="h" x="25" y="36">公式：逆 Hessian 把舍入残差投向未量化列</text>
+    <g transform="translate(27 64)">
+      <rect width="170" height="116" rx="16" fill="#173253" stroke="#3b7db0"/>
+      <text class="b" x="85" y="29" text-anchor="middle">输入相关性</text>
+      <text class="formula" x="85" y="61" text-anchor="middle">H = 2XXᵀ</text>
+      <g transform="translate(50 73)"><rect width="30" height="25" fill="#3d7db1"/><rect x="31" width="30" height="25" fill="#885fe0"/><rect y="26" width="30" height="25" fill="#885fe0"/><rect x="31" y="26" width="30" height="25" fill="#3d7db1"/></g>
+      <text x="207" y="70" fill="#82bdf2" font-size="26">→</text>
+      <rect x="235" width="330" height="116" rx="16" fill="#22274d" stroke="#735ed5"/>
+      <text class="b" x="400" y="29" text-anchor="middle">量化第 q 列后的最优补偿</text>
+      <text class="formula" x="400" y="62" text-anchor="middle">δ<tspan baseline-shift="sub" font-size="12">F</tspan> = − (w<tspan baseline-shift="sub" font-size="12">q</tspan> − quant(w<tspan baseline-shift="sub" font-size="12">q</tspan>)) / [H<tspan baseline-shift="super" font-size="12">−1</tspan>]<tspan baseline-shift="sub" font-size="12">qq</tspan></text>
+      <text class="formula" x="400" y="91" text-anchor="middle">× (H<tspan baseline-shift="super" font-size="12">−1</tspan>)<tspan baseline-shift="sub" font-size="12">:,q</tspan></text>
+    </g>
+    <g transform="translate(27 205)">
+      <rect width="268" height="127" rx="16" fill="#172944" stroke="#405b81"/>
+      <text class="b" x="134" y="29" text-anchor="middle">量化选择的局部代价</text>
+      <text class="formula" x="134" y="65" text-anchor="middle">(quant(w<tspan baseline-shift="sub" font-size="12">q</tspan>) − w<tspan baseline-shift="sub" font-size="12">q</tspan>)²</text>
+      <path d="M53 78H215" stroke="#7f98b9"/><text class="formula" x="134" y="105" text-anchor="middle">[H<tspan baseline-shift="super" font-size="12">−1</tspan>]<tspan baseline-shift="sub" font-size="12">qq</tspan></text>
+      <rect x="294" width="271" height="127" rx="16" fill="#173347" stroke="#2fbab2"/>
+      <text class="b" x="429" y="29" text-anchor="middle">移除已量化坐标</text>
+      <text x="429" y="57" text-anchor="middle" fill="#d9f7f4" font-size="15" font-weight="650">Schur complement downdate</text>
+      <text class="tiny" x="429" y="85" text-anchor="middle">只保留未来列 F 的逆 Hessian</text>
+      <text class="tiny" x="429" y="107" text-anchor="middle">下一列继续使用更新后的曲率</text>
+    </g>
+  </g>
+
+  <g transform="translate(55 542)">
+    <rect width="1090" height="103" rx="18" fill="#10253b" stroke="#2b526b"/>
+    <text class="h" x="26" y="33">两个边界情况</text>
+    <circle cx="44" cy="66" r="7" fill="#64c8ed"/><text class="b" x="61" y="71">若 H 近似对角：特征几乎不相关，未来列可补偿的空间很小，GPTQ 更接近 RTN。</text>
+    <circle cx="585" cy="66" r="7" fill="#b179ef"/><text class="b" x="602" y="67">若 H 病态：补偿可能被放大，需加入 1% 平均对角线阻尼，<tspan x="602" dy="20">并用 Cholesky 稳定计算。</tspan></text>
+  </g>
+  <text class="tiny" x="1145" y="676" text-anchor="end">H 是层重构目标的 Hessian，不是完整网络 loss 的精确 Hessian</text>
+</svg>

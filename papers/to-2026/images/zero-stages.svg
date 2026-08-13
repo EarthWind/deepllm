@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">ZeRO-DP 三个累积阶段的显存账本</title>
+  <desc id="desc">以混合精度 Adam 和 64 路数据并行为例，从普通数据并行到 ZeRO Stage 3，依次分片优化器状态、梯度和参数，7.5B 模型的每卡模型状态从 120 GB 降至 1.875 GB。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#18264a"/></linearGradient>
+    <linearGradient id="p" x2="1"><stop stop-color="#2dc7bd"/><stop offset="1" stop-color="#55e3c5"/></linearGradient>
+    <linearGradient id="g" x2="1"><stop stop-color="#4e8de5"/><stop offset="1" stop-color="#6bb7ff"/></linearGradient>
+    <linearGradient id="o" x2="1"><stop stop-color="#8b63dc"/><stop offset="1" stop-color="#c080ed"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{fill:#f6f9ff;font-size:30px;font-weight:750}.sub{fill:#9eb5d4;font-size:15px}.h{fill:#edf4ff;font-size:18px;font-weight:700}.b{fill:#bfd0e7;font-size:14px}.v{fill:#fff;font-size:23px;font-weight:800}.tiny{fill:#8ea7c6;font-size:12px}.formula{fill:#dce9fa;font-size:16px;font-weight:650}</style>
+  </defs>
+  <rect width="1200" height="680" rx="24" fill="url(#bg)"/>
+  <text class="t" x="55" y="63">ZeRO 的三步不是三套算法，而是一层层消掉数据并行副本</text>
+  <text class="sub" x="55" y="94">论文账本：FP16 parameter 2P + FP16 gradient 2P + FP32 Adam states 12P = 16P bytes</text>
+
+  <g transform="translate(55 137)">
+    <g>
+      <rect width="255" height="443" rx="20" fill="#10233d" stroke="#334d6d"/>
+      <text class="h" x="20" y="38">普通 DP</text><text class="tiny" x="20" y="61">每个 rank 都有完整副本</text>
+      <g transform="translate(35 92)"><rect width="185" height="205" rx="14" fill="#1b2d49"/>
+        <rect y="153.75" width="185" height="51.25" rx="8" fill="url(#p)"/><rect y="102.5" width="185" height="51.25" fill="url(#g)"/><rect width="185" height="102.5" rx="8" fill="url(#o)"/>
+        <text x="92.5" y="58" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">optimizer 12P</text><text x="92.5" y="134" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">gradient 2P</text><text x="92.5" y="184" text-anchor="middle" fill="#062e2b" font-size="14" font-weight="800">parameter 2P</text>
+      </g>
+      <text class="formula" x="127.5" y="334" text-anchor="middle">16P</text><text class="v" x="127.5" y="375" text-anchor="middle">120.000 GB</text><text class="tiny" x="127.5" y="405" text-anchor="middle">7.5B · DP=64</text>
+    </g>
+    <g transform="translate(275)">
+      <rect width="255" height="443" rx="20" fill="#10233d" stroke="#65518f"/>
+      <text class="h" x="20" y="38">Stage 1 · P_os</text><text class="tiny" x="20" y="61">先分 optimizer states</text>
+      <g transform="translate(35 92)"><rect width="185" height="205" rx="14" fill="#1b2d49"/>
+        <rect y="153.75" width="185" height="51.25" rx="8" fill="url(#p)"/><rect y="102.5" width="185" height="51.25" fill="url(#g)"/><rect y="94.5" width="185" height="8" rx="4" fill="url(#o)"/>
+        <text x="92.5" y="86" text-anchor="middle" fill="#cdaaf6" font-size="13" font-weight="700">optimizer 12P / N</text><text x="92.5" y="134" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">gradient 2P</text><text x="92.5" y="184" text-anchor="middle" fill="#062e2b" font-size="14" font-weight="800">parameter 2P</text>
+      </g>
+      <text class="formula" x="127.5" y="334" text-anchor="middle">4P + 12P / N</text><text class="v" x="127.5" y="375" text-anchor="middle">31.406 GB</text><text class="tiny" x="127.5" y="405" text-anchor="middle">约 3.8× 节省</text>
+    </g>
+    <g transform="translate(550)">
+      <rect width="255" height="443" rx="20" fill="#10233d" stroke="#426ca2"/>
+      <text class="h" x="20" y="38">Stage 2 · P_os+g</text><text class="tiny" x="20" y="61">再分 gradients</text>
+      <g transform="translate(35 92)"><rect width="185" height="205" rx="14" fill="#1b2d49"/>
+        <rect y="153.75" width="185" height="51.25" rx="8" fill="url(#p)"/><rect y="145.75" width="185" height="8" rx="4" fill="url(#g)"/><rect y="137.75" width="185" height="8" rx="4" fill="url(#o)"/>
+        <text x="92.5" y="112" text-anchor="middle" fill="#c9d9ef" font-size="12">optimizer 12P / N</text><text x="92.5" y="132" text-anchor="middle" fill="#88c9ff" font-size="12">gradient 2P / N</text><text x="92.5" y="184" text-anchor="middle" fill="#062e2b" font-size="14" font-weight="800">parameter 2P</text>
+      </g>
+      <text class="formula" x="127.5" y="334" text-anchor="middle">2P + 14P / N</text><text class="v" x="127.5" y="375" text-anchor="middle">16.641 GB</text><text class="tiny" x="127.5" y="405" text-anchor="middle">约 7.2×；N→∞ 时趋近 8×</text>
+    </g>
+    <g transform="translate(825)">
+      <rect width="255" height="443" rx="20" fill="#102b3b" stroke="#36c9bd"/>
+      <text class="h" x="20" y="38">Stage 3 · P_os+g+p</text><text class="tiny" x="20" y="61">最后连 parameters 也分</text>
+      <g transform="translate(35 92)"><rect width="185" height="205" rx="14" fill="#1b2d49"/>
+        <rect y="181" width="185" height="8" rx="4" fill="url(#p)"/><rect y="173" width="185" height="8" rx="4" fill="url(#g)"/><rect y="165" width="185" height="8" rx="4" fill="url(#o)"/>
+        <path d="M20 145h145" stroke="#45627d" stroke-dasharray="5 5"/><text x="92.5" y="122" text-anchor="middle" fill="#9fbbd7" font-size="12">三类状态都只常驻 1 / N</text><text x="92.5" y="143" text-anchor="middle" fill="#70e9dc" font-size="12">需要时临时 materialize</text>
+      </g>
+      <text class="formula" x="127.5" y="334" text-anchor="middle">16P / N</text><text class="v" x="127.5" y="375" text-anchor="middle">1.875 GB</text><text class="tiny" x="127.5" y="405" text-anchor="middle">64× 节省</text>
+    </g>
+  </g>
+  <g transform="translate(55 603)"><rect width="1090" height="43" rx="12" fill="#101f37" stroke="#294460"/>
+    <circle cx="26" cy="21.5" r="7" fill="url(#p)"/><text class="b" x="40" y="27">parameter</text><circle cx="158" cy="21.5" r="7" fill="url(#g)"/><text class="b" x="172" y="27">gradient</text><circle cx="286" cy="21.5" r="7" fill="url(#o)"/><text class="b" x="300" y="27">FP32 master weights + Adam m + v</text><text class="tiny" x="1060" y="27" text-anchor="end">这里只算 model states，不含 activation / buffer / fragmentation</text>
+  </g>
+</svg>

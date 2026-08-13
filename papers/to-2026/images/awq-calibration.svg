@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.h{font-size:34px;font-weight:800}.m{font-size:23px;font-weight:700}.s{font-size:18px}.v{font-size:20px;font-weight:800}.muted{fill:#94a8c8}</style>
+  </defs>
+  <rect width="1400" height="860" rx="28" fill="url(#bg)"/>
+  <text x="66" y="66" class="h">少量统计为何更稳：AWQ 只估计通道平均幅值，不拟合完整校准输出</text>
+  <text x="66" y="104" class="s muted">论文 Figure 8：OPT-6.7B，INT3-g128；这是论文观测，不是对任意分布的理论保证</text>
+
+  <g transform="translate(65 145)">
+    <rect width="610" height="590" rx="24" fill="#0d2038" stroke="#315077"/>
+    <text x="28" y="46" class="m">数据效率</text>
+    <text x="28" y="79" class="s muted">每条 calibration sequence 为 2048 tokens</text>
+    <g transform="translate(55 125)">
+      <line x1="40" y1="280" x2="500" y2="280" stroke="#536c8c" stroke-width="2"/>
+      <line x1="40" y1="20" x2="40" y2="280" stroke="#536c8c" stroke-width="2"/>
+      <g class="s muted"><text x="28" y="315">8</text><text x="110" y="315">16</text><text x="230" y="315">64</text><text x="360" y="315">128</text><text x="480" y="315">256</text></g>
+      <path d="M40 80 C100 150 125 212 145 230 C215 245 290 247 500 249" fill="none" stroke="#3bd5a8" stroke-width="5"/>
+      <path d="M40 45 C145 57 260 97 400 225 C440 240 470 244 500 246" fill="none" stroke="#8a70d1" stroke-width="5"/>
+      <circle cx="145" cy="230" r="10" fill="#3bd5a8"/><text x="154" y="207" class="s" fill="#6ee8bd">AWQ：16</text>
+      <circle cx="440" cy="240" r="10" fill="#8a70d1"/><text x="420" y="207" text-anchor="end" class="s">GPTQ：约 192</text>
+      <text x="270" y="355" text-anchor="middle" class="s">论文称：相近质量所需样本约少 10×</text>
+      <g transform="translate(15 390)"><rect width="480" height="72" rx="16" fill="#15372f" stroke="#3bd1a5"/><text x="240" y="31" text-anchor="middle" class="s">统计量：sₓ[j] = mean(|X[:,j]|)</text><text x="240" y="57" text-anchor="middle" class="s muted">不是对每个权重求 Hessian，也不是训练模型</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(705 145)">
+    <rect width="630" height="590" rx="24" fill="#0d2038" stroke="#315077"/>
+    <text x="28" y="46" class="m">跨分布校准惩罚</text>
+    <text x="28" y="79" class="s muted">PubMed ↔ Enron 交叉 calibration/evaluation</text>
+    <g transform="translate(35 125)">
+      <text x="0" y="35" class="m">AWQ</text>
+      <rect x="120" y="7" width="98" height="40" rx="11" fill="#3bd3a6"/>
+      <text x="238" y="35" class="v" fill="#6ee8bd">+0.5 ～ +0.6 PPL</text>
+      <text x="0" y="115" class="m">GPTQ</text>
+      <rect x="120" y="87" width="410" height="40" rx="11" fill="#8a70cf"/>
+      <text x="510" y="115" text-anchor="end" class="v">+2.3 ～ +4.9 PPL</text>
+      <line x1="0" y1="170" x2="560" y2="170" stroke="#354e6d"/>
+      <text x="0" y="215" class="s">同分布仍然最好：</text>
+      <text x="20" y="252" class="s muted">• PubMed 校准 → PubMed 测试</text>
+      <text x="20" y="286" class="s muted">• Enron 校准 → Enron 测试</text>
+      <text x="0" y="335" class="s">论文结论应读作“相对更稳”，不是：</text>
+      <text x="20" y="372" class="s" fill="#ffd080">“校准数据来自哪里完全不重要”</text>
+      <rect x="0" y="395" width="560" height="67" rx="16" fill="#382b20" stroke="#d59545"/>
+      <text x="280" y="423" text-anchor="middle" class="s">实际部署仍应测试目标领域、上下文长度、</text>
+      <text x="280" y="448" text-anchor="middle" class="s">chat template 与 representative prompts。</text>
+    </g>
+  </g>
+  <text x="700" y="775" text-anchor="middle" class="m">校准集很小 ≠ AWQ 是 data-free；它仍通过 activation 决定每层缩放与 clipping。</text>
+  <text x="700" y="825" text-anchor="middle" class="s muted">论文主实验从 Pile 取小型通用校准集；当前官方代码的默认 sample/sequence 参数属于实现版本，应单独记录。</text>
+</svg>

@@ -1,6 +1,6 @@
 # 论文原理文档索引
 
-`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo` 与 `Megatron-LM` 十一篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 大模型系统论文，共 41 篇；其余扩展阅读暂以总导读和原文链接为主。
+`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA` 与 `AWQ` 十六篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 大模型系统 / 推理优化论文，共 46 篇；其余扩展阅读暂以总导读和原文链接为主。
 增强版已补充：`论文链接`、`代表公式 / 关键表达`、`前置阅读`、`读完接着看`。
 
 ## 文件列表
@@ -46,6 +46,11 @@
 - `38_Foundation_Models_Report_2021_原理.md`: `Foundation Models Report` - 涌现 / 同质化 / 生态系统 / 评测与治理
 - `39_OLMo_2024_原理.md`: `OLMo` - 开放数据 / 训练日志 / 中间检查点 / 可复现语言模型科学
 - `40_Megatron_LM_2019_原理.md`: `Megatron-LM` - 层内张量并行 / 词表并行 / 混合数据并行 / 大模型训练系统
+- `41_ZeRO_2019_原理.md`: `ZeRO` - 数据并行状态分片 / Optimizer-Gradient-Parameter Partitioning / ZeRO-R / 显存优化
+- `42_GPTQ_2022_原理.md`: `GPTQ` - Weight-only PTQ / 输入 Hessian / 逐列误差补偿 / 3-bit 与 4-bit 推理量化
+- `43_Speculative_Decoding_2022_原理.md`: `Speculative Decoding` - 小模型起草 / 大模型并行验证 / 精确随机采样 / 自回归低延迟推理
+- `44_GQA_2023_原理.md`: `GQA` - Query 分组共享 K/V / KV Cache 与带宽压缩 / MHA Checkpoint Uptraining
+- `45_AWQ_2023_原理.md`: `AWQ` - Activation-aware Weight-only PTQ / 显著通道缩放 / INT3/INT4 Group Quantization / TinyChat
 
 ## 建议阅读顺序
 
@@ -54,7 +59,7 @@
 2. 数据 / 扩展律主线：`Scaling Laws -> The Pile -> Foundation Models Report -> Chinchilla -> PaLM -> OLMo`
 3. 对齐主线：`FLAN -> InstructGPT -> Constitutional AI -> DPO`
 4. 推理主线：`Chain-of-Thought -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> DeepSeek-R1`
-5. 工程主线：`Megatron-LM -> RoPE -> FlashAttention -> LoRA -> QLoRA -> LLaMA -> Mixtral`
+5. 工程主线：`Megatron-LM -> ZeRO -> RoPE -> FlashAttention -> LoRA -> GPTQ -> AWQ -> Speculative Decoding -> GQA -> QLoRA -> LLaMA -> Mixtral`
 6. Agent / 检索 / 多模态补充：`Sentence-BERT -> DPR -> RAG -> Toolformer -> ReAct -> Gemini -> Mamba`
 7. 基础模型治理与开放科学主线：`The Pile -> Foundation Models Report -> OLMo -> InstructGPT -> Constitutional AI`
 

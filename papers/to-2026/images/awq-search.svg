@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#89a2c8"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.h{font-size:34px;font-weight:800}.m{font-size:23px;font-weight:700}.s{font-size:18px}.muted{fill:#94a8c8}.code{font-family:"SFMono-Regular",Consolas,monospace}</style>
+  </defs>
+  <rect width="1400" height="860" rx="28" fill="url(#bg)"/>
+  <text x="66" y="66" class="h">AWQ 搜索不是反向传播：把高维 s 限制为一条 α 曲线，再做稳定网格枚举</text>
+  <text x="66" y="104" class="s muted">论文 s=sₓᵅ；官方实现 n_grid=20，并额外搜索 clipping 阈值</text>
+
+  <g transform="translate(65 145)">
+    <rect width="400" height="570" rx="24" fill="#0d2038" stroke="#315077"/>
+    <text x="28" y="46" class="m">搜索空间降维</text>
+    <text x="28" y="82" class="s muted">若直接优化 d_model 个 sⱼ：</text>
+    <rect x="28" y="106" width="344" height="65" rx="15" fill="#322629" stroke="#bd5e5b"/>
+    <text x="200" y="147" text-anchor="middle" class="m code">s ∈ ℝᵈ：不可微且不稳定</text>
+    <path d="M200 190V235" stroke="#89a2c8" stroke-width="4" marker-end="url(#arr)"/>
+    <rect x="28" y="250" width="344" height="103" rx="16" fill="#14372f" stroke="#3bd1a5"/>
+    <text x="200" y="288" text-anchor="middle" class="m code">sⱼ = mean(|Xⱼ|)ᵅ</text>
+    <text x="200" y="326" text-anchor="middle" class="s">只剩一个 α ∈ [0,1]</text>
+    <text x="28" y="398" class="s">α=0：不缩放，等于量化 baseline</text>
+    <text x="28" y="434" class="s">α→1：更强地保护高 activation 通道</text>
+    <text x="28" y="470" class="s">目标：量化前后模块输出 MSE</text>
+    <rect x="28" y="500" width="344" height="44" rx="12" fill="#182b46"/>
+    <text x="200" y="529" text-anchor="middle" class="s code">L(α)=‖Q(Ws)·X/s − WX‖²</text>
+  </g>
+
+  <g transform="translate(495 145)">
+    <rect width="840" height="350" rx="24" fill="#0d2038" stroke="#315077"/>
+    <text x="28" y="46" class="m">20 点 Grid Search</text>
+    <text x="28" y="78" class="s muted">官方代码实际枚举 0.00 到 0.95；论文概念上写作 [0,1]</text>
+    <g transform="translate(55 115)">
+      <line x1="25" y1="170" x2="720" y2="170" stroke="#536b8c" stroke-width="2"/>
+      <line x1="25" y1="20" x2="25" y2="170" stroke="#536b8c" stroke-width="2"/>
+      <path d="M25 50 C150 92 220 140 350 145 C485 149 565 92 720 40" fill="none" stroke="#42d7aa" stroke-width="5"/>
+      <g fill="#84a7d4"><circle cx="25" cy="50" r="5"/><circle cx="98" cy="78" r="5"/><circle cx="171" cy="115" r="5"/><circle cx="244" cy="139" r="5"/><circle cx="317" cy="145" r="5"/><circle cx="390" cy="142" r="5"/><circle cx="463" cy="126" r="5"/><circle cx="536" cy="100" r="5"/><circle cx="609" cy="72" r="5"/><circle cx="682" cy="46" r="5"/></g>
+      <circle cx="350" cy="145" r="12" fill="#ffbd56"/>
+      <text x="350" y="128" text-anchor="middle" class="s" fill="#ffd080">best α</text>
+      <text x="25" y="205" class="s muted">0</text><text x="700" y="205" class="s muted">0.95</text>
+      <text x="375" y="238" text-anchor="middle" class="s code">alpha = index / 20</text>
+    </g>
+  </g>
+
+  <g transform="translate(495 530)">
+    <rect width="840" height="185" rx="24" fill="#10283b" stroke="#d59446"/>
+    <text x="28" y="46" class="m">随后做 Weight Clipping</text>
+    <text x="28" y="80" class="s muted">缩放与 clipping 解决不同问题：前者重新分配通道误差，后者缩小极值主导的动态范围。</text>
+    <g transform="translate(30 105)">
+      <rect width="180" height="50" rx="13" fill="#3a2930"/><text x="90" y="32" text-anchor="middle" class="s code">max |w|</text>
+      <path d="M195 25H250" stroke="#89a2c8" stroke-width="4" marker-end="url(#arr)"/>
+      <rect x="270" width="260" height="50" rx="13" fill="#382e20"/><text x="400" y="32" text-anchor="middle" class="s code">ratio ∈ {1,.95,…,.55}</text>
+      <path d="M545 25H600" stroke="#89a2c8" stroke-width="4" marker-end="url(#arr)"/>
+      <rect x="620" width="155" height="50" rx="13" fill="#15372f"/><text x="697" y="32" text-anchor="middle" class="s">最小局部 MSE</text>
+    </g>
+  </g>
+
+  <g transform="translate(65 755)">
+    <rect width="1270" height="58" rx="16" fill="#182742" stroke="#4b6590"/>
+    <text x="635" y="36" text-anchor="middle" class="s">无 optimizer、无 label、无梯度；但仍然是 data-aware PTQ，因为 α 与 clipping 都依赖 calibration activation。</text>
+  </g>
+</svg>

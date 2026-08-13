@@ -502,11 +502,11 @@
 | 编号 | 论文 | 为什么值得读 | 阅读重点 |
 |---:|---|---|---|
 | 40 | [Megatron-LM (2019)](https://arxiv.org/abs/1909.08053) — `Training Multi-Billion Parameter Language Models Using Model Parallelism` · [中文详解](40_Megatron_LM_2019_原理.md) | 奠定大模型张量并行的工程主线，解释单卡放不下时如何拆分矩阵计算。 | tensor parallel、通信开销、与数据/流水线并行的组合。 |
-| 41 | [ZeRO (2019/2020)](https://arxiv.org/abs/1910.02054) — `ZeRO: Memory Optimizations Toward Training Trillion Parameter Models` | 把优化器状态、梯度和参数分片，显著改变大模型训练的显存边界。 | ZeRO 三阶段、冗余状态、通信—显存权衡。 |
-| 42 | [GPTQ (2022)](https://arxiv.org/abs/2210.17323) — `Accurate Post-Training Quantization for Generative Pre-trained Transformers` | 代表基于二阶信息的权重量化路线，让大模型低比特部署成为标准课题。 | 逐层误差补偿、3/4-bit 权重量化、精度—速度关系。 |
-| 43 | [Speculative Decoding (2022/2023)](https://arxiv.org/abs/2211.17192) — `Fast Inference from Transformers via Speculative Decoding` | 用小模型起草、大模型并行验证多个 token，在不改变目标分布的前提下加速解码。 | 接受/拒绝机制、无损采样、draft/target 配比。 |
-| 44 | [GQA (2023)](https://arxiv.org/abs/2305.13245) — `GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints` | 在 MHA 质量与 MQA 速度之间取得平衡，成为现代 LLM 降低 KV cache 的常用结构。 | query head 与 KV head 分组、uptraining、推理带宽。 |
-| 45 | [AWQ (2023)](https://arxiv.org/abs/2306.00978) — `Activation-aware Weight Quantization for LLM Compression and Acceleration` | 展示少量显著权重通道决定量化质量，推动实用的 4-bit weight-only 部署。 | activation-aware scaling、显著通道、硬件友好量化。 |
+| 41 | [ZeRO (2019/2020)](https://arxiv.org/abs/1910.02054) — `ZeRO: Memory Optimizations Toward Training Trillion Parameter Models` · [中文详解](41_ZeRO_2019_原理.md) | 把优化器状态、梯度和参数分片，显著改变大模型训练的显存边界。 | ZeRO 三阶段、冗余状态、通信—显存权衡。 |
+| 42 | [GPTQ (2022)](https://arxiv.org/abs/2210.17323) — `Accurate Post-Training Quantization for Generative Pre-trained Transformers` · [中文详解](42_GPTQ_2022_原理.md) | 代表基于二阶信息的权重量化路线，让大模型低比特部署成为标准课题。 | 逐层误差补偿、3/4-bit 权重量化、精度—速度关系。 |
+| 43 | [Speculative Decoding (2022/2023)](https://arxiv.org/abs/2211.17192) — `Fast Inference from Transformers via Speculative Decoding` · [中文详解](43_Speculative_Decoding_2022_原理.md) | 用小模型起草、大模型并行验证多个 token，在不改变目标分布的前提下加速解码。 | 接受/拒绝机制、无损采样、draft/target 配比。 |
+| 44 | [GQA (2023)](https://arxiv.org/abs/2305.13245) — `GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints` · [中文详解](44_GQA_2023_原理.md) | 在 MHA 质量与 MQA 速度之间取得平衡，成为现代 LLM 降低 KV cache 的常用结构。 | query head 与 KV head 分组、uptraining、推理带宽。 |
+| 45 | [AWQ (2023)](https://arxiv.org/abs/2306.00978) — `Activation-aware Weight Quantization for LLM Compression and Acceleration` · [中文详解](45_AWQ_2023_原理.md) | 展示少量显著权重通道决定量化质量，推动实用的 4-bit weight-only 部署。 | activation-aware scaling、显著通道、硬件友好量化。 |
 | 46 | [FlashAttention-2 (2023)](https://arxiv.org/abs/2307.08691) — `Faster Attention with Better Parallelism and Work Partitioning` | 在第一代 IO-aware attention 上进一步优化并行和工作划分，是理解现代高性能 attention kernel 的续篇。 | warp/线程块划分、非矩阵乘 FLOPs、occupancy。 |
 | 47 | [vLLM / PagedAttention (2023)](https://arxiv.org/abs/2309.06180) — `Efficient Memory Management for Large Language Model Serving with PagedAttention` | 把操作系统分页思想用于 KV cache，成为高吞吐 LLM 服务的重要基础设施。 | 连续批处理、KV 分页、碎片与共享。 |
 | 48 | [Mistral 7B (2023)](https://arxiv.org/abs/2310.06825) — `Mistral 7B` | 用 GQA 与滑动窗口注意力证明小型开放模型也能以工程设计取得强性能。 | sliding-window attention、rolling buffer、模型尺寸与吞吐。 |

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#151837"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#95a9c8}.h{font-size:34px;font-weight:800}.s{font-size:20px}.m{font-size:24px;font-weight:700}.math{font-family:"STIX Two Math","Times New Roman",serif}</style>
+  </defs>
+  <rect width="1400" height="840" rx="28" fill="url(#bg2)"/>
+  <text x="68" y="68" class="h">精确性的概率质量账本：接受部分 + 拒绝后修正 = 目标分布 p</text>
+  <text x="68" y="106" class="muted s">示例：p=(0.5, 0.3, 0.2)，q=(0.6, 0.1, 0.3)，总接受率 β=Σ min(p,q)=0.8</text>
+
+  <g transform="translate(70 160)">
+    <rect width="760" height="470" rx="22" fill="#0d2038" stroke="#29435f"/>
+    <text x="30" y="46" class="m">三个 token 的概率质量</text>
+    <line x1="80" y1="390" x2="710" y2="390" stroke="#4a607e" stroke-width="2"/>
+    <line x1="80" y1="90" x2="80" y2="390" stroke="#4a607e" stroke-width="2"/>
+    <g class="muted s"><text x="48" y="396">0</text><text x="35" y="306">0.2</text><text x="35" y="216">0.4</text><text x="35" y="126">0.6</text></g>
+    <g>
+      <rect x="150" y="165" width="60" height="225" fill="#5684ff" opacity=".9"/><rect x="214" y="120" width="60" height="270" fill="#31d7ae" opacity=".75"/>
+      <rect x="355" y="255" width="60" height="135" fill="#5684ff" opacity=".9"/><rect x="419" y="345" width="60" height="45" fill="#31d7ae" opacity=".75"/>
+      <rect x="560" y="300" width="60" height="90" fill="#5684ff" opacity=".9"/><rect x="624" y="255" width="60" height="135" fill="#31d7ae" opacity=".75"/>
+      <text x="212" y="430" text-anchor="middle" class="m">A</text><text x="417" y="430" text-anchor="middle" class="m">B</text><text x="622" y="430" text-anchor="middle" class="m">C</text>
+    </g>
+    <rect x="125" y="450" width="24" height="16" fill="#5684ff"/><text x="160" y="465" class="s">目标 p</text>
+    <rect x="260" y="450" width="24" height="16" fill="#31d7ae"/><text x="295" y="465" class="s">草稿 q</text>
+  </g>
+
+  <g transform="translate(870 160)">
+    <rect width="460" height="470" rx="22" fill="#0d2038" stroke="#29435f"/>
+    <text x="30" y="46" class="m">每个 token 的最终质量</text>
+    <g transform="translate(30 85)">
+      <text y="0" class="s muted">token</text><text x="90" class="s muted">min(p,q)</text><text x="225" class="s muted">(p−q)₊</text><text x="350" class="s muted">合计</text>
+      <line y1="18" x2="400" y2="18" stroke="#34506e"/>
+      <g class="m"><text y="65">A</text><text x="105" y="65">0.5</text><text x="250" y="65">0.0</text><text x="350" y="65" fill="#65e5b5">0.5</text>
+      <text y="120">B</text><text x="105" y="120">0.1</text><text x="250" y="120">0.2</text><text x="350" y="120" fill="#65e5b5">0.3</text>
+      <text y="175">C</text><text x="105" y="175">0.2</text><text x="250" y="175">0.0</text><text x="350" y="175" fill="#65e5b5">0.2</text></g>
+      <line y1="202" x2="400" y2="202" stroke="#34506e"/>
+      <text y="245" class="s">接受质量：</text><text x="125" y="245" class="math m">q(x) min(1,p/q)=min(p,q)</text>
+      <text y="292" class="s">修正质量：</text><text x="125" y="292" class="math m">(p−q)₊</text>
+      <rect y="320" width="400" height="62" rx="14" fill="#15362f" stroke="#38dba4"/>
+      <text x="200" y="360" text-anchor="middle" class="math m">min(p,q) + (p−q)₊ = p</text>
+    </g>
+  </g>
+
+  <g transform="translate(70 665)">
+    <rect width="1260" height="112" rx="22" fill="#141f3b" stroke="#47548c"/>
+    <text x="28" y="42" class="m">接受率与距离的关系</text>
+    <text x="28" y="80" class="math" font-size="27">β = Σₓ min(p(x),q(x)) = 1 − ½‖p−q‖₁ = 1 − DTV(p,q)</text>
+    <text x="735" y="43" class="m">直觉</text>
+    <text x="735" y="79" class="s muted">p、q 重叠越多，提案越常被接受；不重叠的 p 质量由残差分布补回。</text>
+  </g>
+</svg>

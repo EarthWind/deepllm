@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <linearGradient id="q" x1="0" x2="1"><stop stop-color="#3478ff"/><stop offset="1" stop-color="#46c9ff"/></linearGradient>
+    <linearGradient id="kv" x1="0" x2="1"><stop stop-color="#1fab91"/><stop offset="1" stop-color="#49e099"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#94a8c8}.h{font-size:34px;font-weight:800}.s{font-size:18px}.m{font-size:23px;font-weight:700}.head{font-size:18px;font-weight:800}</style>
+  </defs>
+  <rect width="1400" height="900" rx="28" fill="url(#bg)"/>
+  <text x="66" y="66" class="h">MHA、GQA 与 MQA：Query 头不变，只改变每组共享多少 K/V 头</text>
+  <text x="66" y="104" class="muted s">示例 H=8；G 是独立 K/V 组数，要求 G 整除 H；每个 KV head 服务 H/G 个 query heads</text>
+
+  <g transform="translate(65 145)">
+    <rect width="1270" height="210" rx="22" fill="#0d2038" stroke="#2c4666"/>
+    <text x="25" y="43" class="m">MHA · G=H=8</text><text x="240" y="43" class="s muted">每个 Query 有自己的 K/V；容量最高，Cache 最大</text>
+    <g transform="translate(32 72)">
+      <g fill="url(#q)"><rect width="92" height="48" rx="12"/><rect y="60" width="92" height="48" rx="12"/></g>
+      <g class="head"><text x="46" y="31" text-anchor="middle">Q₀</text><text x="46" y="91" text-anchor="middle">Q₁</text></g>
+      <text x="128" y="72" class="muted" font-size="27">…</text>
+      <g transform="translate(175)"><rect width="92" height="48" rx="12" fill="url(#q)"/><rect y="60" width="92" height="48" rx="12" fill="url(#q)"/><text x="46" y="31" text-anchor="middle" class="head">Q₆</text><text x="46" y="91" text-anchor="middle" class="head">Q₇</text></g>
+      <g stroke="#678dbf" stroke-width="3"><path d="M280 24H485"/><path d="M280 84H485"/></g>
+      <g transform="translate(500)"><rect width="112" height="48" rx="12" fill="url(#kv)"/><rect y="60" width="112" height="48" rx="12" fill="url(#kv)"/><text x="56" y="31" text-anchor="middle" class="head">K₀ / V₀</text><text x="56" y="91" text-anchor="middle" class="head">K₁ / V₁</text></g>
+      <text x="650" y="72" class="muted" font-size="27">…</text>
+      <g transform="translate(700)"><rect width="112" height="48" rx="12" fill="url(#kv)"/><rect y="60" width="112" height="48" rx="12" fill="url(#kv)"/><text x="56" y="31" text-anchor="middle" class="head">K₆ / V₆</text><text x="56" y="91" text-anchor="middle" class="head">K₇ / V₇</text></g>
+      <rect x="890" y="10" width="305" height="88" rx="18" fill="#172c4b" stroke="#598cff"/><text x="1042" y="47" text-anchor="middle" class="m">8 份 KV Cache</text><text x="1042" y="77" text-anchor="middle" class="s muted">Query : KV = 1 : 1</text>
+    </g>
+  </g>
+
+  <g transform="translate(65 380)">
+    <rect width="1270" height="250" rx="22" fill="#0f253b" stroke="#3cc7a2" stroke-width="2"/>
+    <text x="25" y="43" class="m" fill="#6eedbd">GQA-2 · G=2</text><text x="240" y="43" class="s muted">8 个 Query 分成 2 组；每 4 个 Query 共享一个 K/V</text>
+    <g transform="translate(32 64)">
+      <g>
+        <rect width="92" height="42" rx="11" fill="url(#q)"/><rect y="48" width="92" height="42" rx="11" fill="url(#q)"/><rect y="96" width="92" height="42" rx="11" fill="url(#q)"/><rect y="144" width="92" height="42" rx="11" fill="url(#q)"/>
+        <g class="head"><text x="46" y="28" text-anchor="middle">Q₀</text><text x="46" y="76" text-anchor="middle">Q₁</text><text x="46" y="124" text-anchor="middle">Q₂</text><text x="46" y="172" text-anchor="middle">Q₃</text></g>
+      </g>
+      <rect x="118" y="-8" width="288" height="202" rx="18" fill="#113733" stroke="#36ce9e" stroke-dasharray="8 6"/>
+      <path d="M96 92H430" stroke="#62d7bd" stroke-width="4"/>
+      <rect x="440" y="67" width="130" height="54" rx="13" fill="url(#kv)"/><text x="505" y="101" text-anchor="middle" class="head">K₀ / V₀</text>
+      <g transform="translate(640)">
+        <rect width="92" height="42" rx="11" fill="url(#q)"/><rect y="48" width="92" height="42" rx="11" fill="url(#q)"/><rect y="96" width="92" height="42" rx="11" fill="url(#q)"/><rect y="144" width="92" height="42" rx="11" fill="url(#q)"/>
+        <g class="head"><text x="46" y="28" text-anchor="middle">Q₄</text><text x="46" y="76" text-anchor="middle">Q₅</text><text x="46" y="124" text-anchor="middle">Q₆</text><text x="46" y="172" text-anchor="middle">Q₇</text></g>
+      </g>
+      <rect x="758" y="-8" width="288" height="202" rx="18" fill="#113733" stroke="#36ce9e" stroke-dasharray="8 6"/>
+      <path d="M736 92H1070" stroke="#62d7bd" stroke-width="4"/>
+      <rect x="1080" y="67" width="130" height="54" rx="13" fill="url(#kv)"/><text x="1145" y="101" text-anchor="middle" class="head">K₁ / V₁</text>
+    </g>
+  </g>
+
+  <g transform="translate(65 655)">
+    <rect width="1270" height="180" rx="22" fill="#0d2038" stroke="#2c4666"/>
+    <text x="25" y="43" class="m">MQA · G=1</text><text x="240" y="43" class="s muted">所有 Query 共享一份 K/V；Cache 最小，容量削减最激进</text>
+    <g transform="translate(34 75)">
+      <g fill="url(#q)"><rect width="82" height="50" rx="12"/><rect x="96" width="82" height="50" rx="12"/><rect x="192" width="82" height="50" rx="12"/><rect x="288" width="82" height="50" rx="12"/><rect x="384" width="82" height="50" rx="12"/><rect x="480" width="82" height="50" rx="12"/><rect x="576" width="82" height="50" rx="12"/><rect x="672" width="82" height="50" rx="12"/></g>
+      <g class="head"><text x="41" y="32" text-anchor="middle">Q₀</text><text x="137" y="32" text-anchor="middle">Q₁</text><text x="233" y="32" text-anchor="middle">Q₂</text><text x="329" y="32" text-anchor="middle">Q₃</text><text x="425" y="32" text-anchor="middle">Q₄</text><text x="521" y="32" text-anchor="middle">Q₅</text><text x="617" y="32" text-anchor="middle">Q₆</text><text x="713" y="32" text-anchor="middle">Q₇</text></g>
+      <path d="M770 25H920" stroke="#62d7bd" stroke-width="4"/>
+      <rect x="935" y="-5" width="160" height="60" rx="14" fill="url(#kv)"/><text x="1015" y="33" text-anchor="middle" class="head">K₀ / V₀</text>
+      <text x="1130" y="34" class="m" fill="#6eedbd">1 份 Cache</text>
+    </g>
+  </g>
+  <text x="700" y="875" text-anchor="middle" class="muted s">GQA-1 = MQA　·　GQA-H = MHA　·　中间的 G 是可调质量—带宽旋钮</text>
+</svg>

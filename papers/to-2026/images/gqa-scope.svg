@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <marker id="arr6" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#91a7c8"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#94a8c8}.h{font-size:34px;font-weight:800}.s{font-size:18px}.m{font-size:23px;font-weight:700}.x{font-size:20px}</style>
+  </defs>
+  <rect width="1400" height="850" rx="28" fill="url(#bg6)"/>
+  <text x="66" y="66" class="h">原论文改了哪些 Attention：T5 的三个位置不能混为一谈</text>
+  <text x="66" y="104" class="muted s">论文实验将 GQA/MQA 用于 decoder self-attention 与 cross-attention，不用于 encoder self-attention</text>
+
+  <g transform="translate(65 160)">
+    <rect width="470" height="540" rx="24" fill="#0d2038" stroke="#365477"/>
+    <text x="28" y="46" class="m">Encoder</text>
+    <rect x="45" y="95" width="380" height="120" rx="20" fill="#1b2d49" stroke="#597394"/>
+    <text x="235" y="140" text-anchor="middle" class="m">Encoder self-attention</text>
+    <text x="235" y="178" text-anchor="middle" class="x muted">保持 MHA · 不转换</text>
+    <rect x="45" y="260" width="380" height="100" rx="20" fill="#17283f" stroke="#48647f"/><text x="235" y="320" text-anchor="middle" class="m">FFN / Norm</text>
+    <rect x="65" y="410" width="340" height="78" rx="17" fill="#262d3c" stroke="#69758b"/><text x="235" y="446" text-anchor="middle" class="x">为什么？Encoder 全序列并行</text><text x="235" y="474" text-anchor="middle" class="s muted">KV 带宽通常不是主瓶颈</text>
+  </g>
+
+  <path d="M555 430H650" stroke="#91a7c8" stroke-width="4" marker-end="url(#arr6)"/>
+  <text x="602" y="407" text-anchor="middle" class="s muted">encoder memory</text>
+
+  <g transform="translate(670 160)">
+    <rect width="665" height="540" rx="24" fill="#10283b" stroke="#36ca9f" stroke-width="2"/>
+    <text x="28" y="46" class="m" fill="#6ee8bd">Decoder</text>
+    <rect x="45" y="92" width="575" height="105" rx="20" fill="#123932" stroke="#39d2a3"/>
+    <text x="332" y="135" text-anchor="middle" class="m">Decoder causal self-attention → GQA</text>
+    <text x="332" y="168" text-anchor="middle" class="x muted">每一步反复读取历史生成 token 的 KV Cache</text>
+    <rect x="45" y="235" width="575" height="105" rx="20" fill="#123932" stroke="#39d2a3"/>
+    <text x="332" y="278" text-anchor="middle" class="m">Encoder–decoder cross-attention → GQA</text>
+    <text x="332" y="311" text-anchor="middle" class="x muted">每个 decode step 重用 encoder K/V</text>
+    <rect x="45" y="378" width="575" height="88" rx="20" fill="#17283f" stroke="#48647f"/><text x="332" y="432" text-anchor="middle" class="m">FFN / Norm 保持原结构</text>
+  </g>
+
+  <g transform="translate(65 735)"><rect width="1270" height="64" rx="17" fill="#302a1f" stroke="#c99a42"/><text x="28" y="40" class="m" fill="#ffd17a">Decoder-only LLM：</text><text x="245" y="40" class="x">没有 encoder/cross-attention，通常把 causal self-attention 直接设计成 GQA；这是论文之后最常见的使用方式。</text></g>
+</svg>

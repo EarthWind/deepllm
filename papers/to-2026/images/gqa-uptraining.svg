@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <marker id="arr3" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#91a7c8"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#94a8c8}.h{font-size:34px;font-weight:800}.s{font-size:18px}.m{font-size:23px;font-weight:700}.head{font-size:18px;font-weight:800}.math{font-family:"STIX Two Math","Times New Roman",serif}</style>
+  </defs>
+  <rect width="1400" height="850" rx="28" fill="url(#bg3)"/>
+  <text x="66" y="66" class="h">从 MHA checkpoint 到 GQA：先保信息，再让模型适应新结构</text>
+  <text x="66" y="104" class="muted s">只变换 K/V projections；Q、O 与其余网络参数从原 checkpoint 继承</text>
+
+  <g transform="translate(65 155)">
+    <rect width="370" height="470" rx="24" fill="#0d2038" stroke="#385477"/>
+    <text x="25" y="44" class="m">① 原始 MHA</text><text x="25" y="77" class="s muted">H=8 份 Wᴷ / Wⱽ</text>
+    <g transform="translate(34 112)">
+      <g fill="#254d7b" stroke="#5796df"><rect width="130" height="54" rx="13"/><rect y="67" width="130" height="54" rx="13"/><rect y="134" width="130" height="54" rx="13"/><rect y="201" width="130" height="54" rx="13"/></g>
+      <g fill="#3d315f" stroke="#9879e8" transform="translate(165)"><rect width="130" height="54" rx="13"/><rect y="67" width="130" height="54" rx="13"/><rect y="134" width="130" height="54" rx="13"/><rect y="201" width="130" height="54" rx="13"/></g>
+      <g class="head"><text x="65" y="34" text-anchor="middle">Wᴷ₀</text><text x="65" y="101" text-anchor="middle">Wᴷ₁</text><text x="65" y="168" text-anchor="middle">Wᴷ₂</text><text x="65" y="235" text-anchor="middle">Wᴷ₃</text><text x="230" y="34" text-anchor="middle">Wⱽ₀</text><text x="230" y="101" text-anchor="middle">Wⱽ₁</text><text x="230" y="168" text-anchor="middle">Wⱽ₂</text><text x="230" y="235" text-anchor="middle">Wⱽ₃</text></g>
+      <text x="65" y="300" text-anchor="middle" class="muted" font-size="28">… Wᴷ₇</text><text x="230" y="300" text-anchor="middle" class="muted" font-size="28">… Wⱽ₇</text>
+    </g>
+    <text x="25" y="442" class="s muted">公共 T5.1.1 checkpoint</text>
+  </g>
+
+  <path d="M455 390H515" stroke="#91a7c8" stroke-width="4" marker-end="url(#arr3)"/>
+  <g transform="translate(525 155)">
+    <rect width="350" height="470" rx="24" fill="#10293c" stroke="#37c9a1" stroke-width="2"/>
+    <text x="25" y="44" class="m" fill="#6de8bd">② 分组 Mean Pool</text><text x="25" y="77" class="s muted">每 4 heads 合成一组，得到 GQA-2</text>
+    <rect x="35" y="116" width="280" height="105" rx="18" fill="#123932" stroke="#39d2a3"/>
+    <text x="175" y="153" text-anchor="middle" class="math" font-size="25">Wᴷ<tspan baseline-shift="sub" font-size="17">g</tspan> = ¼ Σ<tspan baseline-shift="sub" font-size="17">h∈g</tspan> Wᴷ<tspan baseline-shift="sub" font-size="17">h</tspan></text>
+    <text x="175" y="194" text-anchor="middle" class="math" font-size="25">Wⱽ<tspan baseline-shift="sub" font-size="17">g</tspan> = ¼ Σ<tspan baseline-shift="sub" font-size="17">h∈g</tspan> Wⱽ<tspan baseline-shift="sub" font-size="17">h</tspan></text>
+    <g transform="translate(65 260)"><rect width="95" height="64" rx="14" fill="#1d806b" stroke="#55e2b5"/><rect x="125" width="95" height="64" rx="14" fill="#1d806b" stroke="#55e2b5"/><text x="47" y="40" text-anchor="middle" class="head">K₀/V₀</text><text x="172" y="40" text-anchor="middle" class="head">K₁/V₁</text></g>
+    <text x="25" y="375" class="s muted">论文消融：Mean ＞ 取首 head ＞ 随机初始化</text>
+    <text x="25" y="423" class="s muted">这是最小二乘初始化，不保证层输出等价</text>
+  </g>
+
+  <path d="M895 390H955" stroke="#91a7c8" stroke-width="4" marker-end="url(#arr3)"/>
+  <g transform="translate(965 155)">
+    <rect width="370" height="470" rx="24" fill="#0d2038" stroke="#d9a447"/>
+    <text x="25" y="44" class="m" fill="#ffd17a">③ Uptraining</text><text x="25" y="77" class="s muted">沿用原预训练 recipe 与数据</text>
+    <circle cx="185" cy="205" r="92" fill="#332d24" stroke="#e0ae51" stroke-width="3"/>
+    <text x="185" y="198" text-anchor="middle" font-size="45" font-weight="800" fill="#ffd17a">5%</text>
+    <text x="185" y="234" text-anchor="middle" class="s">原预训练 steps</text>
+    <text x="25" y="342" class="m">论文 α=0.05：</text>
+    <text x="25" y="382" class="s muted">约 600 TPUv3 chip-days</text>
+    <text x="25" y="422" class="s muted">10% 仍有收益，但边际递减</text>
+  </g>
+
+  <g transform="translate(65 665)">
+    <rect width="1270" height="125" rx="22" fill="#17213c" stroke="#45578c"/>
+    <text x="28" y="43" class="m">为什么不能转换完直接结束？</text>
+    <text x="28" y="80" class="s muted">线性投影的均值保留组内中心，但 softmax attention 是非线性的；共享 K/V 改变每个 Query 的注意力分数与信息子空间。</text>
+    <text x="28" y="108" class="s muted">额外预训练让 Q/O、K/V、FFN 与归一化共同适应这次结构压缩。</text>
+  </g>
+</svg>

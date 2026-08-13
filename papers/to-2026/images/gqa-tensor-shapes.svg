@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <marker id="arr4" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#91a7c8"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#94a8c8}.h{font-size:34px;font-weight:800}.s{font-size:18px}.m{font-size:23px;font-weight:700}.mono{font-family:"JetBrains Mono","SFMono-Regular",monospace;font-size:20px}</style>
+  </defs>
+  <rect width="1400" height="840" rx="28" fill="url(#bg4)"/>
+  <text x="66" y="66" class="h">张量布局：逻辑广播相同，物化 repeat 会把省下的 Cache 再复制回来</text>
+  <text x="66" y="104" class="muted s">示例 H=8、G=2、r=H/G=4；Tq 为 query 长度，Tkv 为已缓存长度</text>
+
+  <g transform="translate(65 150)">
+    <rect width="1270" height="190" rx="22" fill="#0d2038" stroke="#2d4767"/>
+    <text x="25" y="43" class="m">共同输入</text>
+    <g transform="translate(30 76)">
+      <rect width="330" height="70" rx="16" fill="#17335b" stroke="#4e8dff"/><text x="165" y="43" text-anchor="middle" class="mono">Q [B, 8, Tq, dh]</text>
+      <rect x="390" width="330" height="70" rx="16" fill="#143a34" stroke="#36d0a0"/><text x="555" y="43" text-anchor="middle" class="mono">K [B, 2, Tkv, dh]</text>
+      <rect x="780" width="330" height="70" rx="16" fill="#143a34" stroke="#36d0a0"/><text x="945" y="43" text-anchor="middle" class="mono">V [B, 2, Tkv, dh]</text>
+    </g>
+  </g>
+
+  <g transform="translate(65 375)">
+    <rect width="595" height="350" rx="22" fill="#10283b" stroke="#37c9a1" stroke-width="2"/>
+    <text x="25" y="44" class="m" fill="#6de8bd">Native GQA kernel</text>
+    <text x="25" y="79" class="s muted">按索引 g(h)=⌊h/r⌋ 读取共享 K/V</text>
+    <g transform="translate(35 118)">
+      <rect width="155" height="58" rx="14" fill="#17335b" stroke="#4e8dff"/><text x="77" y="36" text-anchor="middle" class="mono">Qh</text>
+      <path d="M175 29H240" stroke="#91a7c8" stroke-width="3" marker-end="url(#arr4)"/>
+      <rect x="255" width="260" height="58" rx="14" fill="#143a34" stroke="#36d0a0"/><text x="385" y="36" text-anchor="middle" class="mono">K[g(h)], V[g(h)]</text>
+      <rect y="95" width="515" height="88" rx="17" fill="#15372f" stroke="#38d5a4"/>
+      <text x="257" y="132" text-anchor="middle" class="m">Cache 保持 [B, G, Tkv, dₕ]</text>
+      <text x="257" y="164" text-anchor="middle" class="s muted">不存任何重复副本</text>
+    </g>
+    <text x="25" y="326" class="s muted">理想实现：一次加载 group K/V，服务组内多个 Query heads。</text>
+  </g>
+
+  <g transform="translate(740 375)">
+    <rect width="595" height="350" rx="22" fill="#2c211f" stroke="#d66c58" stroke-width="2"/>
+    <text x="25" y="44" class="m" fill="#ffab94">Naive repeat_kv</text>
+    <text x="25" y="79" class="s muted">先把每份 K/V 复制 r=4 次，再调用 MHA</text>
+    <g transform="translate(35 118)">
+      <rect width="205" height="58" rx="14" fill="#143a34" stroke="#36d0a0"/><text x="102" y="36" text-anchor="middle" class="mono">K/V [B,2,…]</text>
+      <path d="M225 29H290" stroke="#91a7c8" stroke-width="3" marker-end="url(#arr4)"/>
+      <rect x="305" width="210" height="58" rx="14" fill="#452a2d" stroke="#ff7187"/><text x="410" y="36" text-anchor="middle" class="mono">[B,8,Tkv,dh]</text>
+      <rect y="95" width="515" height="88" rx="17" fill="#3c2729" stroke="#d96b5a"/>
+      <text x="257" y="132" text-anchor="middle" class="m">数学输出相同</text>
+      <text x="257" y="164" text-anchor="middle" class="s muted">若物化整个 Cache，内存优势归零</text>
+    </g>
+    <text x="25" y="326" class="s muted">教学代码可 repeat 验证；生产 runtime 需要原生 GQA kernel。</text>
+  </g>
+
+  <g transform="translate(65 760)"><rect width="1270" height="48" rx="14" fill="#322b1e" stroke="#d1a143"/><text x="635" y="31" text-anchor="middle" class="s" fill="#ffd17a">“能运行”不等于“获得 GQA 带宽收益”：检查 kernel、stride、临时 workspace 和 Cache 实际物化形状。</text></g>
+</svg>

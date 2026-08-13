@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820">
+  <defs>
+    <linearGradient id="bg7" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#171a38"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf4ff}.muted{fill:#94a8c8}.h{font-size:34px;font-weight:800}.s{font-size:18px}.m{font-size:23px;font-weight:700}.x{font-size:20px;font-weight:700}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg7)"/>
+  <text x="66" y="66" class="h">张量并行下的隐藏收益：GQA groups 可以分片，单一 MQA head 常被复制</text>
+  <text x="66" y="104" class="muted s">示意 P=4 个模型分区；具体布局仍取决于 runtime 与并行策略</text>
+
+  <g transform="translate(65 150)">
+    <rect width="1270" height="250" rx="23" fill="#2c211f" stroke="#ca6654"/>
+    <text x="26" y="44" class="m" fill="#ffad96">MQA：G=1</text><text x="190" y="44" class="s muted">一个 K/V head 无法按 head 维均匀切到 4 个分区</text>
+    <g transform="translate(30 82)">
+      <g><rect width="270" height="118" rx="18" fill="#3a292c" stroke="#d5705e"/><rect x="310" width="270" height="118" rx="18" fill="#3a292c" stroke="#d5705e"/><rect x="620" width="270" height="118" rx="18" fill="#3a292c" stroke="#d5705e"/><rect x="930" width="270" height="118" rx="18" fill="#3a292c" stroke="#d5705e"/></g>
+      <g class="m"><text x="135" y="37" text-anchor="middle">Shard 0</text><text x="445" y="37" text-anchor="middle">Shard 1</text><text x="755" y="37" text-anchor="middle">Shard 2</text><text x="1065" y="37" text-anchor="middle">Shard 3</text></g>
+      <g class="x" fill="#ffb39c"><text x="135" y="82" text-anchor="middle">复制 K₀ / V₀</text><text x="445" y="82" text-anchor="middle">复制 K₀ / V₀</text><text x="755" y="82" text-anchor="middle">复制 K₀ / V₀</text><text x="1065" y="82" text-anchor="middle">复制 K₀ / V₀</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(65 440)">
+    <rect width="1270" height="250" rx="23" fill="#10283b" stroke="#37c9a1" stroke-width="2"/>
+    <text x="26" y="44" class="m" fill="#6ee8bd">GQA：G=8</text><text x="190" y="44" class="s muted">每个分区持有 2 个不同 KV heads，可沿 head 维自然分片</text>
+    <g transform="translate(30 82)">
+      <g><rect width="270" height="118" rx="18" fill="#143a34" stroke="#39d2a3"/><rect x="310" width="270" height="118" rx="18" fill="#143a34" stroke="#39d2a3"/><rect x="620" width="270" height="118" rx="18" fill="#143a34" stroke="#39d2a3"/><rect x="930" width="270" height="118" rx="18" fill="#143a34" stroke="#39d2a3"/></g>
+      <g class="m"><text x="135" y="37" text-anchor="middle">Shard 0</text><text x="445" y="37" text-anchor="middle">Shard 1</text><text x="755" y="37" text-anchor="middle">Shard 2</text><text x="1065" y="37" text-anchor="middle">Shard 3</text></g>
+      <g class="x" fill="#75eac1"><text x="135" y="82" text-anchor="middle">K/V 0–1</text><text x="445" y="82" text-anchor="middle">K/V 2–3</text><text x="755" y="82" text-anchor="middle">K/V 4–5</text><text x="1065" y="82" text-anchor="middle">K/V 6–7</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(65 730)"><rect width="1270" height="50" rx="15" fill="#17213c" stroke="#45578c"/><text x="635" y="32" text-anchor="middle" class="s">G 不只是一项模型超参数，也要与 tensor-parallel world size、head placement 和通信路径共同设计。</text></g>
+</svg>
