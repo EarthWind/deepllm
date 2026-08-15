@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeekMoE 的细粒度专家与共享专家</title>
+  <desc id="desc">每个 MoE 层包含 2 个始终执行的共享专家和 160 个细粒度路由专家，每个 token 选择其中 6 个；共享专家吸收公共知识，路由专家提高专业化空间。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1b2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#36c4d6"/><stop offset="1" stop-color="#3878dc"/></linearGradient>
+    <linearGradient id="violet" x1="0" x2="1"><stop stop-color="#7d63e8"/><stop offset="1" stop-color="#bc62be"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc15a"/><stop offset="1" stop-color="#ec7c42"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91aac7"/></marker>
+    <pattern id="experts" width="34" height="34" patternUnits="userSpaceOnUse"><rect x="4" y="4" width="25" height="25" rx="6" fill="#263b55" stroke="#58708c"/></pattern>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#142039}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">DeepSeekMoE：公共知识不再让 160 个路由专家重复学习</text>
+  <text x="52" y="91" class="sans sub">Shared expert isolation 处理共性，fine-grained segmentation 扩大组合空间；稀疏的是执行路径，不是权重存储</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="128" width="1184" height="457" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <rect x="79" y="299" width="138" height="70" rx="15" fill="#29445d"/><text x="148" y="328" text-anchor="middle" class="sans head">token uₜ</text><text x="148" y="352" text-anchor="middle" class="sans small">MoE 输入</text>
+  <path d="M217 334H269" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="282" y="191" width="252" height="132" rx="18" fill="url(#amber)"/>
+  <text x="408" y="227" text-anchor="middle" class="sans dark">2 Shared Experts</text>
+  <rect x="316" y="244" width="76" height="48" rx="11" fill="#f8e6bd"/><text x="354" y="274" text-anchor="middle" class="sans dark">S₀</text>
+  <rect x="424" y="244" width="76" height="48" rx="11" fill="#f8e6bd"/><text x="462" y="274" text-anchor="middle" class="sans dark">S₁</text>
+  <text x="408" y="311" text-anchor="middle" class="sans dark">always on · 不经过 Top-K</text>
+  <rect x="282" y="354" width="252" height="132" rx="18" fill="#283455" stroke="#816bd0"/>
+  <text x="408" y="388" text-anchor="middle" class="sans head">Router</text>
+  <text x="408" y="417" text-anchor="middle" class="sans mono">softmax(uₜᵀeᵢ)</text>
+  <text x="408" y="449" text-anchor="middle" class="sans body">160 → device limit → Top-6</text>
+  <text x="408" y="475" text-anchor="middle" class="sans small">首发配置不重新归一化 Top-K</text>
+  <path d="M534 420H588" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="602" y="180" width="365" height="316" rx="18" fill="url(#experts)" stroke="#4a6481"/>
+  <text x="784" y="217" text-anchor="middle" class="sans head">160 Fine-grained Routed Experts</text>
+  <g fill="url(#violet)" stroke="#d8caff" stroke-width="2"><rect x="645" y="254" width="28" height="28" rx="7"/><rect x="747" y="288" width="28" height="28" rx="7"/><rect x="849" y="322" width="28" height="28" rx="7"/><rect x="679" y="390" width="28" height="28" rx="7"/><rect x="815" y="424" width="28" height="28" rx="7"/><rect x="917" y="356" width="28" height="28" rx="7"/></g>
+  <text x="784" y="476" text-anchor="middle" class="sans body">仅 6 个紫色专家执行，其余权重本 token 不参与 FFN</text>
+  <path d="M967 338H1015" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="1029" y="276" width="164" height="126" rx="17" fill="url(#cyan)"/>
+  <text x="1111" y="309" text-anchor="middle" class="sans dark">residual sum</text>
+  <text x="1111" y="340" text-anchor="middle" class="sans dark">uₜ + ΣSᵢ(uₜ)</text>
+  <text x="1111" y="367" text-anchor="middle" class="sans dark">+ ΣgᵢRᵢ(uₜ)</text>
+  <text x="1111" y="390" text-anchor="middle" class="sans dark">→ h′ₜ</text>
+
+  <rect x="48" y="616" width="1184" height="64" rx="17" fill="#2a3029" stroke="#d18c45"/>
+  <text x="76" y="642" class="sans body">每个专家是 5120 → 1536 → 5120 的 SwiGLU，约 23.59M 参数；单个 MoE 层保存 162 份专家参数，但每 token 只执行 2+6 份。</text>
+  <text x="76" y="665" class="sans small">236B 权重仍需驻留或分片；21B 活跃参数描述主要单 token 计算路径，不等价于 21B 模型显存。</text>
+</svg>

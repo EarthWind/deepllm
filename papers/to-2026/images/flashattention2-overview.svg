@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">FlashAttention-2 的三项核心优化</title>
+  <desc id="desc">FlashAttention-2 保持精确注意力和线性额外内存不变，通过减少非矩阵乘操作、沿序列维增加线程块并行、重做 warp 工作划分，提高 GPU 利用率。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071426"/><stop offset="1" stop-color="#202452"/></linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#172d4a"/><stop offset="1" stop-color="#12223b"/></linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#29d3c2"/><stop offset="1" stop-color="#8c7cff"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity=".42"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5 0 10z" fill="#aebfe0"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#aebfda}.head{font-size:22px;font-weight:740;fill:#f7fbff}.body{font-size:16px;fill:#d9e6f7}.small{font-size:14px;fill:#a9bbd6}.num{font-size:42px;font-weight:800;fill:#91fff0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#cfe2ff}.pill{font-size:14px;font-weight:750;fill:#071426}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="58" y="60" class="sans title">FlashAttention-2：数学不变，把 GPU 工作分得更好</text>
+  <text x="58" y="92" class="sans sub">v1 已解决 N×N 中间量落 HBM；v2 继续追问：为什么 fused kernel 仍远慢于 GEMM？</text>
+
+  <g filter="url(#shadow)">
+    <rect x="58" y="138" width="270" height="424" rx="24" fill="#111e35" stroke="#536887" stroke-width="2"/>
+  </g>
+  <text x="86" y="180" class="sans head">FlashAttention v1</text>
+  <rect x="86" y="205" width="214" height="74" rx="14" fill="#263554"/>
+  <text x="193" y="236" text-anchor="middle" class="sans body">已消除持久 S / P</text>
+  <text x="193" y="261" text-anchor="middle" class="sans mono">extra memory O(N)</text>
+  <g transform="translate(87 308)">
+    <rect width="54" height="54" rx="10" fill="#25385a"/><rect x="62" width="54" height="54" rx="10" fill="#25385a"/>
+    <rect x="124" width="54" height="54" rx="10" fill="#25385a"/><rect x="186" width="54" height="54" rx="10" fill="#25385a"/>
+    <rect y="62" width="54" height="54" rx="10" fill="#25385a"/><rect x="62" y="62" width="54" height="54" rx="10" fill="#25385a"/>
+    <rect x="124" y="62" width="54" height="54" rx="10" fill="#25385a"/><rect x="186" y="62" width="54" height="54" rx="10" fill="#25385a"/>
+    <text x="120" y="145" text-anchor="middle" class="sans small">长序列 + 小 batch 时 CTA 太少</text>
+  </g>
+  <text x="86" y="487" class="sans body">• 每个 KV tile 更新归一化 O</text>
+  <text x="86" y="518" class="sans body">• split-K 需要 warp 间归约</text>
+  <rect x="86" y="535" width="214" height="42" rx="21" fill="#f2b35f"/>
+  <text x="193" y="562" text-anchor="middle" class="sans pill">仅约 25%–40% 峰值</text>
+
+  <path d="M346 350H400" stroke="#aebfe0" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)"><rect x="420" y="138" width="246" height="424" rx="24" fill="url(#card)" stroke="#2dd4bf" stroke-width="2"/></g>
+  <text x="448" y="194" class="sans num">01</text>
+  <text x="448" y="235" class="sans head">少做昂贵标量活</text>
+  <text x="448" y="275" class="sans body">维护未归一化输出分子，</text>
+  <text x="448" y="302" class="sans body">扫完 K/V 后只除一次。</text>
+  <rect x="448" y="338" width="190" height="92" rx="15" fill="#0d3c48"/>
+  <text x="543" y="371" text-anchor="middle" class="sans mono">Ũ ← αŨ + P̃V</text>
+  <text x="543" y="404" text-anchor="middle" class="sans mono">O ← Ũ / ℓ  (final)</text>
+  <text x="448" y="480" class="sans small">目标：让时间更多花在</text>
+  <text x="448" y="505" class="sans small">Tensor Core matmul 上。</text>
+
+  <g filter="url(#shadow)"><rect x="686" y="138" width="246" height="424" rx="24" fill="url(#card)" stroke="#6ea8ff" stroke-width="2"/></g>
+  <text x="714" y="194" class="sans num" fill="#a6c8ff">02</text>
+  <text x="714" y="235" class="sans head">序列维也并行</text>
+  <text x="714" y="275" class="sans body">forward：每个 CTA</text>
+  <text x="714" y="302" class="sans body">独占一个 Q 行块。</text>
+  <g transform="translate(716 339)">
+    <rect width="188" height="18" rx="6" fill="#49c9df"/><rect y="28" width="188" height="18" rx="6" fill="#6ea8ff"/>
+    <rect y="56" width="188" height="18" rx="6" fill="#8d7cf6"/><rect y="84" width="188" height="18" rx="6" fill="#b46eed"/>
+  </g>
+  <text x="714" y="480" class="sans small">grid 从 B·H 扩展到</text>
+  <text x="714" y="507" class="sans mono">B · H · ⌈N/Bᵣ⌉</text>
+
+  <g filter="url(#shadow)"><rect x="952" y="138" width="270" height="424" rx="24" fill="url(#card)" stroke="#b477f1" stroke-width="2"/></g>
+  <text x="980" y="194" class="sans num" fill="#d6b7ff">03</text>
+  <text x="980" y="235" class="sans head">warp 改为 split-Q</text>
+  <text x="980" y="275" class="sans body">各 warp 负责互不重叠的</text>
+  <text x="980" y="302" class="sans body">Q 行与输出行。</text>
+  <g transform="translate(982 339)">
+    <rect width="51" height="96" rx="10" fill="#1a4660"/><rect x="60" width="51" height="96" rx="10" fill="#284f78"/>
+    <rect x="120" width="51" height="96" rx="10" fill="#514b8a"/><rect x="180" width="51" height="96" rx="10" fill="#71478a"/>
+    <text x="25" y="56" text-anchor="middle" class="sans mono">W0</text><text x="85" y="56" text-anchor="middle" class="sans mono">W1</text>
+    <text x="145" y="56" text-anchor="middle" class="sans mono">W2</text><text x="205" y="56" text-anchor="middle" class="sans mono">W3</text>
+  </g>
+  <text x="980" y="480" class="sans small">forward 无需把 partial O</text>
+  <text x="980" y="505" class="sans small">写入 shared memory 再求和。</text>
+
+  <rect x="155" y="616" width="970" height="64" rx="22" fill="#102a40" stroke="url(#accent)" stroke-width="2"/>
+  <text x="640" y="642" text-anchor="middle" class="sans body">结果仍是 exact dense attention：O = softmax(QKᵀ / √d)V，计算量 O(N²d)，额外内存 O(N)</text>
+  <text x="640" y="667" text-anchor="middle" class="sans small">论文在 A100 上报告约 2× 于 FlashAttention，最高 73% 理论峰值；收益来自实现，不来自近似。</text>
+</svg>

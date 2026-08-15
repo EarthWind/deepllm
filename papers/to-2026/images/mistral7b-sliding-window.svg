@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">滑动窗口注意力与跨层感受野</title>
+  <desc id="desc">单层只连接当前 token 与最近 W 个键，但局部信息可在堆叠层之间逐层向前传递，使理论感受野随层数近似线性增长。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071522"/><stop offset="1" stop-color="#19263f"/></linearGradient>
+    <linearGradient id="hot" x1="0" x2="1"><stop stop-color="#f8c15d"/><stop offset="1" stop-color="#e77940"/></linearGradient>
+    <linearGradient id="cool" x1="0" x2="1"><stop stop-color="#35c4d5"/><stop offset="1" stop-color="#3e73d7"/></linearGradient>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91abc7"/></marker>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".4"/></filter>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#49617a" stroke-width="1"/></pattern>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9eb3cc}.head{font-size:20px;font-weight:750;fill:#fff}.body{font-size:15px;fill:#dce8f5}.small{font-size:13px;fill:#9eb3cc}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f6f9ff}.dark{font-size:15px;font-weight:760;fill:#152238}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">Sliding Window Attention：每层看局部，层间传递更远</text>
+  <text x="52" y="91" class="sans sub">W 限制的是一次注意力读取的 Key 数；多层感受野来自中间表示接力，不是当前层直接连接全部历史</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="126" width="520" height="486" rx="22" fill="#0d2135" stroke="#355672"/></g>
+  <text x="77" y="165" class="sans head">单层因果局部 Mask（玩具示例 W=4）</text>
+  <text x="77" y="190" class="sans small">横轴 Key 位置 j，纵轴 Query 位置 i；橙色为可见，深色为屏蔽</text>
+  <rect x="114" y="226" width="320" height="320" fill="#14283d"/>
+  <g fill="#e99745">
+    <rect x="114" y="226" width="32" height="32"/><rect x="114" y="258" width="64" height="32"/>
+    <rect x="114" y="290" width="96" height="32"/><rect x="114" y="322" width="128" height="32"/>
+    <rect x="146" y="354" width="128" height="32"/><rect x="178" y="386" width="128" height="32"/>
+    <rect x="210" y="418" width="128" height="32"/><rect x="242" y="450" width="128" height="32"/>
+    <rect x="274" y="482" width="128" height="32"/><rect x="306" y="514" width="128" height="32"/>
+  </g>
+  <rect x="114" y="226" width="320" height="320" fill="url(#grid)"/>
+  <g class="sans small" text-anchor="middle"><text x="130" y="568">0</text><text x="194" y="568">2</text><text x="258" y="568">4</text><text x="322" y="568">6</text><text x="386" y="568">8</text></g>
+  <g class="sans small" text-anchor="end"><text x="104" y="247">0</text><text x="104" y="311">2</text><text x="104" y="375">4</text><text x="104" y="439">6</text><text x="104" y="503">8</text></g>
+  <path d="M461 418V514" stroke="#45c4d3" stroke-width="3"/><path d="M451 418H471M451 514H471" stroke="#45c4d3" stroke-width="3"/>
+  <text x="478" y="458" class="sans body">最多</text><text x="478" y="481" class="sans mono">W keys</text>
+
+  <g filter="url(#shadow)"><rect x="604" y="126" width="628" height="486" rx="22" fill="#0d2135" stroke="#355672"/></g>
+  <text x="634" y="165" class="sans head">跨层“信息接力”（玩具示意 W=4）</text>
+  <text x="634" y="190" class="sans small">追踪顶层位置 i 的理论依赖区间；真实网络还包含残差，图仅表达连通性上界</text>
+  <g class="sans">
+    <text x="651" y="250" class="body">Layer 1</text><rect x="745" y="225" width="392" height="42" rx="11" fill="#173047"/><rect x="1039" y="225" width="98" height="42" rx="11" fill="url(#hot)"/><text x="1088" y="252" text-anchor="middle" class="dark">最近 4</text>
+    <text x="651" y="321" class="body">Layer 2</text><rect x="745" y="296" width="392" height="42" rx="11" fill="#173047"/><rect x="941" y="296" width="196" height="42" rx="11" fill="#d98c46"/><text x="1039" y="323" text-anchor="middle" class="dark">约 8</text>
+    <text x="651" y="392" class="body">Layer 3</text><rect x="745" y="367" width="392" height="42" rx="11" fill="#173047"/><rect x="843" y="367" width="294" height="42" rx="11" fill="#bd824d"/><text x="990" y="394" text-anchor="middle" class="dark">约 12</text>
+    <text x="651" y="463" class="body">Layer 4</text><rect x="745" y="438" width="392" height="42" rx="11" fill="url(#cool)"/><text x="941" y="465" text-anchor="middle" class="head">约 16 个位置的理论影响范围</text>
+  </g>
+  <path d="M1172 246V459" stroke="#91abc7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="642" y="513" width="558" height="70" rx="15" fill="#293129" stroke="#d79042"/>
+  <text x="667" y="542" class="sans mono">单层计算：O(N · W · d)　　L 层理论跨度：≈ L · W</text>
+  <text x="667" y="568" class="sans small">32 × 4096 ≈ 131K 是依赖路径上界，不是“单层 131K 全注意力”，也不是长程检索质量保证。</text>
+  <text x="52" y="668" class="sans small">本文把 W 定义为“最多保留 W 个 Key”，窗口为 [max(0, i−W+1), i]；论文正文的边界写法可能看起来相差 1，核心口径是可见元素数。</text>
+</svg>

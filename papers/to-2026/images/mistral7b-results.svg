@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Mistral 7B 与 Llama 2 13B 的论文基准对比</title>
+  <desc id="desc">论文表二的六项代表性结果显示，Mistral 7B 在 MMLU、HellaSwag、HumanEval、MBPP、MATH 和 GSM8K 上都高于论文复测的 Llama 2 13B。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071522"/><stop offset="1" stop-color="#19263f"/></linearGradient>
+    <linearGradient id="hot" x1="0" x2="1"><stop stop-color="#f8c15d"/><stop offset="1" stop-color="#e77940"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".4"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9eb3cc}.head{font-size:20px;font-weight:750;fill:#fff}.body{font-size:15px;fill:#dce8f5}.small{font-size:13px;fill:#9eb3cc}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f6f9ff}.dark{font-size:14px;font-weight:760;fill:#152238}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">7B 对 13B：论文统一复测口径下的代表性结果</text>
+  <text x="52" y="91" class="sans sub">橙色 Mistral 7B，灰蓝 Llama 2 13B；条长按 0–100 原始分数绘制，不代表今天的模型排行榜</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="126" width="1184" height="475" rx="22" fill="#0d2135" stroke="#355672"/></g>
+  <g class="sans">
+    <text x="82" y="178" class="head">MMLU</text><rect x="214" y="151" width="334" height="20" rx="6" fill="#496179"/><rect x="214" y="178" width="361" height="20" rx="6" fill="url(#hot)"/><text x="559" y="168" class="mono">55.6</text><text x="586" y="195" class="mono">60.1</text>
+    <text x="82" y="250" class="head">HellaSwag</text><rect x="214" y="223" width="484" height="20" rx="6" fill="#496179"/><rect x="214" y="250" width="488" height="20" rx="6" fill="url(#hot)"/><text x="709" y="240" class="mono">80.7</text><text x="713" y="267" class="mono">81.3</text>
+    <text x="82" y="322" class="head">HumanEval</text><rect x="214" y="295" width="113" height="20" rx="6" fill="#496179"/><rect x="214" y="322" width="183" height="20" rx="6" fill="url(#hot)"/><text x="338" y="312" class="mono">18.9</text><text x="408" y="339" class="mono">30.5</text>
+    <text x="82" y="394" class="head">MBPP</text><rect x="214" y="367" width="212" height="20" rx="6" fill="#496179"/><rect x="214" y="394" width="285" height="20" rx="6" fill="url(#hot)"/><text x="437" y="384" class="mono">35.4</text><text x="510" y="411" class="mono">47.5</text>
+    <text x="82" y="466" class="head">MATH</text><rect x="214" y="439" width="36" height="20" rx="6" fill="#496179"/><rect x="214" y="466" width="79" height="20" rx="6" fill="url(#hot)"/><text x="261" y="456" class="mono">6.0</text><text x="304" y="483" class="mono">13.1</text>
+    <text x="82" y="538" class="head">GSM8K</text><rect x="214" y="511" width="206" height="20" rx="6" fill="#496179"/><rect x="214" y="538" width="313" height="20" rx="6" fill="url(#hot)"/><text x="431" y="528" class="mono">34.3</text><text x="538" y="555" class="mono">52.2</text>
+  </g>
+  <line x1="214" y1="139" x2="214" y2="574" stroke="#66819d"/><g class="sans small" text-anchor="middle"><text x="214" y="591">0</text><text x="364" y="591">25</text><text x="514" y="591">50</text><text x="664" y="591">75</text><text x="814" y="591">100</text></g>
+  <g transform="translate(853 165)" class="sans">
+    <rect width="329" height="338" rx="18" fill="#142a40" stroke="#385b76"/>
+    <text x="24" y="40" class="head">读图必须保留的口径</text>
+    <circle cx="30" cy="78" r="7" fill="#f0a64e"/><text x="50" y="83" class="body">Mistral 参数约 7.24B</text>
+    <circle cx="30" cy="119" r="7" fill="#f0a64e"/><text x="50" y="124" class="body">Llama 2 13B 是作者复测</text>
+    <circle cx="30" cy="160" r="7" fill="#f0a64e"/><text x="50" y="165" class="body">few-shot / maj@k 因任务而异</text>
+    <circle cx="30" cy="201" r="7" fill="#f0a64e"/><text x="50" y="206" class="body">MBPP 用 hand-verified 子集</text>
+    <circle cx="30" cy="242" r="7" fill="#f0a64e"/><text x="50" y="247" class="body">TriviaQA 不提供 Wikipedia context</text>
+    <rect x="22" y="277" width="285" height="40" rx="10" fill="#293129" stroke="#d79042"/>
+    <text x="164" y="302" text-anchor="middle" class="body">结论属于这套 2023 评测协议</text>
+  </g>
+  <rect x="48" y="625" width="1184" height="54" rx="16" fill="#273027" stroke="#d79042"/>
+  <text x="70" y="658" class="sans body">论文总体结论强调跨基准优于 Llama 2 13B；图中选六项，Table 2 的 NQ 例外（28.8 对 29.0）与协议差异见正文。来源：Mistral 7B，Table 2。</text>
+</svg>

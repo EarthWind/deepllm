@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V3 FP8 混合精度训练</title>
+  <desc id="desc">主要线性层的前向、激活反向和权重反向使用 E4M3 FP8；激活按 1 乘 128 tile 缩放，权重按 128 乘 128 block 缩放，并周期性提升到 FP32 寄存器累加。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1a2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#34c7d8"/><stop offset="1" stop-color="#367bdd"/></linearGradient>
+    <linearGradient id="green" x1="0" x2="1"><stop stop-color="#43d2b1"/><stop offset="1" stop-color="#278f83"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc45d"/><stop offset="1" stop-color="#ee7d45"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#102033}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">FP8 不是“全模型八位”：关键路径仍保留高精度</text>
+  <text x="52" y="91" class="sans sub">性能来自 FP8 GEMM、细粒度动态 scale、高精度累加、低精度存储与通信的组合</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="127" width="355" height="493" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="166" class="sans head">混合精度边界</text>
+  <rect x="82" y="199" width="287" height="145" rx="15" fill="url(#cyan)"/><text x="225" y="230" text-anchor="middle" class="dark">FP8 E4M3 GEMM</text><text x="225" y="262" text-anchor="middle" class="dark">Fprop · Dgrad · Wgrad</text><text x="225" y="292" text-anchor="middle" class="dark">Linear 主计算</text><text x="225" y="320" text-anchor="middle" class="dark">理论峰值约为 BF16 的 2×</text>
+  <rect x="82" y="367" width="287" height="205" rx="15" fill="#29334a" stroke="#6d789f"/><text x="225" y="399" text-anchor="middle" class="head">BF16 / FP32 保留区</text><text x="105" y="432" class="body">• Embedding / LM Head</text><text x="105" y="462" class="body">• Attention / MoE Gate</text><text x="105" y="492" class="body">• RMSNorm</text><text x="105" y="522" class="body">• FP32 master weights / gradients</text><text x="105" y="550" class="small">AdamW moments 使用 BF16</text>
+
+  <g filter="url(#shadow)"><rect x="427" y="127" width="392" height="493" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="457" y="166" class="sans head">Fine-Grained Online Scaling</text>
+  <text x="457" y="199" class="sans body">Activation：每 token × 128 channels</text>
+  <g>
+    <rect x="457" y="220" width="72" height="42" rx="8" fill="#2daebc"/><rect x="535" y="220" width="72" height="42" rx="8" fill="#347fd2"/><rect x="613" y="220" width="72" height="42" rx="8" fill="#8068d8"/><rect x="691" y="220" width="96" height="42" rx="8" fill="#e88848"/>
+    <text x="493" y="247" text-anchor="middle" class="sans dark">scale</text><text x="571" y="247" text-anchor="middle" class="sans dark">scale</text><text x="649" y="247" text-anchor="middle" class="sans dark">scale</text><text x="739" y="247" text-anchor="middle" class="sans dark">outlier</text>
+  </g>
+  <text x="457" y="302" class="sans body">Weight：每 128 input × 128 output</text>
+  <g stroke="#43647d" stroke-width="1"><rect x="457" y="322" width="154" height="94" rx="8" fill="#183b51"/><path d="M508 322V416M559 322V416M457 369H611"/><rect x="633" y="322" width="154" height="94" rx="8" fill="#2b3150"/><path d="M684 322V416M735 322V416M633 369H787"/></g>
+  <text x="534" y="444" text-anchor="middle" class="sans small">128×128 block scales</text><text x="710" y="444" text-anchor="middle" class="sans small">局部 outlier 不拖累全张量</text>
+  <rect x="457" y="475" width="330" height="96" rx="14" fill="url(#green)"/><text x="622" y="506" text-anchor="middle" class="sans dark">每组在线计算 max-abs</text><text x="622" y="536" text-anchor="middle" class="sans dark">scale → E4M3 quantize</text><text x="622" y="559" text-anchor="middle" class="sans dark">不是沿用历史 scale 的 delayed quantization</text>
+
+  <g filter="url(#shadow)"><rect x="843" y="127" width="389" height="493" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="873" y="166" class="sans head">高精度累加与低精度通信</text>
+  <rect x="877" y="199" width="321" height="116" rx="15" fill="url(#amber)"/><text x="1037" y="230" text-anchor="middle" class="dark">Tensor Core 部分和</text><text x="1037" y="260" text-anchor="middle" class="dark">每 Nᴄ = 128 个 K 元素</text><text x="1037" y="289" text-anchor="middle" class="dark">提升到 CUDA Core FP32 registers</text>
+  <rect x="877" y="337" width="321" height="101" rx="15" fill="#26354b"/><text x="1037" y="368" text-anchor="middle" class="head">Activation Cache</text><text x="1037" y="397" text-anchor="middle" class="body">多数 Linear 输入存 FP8</text><text x="1037" y="422" text-anchor="middle" class="small">敏感 attention 输入用定制 E5M6</text>
+  <rect x="877" y="460" width="321" height="111" rx="15" fill="#2c3154" stroke="#8068c9"/><text x="1037" y="491" text-anchor="middle" class="head">MoE Communication</text><text x="1037" y="521" text-anchor="middle" class="body">dispatch：FP8</text><text x="1037" y="548" text-anchor="middle" class="body">combine：BF16</text>
+  <text x="52" y="660" class="sans body">论文约 1T-token 控制实验中，FP8 相对 BF16 的 loss 误差持续低于 0.25%；这不是所有任务精度误差的统一上界。</text>
+  <text x="52" y="688" class="sans small">1×128 / 128×128 是 H800 共设计结果；换硬件或格式时，scale 粒度与 kernel 融合方式需要重新选择。</text>
+</svg>

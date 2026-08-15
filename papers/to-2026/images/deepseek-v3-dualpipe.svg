@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V3 DualPipe 流水线</title>
+  <desc id="desc">DualPipe 从流水线两端注入微批，将前向、输入梯度反向、权重梯度反向和通信重排，以较少气泡隐藏专家 all-to-all 与流水线通信。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1a2140"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f8ff}.dark{font-size:14px;font-weight:760;fill:#102033}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">DualPipe：从两端送入微批，用反向拆分填掉通信空隙</text>
+  <text x="52" y="91" class="sans sub">下图是概念时间线，不复刻论文完整 8-stage / 20-microbatch 调度表</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="126" width="1184" height="352" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="164" class="sans head">时间 →</text>
+  <g class="sans small">
+    <text x="78" y="216">PP stage 0</text><text x="78" y="274">PP stage 1</text><text x="78" y="332">PP stage 2</text><text x="78" y="390">PP stage 3</text>
+  </g>
+  <g transform="translate(178 184)">
+    <g stroke="#0d2236" stroke-width="5">
+      <rect x="0" y="0" width="125" height="42" rx="7" fill="#f29a49"/><rect x="125" y="0" width="125" height="42" rx="7" fill="#8b6edf"/><rect x="250" y="0" width="125" height="42" rx="7" fill="#4bbaa9"/><rect x="375" y="0" width="125" height="42" rx="7" fill="#3f7ece"/><rect x="500" y="0" width="125" height="42" rx="7" fill="#f29a49"/><rect x="625" y="0" width="125" height="42" rx="7" fill="#8b6edf"/><rect x="750" y="0" width="125" height="42" rx="7" fill="#4bbaa9"/><rect x="875" y="0" width="125" height="42" rx="7" fill="#3f7ece"/>
+      <rect x="62" y="58" width="125" height="42" rx="7" fill="#f29a49"/><rect x="187" y="58" width="125" height="42" rx="7" fill="#8b6edf"/><rect x="312" y="58" width="125" height="42" rx="7" fill="#4bbaa9"/><rect x="437" y="58" width="125" height="42" rx="7" fill="#3f7ece"/><rect x="562" y="58" width="125" height="42" rx="7" fill="#f29a49"/><rect x="687" y="58" width="125" height="42" rx="7" fill="#8b6edf"/><rect x="812" y="58" width="125" height="42" rx="7" fill="#4bbaa9"/>
+      <rect x="124" y="116" width="125" height="42" rx="7" fill="#f29a49"/><rect x="249" y="116" width="125" height="42" rx="7" fill="#8b6edf"/><rect x="374" y="116" width="125" height="42" rx="7" fill="#4bbaa9"/><rect x="499" y="116" width="125" height="42" rx="7" fill="#3f7ece"/><rect x="624" y="116" width="125" height="42" rx="7" fill="#f29a49"/><rect x="749" y="116" width="125" height="42" rx="7" fill="#8b6edf"/>
+      <rect x="186" y="174" width="125" height="42" rx="7" fill="#f29a49"/><rect x="311" y="174" width="125" height="42" rx="7" fill="#8b6edf"/><rect x="436" y="174" width="125" height="42" rx="7" fill="#4bbaa9"/><rect x="561" y="174" width="125" height="42" rx="7" fill="#3f7ece"/><rect x="686" y="174" width="125" height="42" rx="7" fill="#f29a49"/>
+    </g>
+    <g class="sans dark" text-anchor="middle"><text x="62" y="27">F</text><text x="187" y="27">COMM</text><text x="312" y="27">B-input</text><text x="437" y="27">B-weight</text><text x="124" y="85">F</text><text x="249" y="85">COMM</text><text x="374" y="85">B-input</text><text x="499" y="85">B-weight</text><text x="186" y="143">F</text><text x="311" y="143">COMM</text><text x="436" y="143">B-input</text><text x="561" y="143">B-weight</text><text x="248" y="201">F</text><text x="373" y="201">COMM</text><text x="498" y="201">B-input</text><text x="623" y="201">B-weight</text></g>
+  </g>
+  <text x="178" y="444" class="sans small">橙：forward　绿：backward for input　蓝：backward for weights　紫：PP / All-to-All communication（与相邻计算重叠）</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="503" width="365" height="151" rx="20" fill="#17364c" stroke="#38b7c9"/></g>
+  <text x="78" y="540" class="sans head">并行配置</text><text x="78" y="574" class="sans body">16-way PP · 64-way EP（8 nodes）</text><text x="78" y="605" class="sans body">ZeRO-1 DP · 不使用训练 TP</text><text x="78" y="632" class="sans small">主问题是跨节点专家通信约等于计算时间</text>
+  <g filter="url(#shadow)"><rect x="436" y="503" width="386" height="151" rx="20" fill="#2c3154" stroke="#8068c9"/></g>
+  <text x="466" y="540" class="sans head">Bubble 与内存权衡</text><text x="466" y="574" class="sans body">Bubble: (PP/2 − 1)(F&amp;B + B − 3W)</text><text x="466" y="605" class="sans body">Parameters 2× · Activations PP+1</text><text x="466" y="632" class="sans small">双向调度需要两份参数，但大 EP 降低单 rank 权重</text>
+  <g filter="url(#shadow)"><rect x="845" y="503" width="387" height="151" rx="20" fill="#29322d" stroke="#d18c45"/></g>
+  <text x="875" y="540" class="sans head">系统效果</text><text x="875" y="574" class="sans body">All-to-All 与 PP 通信近乎完全隐藏</text><text x="875" y="605" class="sans body">RMSNorm / MLA up-proj 反向重算</text><text x="875" y="632" class="sans small">CPU 异步维护 EMA，继续压低 GPU 内存</text>
+  <text x="52" y="691" class="sans small">DualPipe 不是单个 CUDA kernel，而是流水线调度、通信 kernel、SM 配额和网络拓扑共同成立的系统设计。</text>
+</svg>

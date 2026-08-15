@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">FlashAttention v1 与 v2 的在线 softmax 输出更新</title>
+  <desc id="desc">v1 每合并一个 K/V 块都维护归一化输出 O；v2 保留未归一化分子 U，只在所有 K/V 块处理完后做一次除法。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07162a"/><stop offset="1" stop-color="#1e2851"/></linearGradient>
+    <linearGradient id="v2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f5960"/><stop offset="1" stop-color="#393c82"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity=".4"/></filter>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5 0 9z" fill="#afc1df"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:24px;font-weight:750;fill:#fff}.body{font-size:16px;fill:#dce8f8}.small{font-size:14px;fill:#aebfd8}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:18px;fill:#eff7ff}.em{font-size:16px;font-weight:740;fill:#8ff8e6}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="58" y="61" class="sans title">算法微调：把“每块归一化”推迟到“最后归一化”</text>
+  <text x="58" y="93" class="sans sub">两条路径在实数数学上等价；FA-2 减少的是 Tensor Core 不擅长的缩放、除法与状态搬运。</text>
+
+  <g filter="url(#shadow)"><rect x="58" y="140" width="555" height="474" rx="24" fill="#111f37" stroke="#647896" stroke-width="2"/></g>
+  <text x="90" y="184" class="sans head">v1 风格：状态里保存归一化 O</text>
+  <text x="90" y="216" class="sans small">每来一个 K/V tile，都要把旧输出与新贡献换到新分母。</text>
+  <g transform="translate(92 259)">
+    <rect width="116" height="72" rx="14" fill="#293959"/><text x="58" y="31" text-anchor="middle" class="sans body">旧状态</text><text x="58" y="56" text-anchor="middle" class="sans mono">m, ℓ, O</text>
+    <path d="M128 36H172" stroke="#afc1df" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="186" width="146" height="72" rx="14" fill="#283b5c"/><text x="259" y="31" text-anchor="middle" class="sans body">当前 tile</text><text x="259" y="56" text-anchor="middle" class="sans mono">Sⱼ, P̃ⱼVⱼ</text>
+    <path d="M344 36H388" stroke="#afc1df" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="402" width="116" height="72" rx="14" fill="#4a4168"/><text x="460" y="31" text-anchor="middle" class="sans body">新状态</text><text x="460" y="56" text-anchor="middle" class="sans mono">m′, ℓ′, O′</text>
+  </g>
+  <rect x="91" y="369" width="489" height="104" rx="16" fill="#202f4b"/>
+  <text x="335" y="405" text-anchor="middle" class="sans mono">α = exp(m − m′)</text>
+  <text x="335" y="439" text-anchor="middle" class="sans mono">O′ = (αℓO + P̃ⱼVⱼ) / ℓ′</text>
+  <text x="91" y="510" class="sans body">若有 T꜀ 个 K/V blocks：</text>
+  <text x="91" y="543" class="sans mono">O 被重新缩放 / 归一化 T꜀ 次</text>
+  <rect x="91" y="563" width="489" height="31" rx="15" fill="#563f42"/><text x="335" y="584" text-anchor="middle" class="sans small">正确，但非 matmul 工作更多</text>
+
+  <path d="M627 376H660" stroke="#8ff8e6" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)"><rect x="674" y="140" width="548" height="474" rx="24" fill="url(#v2)" stroke="#35d6bf" stroke-width="2"/></g>
+  <text x="706" y="184" class="sans head">FA-2：状态里保存未归一化分子 Ũ</text>
+  <text x="706" y="216" class="sans small">一个 Q-row worker 扫完全部 K/V tiles，再做最终除法。</text>
+  <g transform="translate(708 259)">
+    <rect width="116" height="72" rx="14" fill="#174653"/><text x="58" y="31" text-anchor="middle" class="sans body">旧状态</text><text x="58" y="56" text-anchor="middle" class="sans mono">m, ℓ, Ũ</text>
+    <path d="M128 36H172" stroke="#b7efe8" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="186" width="146" height="72" rx="14" fill="#1e4a63"/><text x="259" y="31" text-anchor="middle" class="sans body">当前 tile</text><text x="259" y="56" text-anchor="middle" class="sans mono">Sⱼ, P̃ⱼVⱼ</text>
+    <path d="M344 36H388" stroke="#b7efe8" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="402" width="108" height="72" rx="14" fill="#414678"/><text x="456" y="31" text-anchor="middle" class="sans body">新状态</text><text x="456" y="56" text-anchor="middle" class="sans mono">m′,ℓ′,Ũ′</text>
+  </g>
+  <rect x="707" y="369" width="482" height="104" rx="16" fill="#123d54"/>
+  <text x="948" y="405" text-anchor="middle" class="sans mono">Ũ′ = αŨ + P̃ⱼVⱼ</text>
+  <text x="948" y="439" text-anchor="middle" class="sans mono">ℓ′ = αℓ + rowsum(P̃ⱼ)</text>
+  <text x="707" y="510" class="sans body">循环结束后：</text>
+  <text x="707" y="543" class="sans mono">O = Ũ / ℓ,   L = m + log ℓ</text>
+  <rect x="707" y="563" width="482" height="31" rx="15" fill="#126052"/><text x="948" y="584" text-anchor="middle" class="sans small" fill="#d7fff8">每行只做一次最终归一化</text>
+
+  <rect x="188" y="646" width="904" height="43" rx="21" fill="#112840" stroke="#486581"/>
+  <text x="640" y="674" text-anchor="middle" class="sans em">注意：这项优化改变常数项，不改变 O(N²d) FLOPs 阶，也不改变 exact attention 结果。</text>
+</svg>

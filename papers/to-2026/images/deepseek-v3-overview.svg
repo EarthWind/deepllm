@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V3 架构总览</title>
+  <desc id="desc">DeepSeek-V3 是 61 层、6710 亿总参数、每 token 激活约 370 亿参数的混合专家模型，继承 MLA 与 DeepSeekMoE，并新增偏置负载均衡、多 token 预测和 FP8 训练。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1a2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#34c7d8"/><stop offset="1" stop-color="#367bdd"/></linearGradient>
+    <linearGradient id="green" x1="0" x2="1"><stop stop-color="#43d2b1"/><stop offset="1" stop-color="#278f83"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc45d"/><stop offset="1" stop-color="#ee7d45"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91aac7"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#102033}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">DeepSeek-V3：大容量、稀疏执行、低精度训练</text>
+  <text x="52" y="91" class="sans sub">V2 主干继续扩张；V3 的新增贡献集中在路由目标、训练信号与系统精度</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="126" width="270" height="497" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="165" class="sans head">61 层 Decoder-only</text>
+  <rect x="82" y="550" width="202" height="43" rx="11" fill="url(#cyan)"/><text x="183" y="577" text-anchor="middle" class="sans head">Token Embedding</text>
+  <path d="M183 550V520" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="77" y="435" width="212" height="73" rx="14" fill="#2d465e"/><text x="183" y="464" text-anchor="middle" class="sans head">Layers 0…2</text><text x="183" y="491" text-anchor="middle" class="sans body">MLA + Dense FFN</text>
+  <path d="M183 435V405" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="72" y="226" width="222" height="166" rx="16" fill="#17364c" stroke="#45b6cb" stroke-width="2"/>
+  <text x="183" y="260" text-anchor="middle" class="sans head">Layers 3…60</text><text x="183" y="294" text-anchor="middle" class="sans body">MLA Attention</text><path d="M106 313H260" stroke="#4b657f"/>
+  <text x="183" y="344" text-anchor="middle" class="sans body">DeepSeekMoE</text><text x="183" y="375" text-anchor="middle" class="sans mono">× 58</text>
+  <path d="M183 226V197" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="82" y="175" width="202" height="42" rx="11" fill="#2f4962"/><text x="183" y="202" text-anchor="middle" class="sans body">RMSNorm + LM Head</text>
+
+  <g filter="url(#shadow)"><rect x="344" y="126" width="426" height="497" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="374" y="165" class="sans head">主干：V2 已验证的两种解耦</text>
+  <rect x="376" y="199" width="362" height="128" rx="16" fill="#173d54" stroke="#39bcd0"/>
+  <text x="400" y="233" class="sans head">MLA · 历史状态压缩</text><text x="400" y="265" class="sans body">128 heads · KV latent 512</text><text x="400" y="293" class="sans body">共享 RoPE key 64 · Cache 总宽 576</text>
+  <rect x="376" y="348" width="362" height="151" rx="16" fill="#24354b" stroke="#6c7fd4"/>
+  <text x="400" y="382" class="sans head">DeepSeekMoE · 容量与计算解耦</text><text x="400" y="414" class="sans body">1 shared expert 始终执行</text><text x="400" y="442" class="sans body">256 routed experts 中 Top-8</text><text x="400" y="470" class="sans small">58 个 MoE 层 · 每专家 intermediate 2048</text>
+  <rect x="376" y="523" width="362" height="64" rx="14" fill="#29322d" stroke="#d18c45"/>
+  <text x="400" y="550" class="sans body">总参数 ≈ 671B</text><text x="400" y="576" class="sans body">每 token 激活 ≈ 37B</text>
+
+  <g filter="url(#shadow)"><rect x="796" y="126" width="436" height="497" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="826" y="165" class="sans head">V3 新增：三条训练效率主线</text>
+  <rect x="828" y="199" width="372" height="104" rx="15" fill="url(#green)"/>
+  <text x="1014" y="231" text-anchor="middle" class="sans dark">Auxiliary-Loss-Free Balancing</text><text x="1014" y="260" text-anchor="middle" class="sans dark">动态 bias 管 Top-K；不污染 gate 权重</text><text x="1014" y="284" text-anchor="middle" class="sans dark">训练 / 推理均不丢 token</text>
+  <rect x="828" y="323" width="372" height="104" rx="15" fill="#2c3154" stroke="#8972d5"/>
+  <text x="1014" y="355" text-anchor="middle" class="sans head">Multi-Token Prediction</text><text x="1014" y="384" text-anchor="middle" class="sans body">主模型预测 t+1；MTP 再预测 t+2</text><text x="1014" y="409" text-anchor="middle" class="sans small">训练增强主干；推理可拆除或用于 speculative</text>
+  <rect x="828" y="447" width="372" height="104" rx="15" fill="url(#amber)"/>
+  <text x="1014" y="479" text-anchor="middle" class="sans dark">Fine-Grained FP8 Training</text><text x="1014" y="508" text-anchor="middle" class="sans dark">1×128 activation · 128×128 weight</text><text x="1014" y="533" text-anchor="middle" class="sans dark">FP32 累加 + DualPipe 通信隐藏</text>
+  <text x="826" y="588" class="sans mono">14.8T tokens · 2.788M H800 GPU h</text>
+  <text x="52" y="678" class="sans small">参数账按官方 inference config 重建；MTP 是可拆卸训练模块，不计入主模型 671B 推理口径。成本只覆盖论文列出的正式训练运行。</text>
+</svg>
