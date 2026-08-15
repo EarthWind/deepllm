@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Mistral 7B 架构总览</title>
+  <desc id="desc">Mistral 7B 是 32 层 decoder-only Transformer，采用 RMSNorm、RoPE、SwiGLU、32 个 Query 头、8 个 KV 头和 4096 滑动窗口。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071523"/><stop offset="1" stop-color="#17233b"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#f6b84b"/><stop offset="1" stop-color="#e47b3f"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#39c6d8"/><stop offset="1" stop-color="#3878d5"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91aac7"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9eb3cc}.head{font-size:20px;font-weight:750;fill:#fff}.body{font-size:15px;fill:#dce8f5}.small{font-size:13px;fill:#9eb3cc}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f6f9ff}.dark{font-size:17px;font-weight:760;fill:#142032}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">Mistral 7B：LLaMA 式骨架，推理路径重点重构</text>
+  <text x="52" y="91" class="sans sub">参数、位置连接和缓存是三张不同的账：GQA 压头维，SWA 压长度维，Rolling Buffer 固定物理容量</text>
+
+  <g filter="url(#shadow)">
+    <rect x="48" y="126" width="230" height="500" rx="22" fill="#0e2236" stroke="#36556f"/>
+    <rect x="73" y="558" width="180" height="44" rx="12" fill="url(#amber)"/><text x="163" y="585" text-anchor="middle" class="sans dark">Token Embedding</text>
+    <path d="M163 558V525" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="73" y="283" width="180" height="225" rx="17" fill="#172f49" stroke="#46b6c9" stroke-width="2"/>
+    <text x="163" y="323" text-anchor="middle" class="sans head">Decoder Block</text>
+    <text x="163" y="352" text-anchor="middle" class="sans mono">× 32 layers</text>
+    <path d="M104 380H222" stroke="#47647e"/><path d="M104 405H222M104 430H222M104 455H222" stroke="#47647e" stroke-dasharray="5 6"/>
+    <text x="163" y="486" text-anchor="middle" class="sans small">pre-norm + residual</text>
+    <path d="M163 283V251" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="73" y="196" width="180" height="42" rx="11" fill="#25435c"/><text x="163" y="223" text-anchor="middle" class="sans body">Final RMSNorm</text>
+    <path d="M163 196V167" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="73" y="143" width="180" height="38" rx="11" fill="url(#cyan)"/><text x="163" y="168" text-anchor="middle" class="sans head">LM Head</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="314" y="126" width="492" height="500" rx="22" fill="#0d2034" stroke="#36556f"/>
+    <text x="342" y="165" class="sans head">展开一个 Decoder Block</text>
+    <text x="342" y="190" class="sans small">Attention 与 FFN 都采用 pre-norm，输出通过残差相加</text>
+    <rect x="347" y="222" width="142" height="54" rx="13" fill="#243a55"/><text x="418" y="254" text-anchor="middle" class="sans body">RMSNorm</text>
+    <path d="M489 249H527" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="540" y="212" width="226" height="74" rx="15" fill="url(#cyan)"/>
+    <text x="653" y="244" text-anchor="middle" class="sans head">Causal Sliding GQA</text>
+    <text x="653" y="268" text-anchor="middle" class="sans body">RoPE · 32 Q / 8 KV · W=4096</text>
+    <path d="M653 286V318" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="540" y="331" width="226" height="49" rx="13" fill="#1d4053"/><text x="653" y="362" text-anchor="middle" class="sans body">Residual Add</text>
+    <path d="M540 355H493" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="347" y="329" width="142" height="54" rx="13" fill="#243a55"/><text x="418" y="361" text-anchor="middle" class="sans body">RMSNorm</text>
+    <path d="M418 383V417" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="347" y="430" width="419" height="68" rx="15" fill="url(#amber)"/>
+    <text x="556" y="461" text-anchor="middle" class="sans dark">SwiGLU Feed-Forward</text>
+    <text x="556" y="485" text-anchor="middle" class="sans dark">4096 → 14336 → 4096</text>
+    <path d="M556 498V528" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="449" y="541" width="214" height="49" rx="13" fill="#3d3a31" stroke="#e39b49"/><text x="556" y="572" text-anchor="middle" class="sans body">Residual Add</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="842" y="126" width="390" height="500" rx="22" fill="#0d2034" stroke="#36556f"/>
+    <text x="870" y="165" class="sans head">论文 / 首发配置关键参数</text>
+    <g class="sans">
+      <rect x="870" y="198" width="334" height="74" rx="15" fill="#19344b"/>
+      <text x="890" y="226" class="body">隐藏维度 / 层数</text><text x="1184" y="226" text-anchor="end" class="mono">4096 / 32</text>
+      <text x="890" y="253" class="body">头维度 / Q / KV</text><text x="1184" y="253" text-anchor="end" class="mono">128 / 32 / 8</text>
+      <rect x="870" y="287" width="334" height="74" rx="15" fill="#1a3443"/>
+      <text x="890" y="315" class="body">滑动窗口</text><text x="1184" y="315" text-anchor="end" class="mono">4096</text>
+      <text x="890" y="342" class="body">论文 context_len</text><text x="1184" y="342" text-anchor="end" class="mono">8192</text>
+      <rect x="870" y="376" width="334" height="74" rx="15" fill="#293542"/>
+      <text x="890" y="404" class="body">SwiGLU 中间维度</text><text x="1184" y="404" text-anchor="end" class="mono">14336</text>
+      <text x="890" y="431" class="body">词表</text><text x="1184" y="431" text-anchor="end" class="mono">32000</text>
+      <rect x="870" y="465" width="334" height="122" rx="15" fill="#3b3027" stroke="#d79042"/>
+      <text x="890" y="495" class="head">由公开维度重建参数账本</text>
+      <text x="890" y="528" class="body">Embedding + 32 Blocks + LM Head</text>
+      <text x="890" y="561" class="mono">7,241,732,096 ≈ 7.24B</text>
+    </g>
+  </g>
+  <text x="52" y="676" class="sans small">注意：首发 checkpoint 的 max_position_embeddings=131072 不等于每层做 131K 全注意力；论文架构表给出的训练 context_len 是 8192。</text>
+</svg>

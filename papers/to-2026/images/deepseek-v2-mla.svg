@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Multi-head Latent Attention 的训练与推理路径</title>
+  <desc id="desc">隐藏状态被压缩为 512 维联合 KV latent，内容 K/V 可按需恢复；推理时通过矩阵乘结合律把 K 上投影吸收到 Query 侧、V 上投影吸收到输出侧，只缓存 latent 与 64 维共享 RoPE key。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1b2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#36c4d6"/><stop offset="1" stop-color="#3878dc"/></linearGradient>
+    <linearGradient id="violet" x1="0" x2="1"><stop stop-color="#7d63e8"/><stop offset="1" stop-color="#bc62be"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc15a"/><stop offset="1" stop-color="#ec7c42"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91aac7"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#142039}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">MLA：缓存压缩不是“少几个头”，而是保存可重建的联合 latent</text>
+  <text x="52" y="91" class="sans sub">内容通道利用低秩与乘法结合律；位置通道单独承载 RoPE，避免位置矩阵阻断权重吸收</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="128" width="565" height="489" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="167" class="sans head">直观 / 训练路径：先恢复多头 K 与 V</text>
+  <rect x="78" y="212" width="121" height="58" rx="13" fill="#29445d"/><text x="138" y="247" text-anchor="middle" class="sans mono">hₜ [5120]</text>
+  <path d="M199 241H238" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="251" y="201" width="150" height="80" rx="14" fill="url(#cyan)"/><text x="326" y="231" text-anchor="middle" class="sans head">Wᴰᴷⱽ</text><text x="326" y="258" text-anchor="middle" class="sans dark">cᴷⱽ [512]</text>
+  <path d="M401 224H441M401 258H441" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="454" y="185" width="126" height="62" rx="13" fill="#286178"/><text x="517" y="211" text-anchor="middle" class="sans body">Wᵁᴷ</text><text x="517" y="232" text-anchor="middle" class="sans small">Kᶜ [128×128]</text>
+  <rect x="454" y="255" width="126" height="62" rx="13" fill="#34537c"/><text x="517" y="281" text-anchor="middle" class="sans body">Wᵁⱽ</text><text x="517" y="302" text-anchor="middle" class="sans small">Vᶜ [128×128]</text>
+  <rect x="78" y="357" width="502" height="97" rx="15" fill="#192f47"/>
+  <text x="102" y="387" class="sans body">若直接对 Kᶜ 应用 RoPE：</text>
+  <text x="102" y="416" class="sans mono">qᵀ R(t−j) Wᵁᴷ cⱼᴷⱽ</text>
+  <text x="102" y="441" class="sans small">位置相关 R 夹在中间，Wᵁᴷ 无法静态吸收到 Query 投影。</text>
+  <rect x="78" y="479" width="502" height="104" rx="15" fill="#322b39" stroke="#8b64b2"/>
+  <text x="102" y="511" class="sans head">解耦位置通道</text>
+  <text x="102" y="542" class="sans body">内容：qᶜ · kᶜ　　位置：RoPE(qᴿ) · RoPE(kᴿ)</text>
+  <text x="102" y="568" class="sans small">kᴿ 由所有头共享，每 token 只需额外缓存 64 维。</text>
+
+  <g filter="url(#shadow)"><rect x="649" y="128" width="583" height="489" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="679" y="167" class="sans head">优化推理路径：只在 latent 空间扫描历史</text>
+  <rect x="681" y="205" width="194" height="92" rx="15" fill="url(#cyan)"/>
+  <text x="778" y="238" text-anchor="middle" class="sans head">KV Cache</text><text x="778" y="266" text-anchor="middle" class="sans dark">cᴷⱽ[512] + kᴿ[64]</text>
+  <path d="M875 251H923" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="937" y="205" width="263" height="92" rx="15" fill="#293d55"/>
+  <text x="1068" y="235" text-anchor="middle" class="sans body">每个 Query head</text>
+  <text x="1068" y="261" text-anchor="middle" class="sans mono">q̃ᵢ = (Wᵁᴷᵢ)ᵀ qᶜᵢ</text>
+  <text x="1068" y="284" text-anchor="middle" class="sans small">直接与 cⱼᴷⱽ 点积</text>
+  <rect x="681" y="337" width="519" height="105" rx="15" fill="#1d3148" stroke="#466886"/>
+  <text x="707" y="369" class="sans head">两个吸收恒等式</text>
+  <text x="707" y="398" class="sans mono">qᶜᵀ(Wᵁᴷc) = ((Wᵁᴷ)ᵀqᶜ)ᵀc</text>
+  <text x="707" y="426" class="sans mono">Wᴼᵢ Σⱼ pᵢⱼ(Wᵁⱽᵢcⱼ) = (WᴼᵢWᵁⱽᵢ)Σⱼpᵢⱼcⱼ</text>
+  <rect x="681" y="473" width="519" height="110" rx="15" fill="#2c3029" stroke="#d18c45"/>
+  <text x="707" y="505" class="sans head">结果不变，历史张量大幅变小</text>
+  <text x="707" y="536" class="sans body">不为每个历史 token 物化 128 头 Kᶜ / Vᶜ</text>
+  <text x="707" y="565" class="sans mono">cache width: 512 + 64 = 576</text>
+  <text x="52" y="672" class="sans small">Query 也使用 1536 维低秩压缩以减少训练激活，但 Query 不跨生成步缓存；因此 Q 压缩不直接贡献 KV Cache 缩减。</text>
+</svg>

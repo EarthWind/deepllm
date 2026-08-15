@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V3 代表性评测结果</title>
+  <desc id="desc">DeepSeek-V3 Base 相比 DeepSeek-V2 Base 在知识、代码、数学和多语言任务上明显提高；Chat 模型在 MMLU、LiveCodeBench、MATH-500、中文事实问答和开放式评测上具有竞争力。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1a2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#34c7d8"/><stop offset="1" stop-color="#367bdd"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc45d"/><stop offset="1" stop-color="#ee7d45"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#102033}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">结果要分 Base 与 Chat：训练信号和评测协议都不同</text>
+  <text x="52" y="91" class="sans sub">Base 表来自作者内部统一框架；Chat 表限制最大输出 8K，不能与今天的滚动榜单直接混排</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="126" width="704" height="494" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="165" class="sans head">Base：DeepSeek-V2 → DeepSeek-V3</text>
+  <g class="sans">
+    <text x="82" y="225" class="head">MMLU</text><rect x="210" y="200" width="392" height="18" rx="6" fill="#52667a"/><rect x="210" y="225" width="436" height="18" rx="6" fill="url(#cyan)"/><text x="614" y="216" class="mono">78.4</text><text x="658" y="241" class="mono">87.1</text>
+    <text x="82" y="307" class="head">HumanEval</text><rect x="210" y="282" width="217" height="18" rx="6" fill="#52667a"/><rect x="210" y="307" width="326" height="18" rx="6" fill="url(#cyan)"/><text x="439" y="298" class="mono">43.3</text><text x="548" y="323" class="mono">65.2</text>
+    <text x="82" y="389" class="head">MATH</text><rect x="210" y="364" width="217" height="18" rx="6" fill="#52667a"/><rect x="210" y="389" width="308" height="18" rx="6" fill="url(#cyan)"/><text x="439" y="380" class="mono">43.4</text><text x="530" y="405" class="mono">61.6</text>
+    <text x="82" y="471" class="head">MMMLU</text><rect x="210" y="446" width="320" height="18" rx="6" fill="#52667a"/><rect x="210" y="471" width="397" height="18" rx="6" fill="url(#cyan)"/><text x="542" y="462" class="mono">64.0</text><text x="619" y="487" class="mono">79.4</text>
+  </g>
+  <rect x="78" y="522" width="642" height="64" rx="14" fill="#29322d" stroke="#d18c45"/><text x="100" y="549" class="sans body">不是所有项目都领先：Pile BPB 0.548 略逊 Llama 3.1 405B 的 0.542；</text><text x="100" y="575" class="sans small">RACE、PIQA、WinoGrande 等任务也没有单项最优，结论应是“多数任务与代码/数学显著增强”。</text>
+
+  <g filter="url(#shadow)"><rect x="776" y="126" width="456" height="494" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="806" y="165" class="sans head">Chat：代表性结果</text>
+  <g class="sans">
+    <rect x="810" y="198" width="184" height="88" rx="14" fill="#183b51"/><text x="832" y="226" class="body">MMLU</text><text x="832" y="267" class="title">88.5</text>
+    <rect x="1014" y="198" width="184" height="88" rx="14" fill="#2b3150"/><text x="1036" y="226" class="body">LiveCodeBench CoT</text><text x="1036" y="267" class="title">40.5</text>
+    <rect x="810" y="306" width="184" height="88" rx="14" fill="#263c38"/><text x="832" y="334" class="body">MATH-500</text><text x="832" y="375" class="title">90.2</text>
+    <rect x="1014" y="306" width="184" height="88" rx="14" fill="#382f28"/><text x="1036" y="334" class="body">C-SimpleQA</text><text x="1036" y="375" class="title">64.8</text>
+    <rect x="810" y="414" width="184" height="88" rx="14" fill="url(#cyan)"/><text x="832" y="442" class="dark">Arena-Hard</text><text x="832" y="483" class="title">85.5</text>
+    <rect x="1014" y="414" width="184" height="88" rx="14" fill="url(#amber)"/><text x="1036" y="442" class="dark">AlpacaEval 2 LC</text><text x="1036" y="483" class="title">70.0</text>
+  </g>
+  <text x="806" y="543" class="sans body">开放式评测使用 GPT-4-Turbo-1106 作裁判。</text><text x="806" y="572" class="sans small">LLM-as-judge 会受长度、风格和裁判偏差影响。</text>
+  <text x="52" y="663" class="sans body">MTP 消融在相同推理成本下多数任务提升，尤其大模型 HumanEval 44.5 → 53.7；aux-loss-free 消融也多数提升，但 MMLU 等存在反例。</text>
+  <text x="52" y="691" class="sans small">这些结果描述论文发布时的模型与协议，不代表当前服务版本，也不构成跨年份永久排名。</text>
+</svg>

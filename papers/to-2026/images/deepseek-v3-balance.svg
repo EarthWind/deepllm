@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V3 无辅助损失负载均衡</title>
+  <desc id="desc">专家原始 sigmoid affinity 决定专家输出权重，affinity 加动态 correction bias 只决定专家选择；过载专家降低 bias，欠载专家提高 bias。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1a2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#34c7d8"/><stop offset="1" stop-color="#367bdd"/></linearGradient>
+    <linearGradient id="green" x1="0" x2="1"><stop stop-color="#43d2b1"/><stop offset="1" stop-color="#278f83"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc45d"/><stop offset="1" stop-color="#ee7d45"/></linearGradient>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91aac7"/></marker>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#102033}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">Bias 管“选谁”，原始 affinity 管“占多大权重”</text>
+  <text x="52" y="91" class="sans sub">把负载控制从可微训练目标中剥离，避免大 auxiliary loss 与语言建模目标拉扯</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="130" width="318" height="470" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="169" class="sans head">1 · 原始语义 affinity</text>
+  <rect x="82" y="202" width="250" height="68" rx="14" fill="#25344b"/><text x="207" y="232" text-anchor="middle" class="sans mono">sᵢ = sigmoid(uᵀeᵢ)</text><text x="207" y="257" text-anchor="middle" class="sans small">每个 expert 一份原始相关性</text>
+  <path d="M207 270V303" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="82" y="316" width="250" height="95" rx="14" fill="url(#cyan)"/><text x="207" y="347" text-anchor="middle" class="sans dark">Gate Weight</text><text x="207" y="376" text-anchor="middle" class="sans dark">只取被选专家的原始 sᵢ</text><text x="207" y="399" text-anchor="middle" class="sans dark">归一化后 × 2.5</text>
+  <rect x="82" y="448" width="250" height="111" rx="14" fill="#2b3151" stroke="#7367b4"/><text x="207" y="481" text-anchor="middle" class="sans head">关键隔离</text><text x="207" y="512" text-anchor="middle" class="sans body">bias 不乘到专家输出</text><text x="207" y="538" text-anchor="middle" class="sans small">只改变离散路由，不篡改语义权重</text>
+
+  <g filter="url(#shadow)"><rect x="389" y="130" width="437" height="470" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="419" y="169" class="sans head">2 · Correction bias 决定 Top-K</text>
+  <rect x="423" y="202" width="369" height="78" rx="14" fill="url(#green)"/><text x="607" y="233" text-anchor="middle" class="sans dark">corrected score = sᵢ + bᵢ</text><text x="607" y="260" text-anchor="middle" class="sans dark">Top-4 groups → Top-8 experts</text>
+  <path d="M607 280V314" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <g>
+    <rect x="423" y="327" width="78" height="58" rx="11" fill="#35445a"/><text x="462" y="362" text-anchor="middle" class="sans mono">E₀</text>
+    <rect x="513" y="327" width="78" height="58" rx="11" fill="#33bfae"/><text x="552" y="362" text-anchor="middle" class="sans dark">E₁</text>
+    <rect x="603" y="327" width="78" height="58" rx="11" fill="#35445a"/><text x="642" y="362" text-anchor="middle" class="sans mono">E₂</text>
+    <rect x="693" y="327" width="78" height="58" rx="11" fill="#33bfae"/><text x="732" y="362" text-anchor="middle" class="sans dark">E₃</text>
+  </g>
+  <text x="607" y="417" text-anchor="middle" class="sans small">绿色仅表示被选中；真实模型有 256 个路由专家</text>
+  <rect x="423" y="452" width="369" height="107" rx="14" fill="#29322d" stroke="#d18c45"/><text x="447" y="483" class="sans head">为什么不用梯度训练 bᵢ？</text><text x="447" y="513" class="sans body">它是控制器状态，不进入语言模型 loss</text><text x="447" y="539" class="sans small">每个 step 根据整个 batch 的实测负载离散更新</text>
+
+  <g filter="url(#shadow)"><rect x="849" y="130" width="383" height="470" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="879" y="169" class="sans head">3 · 闭环反馈</text>
+  <rect x="883" y="202" width="315" height="74" rx="14" fill="url(#amber)"/><text x="1040" y="232" text-anchor="middle" class="sans dark">过载 expert：bᵢ ← bᵢ − γ</text><text x="1040" y="259" text-anchor="middle" class="sans dark">欠载 expert：bᵢ ← bᵢ + γ</text>
+  <path d="M1040 276V310" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="883" y="323" width="315" height="88" rx="14" fill="#23374d"/><text x="1040" y="354" text-anchor="middle" class="sans head">全 batch 统计</text><text x="1040" y="383" text-anchor="middle" class="sans body">γ = 0.001（前 14.3T tokens）</text>
+  <rect x="883" y="433" width="315" height="126" rx="14" fill="#2c3154" stroke="#7f6ac8"/><text x="1040" y="465" text-anchor="middle" class="sans head">“无辅助损失”并非字面为零</text><text x="1040" y="496" text-anchor="middle" class="sans body">仍保留 sequence-wise loss</text><text x="1040" y="523" text-anchor="middle" class="sans mono">α = 0.0001</text><text x="1040" y="546" text-anchor="middle" class="sans small">只防单条序列极端失衡</text>
+  <text x="52" y="660" class="sans body">设计结果：batch 范围可均衡，同时允许不同领域形成不同专家分工；论文训练全程不做 token dropping。</text>
+  <text x="52" y="687" class="sans small">消融显示多数任务优于纯 auxiliary-loss 基线，但并非每个 benchmark 都单调提升。</text>
+</svg>

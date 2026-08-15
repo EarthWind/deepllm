@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V3 多 token 预测</title>
+  <desc id="desc">主模型从位置 i 预测 token i+1；一层 MTP 模块融合主模型隐藏状态和 token i+1 的嵌入，继续预测 token i+2。MTP 在推理时可以移除或作为 speculative decoding 草稿头。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1a2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#34c7d8"/><stop offset="1" stop-color="#367bdd"/></linearGradient>
+    <linearGradient id="violet" x1="0" x2="1"><stop stop-color="#8068e9"/><stop offset="1" stop-color="#b95eb9"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc45d"/><stop offset="1" stop-color="#ee7d45"/></linearGradient>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91aac7"/></marker>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#102033}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">MTP：不是一次吐两个 token，而是多一层未来监督</text>
+  <text x="52" y="91" class="sans sub">首发配置 D=1：普通 next-token loss 之外，每个位置再学习预测一个更远 token</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="128" width="1184" height="365" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="168" class="sans head">训练时保持完整 causal chain</text>
+  <g class="sans">
+    <rect x="78" y="217" width="136" height="73" rx="14" fill="#293e55"/><text x="146" y="246" text-anchor="middle" class="head">位置 i</text><text x="146" y="273" text-anchor="middle" class="mono">token tᵢ</text>
+    <path d="M214 253H273" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="287" y="199" width="184" height="108" rx="15" fill="url(#cyan)"/><text x="379" y="233" text-anchor="middle" class="dark">Main Model</text><text x="379" y="262" text-anchor="middle" class="dark">representation hᵢ⁰</text><text x="379" y="287" text-anchor="middle" class="dark">OutHead → tᵢ₊₁</text>
+    <path d="M471 253H532" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="546" y="199" width="262" height="108" rx="15" fill="#2c3154" stroke="#836dd0"/><text x="677" y="229" text-anchor="middle" class="head">MTP Fusion M₁</text><text x="677" y="258" text-anchor="middle" class="body">RMSNorm(hᵢ⁰)</text><text x="677" y="283" text-anchor="middle" class="body">+ Emb(tᵢ₊₁)</text>
+    <path d="M808 253H869" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="883" y="199" width="164" height="108" rx="15" fill="url(#violet)"/><text x="965" y="233" text-anchor="middle" class="head">TRM₁</text><text x="965" y="262" text-anchor="middle" class="body">hᵢ¹</text><text x="965" y="287" text-anchor="middle" class="body">共享 OutHead</text>
+    <path d="M1047 253H1090" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="1104" y="217" width="98" height="73" rx="14" fill="url(#amber)"/><text x="1153" y="246" text-anchor="middle" class="dark">目标</text><text x="1153" y="273" text-anchor="middle" class="dark">tᵢ₊₂</text>
+  </g>
+  <path d="M379 307V355H677V307" fill="none" stroke="#6d84a1" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="528" y="381" text-anchor="middle" class="sans small">主模型 embedding / output head 与 MTP 物理共享</text>
+  <rect x="78" y="407" width="528" height="55" rx="13" fill="#24344a"/><text x="342" y="441" text-anchor="middle" class="sans mono">L = L_next + λ · L_MTP</text>
+  <rect x="628" y="407" width="574" height="55" rx="13" fill="#29322d" stroke="#d18c45"/><text x="915" y="441" text-anchor="middle" class="sans mono">λ: 0.3（前 10T）→ 0.1（后 4.8T）</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="518" width="568" height="148" rx="20" fill="#17364c" stroke="#38b7c9"/></g>
+  <text x="78" y="554" class="sans head">推理路径 A · 直接拆除</text><text x="78" y="587" class="sans body">主模型独立 next-token decoding，推理参数与 FLOPs 不增加。</text><text x="78" y="618" class="sans small">因此 MTP 消融可以在相同 inference cost 下比较主干质量。</text>
+  <g filter="url(#shadow)"><rect x="640" y="518" width="592" height="148" rx="20" fill="#2c3154" stroke="#836dd0"/></g>
+  <text x="670" y="554" class="sans head">推理路径 B · 作为 speculative draft</text><text x="670" y="587" class="sans body">MTP 提议第二 token，主模型验证后接受或拒绝。</text><text x="670" y="618" class="sans body">论文报告接受率 85%–90%，约 1.8× TPS。</text><text x="670" y="646" class="sans small">这是特定实现结果，不等于每次解码都固定输出两个 token。</text>
+  <text x="52" y="697" class="sans small">训练时 Emb(tᵢ₊₁) 是已知真值；生成时需先得到 tᵢ₊₁，MTP 才能草拟 tᵢ₊₂，因此因果性没有泄漏。</text>
+</svg>

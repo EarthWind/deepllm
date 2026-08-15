@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V2 架构总览</title>
+  <desc id="desc">DeepSeek-V2 是 60 层 Transformer，第一层使用稠密 FFN，其余 59 层采用 MLA 注意力与包含 2 个共享专家、160 个路由专家的 DeepSeekMoE。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1b2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#36c4d6"/><stop offset="1" stop-color="#3878dc"/></linearGradient>
+    <linearGradient id="violet" x1="0" x2="1"><stop stop-color="#7d63e8"/><stop offset="1" stop-color="#bc62be"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc15a"/><stop offset="1" stop-color="#ec7c42"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91aac7"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f4f8ff}.dark{font-size:16px;font-weight:760;fill:#142039}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">DeepSeek-V2：Attention 压缓存，FFN 稀疏激活</text>
+  <text x="52" y="91" class="sans sub">236B 总容量与 21B 单 token 活跃路径并存；MLA、DeepSeekMoE 和系统路由共同决定经济性</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="127" width="260" height="495" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="166" class="sans head">60 层 Decoder-only</text>
+  <rect x="82" y="553" width="192" height="43" rx="11" fill="url(#cyan)"/><text x="178" y="580" text-anchor="middle" class="sans head">Token Embedding</text>
+  <path d="M178 553V521" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="82" y="449" width="192" height="59" rx="13" fill="#29445d"/><text x="178" y="475" text-anchor="middle" class="sans body">Layer 0</text><text x="178" y="496" text-anchor="middle" class="sans small">MLA + Dense FFN</text>
+  <path d="M178 449V417" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="72" y="262" width="212" height="142" rx="16" fill="#193450" stroke="#45b6cb" stroke-width="2"/>
+  <text x="178" y="294" text-anchor="middle" class="sans head">Layers 1…59</text>
+  <text x="178" y="323" text-anchor="middle" class="sans body">MLA Attention</text><path d="M108 338H248" stroke="#4b657f"/>
+  <text x="178" y="368" text-anchor="middle" class="sans body">DeepSeekMoE</text>
+  <text x="178" y="394" text-anchor="middle" class="sans mono">× 59</text>
+  <path d="M178 262V230" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="82" y="183" width="192" height="42" rx="11" fill="#2f4962"/><text x="178" y="210" text-anchor="middle" class="sans body">RMSNorm + LM Head</text>
+
+  <g filter="url(#shadow)"><rect x="344" y="127" width="414" height="495" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="374" y="166" class="sans head">MLA：每 token / 每层只缓存 576 元素</text>
+  <rect x="376" y="205" width="350" height="90" rx="16" fill="url(#cyan)"/>
+  <text x="551" y="238" text-anchor="middle" class="sans head">Joint KV Latent</text>
+  <text x="551" y="270" text-anchor="middle" class="sans dark">c<tspan baseline-shift="super" font-size="11">KV</tspan> · 512 dimensions</text>
+  <text x="551" y="326" text-anchor="middle" class="sans mono">+</text>
+  <rect x="376" y="348" width="350" height="77" rx="16" fill="url(#violet)"/>
+  <text x="551" y="379" text-anchor="middle" class="sans head">Decoupled RoPE Key</text>
+  <text x="551" y="404" text-anchor="middle" class="sans body">shared kᴿ · 64 dimensions</text>
+  <rect x="376" y="461" width="350" height="125" rx="16" fill="#213248" stroke="#4a6582"/>
+  <text x="398" y="493" class="sans body">128 heads · content Q/K 128</text>
+  <text x="398" y="524" class="sans body">RoPE Q/K 64 · Value 128</text>
+  <text x="398" y="558" class="sans mono">32768 → 576 elements</text>
+
+  <g filter="url(#shadow)"><rect x="794" y="127" width="438" height="495" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="824" y="166" class="sans head">DeepSeekMoE：共享知识 + 稀疏专长</text>
+  <rect x="826" y="207" width="374" height="79" rx="15" fill="url(#amber)"/>
+  <text x="1013" y="238" text-anchor="middle" class="sans dark">2 Shared Experts</text>
+  <text x="1013" y="264" text-anchor="middle" class="sans dark">每个 token 都执行</text>
+  <path d="M1013 286V321" stroke="#91aac7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="826" y="335" width="374" height="108" rx="15" fill="#262e52" stroke="#816bd0"/>
+  <text x="1013" y="368" text-anchor="middle" class="sans head">160 Routed Experts</text>
+  <text x="1013" y="398" text-anchor="middle" class="sans body">每 token Top-6 · 最多覆盖 3 台设备</text>
+  <text x="1013" y="425" text-anchor="middle" class="sans small">每个专家 intermediate = 1536</text>
+  <rect x="826" y="478" width="374" height="108" rx="15" fill="#29322d" stroke="#d18c45"/>
+  <text x="850" y="510" class="sans body">总参数</text><text x="1174" y="510" text-anchor="end" class="mono">≈ 236B</text>
+  <text x="850" y="542" class="sans body">每 token 活跃</text><text x="1174" y="542" text-anchor="end" class="mono">≈ 21B</text>
+  <text x="850" y="574" class="sans body">上下文</text><text x="1174" y="574" text-anchor="end" class="mono">4K → 128K</text>
+  <text x="52" y="677" class="sans small">结构口径来自论文与首发配置：第一层 FFN 为 dense，后 59 层 FFN 为 MoE；“活跃参数”不等于权重显存，236B 权重仍需存放和调度。</text>
+</svg>

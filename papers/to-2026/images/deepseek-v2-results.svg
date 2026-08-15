@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V2 的效率与代表性基准结果</title>
+  <desc id="desc">相对 DeepSeek 67B，论文报告 DeepSeek-V2 节省 42.5% 训练成本、KV Cache 减少 93.3%、最大生成吞吐提升到 5.76 倍；代表性基准显示其在 MMLU、MATH、C-Eval 和 CMMLU 上达到有竞争力的成绩。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1b2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#36c4d6"/><stop offset="1" stop-color="#3878dc"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc15a"/><stop offset="1" stop-color="#ec7c42"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#142039}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">“经济且高效”有三张独立账：训练、缓存与服务吞吐</text>
+  <text x="52" y="91" class="sans sub">效率均以 DeepSeek 67B 为论文基线；基准分数来自作者内部统一评测框架，不是跨时代排行榜</text>
+
+  <g filter="url(#shadow)">
+    <rect x="48" y="126" width="363" height="164" rx="20" fill="#102b3e" stroke="#3e6d84"/>
+    <rect x="459" y="126" width="363" height="164" rx="20" fill="#262d49" stroke="#6d65a0"/>
+    <rect x="870" y="126" width="362" height="164" rx="20" fill="#352f27" stroke="#d18c45"/>
+  </g>
+  <text x="229" y="170" text-anchor="middle" class="sans body">每 1T token 训练 GPU hours</text><text x="229" y="219" text-anchor="middle" class="sans title">−42.5%</text><text x="229" y="257" text-anchor="middle" class="sans small">300.6K → 172.8K H800 GPU hours</text>
+  <text x="640" y="170" text-anchor="middle" class="sans body">实际部署 KV Cache</text><text x="640" y="219" text-anchor="middle" class="sans title">−93.3%</text><text x="640" y="257" text-anchor="middle" class="sans small">MLA + 平均 6-bit cache quantization</text>
+  <text x="1051" y="170" text-anchor="middle" class="sans body">单节点最大生成吞吐</text><text x="1051" y="219" text-anchor="middle" class="sans title">5.76×</text><text x="1051" y="257" text-anchor="middle" class="sans small">8× H800 · &gt;50K generated tokens/s</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="327" width="1184" height="312" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="365" class="sans head">Base 模型代表性结果（DeepSeek 67B → DeepSeek-V2）</text>
+  <g class="sans">
+    <text x="82" y="422" class="head">MMLU</text><rect x="195" y="397" width="428" height="18" rx="6" fill="#4f657c"/><rect x="195" y="422" width="471" height="18" rx="6" fill="url(#cyan)"/><text x="635" y="413" class="mono">71.3</text><text x="678" y="438" class="mono">78.5</text>
+    <text x="82" y="491" class="head">MATH</text><rect x="195" y="466" width="112" height="18" rx="6" fill="#4f657c"/><rect x="195" y="491" width="262" height="18" rx="6" fill="url(#cyan)"/><text x="319" y="482" class="mono">18.7</text><text x="469" y="507" class="mono">43.6</text>
+    <text x="82" y="560" class="head">C-Eval</text><rect x="195" y="535" width="397" height="18" rx="6" fill="#4f657c"/><rect x="195" y="560" width="490" height="18" rx="6" fill="url(#cyan)"/><text x="604" y="551" class="mono">66.1</text><text x="697" y="576" class="mono">81.7</text>
+    <text x="750" y="422" class="head">CMMLU</text><rect x="850" y="397" width="283" height="18" rx="6" fill="#4f657c"/><rect x="850" y="422" width="336" height="18" rx="6" fill="url(#amber)"/><text x="1145" y="413" class="mono">70.8</text><text x="1194" y="438" class="mono">84.0</text>
+    <text x="750" y="491" class="head">总参数</text><text x="885" y="488" class="mono">67B dense → 236B MoE</text>
+    <text x="750" y="535" class="head">活跃参数</text><text x="885" y="532" class="mono">67B → 21B / token</text>
+    <text x="750" y="579" class="head">训练 tokens</text><text x="885" y="576" class="mono">8.1T（V2）</text>
+  </g>
+  <text x="52" y="682" class="sans small">吞吐测试使用真实服务的 prompt / generation 长度分布；5.76× 同时包含 MLA、FP8 权重、6-bit KV、kernel 与 batch 容量收益，不能归因给单一模块。</text>
+</svg>

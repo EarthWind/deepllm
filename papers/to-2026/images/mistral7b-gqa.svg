@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Mistral 7B 的 Grouped-Query Attention</title>
+  <desc id="desc">32 个 Query 头分为 8 组，每组 4 个 Query 头共享一个 Key 头和一个 Value 头，使 KV 投影与缓存相对 32 头 MHA 缩小到四分之一。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071522"/><stop offset="1" stop-color="#152743"/></linearGradient>
+    <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#2ebfd0"/><stop offset="1" stop-color="#3d70d7"/></linearGradient>
+    <linearGradient id="orange" x1="0" x2="1"><stop stop-color="#ffc45a"/><stop offset="1" stop-color="#e77c3f"/></linearGradient>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91abc7"/></marker>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".4"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9eb3cc}.head{font-size:20px;font-weight:750;fill:#fff}.body{font-size:15px;fill:#dce8f5}.small{font-size:13px;fill:#9eb3cc}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:15px;fill:#f6f9ff}.dark{font-size:15px;font-weight:760;fill:#132238}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="60" class="sans title">GQA：32 条 Query 路径，只保存 8 组 Key / Value</text>
+  <text x="52" y="92" class="sans sub">每 4 个连续 Query 头共享一个 KV 头；Query 表达能力保留，KV 投影与解码缓存明显变小</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="128" width="752" height="397" rx="22" fill="#0d2135" stroke="#355672"/></g>
+  <text x="77" y="166" class="sans head">8 个分组 × 每组 4 个 Query 头</text>
+  <text x="610" y="166" class="sans head">8 个共享 KV 头</text>
+  <g class="sans">
+    <g transform="translate(76 194)"><rect width="454" height="34" rx="9" fill="#172f49"/><circle cx="30" cy="17" r="10" fill="#45c4d3"/><circle cx="66" cy="17" r="10" fill="#45c4d3"/><circle cx="102" cy="17" r="10" fill="#45c4d3"/><circle cx="138" cy="17" r="10" fill="#45c4d3"/><text x="172" y="22" class="body">Q0–Q3</text><path d="M260 17H322" stroke="#91abc7" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="335" y="2" width="105" height="30" rx="8" fill="url(#blue)"/><text x="387" y="22" text-anchor="middle" class="dark">K0 / V0</text></g>
+    <g transform="translate(76 235)"><rect width="454" height="34" rx="9" fill="#172f49"/><circle cx="30" cy="17" r="10" fill="#65b9e8"/><circle cx="66" cy="17" r="10" fill="#65b9e8"/><circle cx="102" cy="17" r="10" fill="#65b9e8"/><circle cx="138" cy="17" r="10" fill="#65b9e8"/><text x="172" y="22" class="body">Q4–Q7</text><path d="M260 17H322" stroke="#91abc7" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="335" y="2" width="105" height="30" rx="8" fill="#4d8de0"/><text x="387" y="22" text-anchor="middle" class="dark">K1 / V1</text></g>
+    <g transform="translate(76 276)"><rect width="454" height="34" rx="9" fill="#172f49"/><circle cx="30" cy="17" r="10" fill="#8d82e5"/><circle cx="66" cy="17" r="10" fill="#8d82e5"/><circle cx="102" cy="17" r="10" fill="#8d82e5"/><circle cx="138" cy="17" r="10" fill="#8d82e5"/><text x="172" y="22" class="body">Q8–Q11</text><path d="M260 17H322" stroke="#91abc7" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="335" y="2" width="105" height="30" rx="8" fill="#7d73db"/><text x="387" y="22" text-anchor="middle" class="dark">K2 / V2</text></g>
+    <g transform="translate(76 317)"><rect width="454" height="34" rx="9" fill="#172f49"/><circle cx="30" cy="17" r="10" fill="#ba7cce"/><circle cx="66" cy="17" r="10" fill="#ba7cce"/><circle cx="102" cy="17" r="10" fill="#ba7cce"/><circle cx="138" cy="17" r="10" fill="#ba7cce"/><text x="172" y="22" class="body">Q12–Q15</text><path d="M260 17H322" stroke="#91abc7" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="335" y="2" width="105" height="30" rx="8" fill="#a86fc2"/><text x="387" y="22" text-anchor="middle" class="dark">K3 / V3</text></g>
+    <g transform="translate(76 358)"><rect width="454" height="34" rx="9" fill="#172f49"/><circle cx="30" cy="17" r="10" fill="#e984a0"/><circle cx="66" cy="17" r="10" fill="#e984a0"/><circle cx="102" cy="17" r="10" fill="#e984a0"/><circle cx="138" cy="17" r="10" fill="#e984a0"/><text x="172" y="22" class="body">Q16–Q19</text><path d="M260 17H322" stroke="#91abc7" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="335" y="2" width="105" height="30" rx="8" fill="#df7891"/><text x="387" y="22" text-anchor="middle" class="dark">K4 / V4</text></g>
+    <g transform="translate(76 399)"><rect width="454" height="34" rx="9" fill="#172f49"/><circle cx="30" cy="17" r="10" fill="#f18a68"/><circle cx="66" cy="17" r="10" fill="#f18a68"/><circle cx="102" cy="17" r="10" fill="#f18a68"/><circle cx="138" cy="17" r="10" fill="#f18a68"/><text x="172" y="22" class="body">Q20–Q23</text><path d="M260 17H322" stroke="#91abc7" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="335" y="2" width="105" height="30" rx="8" fill="#e97e5a"/><text x="387" y="22" text-anchor="middle" class="dark">K5 / V5</text></g>
+    <g transform="translate(76 440)"><rect width="454" height="34" rx="9" fill="#172f49"/><circle cx="30" cy="17" r="10" fill="#f5ac50"/><circle cx="66" cy="17" r="10" fill="#f5ac50"/><circle cx="102" cy="17" r="10" fill="#f5ac50"/><circle cx="138" cy="17" r="10" fill="#f5ac50"/><text x="172" y="22" class="body">Q24–Q27</text><path d="M260 17H322" stroke="#91abc7" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="335" y="2" width="105" height="30" rx="8" fill="#eda544"/><text x="387" y="22" text-anchor="middle" class="dark">K6 / V6</text></g>
+    <g transform="translate(76 481)"><rect width="454" height="34" rx="9" fill="#172f49"/><circle cx="30" cy="17" r="10" fill="#f8ca62"/><circle cx="66" cy="17" r="10" fill="#f8ca62"/><circle cx="102" cy="17" r="10" fill="#f8ca62"/><circle cx="138" cy="17" r="10" fill="#f8ca62"/><text x="172" y="22" class="body">Q28–Q31</text><path d="M260 17H322" stroke="#91abc7" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="335" y="2" width="105" height="30" rx="8" fill="url(#orange)"/><text x="387" y="22" text-anchor="middle" class="dark">K7 / V7</text></g>
+  </g>
+
+  <g filter="url(#shadow)"><rect x="836" y="128" width="396" height="397" rx="22" fill="#0d2135" stroke="#355672"/></g>
+  <text x="864" y="166" class="sans head">投影维度与缓存账本</text>
+  <rect x="864" y="194" width="340" height="92" rx="15" fill="#163047"/>
+  <text x="886" y="224" class="sans body">Q 投影输出</text><text x="1181" y="224" text-anchor="end" class="mono">32 × 128 = 4096</text>
+  <text x="886" y="255" class="sans body">K / V 各自输出</text><text x="1181" y="255" text-anchor="end" class="mono">8 × 128 = 1024</text>
+  <rect x="864" y="303" width="340" height="93" rx="15" fill="#1a3442"/>
+  <text x="886" y="333" class="sans body">MHA KV heads</text><rect x="1026" y="317" width="152" height="20" rx="6" fill="#45627e"/>
+  <text x="886" y="370" class="sans body">GQA KV heads</text><rect x="1026" y="354" width="38" height="20" rx="6" fill="url(#orange)"/><text x="1181" y="370" text-anchor="end" class="mono">1 / 4</text>
+  <rect x="864" y="413" width="340" height="82" rx="15" fill="#3b3027" stroke="#d79042"/>
+  <text x="886" y="444" class="sans head">理想 KV payload</text>
+  <text x="886" y="474" class="sans mono">2 · L · N · Hkv · dh · bytes</text>
+
+  <rect x="48" y="556" width="1184" height="111" rx="20" fill="#0d2034" stroke="#355672"/>
+  <text x="76" y="590" class="sans head">两个压缩维度彼此独立</text>
+  <text x="76" y="621" class="sans body">GQA：Hkv 从 32 降到 8 → 同长度下 4×　　SWA：N=32768 只保留 W=4096 → 同 KV 头数下 8×</text>
+  <text x="76" y="648" class="sans mono">因此相对 “32K full MHA”，Mistral 的 “W=4K rolling GQA” 理想 KV 元素数可小 4 × 8 = 32 倍</text>
+</svg>

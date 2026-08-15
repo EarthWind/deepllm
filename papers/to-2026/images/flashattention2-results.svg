@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">FlashAttention-2 论文实验结果</title>
+  <desc id="desc">论文在八张 A100 80GB SXM 上训练 GPT-3 风格模型。四组配置中 FlashAttention-2 的吞吐均高于无 FlashAttention 和 FlashAttention v1，最高达到每 GPU 225 TFLOPs。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#071528"/><stop offset="1" stop-color="#20264e"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity=".42"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#afbfda}.head{font-size:22px;font-weight:750;fill:#fff}.body{font-size:15px;fill:#dce8f8}.small{font-size:13px;fill:#aebfd8}.axis{font-size:13px;fill:#93a8c5}.value{font-size:13px;font-weight:760;fill:#fff}.big{font-size:39px;font-weight:820;fill:#8ff8e6}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="55" y="60" class="sans title">论文结果：单 kernel 更接近 GEMM，端到端训练也兑现收益</text>
+  <text x="55" y="92" class="sans sub">训练实验：8×A100 80GB SXM；数值为每张 GPU 的模型吞吐。不同论文/硬件/计数口径不可直接横比。</text>
+
+  <g filter="url(#shadow)"><rect x="55" y="130" width="835" height="510" rx="24" fill="#101f36" stroke="#4f6686" stroke-width="2"/></g>
+  <text x="86" y="174" class="sans head">GPT-style 端到端训练吞吐（TFLOPs/s/GPU）</text>
+  <g transform="translate(270 210)">
+    <path d="M0 0V350M0 350H570" stroke="#6c819f" stroke-width="2"/>
+    <g stroke="#304764" stroke-width="1"><path d="M114 0V350M228 0V350M342 0V350M456 0V350M570 0V350"/></g>
+    <g class="sans axis"><text x="0" y="375" text-anchor="middle">0</text><text x="114" y="375" text-anchor="middle">50</text><text x="228" y="375" text-anchor="middle">100</text><text x="342" y="375" text-anchor="middle">150</text><text x="456" y="375" text-anchor="middle">200</text><text x="570" y="375" text-anchor="middle">250</text></g>
+    <g transform="translate(0 18)">
+      <text x="-22" y="22" text-anchor="end" class="sans body">1.3B · 2k</text>
+      <rect y="0" width="324" height="17" rx="5" fill="#536a88"/><rect y="22" width="431" height="17" rx="5" fill="#7e72c4"/><rect y="44" width="447" height="17" rx="5" fill="#25cbb9"/>
+      <text x="331" y="14" class="sans value">142</text><text x="438" y="36" class="sans value">189</text><text x="454" y="58" class="sans value">196</text>
+    </g>
+    <g transform="translate(0 102)">
+      <text x="-22" y="22" text-anchor="end" class="sans body">1.3B · 8k</text>
+      <rect y="0" width="164" height="17" rx="5" fill="#536a88"/><rect y="22" width="388" height="17" rx="5" fill="#7e72c4"/><rect y="44" width="502" height="17" rx="5" fill="#25cbb9"/>
+      <text x="171" y="14" class="sans value">72</text><text x="395" y="36" class="sans value">170</text><text x="509" y="58" class="sans value">220</text>
+    </g>
+    <g transform="translate(0 186)">
+      <text x="-22" y="22" text-anchor="end" class="sans body">2.7B · 2k</text>
+      <rect y="0" width="340" height="17" rx="5" fill="#536a88"/><rect y="22" width="431" height="17" rx="5" fill="#7e72c4"/><rect y="44" width="467" height="17" rx="5" fill="#25cbb9"/>
+      <text x="347" y="14" class="sans value">149</text><text x="438" y="36" class="sans value">189</text><text x="474" y="58" class="sans value">205</text>
+    </g>
+    <g transform="translate(0 270)">
+      <text x="-22" y="22" text-anchor="end" class="sans body">2.7B · 8k</text>
+      <rect y="0" width="182" height="17" rx="5" fill="#536a88"/><rect y="22" width="399" height="17" rx="5" fill="#7e72c4"/><rect y="44" width="513" height="17" rx="5" fill="#25cbb9"/>
+      <text x="189" y="14" class="sans value">80</text><text x="406" y="36" class="sans value">175</text><text x="520" y="58" class="sans value">225</text>
+    </g>
+  </g>
+  <g transform="translate(86 585)">
+    <rect width="14" height="14" rx="3" fill="#536a88"/><text x="23" y="12" class="sans small">无 FlashAttention</text>
+    <rect x="174" width="14" height="14" rx="3" fill="#7e72c4"/><text x="197" y="12" class="sans small">FlashAttention v1</text>
+    <rect x="352" width="14" height="14" rx="3" fill="#25cbb9"/><text x="375" y="12" class="sans small">FlashAttention-2</text>
+  </g>
+
+  <g filter="url(#shadow)"><rect x="918" y="130" width="306" height="510" rx="24" fill="#11273e" stroke="#2dd4bf" stroke-width="2"/></g>
+  <text x="950" y="177" class="sans head">Standalone attention</text>
+  <text x="950" y="221" class="sans big">1.7×–3.0×</text>
+  <text x="950" y="249" class="sans body">相对 FlashAttention v1</text>
+  <path d="M950 278H1192" stroke="#36536d"/>
+  <text x="950" y="325" class="sans big">230</text>
+  <text x="1040" y="325" class="sans body">TFLOPs/s</text>
+  <text x="950" y="352" class="sans body">A100 上的论文最高值</text>
+  <path d="M950 381H1192" stroke="#36536d"/>
+  <text x="950" y="428" class="sans big">73%</text>
+  <text x="950" y="455" class="sans body">forward 理论峰值占比</text>
+  <text x="950" y="489" class="sans big">63%</text>
+  <text x="950" y="516" class="sans body">backward 理论峰值占比</text>
+  <rect x="950" y="553" width="242" height="58" rx="14" fill="#173b4b"/>
+  <text x="1071" y="577" text-anchor="middle" class="sans small">论文汇总：FA-2 最高 225 TFLOPs/s，</text>
+  <text x="1071" y="598" text-anchor="middle" class="sans small">72% model FLOPs utilization。</text>
+
+  <text x="55" y="684" class="sans small">来源：FlashAttention-2 论文 Figure 4–6、Table 1。这里重绘 Table 1；没有把 microbenchmark 的最大加速直接当成整模加速。</text>
+</svg>

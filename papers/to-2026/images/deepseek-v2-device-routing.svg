@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">设备受限路由与三级负载均衡</title>
+  <desc id="desc">160 个路由专家均匀部署到 8 台设备，每个 token 先选专家得分最高的最多 3 台设备，再从候选设备内选择 6 个专家；专家、设备和通信三层辅助损失配合 token dropping 控制负载。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1b2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#36c4d6"/><stop offset="1" stop-color="#3878dc"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc15a"/><stop offset="1" stop-color="#ec7c42"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#91aac7"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#142039}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">Device-Limited Routing：先限制通信半径，再在局部做 Top-K</text>
+  <text x="52" y="91" class="sans sub">细粒度专家增加了组合能力，也可能让一个 token 跨越更多设备；V2 用 M=3 给 All-to-All 成本设上界</text>
+
+  <g filter="url(#shadow)"><rect x="48" y="128" width="790" height="474" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="167" class="sans head">8-way Expert Parallelism · 每设备 20 个 routed experts</text>
+  <g class="sans">
+    <g transform="translate(78 204)"><rect width="164" height="112" rx="14" fill="url(#cyan)"/><text x="82" y="29" text-anchor="middle" class="dark">Device 0 · selected</text><text x="82" y="58" text-anchor="middle" class="dark">E0…E19</text><circle cx="48" cy="84" r="10" fill="#ffd06c"/><circle cx="82" cy="84" r="10" fill="#ffd06c"/><circle cx="116" cy="84" r="10" fill="#334a66"/></g>
+    <g transform="translate(267 204)"><rect width="164" height="112" rx="14" fill="#23374d"/><text x="82" y="29" text-anchor="middle" class="body">Device 1</text><text x="82" y="58" text-anchor="middle" class="small">E20…E39</text><circle cx="48" cy="84" r="10" fill="#334a66"/><circle cx="82" cy="84" r="10" fill="#334a66"/><circle cx="116" cy="84" r="10" fill="#334a66"/></g>
+    <g transform="translate(456 204)"><rect width="164" height="112" rx="14" fill="url(#cyan)"/><text x="82" y="29" text-anchor="middle" class="dark">Device 2 · selected</text><text x="82" y="58" text-anchor="middle" class="dark">E40…E59</text><circle cx="48" cy="84" r="10" fill="#ffd06c"/><circle cx="82" cy="84" r="10" fill="#334a66"/><circle cx="116" cy="84" r="10" fill="#ffd06c"/></g>
+    <g transform="translate(645 204)"><rect width="164" height="112" rx="14" fill="#23374d"/><text x="82" y="29" text-anchor="middle" class="body">Device 3</text><text x="82" y="58" text-anchor="middle" class="small">E60…E79</text><circle cx="48" cy="84" r="10" fill="#334a66"/><circle cx="82" cy="84" r="10" fill="#334a66"/><circle cx="116" cy="84" r="10" fill="#334a66"/></g>
+    <g transform="translate(78 342)"><rect width="164" height="112" rx="14" fill="#23374d"/><text x="82" y="29" text-anchor="middle" class="body">Device 4</text><text x="82" y="58" text-anchor="middle" class="small">E80…E99</text></g>
+    <g transform="translate(267 342)"><rect width="164" height="112" rx="14" fill="#23374d"/><text x="82" y="29" text-anchor="middle" class="body">Device 5</text><text x="82" y="58" text-anchor="middle" class="small">E100…E119</text></g>
+    <g transform="translate(456 342)"><rect width="164" height="112" rx="14" fill="url(#cyan)"/><text x="82" y="29" text-anchor="middle" class="dark">Device 6 · selected</text><text x="82" y="58" text-anchor="middle" class="dark">E120…E139</text><circle cx="48" cy="84" r="10" fill="#ffd06c"/><circle cx="82" cy="84" r="10" fill="#ffd06c"/></g>
+    <g transform="translate(645 342)"><rect width="164" height="112" rx="14" fill="#23374d"/><text x="82" y="29" text-anchor="middle" class="body">Device 7</text><text x="82" y="58" text-anchor="middle" class="small">E140…E159</text></g>
+  </g>
+  <rect x="78" y="489" width="731" height="83" rx="14" fill="#2a3029" stroke="#d18c45"/>
+  <text x="102" y="518" class="sans mono">1. device_score = max expert affinity on device</text>
+  <text x="102" y="544" class="sans mono">2. Top-3 devices → candidate experts → global Top-6 inside candidates</text>
+  <text x="102" y="565" class="sans small">图中黄色圆点表示最终 6 个专家；未选设备不会接收该 token。</text>
+
+  <g filter="url(#shadow)"><rect x="874" y="128" width="358" height="474" rx="22" fill="#0d2236" stroke="#355773"/></g>
+  <text x="904" y="167" class="sans head">负载控制的四层保险</text>
+  <rect x="904" y="205" width="298" height="68" rx="14" fill="#22384e"/><text x="928" y="232" class="sans body">Expert balance</text><text x="928" y="255" class="sans small">防止少数专家垄断 token</text>
+  <rect x="904" y="288" width="298" height="68" rx="14" fill="#283650"/><text x="928" y="315" class="sans body">Device balance</text><text x="928" y="338" class="sans small">让 8 台设备计算负载接近</text>
+  <rect x="904" y="371" width="298" height="68" rx="14" fill="#30334d"/><text x="928" y="398" class="sans body">Communication balance</text><text x="928" y="421" class="sans small">约束每台设备接收的 token</text>
+  <rect x="904" y="454" width="298" height="100" rx="14" fill="url(#amber)"/><text x="928" y="483" class="sans dark">Device-level token dropping</text><text x="928" y="510" class="sans dark">超预算时丢低 affinity token</text><text x="928" y="535" class="sans dark">约 10% 序列保证永不丢弃</text>
+  <text x="52" y="672" class="sans small">训练使用 token dropping 加速，论文评测不丢 token。辅助损失鼓励均衡但不提供硬保证，所以还需要容量预算与系统级监控。</text>
+</svg>

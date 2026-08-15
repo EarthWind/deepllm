@@ -1,6 +1,6 @@
 # 论文原理文档索引
 
-`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA` 与 `AWQ` 十六篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 大模型系统 / 推理优化论文，共 46 篇；其余扩展阅读暂以总导读和原文链接为主。
+`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2` 与 `DeepSeek-V3` 二十篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 大模型系统 / 推理优化论文，共 50 篇；其余扩展阅读暂以总导读和原文链接为主。
 增强版已补充：`论文链接`、`代表公式 / 关键表达`、`前置阅读`、`读完接着看`。
 
 ## 文件列表
@@ -51,6 +51,10 @@
 - `43_Speculative_Decoding_2022_原理.md`: `Speculative Decoding` - 小模型起草 / 大模型并行验证 / 精确随机采样 / 自回归低延迟推理
 - `44_GQA_2023_原理.md`: `GQA` - Query 分组共享 K/V / KV Cache 与带宽压缩 / MHA Checkpoint Uptraining
 - `45_AWQ_2023_原理.md`: `AWQ` - Activation-aware Weight-only PTQ / 显著通道缩放 / INT3/INT4 Group Quantization / TinyChat
+- `46_FlashAttention2_2023_原理.md`: `FlashAttention-2` - 非矩阵乘 FLOPs / 序列维 CTA 并行 / Split-Q Warp 工作划分 / A100 利用率
+- `48_Mistral_7B_2023_原理.md`: `Mistral 7B` - GQA / Sliding Window Attention / Rolling KV Cache / Chunked Prefill
+- `49_DeepSeek_V2_2024_原理.md`: `DeepSeek-V2` - MLA / DeepSeekMoE / Device-Limited Routing / YaRN / GRPO
+- `50_DeepSeek_V3_2024_原理.md`: `DeepSeek-V3` - Auxiliary-Loss-Free Balancing / MTP / FP8 / DualPipe
 
 ## 建议阅读顺序
 
@@ -59,7 +63,7 @@
 2. 数据 / 扩展律主线：`Scaling Laws -> The Pile -> Foundation Models Report -> Chinchilla -> PaLM -> OLMo`
 3. 对齐主线：`FLAN -> InstructGPT -> Constitutional AI -> DPO`
 4. 推理主线：`Chain-of-Thought -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> DeepSeek-R1`
-5. 工程主线：`Megatron-LM -> ZeRO -> RoPE -> FlashAttention -> LoRA -> GPTQ -> AWQ -> Speculative Decoding -> GQA -> QLoRA -> LLaMA -> Mixtral`
+5. 工程主线：`Megatron-LM -> ZeRO -> RoPE -> FlashAttention -> FlashAttention-2 -> LoRA -> GPTQ -> AWQ -> Speculative Decoding -> GQA -> QLoRA -> LLaMA -> Mistral 7B -> Mixtral -> DeepSeek-V2 -> DeepSeek-V3`
 6. Agent / 检索 / 多模态补充：`Sentence-BERT -> DPR -> RAG -> Toolformer -> ReAct -> Gemini -> Mamba`
 7. 基础模型治理与开放科学主线：`The Pile -> Foundation Models Report -> OLMo -> InstructGPT -> Constitutional AI`
 

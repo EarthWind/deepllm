@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-V3 训练时间线与成本</title>
+  <desc id="desc">DeepSeek-V3 先在 14.8 万亿 token 上以 4K 长度预训练，再用两个各 1000 步阶段扩展至 32K 和 128K，最后进行 150 万样本 SFT 与 GRPO。正式训练运行共消耗 278.8 万 H800 GPU 小时。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061522"/><stop offset="1" stop-color="#1a2140"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#34c7d8"/><stop offset="1" stop-color="#367bdd"/></linearGradient>
+    <linearGradient id="violet" x1="0" x2="1"><stop stop-color="#8068e9"/><stop offset="1" stop-color="#b95eb9"/></linearGradient>
+    <linearGradient id="amber" x1="0" x2="1"><stop stop-color="#ffc45d"/><stop offset="1" stop-color="#ee7d45"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#020617" flood-opacity=".42"/></filter>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:760;fill:#f8fbff}.sub{font-size:16px;fill:#9fb5d0}.head{font-size:20px;font-weight:760;fill:#fff}.body{font-size:15px;fill:#dce8f6}.small{font-size:13px;fill:#9fb5d0}.mono{font-family:"SFMono-Regular",Consolas,monospace;font-size:14px;fill:#f4f8ff}.dark{font-size:15px;font-weight:760;fill:#102033}</style>
+  </defs>
+  <rect width="1280" height="720" rx="28" fill="url(#bg)"/>
+  <text x="52" y="59" class="sans title">14.8T 预训练只是第一段：上下文与后训练另有账本</text>
+  <text x="52" y="91" class="sans sub">论文的 $5.576M 是按 $2 / H800 GPU-hour 折算的正式运行成本，不是研发项目总成本</text>
+
+  <path d="M105 344H1172" stroke="#68829d" stroke-width="4"/>
+  <g filter="url(#shadow)"><circle cx="170" cy="344" r="30" fill="url(#cyan)"/><circle cx="455" cy="344" r="30" fill="url(#violet)"/><circle cx="740" cy="344" r="30" fill="#4d9387"/><circle cx="1025" cy="344" r="30" fill="url(#amber)"/></g>
+  <g class="sans">
+    <rect x="52" y="134" width="236" height="164" rx="18" fill="#102a3e" stroke="#397798"/><text x="170" y="170" text-anchor="middle" class="head">1 · Pre-training</text><text x="78" y="204" class="body">14.8T tokens · sequence 4K</text><text x="78" y="233" class="body">FIM rate 0.1 · 128K vocab</text><text x="78" y="262" class="small">2.664M H800 GPU hours</text><text x="78" y="284" class="small">无不可恢复 loss spike / rollback</text>
+    <rect x="337" y="390" width="236" height="174" rx="18" fill="#202849" stroke="#7866b8"/><text x="455" y="426" text-anchor="middle" class="head">2 · Context 32K</text><text x="363" y="460" class="body">YaRN · 1000 steps</text><text x="363" y="489" class="body">batch 1920 · lr 7.3e−6</text><text x="363" y="518" class="small">只作用于 decoupled RoPE key</text><text x="363" y="542" class="small">与下一阶段合计 119K GPU h</text>
+    <rect x="622" y="134" width="236" height="164" rx="18" fill="#18383d" stroke="#4b9387"/><text x="740" y="170" text-anchor="middle" class="head">3 · Context 128K</text><text x="648" y="204" class="body">YaRN · 1000 steps</text><text x="648" y="233" class="body">batch 480 · lr 7.3e−6</text><text x="648" y="262" class="small">NIAH 与长上下文 benchmark</text><text x="648" y="284" class="small">不是 14.8T 全程用 128K</text>
+    <rect x="907" y="390" width="236" height="174" rx="18" fill="#382f28" stroke="#d18c45"/><text x="1025" y="426" text-anchor="middle" class="head">4 · SFT + GRPO</text><text x="933" y="460" class="body">1.5M SFT instances · 2 epochs</text><text x="933" y="489" class="body">R1 reasoning distillation</text><text x="933" y="518" class="body">rule RM + model RM</text><text x="933" y="542" class="small">5K H800 GPU hours</text>
+  </g>
+
+  <g filter="url(#shadow)"><rect x="48" y="592" width="1184" height="84" rx="18" fill="#0d2236" stroke="#355773"/></g>
+  <text x="78" y="623" class="sans body">GPU-hour：</text><text x="178" y="623" class="sans mono">2.664M pretrain + 119K context + 5K post = 2.788M</text>
+  <text x="78" y="652" class="sans body">美元折算：</text><text x="178" y="652" class="sans mono">2.788M × $2 = $5.576M</text><text x="700" y="652" class="sans small">不含架构/算法/数据研究与消融，也不含人力、集群建设和部署。</text>
+  <text x="52" y="704" class="sans small">预训练平均约 180K H800 GPU-hour / 1T tokens；在 2048 张 H800 上理论约 3.7 天，但真实墙钟时间仍受停机、评测与调度影响。</text>
+</svg>
