@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="790" viewBox="0 0 1400 790" role="img" aria-labelledby="title desc">
+  <title id="title">Learning to Summarize from Human Feedback 的主要实验结果</title>
+  <desc id="desc">展示 TLDR 上相对人写参考摘要的偏好率、质量四维评价、CNN DailyMail 零样本迁移以及奖励模型的语义敏感性与长度偏差。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0284c7"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .heading { font: 700 19px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .big { font: 800 38px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #c2410c; }
+      .big-blue { font: 800 34px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1d4ed8; }
+      .white { font: 700 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #fff; }
+      .card { fill: #fff; stroke: #cbd5e1; stroke-width: 1.4; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="790" fill="url(#bg)"/>
+  <text x="64" y="58" class="title">核心结果：优化人类偏好，胜过只拟合人写参考摘要</text>
+  <text x="64" y="88" class="subtitle">所有比例都应绑定论文的 TL;DR 过滤规则、少于 48 token 的目标、T=0 采样和特定标注规范来理解。</text>
+
+  <g transform="translate(64 126)" filter="url(#shadow)">
+    <rect width="612" height="288" rx="22" class="card"/>
+    <text x="26" y="40" class="heading">TL;DR：相对人写 reference 的原始偏好率</text>
+    <text x="26" y="66" class="small">虚线 50% 表示与 reference 打平；误差条未在重绘图中展开。</text>
+
+    <line x1="196" y1="92" x2="196" y2="250" stroke="#e2e8f0"/>
+    <line x1="286" y1="92" x2="286" y2="250" stroke="#e2e8f0"/>
+    <line x1="376" y1="92" x2="376" y2="250" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 6"/>
+    <line x1="466" y1="92" x2="466" y2="250" stroke="#e2e8f0"/>
+    <line x1="556" y1="92" x2="556" y2="250" stroke="#e2e8f0"/>
+    <text x="196" y="274" text-anchor="middle" class="small">30%</text>
+    <text x="286" y="274" text-anchor="middle" class="small">40%</text>
+    <text x="376" y="274" text-anchor="middle" class="label">50%</text>
+    <text x="466" y="274" text-anchor="middle" class="small">60%</text>
+    <text x="556" y="274" text-anchor="middle" class="small">70%</text>
+
+    <text x="26" y="115" class="label">13B supervised</text>
+    <rect x="166" y="94" width="390" height="28" rx="8" fill="#e2e8f0"/>
+    <rect x="166" y="94" width="147" height="28" rx="8" fill="url(#blue)"/>
+    <text x="301" y="114" text-anchor="end" class="white">43%</text>
+
+    <text x="26" y="168" class="label">1.3B HF (PPO)</text>
+    <rect x="166" y="147" width="390" height="28" rx="8" fill="#e2e8f0"/>
+    <rect x="166" y="147" width="309" height="28" rx="8" fill="url(#orange)"/>
+    <text x="463" y="167" text-anchor="end" class="white">61%</text>
+
+    <text x="26" y="221" class="label">6.7B HF (PPO)</text>
+    <rect x="166" y="200" width="390" height="28" rx="8" fill="#e2e8f0"/>
+    <rect x="166" y="200" width="390" height="28" rx="8" fill="url(#orange)"/>
+    <text x="544" y="220" text-anchor="end" class="white">约 70%</text>
+  </g>
+
+  <g transform="translate(724 126)" filter="url(#shadow)">
+    <rect width="612" height="288" rx="22" class="card"/>
+    <text x="26" y="40" class="heading">长度不是全部解释：控制后仍明显领先</text>
+    <text x="26" y="80" class="big">约 65%</text>
+    <text x="186" y="80" class="label">6.7B PPO vs. reference</text>
+    <text x="26" y="108" class="small">长度控制后，feedback 相对 reference 的偏好率约下降 5 个百分点。</text>
+    <rect x="26" y="132" width="560" height="1" fill="#e2e8f0"/>
+
+    <text x="26" y="166" class="heading">7/7 overall quality 的比例</text>
+    <g transform="translate(26 187)">
+      <rect width="130" height="60" rx="12" fill="#ffedd5" stroke="#fb923c"/>
+      <text x="65" y="18" text-anchor="middle" class="label">6.7B PPO</text>
+      <text x="65" y="51" text-anchor="middle" class="big-blue">45%</text>
+      <rect x="154" width="170" height="60" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+      <text x="239" y="18" text-anchor="middle" class="label">6.7B supervised</text>
+      <text x="239" y="51" text-anchor="middle" class="big-blue">20%</text>
+      <rect x="348" width="186" height="60" rx="12" fill="#f1f5f9" stroke="#cbd5e1"/>
+      <text x="441" y="18" text-anchor="middle" class="label">human reference</text>
+      <text x="441" y="51" text-anchor="middle" class="big-blue">23%</text>
+    </g>
+    <text x="26" y="267" class="small">PPO 在 coherence、accuracy、coverage、overall 四轴均改善，coverage 最突出。</text>
+  </g>
+
+  <g transform="translate(64 454)" filter="url(#shadow)">
+    <rect width="394" height="244" rx="20" class="card"/>
+    <text x="24" y="39" class="heading">零新闻微调的 CNN/DM 迁移</text>
+    <text x="24" y="74" class="big-blue">几乎追平</text>
+    <text x="24" y="104" class="label">CNN/DM reference 的人类质量</text>
+    <text x="24" y="137" class="small">模型只在 Reddit TL;DR 上做 SFT + 人类反馈，</text>
+    <text x="24" y="160" class="small">直接转到新闻文章，明显优于 TL;DR supervised</text>
+    <text x="24" y="183" class="small">迁移模型；但它生成的摘要约短一半，直接比较</text>
+    <text x="24" y="206" class="small">需看按长度分桶的 7 点量表，而非一句“胜过”。</text>
+  </g>
+
+  <g transform="translate(490 454)" filter="url(#shadow)">
+    <rect width="394" height="244" rx="20" class="card"/>
+    <text x="24" y="39" class="heading">RM 学到语义细节，而非只看表面</text>
+    <text x="24" y="77" class="label">偏好人工最小改进：</text>
+    <text x="322" y="77" text-anchor="end" class="big-blue">82.8%</text>
+    <text x="24" y="111" class="small">6.7B RM；独立人类评审为 84.1%</text>
+    <text x="24" y="151" class="label">识别人物角色被调换：</text>
+    <text x="322" y="151" text-anchor="end" class="big-blue">97.2%</text>
+    <text x="24" y="187" class="small">这些扰动只改少量文本，却改变事实含义，说明</text>
+    <text x="24" y="210" class="small">大 RM 确实能捕捉部分事实与指代错误。</text>
+  </g>
+
+  <g transform="translate(916 454)" filter="url(#shadow)">
+    <rect width="420" height="244" rx="20" class="card"/>
+    <text x="24" y="39" class="heading">但 RM 仍有长度偏差</text>
+    <text x="24" y="82" class="label">“改短且更好”的编辑被正确偏好：</text>
+    <rect x="24" y="101" width="350" height="28" rx="8" fill="#e2e8f0"/>
+    <rect x="24" y="101" width="268" height="28" rx="8" fill="#22c55e"/>
+    <text x="282" y="121" text-anchor="end" class="white">human 76.4%</text>
+    <rect x="24" y="147" width="350" height="28" rx="8" fill="#e2e8f0"/>
+    <rect x="24" y="147" width="219" height="28" rx="8" fill="#a855f7"/>
+    <text x="233" y="167" text-anchor="end" class="white">6.7B RM 62.6%</text>
+    <text x="24" y="207" class="small">因此主结果必须做长度控制；“人类偏好模型”</text>
+    <text x="24" y="228" class="small">也会从数据中学到可利用的表面相关性。</text>
+  </g>
+
+  <text x="700" y="752" text-anchor="middle" class="small">图中数值按论文正文与附录重绘；“约 70% / 约 65%”保留原图与正文的近似语义，不制造多余小数精度。</text>
+</svg>

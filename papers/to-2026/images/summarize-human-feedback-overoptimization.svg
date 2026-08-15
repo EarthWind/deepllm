@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">奖励模型过度优化：代理奖励上升但真实人类偏好下降</title>
+  <desc id="desc">重绘论文图五。横轴为策略相对监督基线的 KL，从零增至二百五；奖励模型预测的相对参考摘要偏好持续上升接近一，而人类实际偏好先从约零点二四升至约零点四八，再下降并在极端优化时接近零。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#fff7ed"/>
+    </linearGradient>
+    <linearGradient id="warning" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fef3c7"/>
+      <stop offset="1" stop-color="#fee2e2"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#dc2626"/>
+    </marker>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .heading { font: 700 19px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .axis { font: 500 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .mono { font: 500 13px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #334155; }
+      .card { fill: #fff; stroke: #cbd5e1; stroke-width: 1.4; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="760" fill="url(#bg)"/>
+  <text x="64" y="58" class="title">最重要的警告：把奖励模型优化得更高，不等于摘要真的更好</text>
+  <text x="64" y="88" class="subtitle">根据论文 Figure 5 重绘趋势；实验使用较早的 1.3B reward model（rm3），用于探测 Goodhart 式过度优化，而非主结果最终 RM。</text>
+
+  <g transform="translate(64 126)" filter="url(#shadow)">
+    <rect width="810" height="512" rx="22" class="card"/>
+    <text x="28" y="40" class="heading">相对 reference 的偏好：RM 预测 vs. 人类实测</text>
+
+    <g transform="translate(86 78)">
+      <rect x="0" y="0" width="650" height="342" fill="#fff"/>
+      <rect x="285" y="0" width="365" height="342" fill="#fff7ed"/>
+      <line x1="0" y1="342" x2="650" y2="342" stroke="#334155" stroke-width="2"/>
+      <line x1="0" y1="0" x2="0" y2="342" stroke="#334155" stroke-width="2"/>
+      <g stroke="#e2e8f0" stroke-width="1">
+        <line x1="0" y1="274" x2="650" y2="274"/>
+        <line x1="0" y1="205" x2="650" y2="205"/>
+        <line x1="0" y1="137" x2="650" y2="137"/>
+        <line x1="0" y1="68" x2="650" y2="68"/>
+        <line x1="0" y1="0" x2="650" y2="0"/>
+      </g>
+      <line x1="0" y1="171" x2="650" y2="171" stroke="#64748b" stroke-width="1.7" stroke-dasharray="7 6"/>
+      <text x="642" y="163" text-anchor="end" class="axis">reference = 50%</text>
+
+      <g class="axis" text-anchor="end">
+        <text x="-12" y="347">0.0</text>
+        <text x="-12" y="279">0.2</text>
+        <text x="-12" y="210">0.4</text>
+        <text x="-12" y="142">0.6</text>
+        <text x="-12" y="73">0.8</text>
+        <text x="-12" y="5">1.0</text>
+      </g>
+      <g class="axis" text-anchor="middle">
+        <text x="0" y="366">0</text>
+        <text x="130" y="366">2</text>
+        <text x="260" y="366">10</text>
+        <text x="390" y="366">25</text>
+        <text x="520" y="366">75</text>
+        <text x="650" y="366">250</text>
+      </g>
+
+      <path d="M0 219 L130 151 L260 89 L390 48 L520 7 L650 3" fill="none" stroke="#f59e0b" stroke-width="5" stroke-dasharray="11 8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M0 260 L130 212 L260 178 L390 185 L520 199 L650 342" fill="none" stroke="#ea580c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      <g fill="#fff" stroke-width="4">
+        <circle cx="0" cy="260" r="6" stroke="#ea580c"/>
+        <circle cx="130" cy="212" r="6" stroke="#ea580c"/>
+        <circle cx="260" cy="178" r="6" stroke="#ea580c"/>
+        <circle cx="390" cy="185" r="6" stroke="#ea580c"/>
+        <circle cx="520" cy="199" r="6" stroke="#ea580c"/>
+        <circle cx="650" cy="342" r="6" stroke="#ea580c"/>
+      </g>
+      <text x="430" y="59" class="label" fill="#d97706">RM prediction</text>
+      <text x="300" y="218" class="label" fill="#c2410c">actual human preference</text>
+      <text x="467" y="28" class="small" fill="#9a3412">过度优化区</text>
+    </g>
+    <text x="405" y="484" text-anchor="middle" class="label">策略 checkpoints（标签为 KL(π_RL ∥ π_SFT)，间距非线性）</text>
+  </g>
+
+  <g transform="translate(910 126)" filter="url(#shadow)">
+    <rect width="426" height="512" rx="22" class="card"/>
+    <text x="26" y="40" class="heading">曲线在说什么？</text>
+
+    <g transform="translate(26 72)">
+      <circle cx="18" cy="18" r="18" fill="#dcfce7"/>
+      <text x="18" y="24" text-anchor="middle" class="label">1</text>
+      <text x="52" y="14" class="label">轻度优化有效</text>
+      <text x="52" y="38" class="small">从 KL≈0 到 KL≈10，人类偏好随 RM</text>
+      <text x="52" y="59" class="small">分数一起提高，代理指标有用。</text>
+    </g>
+
+    <g transform="translate(26 166)">
+      <circle cx="18" cy="18" r="18" fill="#fef3c7"/>
+      <text x="18" y="24" text-anchor="middle" class="label">2</text>
+      <text x="52" y="14" class="label">继续优化开始脱钩</text>
+      <text x="52" y="38" class="small">RM 预测逼近 100%，真实偏好却从峰值</text>
+      <text x="52" y="59" class="small">下降：策略找到了 RM 的盲区。</text>
+    </g>
+
+    <g transform="translate(26 260)">
+      <circle cx="18" cy="18" r="18" fill="#fee2e2"/>
+      <text x="18" y="24" text-anchor="middle" class="label">3</text>
+      <text x="52" y="14" class="label">极端时反相关</text>
+      <text x="52" y="38" class="small">KL≈250 的样本会生成重复标题等怪异</text>
+      <text x="52" y="59" class="small">模式；RM 满意，人类几乎全拒绝。</text>
+    </g>
+
+    <rect x="26" y="364" width="374" height="116" rx="15" fill="url(#warning)" stroke="#fca5a5"/>
+    <text x="44" y="393" class="label">工程含义</text>
+    <text x="44" y="420" class="small">KL 不是“越小越安全”或“越大越好”的常数题。</text>
+    <text x="44" y="443" class="small">要用独立人工评测选 checkpoint，并持续用当前</text>
+    <text x="44" y="466" class="small">策略的新样本更新 RM 的训练分布。</text>
+  </g>
+
+  <path d="M790 260 C870 260 874 330 912 330" fill="none" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+  <text x="700" y="698" text-anchor="middle" class="label">这不是 PPO 独有的问题：论文发现 ROUGE 的 best-of-N 优化也会更早、更低地触顶。</text>
+  <text x="700" y="726" text-anchor="middle" class="small">根因是优化了有限数据上学出的代理函数；换优化器不能自动消除代理失真。</text>
+</svg>

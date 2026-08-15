@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+  <title id="title">STaR 自举推理的完整外循环</title>
+  <desc id="desc">预训练模型生成理由和答案，正确样本直接保留，错误样本在答案提示下 rationalize，移除提示后合并训练数据，每轮从原始预训练模型重新微调。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#21143c"/></linearGradient>
+    <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <linearGradient id="green" x1="0" x2="1"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+    <linearGradient id="orange" x1="0" x2="1"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#f97316"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="9" stdDeviation="13" flood-color="#020617" flood-opacity=".5"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.h{font:700 34px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.sub{font:400 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#c4b5fd}.card{fill:#0e2239;stroke:#36516c;stroke-width:1.5}.th{font:700 21px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fff}.p{font:400 15px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#cbd5e1}.mini{font:500 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#bae6fd}.eq{font:500 16px 'Times New Roman',serif;fill:#cffafe}.ar{stroke:#67e8f9;stroke-width:3;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1400" height="850" rx="28" fill="url(#bg)"/>
+  <text x="65" y="68" class="h">STaR：让答案标签为模型自己生成的推理过程提供弱监督</text>
+  <text x="65" y="103" class="sub">每轮重建 rationale 数据集，再从同一个原始预训练模型 M 开始微调</text>
+
+  <rect x="65" y="160" width="230" height="175" rx="22" class="card" filter="url(#shadow)"/>
+  <circle cx="110" cy="207" r="25" fill="#4f46e5"/><text x="101" y="215" class="th">M</text>
+  <text x="150" y="211" class="th">当前模型 Mₙ₋₁</text>
+  <text x="92" y="255" class="p">从少量 Q-R-A 示例开始</text><text x="92" y="284" class="p">对全部 (xᵢ, yᵢ) 生成</text>
+  <rect x="92" y="302" width="176" height="24" rx="12" fill="#1e3a8a"/><text x="108" y="319" class="mini">r̂ᵢ + ŷᵢ ∼ p(·|xᵢ)</text>
+
+  <path d="M295 247H361" class="ar"/>
+  <rect x="365" y="160" width="250" height="175" rx="22" class="card" filter="url(#shadow)"/>
+  <rect x="365" y="160" width="250" height="49" rx="22" fill="url(#blue)"/><text x="390" y="191" class="th">答案过滤器</text>
+  <text x="392" y="249" class="eq">keep ⇔ ŷᵢ = yᵢ</text>
+  <text x="392" y="282" class="p">不检查每一步理由</text>
+  <text x="392" y="309" class="p">也不检查 rationale faithfulness</text>
+
+  <path d="M615 217H694" class="ar"/>
+  <text x="634" y="201" class="mini">正确</text>
+  <rect x="700" y="145" width="270" height="190" rx="22" class="card" filter="url(#shadow)"/>
+  <rect x="700" y="145" width="270" height="49" rx="22" fill="url(#green)"/><text x="727" y="176" class="th">直接生成集 Dₙ</text>
+  <text x="727" y="231" class="p">问题 xᵢ</text><text x="727" y="261" class="p">自生成理由 r̂ᵢ</text><text x="727" y="291" class="p">真实答案 yᵢ</text>
+  <rect x="727" y="307" width="214" height="20" rx="10" fill="#065f46"/>
+
+  <path d="M490 335V419" class="ar"/>
+  <text x="505" y="383" class="mini">错误题</text>
+  <rect x="335" y="425" width="310" height="220" rx="22" class="card" filter="url(#shadow)"/>
+  <rect x="335" y="425" width="310" height="50" rx="22" fill="url(#orange)"/><text x="362" y="457" class="th">Rationalization</text>
+  <text x="362" y="510" class="p">把正确答案作为隐藏 hint：</text>
+  <rect x="362" y="532" width="256" height="46" rx="12" fill="#3b2611"/><text x="378" y="561" class="eq">r̂ᵣₐₜ, ŷᵣₐₜ ∼ p(·|xᵢ, yᵢ)</text>
+  <text x="362" y="609" class="p">让模型从目标答案反向寻找理由</text>
+
+  <path d="M645 535H700" class="ar"/>
+  <rect x="700" y="425" width="270" height="220" rx="22" class="card" filter="url(#shadow)"/>
+  <rect x="700" y="425" width="270" height="50" rx="22" fill="#b45309"/><text x="727" y="457" class="th">移除 hint 后保存</text>
+  <text x="727" y="509" class="p">再次检查 ŷᵣₐₜ = yᵢ</text>
+  <text x="727" y="540" class="p">训练输入只保留：</text>
+  <rect x="727" y="558" width="216" height="56" rx="12" fill="#31200f"/><text x="746" y="582" class="mini">xᵢ → r̂ᵣₐₜ → yᵢ</text><text x="746" y="603" class="mini">没有答案提示字段</text>
+
+  <path d="M970 240H1048" class="ar"/>
+  <path d="M970 535C1020 535 1010 313 1048 313" class="ar"/>
+  <rect x="1055" y="180" width="280" height="205" rx="22" class="card" filter="url(#shadow)"/>
+  <text x="1083" y="225" class="th">合并本轮数据</text>
+  <rect x="1083" y="249" width="224" height="53" rx="12" fill="#0c4a6e"/><text x="1122" y="282" class="eq">Tₙ = Dₙ ∪ Dₙʳᵃᵗ</text>
+  <text x="1083" y="335" class="p">覆盖已会做的题</text><text x="1083" y="362" class="p">也覆盖刚被 hint 打开的难题</text>
+
+  <path d="M1195 385V465" class="ar"/>
+  <rect x="1040" y="470" width="295" height="175" rx="22" class="card" filter="url(#shadow)"/>
+  <rect x="1040" y="470" width="295" height="50" rx="22" fill="#4f46e5"/><text x="1068" y="502" class="th">从原始 M 重新微调</text>
+  <text x="1068" y="556" class="eq">Mₙ = train(M, Tₙ)</text>
+  <text x="1068" y="590" class="p">不是 train(Mₙ₋₁, Tₙ)</text>
+  <text x="1068" y="619" class="mini">避免外循环中持续过拟合</text>
+
+  <path d="M1040 580C929 722 385 746 185 341" class="ar"/>
+  <text x="592" y="747" class="mini">下一轮用更强的 Mₙ 重新生成整个训练集，直到验证性能饱和</text>
+
+  <rect x="65" y="775" width="1270" height="45" rx="16" fill="#102038" stroke="#475569"/>
+  <text x="92" y="803" class="p">监督只需要问题与最终答案；rationale 是潜变量，由模型生成、按 outcome 筛选，再反过来成为下一轮监督数据。</text>
+</svg>

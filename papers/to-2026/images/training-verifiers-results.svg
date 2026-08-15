@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Training Verifiers 在 GSM8K 上的主要结果</title>
+  <desc id="desc">比较 6B 和 175B 生成模型在微调与 verifier best-of-100 下的近似解题率，并展示自然语言推理和数据扩展结论。</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#334155" flood-opacity="0.16"/></filter>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#4f46e5"/></linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fb923c"/><stop offset="1" stop-color="#f97316"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#34d399"/><stop offset="1" stop-color="#047857"/></linearGradient>
+    <style>
+      .title{font:700 32px system-ui,'Noto Sans CJK SC',sans-serif;fill:#0f172a}.sub{font:16px system-ui,'Noto Sans CJK SC',sans-serif;fill:#475569}
+      .head{font:700 22px system-ui,'Noto Sans CJK SC',sans-serif;fill:#172033}.body{font:15px system-ui,'Noto Sans CJK SC',sans-serif;fill:#475569}
+      .small{font:13px system-ui,'Noto Sans CJK SC',sans-serif;fill:#64748b}.label{font:700 15px system-ui,'Noto Sans CJK SC',sans-serif;fill:#263248}
+      .number{font:800 35px system-ui,'Noto Sans CJK SC',sans-serif}.huge{font:800 48px system-ui,'Noto Sans CJK SC',sans-serif}
+    </style>
+  </defs>
+  <rect width="1400" height="820" fill="#f3f6fd"/>
+  <text x="64" y="58" class="title">主要结果：更强的 generator、更大的数据集和 verifier 搜索可以叠加</text>
+  <text x="64" y="89" class="sub">下列满数据结果按论文 Figure 5 读取，均为约数；verification 每题比较 100 个候选，不应与单次生成混为一谈。</text>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="126" width="798" height="431" rx="24" fill="white" stroke="#cbd5e1"/>
+    <text x="92" y="166" class="head">完整 GSM8K 训练集上的 test solve rate</text>
+    <g stroke="#e2e8f0" stroke-width="1">
+      <path d="M258 197v292M358 197v292M458 197v292M558 197v292M658 197v292M758 197v292"/>
+    </g>
+    <g class="small" text-anchor="middle"><text x="258" y="515">0%</text><text x="358" y="515">10%</text><text x="458" y="515">20%</text><text x="558" y="515">30%</text><text x="658" y="515">40%</text><text x="758" y="515">50%</text></g>
+    <text x="92" y="238" class="label">6B finetuning</text><rect x="258" y="216" width="206" height="28" rx="14" fill="#dbeafe"/><rect x="258" y="216" width="206" height="28" rx="14" fill="url(#blue)"/><text x="477" y="237" class="label">≈20.6%</text>
+    <text x="92" y="305" class="label">6B verification</text><rect x="258" y="283" width="387" height="28" rx="14" fill="url(#orange)"/><text x="658" y="304" class="label">≈38.7%</text>
+    <text x="92" y="372" class="label">175B finetuning</text><rect x="258" y="350" width="343" height="28" rx="14" fill="url(#blue)"/><text x="614" y="371" class="label">≈34.3%</text>
+    <text x="92" y="439" class="label">175B verification</text><rect x="258" y="417" width="556" height="28" rx="14" fill="url(#green)"/><text x="745" y="438" class="label" fill="white">≈55.6%</text>
+    <rect x="92" y="470" width="722" height="32" rx="10" fill="#ecfdf5"/><text x="453" y="492" text-anchor="middle" class="label" fill="#047857">6B verification 略高于 175B finetuning：论文概括为约等价于 30× 参数规模增益</text>
+    <text x="92" y="540" class="small">Figure 5 的 6B 曲线为 3 次运行均值±标准差；175B verification 只有单次运行。约数不应被当成独立复现的精确小数。</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="902" y="126" width="434" height="431" rx="24" fill="white" stroke="#cbd5e1"/>
+    <text x="930" y="166" class="head">自然语言中间步骤不是装饰</text>
+    <text x="930" y="202" class="body">同一个 6B 模型，在完整训练集上：</text>
+    <rect x="930" y="228" width="178" height="122" rx="18" fill="#fff1f2" stroke="#fda4af"/>
+    <text x="1019" y="259" text-anchor="middle" class="label">直接输出答案</text><text x="1019" y="309" text-anchor="middle" class="huge" fill="#e11d48">5.2%</text><text x="1019" y="336" text-anchor="middle" class="small">no intermediate steps</text>
+    <rect x="1126" y="228" width="182" height="122" rx="18" fill="#ecfdf5" stroke="#6ee7b7"/>
+    <text x="1217" y="259" text-anchor="middle" class="label">生成完整解答</text><text x="1217" y="309" text-anchor="middle" class="huge" fill="#059669">20.6%</text><text x="1217" y="336" text-anchor="middle" class="small">natural-language solution</text>
+    <text x="930" y="390" class="body">中间文本把复杂映射拆成可续写的局部计算，</text><text x="930" y="418" class="body">也给 verifier 留下判断依据。这是后来</text><text x="930" y="446" class="body">chain-of-thought 与 process supervision 的前奏。</text>
+    <rect x="930" y="479" width="378" height="48" rx="13" fill="#eef2ff"/><text x="1119" y="509" text-anchor="middle" class="label" fill="#4338ca">“答案对”与“推理对”仍不是同一件事</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="596" width="390" height="162" rx="22" fill="white" stroke="#cbd5e1"/>
+    <text x="92" y="633" class="head">数据缩放不是从第 1 题就获利</text>
+    <text x="92" y="667" class="body">小数据下 verifier 更容易记答案，</text><text x="92" y="693" class="body">甚至不如 finetuning；数据足够大后才“起飞”。</text>
+    <rect x="92" y="716" width="334" height="25" rx="8" fill="#fef3c7"/><text x="259" y="734" text-anchor="middle" class="small">175B verifier 比 6B 更早越过基线</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="505" y="596" width="390" height="162" rx="22" fill="white" stroke="#cbd5e1"/>
+    <text x="533" y="633" class="head">generator 是更关键的瓶颈</text>
+    <text x="533" y="667" class="body">大 generator + 小 verifier，明显优于</text><text x="533" y="693" class="body">小 generator + 大 verifier。</text>
+    <rect x="533" y="716" width="334" height="25" rx="8" fill="#dbeafe"/><text x="700" y="734" text-anchor="middle" class="small">选择器无法选到生成器从未覆盖的正确解</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="946" y="596" width="390" height="162" rx="22" fill="white" stroke="#cbd5e1"/>
+    <text x="974" y="633" class="head">20% residual dropout 有效</text>
+    <text x="974" y="667" class="body">明显改善 finetuning 与 solution-level verifier；</text><text x="974" y="693" class="body">token-level 本已较抗过拟合，仍获得小幅增益。</text>
+    <rect x="974" y="716" width="334" height="25" rx="8" fill="#ede9fe"/><text x="1141" y="734" text-anchor="middle" class="small">论文先额外预训练 dropout，再做下游训练</text>
+  </g>
+  <text x="700" y="796" text-anchor="middle" class="small">55% 人类对比来自 OpenAI 博客所述的一小批同题测试；Figure 5 的完整 test-set 曲线与人类小样本不是同一个统计口径。</text>
+</svg>

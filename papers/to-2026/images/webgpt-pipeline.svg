@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">WebGPT 从问题到带引用答案的完整闭环</title>
+  <desc id="desc">问题进入策略模型，模型在文本浏览器中搜索、点击、查找和引用，随后生成多个完整轨迹，由奖励模型选择高分答案。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#15133a"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#f97316"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#020617" flood-opacity=".45"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>
+      .h1{font:700 34px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.sub{font:400 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#a5b4fc}.card{fill:#0f2139;stroke:#334a68;stroke-width:1.5}.t{font:700 21px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.p{font:400 15px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#cbd5e1}.mini{font:500 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#bae6fd}.badge{font:700 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fff}.arrow{stroke:#67e8f9;stroke-width:3;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="h1">WebGPT：把“回答问题”变成一条可比较的研究轨迹</text>
+  <text x="70" y="104" class="sub">一个候选不只是答案，而是 浏览动作 + 保存引文 + 最终回答 的完整序列</text>
+
+  <rect x="65" y="175" width="220" height="180" rx="22" class="card" filter="url(#shadow)"/>
+  <circle cx="110" cy="220" r="25" fill="#2563eb"/><text x="102" y="228" class="badge">Q</text>
+  <text x="150" y="223" class="t">开放式问题</text>
+  <text x="92" y="270" class="p">问题可能需要跨页面</text><text x="92" y="296" class="p">检索、筛选与综合证据</text>
+  <rect x="92" y="317" width="160" height="25" rx="12" fill="#172d50"/><text x="111" y="335" class="mini">状态始终包含问题</text>
+
+  <path d="M285 265H346" class="arrow"/>
+
+  <rect x="350" y="145" width="350" height="250" rx="22" class="card" filter="url(#shadow)"/>
+  <rect x="350" y="145" width="350" height="53" rx="22" fill="url(#blue)"/><text x="378" y="179" class="t">策略模型 π：下一步做什么？</text>
+  <g transform="translate(378 222)">
+    <rect width="125" height="35" rx="17" fill="#173d68"/><text x="23" y="24" class="mini">Search 查询</text>
+    <rect x="139" width="125" height="35" rx="17" fill="#173d68"/><text x="161" y="24" class="mini">Click 链接</text>
+    <rect y="52" width="125" height="35" rx="17" fill="#174b5a"/><text x="29" y="76" class="mini">Find 定位</text>
+    <rect x="139" y="52" width="125" height="35" rx="17" fill="#174b5a"/><text x="161" y="76" class="mini">Quote 引文</text>
+    <rect y="104" width="264" height="38" rx="18" fill="#2c245f"/><text x="55" y="129" class="mini">Scroll / Back / End</text>
+  </g>
+  <path d="M666 305C758 305 752 477 642 477" class="arrow"/>
+  <text x="704" y="354" class="mini">动作改变环境</text>
+
+  <rect x="350" y="445" width="350" height="220" rx="22" class="card" filter="url(#shadow)"/>
+  <rect x="350" y="445" width="350" height="53" rx="22" fill="url(#teal)"/><text x="378" y="479" class="t">文本浏览器环境</text>
+  <text x="378" y="532" class="p">Bing 搜索结果 → Readability 正文</text>
+  <text x="378" y="562" class="p">页面、滚动位置、历史动作、剩余预算</text>
+  <rect x="378" y="590" width="290" height="48" rx="12" fill="#092f37" stroke="#14b8a6"/>
+  <text x="395" y="620" class="mini">只保存当前页面中的精确文本片段</text>
+  <path d="M384 445C310 418 309 332 363 317" class="arrow"/>
+  <text x="228" y="412" class="mini">新状态反馈给模型</text>
+
+  <path d="M700 265H766" class="arrow"/>
+  <rect x="770" y="175" width="245" height="180" rx="22" class="card" filter="url(#shadow)"/>
+  <text x="800" y="219" class="t">轨迹 τ</text>
+  <text x="800" y="256" class="p">① 一串浏览动作</text><text x="800" y="286" class="p">② 保存的引文与来源</text><text x="800" y="316" class="p">③ 带 [1][2] 的答案</text>
+  <rect x="800" y="330" width="178" height="8" rx="4" fill="#14b8a6"/>
+
+  <path d="M1015 265H1081" class="arrow"/>
+  <rect x="1085" y="145" width="250" height="250" rx="22" class="card" filter="url(#shadow)"/>
+  <rect x="1085" y="145" width="250" height="53" rx="22" fill="url(#amber)"/><text x="1113" y="179" class="t">奖励模型 rφ</text>
+  <text x="1113" y="232" class="p">问题 + 引文 + 答案</text>
+  <text x="1113" y="264" class="p">→ 一个偏好分数</text>
+  <rect x="1113" y="291" width="194" height="42" rx="12" fill="#392717"/><text x="1140" y="318" class="mini">P(A≻B)=σ(rA−rB)</text>
+  <text x="1113" y="365" class="p">不直接证明事实为真</text>
+
+  <path d="M1210 395V489" class="arrow"/>
+  <rect x="880" y="490" width="455" height="175" rx="22" class="card" filter="url(#shadow)"/>
+  <text x="910" y="531" class="t">推理时：采样 N 条完整轨迹</text>
+  <g transform="translate(910 553)">
+    <rect width="82" height="50" rx="10" fill="#172d50"/><text x="23" y="30" class="mini">τ₁</text>
+    <rect x="94" width="82" height="50" rx="10" fill="#172d50"/><text x="117" y="30" class="mini">τ₂</text>
+    <rect x="188" width="82" height="50" rx="10" fill="#172d50"/><text x="211" y="30" class="mini">τ₃</text>
+    <text x="285" y="31" class="p">…</text>
+    <rect x="320" y="-3" width="95" height="56" rx="12" fill="#065f46" stroke="#34d399" stroke-width="2"/><text x="344" y="30" class="mini">max rφ</text>
+  </g>
+  <text x="910" y="637" class="p">BC + reward-model rejection sampling（最佳系统：175B，best-of-64）</text>
+
+  <rect x="65" y="715" width="1270" height="55" rx="18" fill="#0c2034" stroke="#28435f"/>
+  <text x="92" y="749" class="p">训练时：人工示范 → 行为克隆（BC）；成对比较 → 奖励模型（RM）；RM 可用于 PPO，也可只在测试时做 best-of-N。</text>
+</svg>
