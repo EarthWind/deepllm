@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">从人类摘要比较到奖励模型与 PPO 策略的训练闭环</title>
+  <desc id="desc">同一篇 Reddit 帖子由多个策略生成候选摘要，人类比较两个候选，比较数据训练奖励模型，奖励模型和监督策略 KL 共同训练 PPO 策略；新策略再回到数据收集环节。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="human" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#ea580c"/>
+    </linearGradient>
+    <linearGradient id="reward" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#c026d3"/>
+    </linearGradient>
+    <linearGradient id="policy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0284c7"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.13"/>
+    </filter>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M0,0 L11,5.5 L0,11 Z" fill="#64748b"/>
+    </marker>
+    <marker id="loop-arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M0,0 L11,5.5 L0,11 Z" fill="#7c3aed"/>
+    </marker>
+    <style>
+      .title { font: 700 32px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .stage-title { font: 700 22px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #fff; }
+      .stage-sub { font: 400 14px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #f8fafc; }
+      .heading { font: 700 18px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .mono { font: 500 13px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #334155; }
+      .card { fill: #fff; stroke: #cbd5e1; stroke-width: 1.4; }
+      .arrow { fill: none; stroke: #64748b; stroke-width: 2.4; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="820" fill="url(#bg)"/>
+  <text x="64" y="58" class="title">Learning to Summarize：一个可以反复迭代的人类反馈闭环</text>
+  <text x="64" y="88" class="subtitle">论文并非严格跑完固定轮数，而是在离线批量收集、累计训练和流程改进之间迭代；下图抽象出稳定不变的三步结构。</text>
+
+  <g transform="translate(64 132)" filter="url(#shadow)">
+    <rect width="392" height="530" rx="22" class="card"/>
+    <rect width="392" height="86" rx="22" fill="url(#human)"/>
+    <rect y="64" width="392" height="22" fill="url(#human)"/>
+    <text x="28" y="36" class="stage-title">1　收集成对偏好</text>
+    <text x="28" y="64" class="stage-sub">same post, two summaries, one human choice</text>
+
+    <rect x="28" y="118" width="336" height="62" rx="13" fill="#fff7ed" stroke="#fdba74"/>
+    <text x="196" y="144" text-anchor="middle" class="label">一篇 Reddit TL;DR 帖子 x</text>
+    <text x="196" y="166" text-anchor="middle" class="small">标题 + 正文；目标摘要少于 48 tokens</text>
+    <path d="M196 180 V216" class="arrow"/>
+
+    <rect x="28" y="216" width="152" height="86" rx="13" fill="#fffbeb" stroke="#fbbf24"/>
+    <text x="104" y="244" text-anchor="middle" class="label">候选摘要 A</text>
+    <line x1="50" y1="260" x2="158" y2="260" stroke="#fcd34d" stroke-width="5" stroke-linecap="round"/>
+    <line x1="50" y1="278" x2="137" y2="278" stroke="#fde68a" stroke-width="5" stroke-linecap="round"/>
+    <rect x="212" y="216" width="152" height="86" rx="13" fill="#fffbeb" stroke="#fbbf24"/>
+    <text x="288" y="244" text-anchor="middle" class="label">候选摘要 B</text>
+    <line x1="234" y1="260" x2="342" y2="260" stroke="#fcd34d" stroke-width="5" stroke-linecap="round"/>
+    <line x1="234" y1="278" x2="321" y2="278" stroke="#fde68a" stroke-width="5" stroke-linecap="round"/>
+
+    <path d="M104 302 C104 338 196 326 196 354" class="arrow"/>
+    <path d="M288 302 C288 338 196 326 196 354" class="arrow"/>
+    <rect x="78" y="354" width="236" height="70" rx="35" fill="#ffedd5" stroke="#fb923c"/>
+    <text x="196" y="383" text-anchor="middle" class="label">人类：A ≻ B</text>
+    <text x="196" y="406" text-anchor="middle" class="small">9 点置信度 + naive interpretation</text>
+
+    <rect x="28" y="452" width="336" height="50" rx="12" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="196" y="474" text-anchor="middle" class="mono">D = {(x, y_w, y_l)}，最终公开 64,832 对</text>
+    <text x="196" y="493" text-anchor="middle" class="small">候选来自 reference、SFT、BoN 与不同 PPO 策略</text>
+  </g>
+
+  <path d="M456 397 H500" class="arrow"/>
+
+  <g transform="translate(504 132)" filter="url(#shadow)">
+    <rect width="392" height="530" rx="22" class="card"/>
+    <rect width="392" height="86" rx="22" fill="url(#reward)"/>
+    <rect y="64" width="392" height="22" fill="url(#reward)"/>
+    <text x="28" y="36" class="stage-title">2　训练奖励模型</text>
+    <text x="28" y="64" class="stage-sub">post + summary → one scalar preference score</text>
+
+    <rect x="28" y="120" width="336" height="58" rx="12" fill="#faf5ff" stroke="#d8b4fe"/>
+    <text x="196" y="145" text-anchor="middle" class="label">从 SFT checkpoint 初始化 Transformer</text>
+    <text x="196" y="165" text-anchor="middle" class="small">另加随机初始化的标量 reward head</text>
+    <path d="M196 178 V216" class="arrow"/>
+
+    <g transform="translate(40 216)">
+      <rect width="140" height="72" rx="13" fill="#f3e8ff" stroke="#c084fc"/>
+      <text x="70" y="29" text-anchor="middle" class="label">rθ(x, y_w)</text>
+      <text x="70" y="53" text-anchor="middle" class="small">preferred score</text>
+      <rect x="172" width="140" height="72" rx="13" fill="#f3e8ff" stroke="#c084fc"/>
+      <text x="242" y="29" text-anchor="middle" class="label">rθ(x, y_l)</text>
+      <text x="242" y="53" text-anchor="middle" class="small">rejected score</text>
+    </g>
+
+    <path d="M110 288 C110 324 196 312 196 338" class="arrow"/>
+    <path d="M282 288 C282 324 196 312 196 338" class="arrow"/>
+    <rect x="28" y="338" width="336" height="70" rx="14" fill="#f5f3ff" stroke="#a78bfa"/>
+    <text x="196" y="367" text-anchor="middle" class="mono">L_RM = −log σ(r_w − r_l)</text>
+    <text x="196" y="391" text-anchor="middle" class="small">只识别相对差；绝对 reward 零点任意</text>
+
+    <rect x="28" y="438" width="336" height="64" rx="12" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="196" y="463" text-anchor="middle" class="label">最终归一化</text>
+    <text x="196" y="487" text-anchor="middle" class="small">令数据集 reference summary 的平均分为 0</text>
+  </g>
+
+  <path d="M896 397 H940" class="arrow"/>
+
+  <g transform="translate(944 132)" filter="url(#shadow)">
+    <rect width="392" height="530" rx="22" class="card"/>
+    <rect width="392" height="86" rx="22" fill="url(#policy)"/>
+    <rect y="64" width="392" height="22" fill="url(#policy)"/>
+    <text x="28" y="36" class="stage-title">3　用 PPO 优化策略</text>
+    <text x="28" y="64" class="stage-sub">generate → score → KL-shape → update</text>
+
+    <rect x="28" y="120" width="336" height="58" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+    <text x="196" y="145" text-anchor="middle" class="label">π_RL 从 SFT policy 初始化并采样摘要</text>
+    <text x="196" y="165" text-anchor="middle" class="small">每个 BPE token 是一个 action；EOS 结束 episode</text>
+    <path d="M196 178 V216" class="arrow"/>
+
+    <rect x="28" y="216" width="100" height="76" rx="13" fill="#f3e8ff" stroke="#c084fc"/>
+    <text x="78" y="245" text-anchor="middle" class="label">RM</text>
+    <text x="78" y="269" text-anchor="middle" class="small">终局分数</text>
+    <rect x="146" y="216" width="100" height="76" rx="13" fill="#dbeafe" stroke="#60a5fa"/>
+    <text x="196" y="245" text-anchor="middle" class="label">SFT ref</text>
+    <text x="196" y="269" text-anchor="middle" class="small">token KL</text>
+    <rect x="264" y="216" width="100" height="76" rx="13" fill="#dcfce7" stroke="#4ade80"/>
+    <text x="314" y="245" text-anchor="middle" class="label">Value</text>
+    <text x="314" y="269" text-anchor="middle" class="small">GAE baseline</text>
+
+    <path d="M78 292 C78 326 196 314 196 340" class="arrow"/>
+    <path d="M196 292 V340" class="arrow"/>
+    <path d="M314 292 C314 326 196 314 196 340" class="arrow"/>
+    <rect x="28" y="340" width="336" height="76" rx="14" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="196" y="368" text-anchor="middle" class="mono">R = rθ(x,y) − β log[π_RL(y|x)/π_SFT(y|x)]</text>
+    <text x="196" y="394" text-anchor="middle" class="small">论文主 run：β=0.05，γ=1，λ=0.95</text>
+
+    <rect x="72" y="448" width="248" height="54" rx="27" fill="#1d4ed8"/>
+    <text x="196" y="472" text-anchor="middle" class="stage-title">更新后的 RL policy</text>
+    <text x="196" y="492" text-anchor="middle" class="stage-sub">更高 RM 分数，但受 SFT 分布约束</text>
+  </g>
+
+  <path d="M1140 682 C1140 775 255 775 255 682" fill="none" stroke="#7c3aed" stroke-width="2.7" stroke-dasharray="9 7" marker-end="url(#loop-arrow)"/>
+  <text x="700" y="744" text-anchor="middle" class="label">把新策略、旧策略、reference 与 best-of-N 的候选重新送给人类比较</text>
+  <text x="700" y="770" text-anchor="middle" class="small">累计新标签 → 更新奖励模型 → 再优化策略；人类数据分布随策略一起移动</text>
+</svg>

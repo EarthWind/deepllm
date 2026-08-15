@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+  <title id="title">WebGPT 主要结果和引用风险</title>
+  <desc id="desc">上半部分展示相对人类示范、Reddit、TruthfulQA 和 BC 基线的关键结果，下半部分展示支持、来源可靠和事实为真的差别以及奖励模型过度优化。</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071322"/><stop offset="1" stop-color="#21132d"/></linearGradient>
+    <linearGradient id="ok4"><stop stop-color="#06b6d4"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+    <linearGradient id="warn4"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient>
+    <filter id="s4"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".45"/></filter>
+    <style>.h{font:700 34px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.sub{font:400 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#c4b5fd}.card{fill:#0e2033;stroke:#36516c;stroke-width:1.5}.num{font:800 48px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fff}.t{font:700 19px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#e2e8f0}.p{font:400 15px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#cbd5e1}.small{font:500 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#a5b4fc}.warn{font:600 15px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fed7aa}</style>
+  </defs>
+  <rect width="1400" height="850" rx="28" fill="url(#bg4)"/>
+  <text x="65" y="68" class="h">WebGPT 的突破与边界：更有用、更可追溯，但引用不是事实证明</text>
+  <text x="65" y="103" class="sub">关键数字来自论文的人类偏好评测；跨实验的标签设置不同，不能简单拼成同一排行榜</text>
+
+  <g transform="translate(65 150)">
+    <rect width="290" height="195" rx="22" class="card" filter="url(#s4)"/><rect width="290" height="8" rx="4" fill="url(#ok4)"/>
+    <text x="28" y="72" class="num">56%</text><text x="28" y="110" class="t">胜过人工示范</text>
+    <text x="28" y="143" class="p">175B BC best-of-64</text><text x="28" y="168" class="small">ELI5 整体有用性偏好</text>
+  </g>
+  <g transform="translate(385 150)">
+    <rect width="290" height="195" rx="22" class="card" filter="url(#s4)"/><rect width="290" height="8" rx="4" fill="url(#ok4)"/>
+    <text x="28" y="72" class="num">69%</text><text x="28" y="110" class="t">胜过 Reddit 高票答案</text>
+    <text x="28" y="143" class="p">比较时移除引用</text><text x="28" y="168" class="small">避免格式优势直接泄漏</text>
+  </g>
+  <g transform="translate(705 150)">
+    <rect width="290" height="195" rx="22" class="card" filter="url(#s4)"/><rect width="290" height="8" rx="4" fill="#8b5cf6"/>
+    <text x="28" y="72" class="num">75%</text><text x="28" y="110" class="t">TruthfulQA truthful</text>
+    <text x="28" y="143" class="p">truthful 且 informative：54%</text><text x="28" y="168" class="small">OOD 真值性测试</text>
+  </g>
+  <g transform="translate(1025 150)">
+    <rect width="310" height="195" rx="22" class="card" filter="url(#s4)"/><rect width="310" height="8" rx="4" fill="#38bdf8"/>
+    <text x="28" y="72" class="num">68%</text><text x="28" y="110" class="t">best-of-64 胜过 BC</text>
+    <text x="28" y="143" class="p">单次 RL 胜 BC：58%</text><text x="28" y="168" class="small">采样选择是主要增益来源</text>
+  </g>
+
+  <text x="65" y="406" class="t">引用质量的三个不同问题</text>
+  <g transform="translate(65 438)">
+    <rect width="385" height="155" rx="20" class="card" filter="url(#s4)"/>
+    <circle cx="48" cy="49" r="25" fill="#0e7490"/><text x="40" y="56" class="t">1</text>
+    <text x="87" y="47" class="t">引文支持这句话吗？</text>
+    <text x="28" y="94" class="p">检查回答是否忠实转述已保存片段</text><text x="28" y="121" class="small">可做 citation correctness / entailment</text>
+  </g>
+  <g transform="translate(482 438)">
+    <rect width="385" height="155" rx="20" class="card" filter="url(#s4)"/>
+    <circle cx="48" cy="49" r="25" fill="#7c3aed"/><text x="40" y="56" class="t">2</text>
+    <text x="87" y="47" class="t">来源本身可靠吗？</text>
+    <text x="28" y="94" class="p">域名、作者、方法、日期、利益冲突</text><text x="28" y="121" class="small">不能由“有引用”自动推出</text>
+  </g>
+  <g transform="translate(899 438)">
+    <rect width="436" height="155" rx="20" class="card" filter="url(#s4)"/>
+    <circle cx="48" cy="49" r="25" fill="#059669"/><text x="40" y="56" class="t">3</text>
+    <text x="87" y="47" class="t">最终命题真实吗？</text>
+    <text x="28" y="94" class="p">需要交叉来源、独立证据与领域判断</text><text x="28" y="121" class="small">支持关系是必要信号，但不是充分条件</text>
+  </g>
+
+  <rect x="65" y="640" width="1270" height="145" rx="22" fill="#301b18" stroke="#f59e0b" stroke-width="1.5" filter="url(#s4)"/>
+  <rect x="65" y="640" width="11" height="145" rx="5" fill="url(#warn4)"/>
+  <text x="105" y="680" class="t">搜索与奖励模型会放大什么风险？</text>
+  <text x="105" y="715" class="warn">① 挑选最会说服 RM 的来源，而不是最可靠的来源　② 对同一个 RM 做大规模采样，找到其盲点</text>
+  <text x="105" y="748" class="warn">③ 引用格式增加“看起来权威”的自动化偏见　④ 搜索引擎排序、地域语料与标注偏好一起塑造答案</text>
+  <text x="105" y="774" class="small">所以评价浏览型 Agent 必须同时看：任务有用性、引文支持、来源质量、事实正确、覆盖率、成本与副作用。</text>
+</svg>

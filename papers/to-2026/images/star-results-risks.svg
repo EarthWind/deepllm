@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">STaR 主要实验结果与方法风险</title>
+  <desc id="desc">展示算术、CommonsenseQA、GSM8K 的主要准确率，以及答案过滤、rationale faithfulness、偏差和初始能力门槛等风险。</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071322"/><stop offset="1" stop-color="#21132d"/></linearGradient>
+    <linearGradient id="ok4"><stop stop-color="#06b6d4"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+    <linearGradient id="warn4"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#ef4444"/></linearGradient>
+    <filter id="s4"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".45"/></filter>
+    <style>.h{font:700 34px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.sub{font:400 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#c4b5fd}.card{fill:#0e2033;stroke:#36516c;stroke-width:1.5}.num{font:800 45px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fff}.t{font:700 19px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#e2e8f0}.p{font:400 15px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#cbd5e1}.mini{font:500 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#a5b4fc}.warn{font:600 15px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fed7aa}</style>
+  </defs>
+  <rect width="1400" height="860" rx="28" fill="url(#bg4)"/>
+  <text x="65" y="68" class="h">STaR 的成绩：数据效率显著，但“答对”仍是很弱的推理监督</text>
+  <text x="65" y="103" class="sub">所有数字均为论文中的 GPT-J 6B 实验；不同数据集与训练轮数不可直接横向排名</text>
+
+  <g transform="translate(65 150)">
+    <rect width="385" height="210" rx="22" class="card" filter="url(#s4)"/><rect width="385" height="8" rx="4" fill="url(#ok4)"/>
+    <text x="28" y="70" class="num">89.5%</text><text x="28" y="108" class="t">合成多位数加法</text>
+    <text x="28" y="142" class="p">16 轮 STaR</text><text x="28" y="169" class="p">无 rationale 的直接训练：76.3%</text><text x="28" y="194" class="mini">2 位数从 &lt;1% 一轮升至 32%</text>
+  </g>
+  <g transform="translate(482 150)">
+    <rect width="385" height="210" rx="22" class="card" filter="url(#s4)"/><rect width="385" height="8" rx="4" fill="#8b5cf6"/>
+    <text x="28" y="70" class="num">72.5%</text><text x="28" y="108" class="t">CommonsenseQA dev</text>
+    <text x="28" y="142" class="p">无 rationalization：68.8%</text><text x="28" y="169" class="p">GPT-J 直接微调：60.0%</text><text x="28" y="194" class="mini">约 30× 更大 GPT-3：73.0%</text>
+  </g>
+  <g transform="translate(899 150)">
+    <rect width="436" height="210" rx="22" class="card" filter="url(#s4)"/><rect width="436" height="8" rx="4" fill="#38bdf8"/>
+    <text x="28" y="70" class="num">10.7%</text><text x="28" y="108" class="t">GSM8K test</text>
+    <text x="28" y="142" class="p">无 rationalization：10.1%</text><text x="28" y="169" class="p">GPT-J 直接微调：5.8%</text><text x="28" y="194" class="mini">NeurIPS：30.3%；arXiv v2：28.7%</text>
+  </g>
+
+  <text x="65" y="418" class="t">CQA 数据效率与消融</text>
+  <rect x="65" y="445" width="650" height="155" rx="20" class="card" filter="url(#s4)"/>
+  <g transform="translate(95 475)">
+    <text class="p">直接生成正确理由</text><rect x="180" y="-16" width="352" height="25" rx="12" fill="#065f46"/><text x="541" y="3" class="mini">78.2%</text>
+    <text y="44" class="p">rationalization 补充</text><rect x="180" y="28" width="38" height="25" rx="12" fill="#f59e0b"/><text x="228" y="47" class="mini">8.5%</text>
+    <text y="88" class="p">本轮总覆盖</text><rect x="180" y="72" width="390" height="25" rx="12" fill="#0e7490"/><text x="579" y="91" class="mini">86.7%</text>
+  </g>
+  <rect x="745" y="445" width="590" height="155" rx="20" class="card" filter="url(#s4)"/>
+  <text x="775" y="485" class="t">Few-shot prompt 在训练中的作用</text>
+  <text x="775" y="520" class="p">无 rationalization：60.9% → 68.8%</text>
+  <text x="775" y="552" class="p">有 rationalization：69.9% → 72.5%</text>
+  <text x="775" y="582" class="mini">它能锚定输出风格、减少后续 rationale drift</text>
+
+  <rect x="65" y="646" width="1270" height="150" rx="22" fill="#301b18" stroke="#f59e0b" stroke-width="1.5" filter="url(#s4)"/>
+  <rect x="65" y="646" width="11" height="150" rx="5" fill="url(#warn4)"/>
+  <text x="105" y="686" class="t">四个必须与准确率一起看的边界</text>
+  <text x="105" y="722" class="warn">① 五选一有 20% 随机命中：错误理由也可能因答案碰巧正确而被保留</text>
+  <text x="720" y="722" class="warn">② Rationalization 可能是事后辩护，不能保证反映内部决策过程</text>
+  <text x="105" y="756" class="warn">③ GPT-2 连算术都无法启动自举；初始 few-shot 能力必须高于机会水平</text>
+  <text x="720" y="756" class="warn">④ 数据集里“有用”的偏差会被循环放大，高温采样还会增加坏理由</text>
+  <text x="105" y="784" class="mini">STaR 过滤的是 outcome，不是过程；后续 verifier、过程监督和可执行检查正是在补这块缺口。</text>
+
+  <rect x="65" y="815" width="1270" height="28" rx="14" fill="#102038"/>
+  <text x="280" y="835" class="mini">人评只说明表面 justification 偏好：STaR 相对 few-shot rationale 更可能被排高 30%，不等于过程 faithful。</text>
+</svg>

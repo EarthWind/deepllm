@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="810" viewBox="0 0 1400 810" role="img" aria-labelledby="title desc">
+  <title id="title">Verifier 搜索的收益、投票和失效边界</title>
+  <desc id="desc">展示候选数量增加时性能先升后降、top-ranked 投票以及 verifier 被对抗性候选欺骗的机制。</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#334155" flood-opacity="0.16"/></filter>
+    <linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#60a5fa" stop-opacity=".5"/><stop offset="1" stop-color="#60a5fa" stop-opacity=".05"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+    <style>
+      .title{font:700 32px system-ui,'Noto Sans CJK SC',sans-serif;fill:#0f172a}.sub{font:16px system-ui,'Noto Sans CJK SC',sans-serif;fill:#475569}
+      .head{font:700 22px system-ui,'Noto Sans CJK SC',sans-serif;fill:#172033}.body{font:15px system-ui,'Noto Sans CJK SC',sans-serif;fill:#475569}
+      .small{font:13px system-ui,'Noto Sans CJK SC',sans-serif;fill:#64748b}.label{font:700 14px system-ui,'Noto Sans CJK SC',sans-serif;fill:#263248}
+      .mono{font:13px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#334155}
+    </style>
+  </defs>
+  <rect width="1400" height="810" fill="#f7f7fb"/>
+  <text x="64" y="58" class="title">Test-time compute 不是单调红利：搜索会放大能力，也会放大 verifier 的漏洞</text>
+  <text x="64" y="89" class="sub">Figure 7 的 6B 实验：候选从 25 增至约 400 时上升；继续扩大到 3200，最高分选择反而下降。</text>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="126" width="668" height="414" rx="24" fill="white" stroke="#cbd5e1"/>
+    <text x="92" y="166" class="head">候选数量 N 与最高分选择性能</text>
+    <g stroke="#e2e8f0"><path d="M144 204v270M144 474h534"/><path d="M144 404h534M144 334h534M144 264h534"/></g>
+    <g class="small"><text x="109" y="478">32%</text><text x="109" y="408">35%</text><text x="109" y="338">38%</text><text x="109" y="268">41%</text></g>
+    <g class="small" text-anchor="middle"><text x="160" y="500">25</text><text x="238" y="500">50</text><text x="316" y="500">100</text><text x="394" y="500">200</text><text x="472" y="500">400</text><text x="550" y="500">800</text><text x="622" y="500">1600</text><text x="678" y="500">3200</text></g>
+    <path d="M160 416 L238 363 L316 321 L394 294 L472 280 L550 291 L622 324 L678 356 L678 474 L160 474 Z" fill="url(#area)"/>
+    <path d="M160 416 L238 363 L316 321 L394 294 L472 280 L550 291 L622 324 L678 356" fill="none" stroke="#2563eb" stroke-width="4"/>
+    <g fill="#2563eb"><circle cx="160" cy="416" r="5"/><circle cx="238" cy="363" r="5"/><circle cx="316" cy="321" r="5"/><circle cx="394" cy="294" r="5"/><circle cx="472" cy="280" r="7"/><circle cx="550" cy="291" r="5"/><circle cx="622" cy="324" r="5"/><circle cx="678" cy="356" r="5"/></g>
+    <rect x="411" y="211" width="232" height="49" rx="12" fill="#ecfdf5" stroke="#6ee7b7"/><text x="527" y="233" text-anchor="middle" class="label" fill="#047857">约 N=400 达到峰值</text><text x="527" y="251" text-anchor="middle" class="small">更多覆盖仍大于误判风险</text>
+    <path d="M503 261l-25 15" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="398" y="526" text-anchor="middle" class="small">横轴为对数式离散预算；曲线按论文 Figure 7a 近似重绘，强调趋势而非精确复现。</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="772" y="126" width="564" height="414" rx="24" fill="white" stroke="#cbd5e1"/>
+    <text x="800" y="166" class="head">为什么 top-ranked answer voting 有用</text>
+    <text x="800" y="198" class="body">先按 verifier 排序，再只让前 m 个候选的最终答案投票：</text>
+    <g>
+      <rect x="800" y="226" width="122" height="65" rx="14" fill="#dcfce7" stroke="#4ade80"/><text x="861" y="251" text-anchor="middle" class="mono">score .91</text><text x="861" y="275" text-anchor="middle" class="label">answer 42</text>
+      <rect x="936" y="226" width="122" height="65" rx="14" fill="#fee2e2" stroke="#fb7185"/><text x="997" y="251" text-anchor="middle" class="mono">score .88</text><text x="997" y="275" text-anchor="middle" class="label">answer 36</text>
+      <rect x="1072" y="226" width="122" height="65" rx="14" fill="#dcfce7" stroke="#4ade80"/><text x="1133" y="251" text-anchor="middle" class="mono">score .86</text><text x="1133" y="275" text-anchor="middle" class="label">answer 42</text>
+      <rect x="1208" y="226" width="100" height="65" rx="14" fill="#f1f5f9"/><text x="1258" y="263" text-anchor="middle" font-size="24" fill="#64748b">…</text>
+    </g>
+    <path d="M1054 302v40" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="870" y="352" width="368" height="64" rx="18" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/><text x="1054" y="380" text-anchor="middle" class="label" fill="#047857">42 获得 2 / 3 票</text><text x="1054" y="402" text-anchor="middle" class="small">单个高分误判不再直接决定输出</text>
+    <rect x="800" y="446" width="508" height="65" rx="14" fill="#eef2ff"/>
+    <text x="1054" y="472" text-anchor="middle" class="body">N=100 时最佳约 top 3–5 投票；N=3200 时约 top 30。</text><text x="1054" y="496" text-anchor="middle" class="small">m 太大又会把大量低质量候选带回投票池。</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="580" width="1272" height="155" rx="24" fill="white" stroke="#cbd5e1"/>
+    <text x="92" y="620" class="head">搜索为何最终退化：从“找正确解”变成“找 verifier 的高分漏洞”</text>
+    <rect x="92" y="649" width="292" height="56" rx="14" fill="#eff6ff" stroke="#93c5fd"/><text x="238" y="673" text-anchor="middle" class="label">1　generator 扩大候选覆盖</text><text x="238" y="694" text-anchor="middle" class="small">正确解和错误解都更多</text>
+    <path d="M385 677h69" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="466" y="649" width="292" height="56" rx="14" fill="#fff7ed" stroke="#fdba74"/><text x="612" y="673" text-anchor="middle" class="label">2　verifier 不是完美 oracle</text><text x="612" y="694" text-anchor="middle" class="small">某些错误路径会被系统性高估</text>
+    <path d="M759 677h69" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="840" y="649" width="468" height="56" rx="14" fill="#fee2e2" stroke="#fb7185"/><text x="1074" y="673" text-anchor="middle" class="label" fill="#be123c">3　取最大值会选择极端误判：max score 放大尾部错误</text><text x="1074" y="694" text-anchor="middle" class="small">训练分布是每题 100 个候选，测试搜索到 3200 还产生分布偏移</text>
+  </g>
+  <text x="700" y="779" text-anchor="middle" class="small">工程启示：报告 N、温度、ranker 与 voting；同时画 oracle coverage 和 selected accuracy，二者的差就是 selection gap。</text>
+</svg>

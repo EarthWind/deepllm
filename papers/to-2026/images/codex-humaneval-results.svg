@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="810" viewBox="0 0 1400 810" role="img" aria-labelledby="title desc">
+  <title id="title">Codex 和 Codex-S 在 HumanEval 上的主要实验结果</title>
+  <desc id="desc">左侧对比 GPT-J、不同规模 Codex 的 pass at 1 与 pass at 100；右侧展示 Codex-S 12B 的单样本、100 样本测试 oracle 与均值对数概率重排结果；下方总结任务微调增益、温度与候选数关系以及 BLEU 失效。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0284c7"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#10b981"/>
+      <stop offset="1" stop-color="#047857"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .heading { font: 700 19px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 14px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .axis { font: 500 12px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #64748b; }
+      .big { font: 800 39px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1d4ed8; }
+      .big-green { font: 800 39px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #047857; }
+      .white { font: 700 12px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #fff; }
+      .card { fill: #fff; stroke: #cbd5e1; stroke-width: 1.4; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="810" fill="url(#bg)"/>
+  <text x="64" y="58" class="title">主要结果：代码数据、模型规模、任务适配与采样预算都有效</text>
+  <text x="64" y="88" class="subtitle">左图数字来自论文 Table 1 的最佳温度结果；右图来自 Figure 1 的 Codex-S-12B、temperature 0.8 协议，二者不要混成同一实验。</text>
+
+  <g transform="translate(64 126)" filter="url(#shadow)">
+    <rect width="742" height="354" rx="22" class="card"/>
+    <text x="26" y="39" class="heading">HumanEval：基础模型与代码继续训练模型</text>
+    <rect x="510" y="22" width="86" height="20" rx="10" fill="url(#blue)"/>
+    <text x="553" y="37" text-anchor="middle" class="white">pass@1</text>
+    <rect x="606" y="22" width="96" height="20" rx="10" fill="url(#green)"/>
+    <text x="654" y="37" text-anchor="middle" class="white">pass@100</text>
+
+    <g transform="translate(160 68)">
+      <g stroke="#e2e8f0">
+        <line x1="0" y1="0" x2="0" y2="238"/>
+        <line x1="130" y1="0" x2="130" y2="238"/>
+        <line x1="260" y1="0" x2="260" y2="238"/>
+        <line x1="390" y1="0" x2="390" y2="238"/>
+        <line x1="520" y1="0" x2="520" y2="238"/>
+      </g>
+      <g class="axis" text-anchor="middle">
+        <text x="0" y="258">0%</text><text x="130" y="258">20%</text><text x="260" y="258">40%</text>
+        <text x="390" y="258">60%</text><text x="520" y="258">80%</text>
+      </g>
+    </g>
+
+    <g transform="translate(26 72)">
+      <text x="0" y="23" class="label">GPT-J 6B</text>
+      <rect x="134" y="7" width="520" height="13" rx="6" fill="#e2e8f0"/>
+      <rect x="134" y="7" width="76" height="13" rx="6" fill="url(#blue)"/>
+      <rect x="134" y="25" width="520" height="13" rx="6" fill="#e2e8f0"/>
+      <rect x="134" y="25" width="180" height="13" rx="6" fill="url(#green)"/>
+      <text x="218" y="18" class="axis">11.62%</text><text x="322" y="36" class="axis">27.74%</text>
+    </g>
+    <g transform="translate(26 126)">
+      <text x="0" y="23" class="label">Codex 300M</text>
+      <rect x="134" y="7" width="520" height="13" rx="6" fill="#e2e8f0"/>
+      <rect x="134" y="7" width="86" height="13" rx="6" fill="url(#blue)"/>
+      <rect x="134" y="25" width="520" height="13" rx="6" fill="#e2e8f0"/>
+      <rect x="134" y="25" width="236" height="13" rx="6" fill="url(#green)"/>
+      <text x="228" y="18" class="axis">13.17%</text><text x="378" y="36" class="axis">36.27%</text>
+    </g>
+    <g transform="translate(26 180)">
+      <text x="0" y="23" class="label">Codex 2.5B</text>
+      <rect x="134" y="7" width="520" height="13" rx="6" fill="#e2e8f0"/>
+      <rect x="134" y="7" width="139" height="13" rx="6" fill="url(#blue)"/>
+      <rect x="134" y="25" width="520" height="13" rx="6" fill="#e2e8f0"/>
+      <rect x="134" y="25" width="387" height="13" rx="6" fill="url(#green)"/>
+      <text x="281" y="18" class="axis">21.36%</text><text x="529" y="36" class="axis">59.50%</text>
+    </g>
+    <g transform="translate(26 234)">
+      <text x="0" y="23" class="label">Codex 12B</text>
+      <rect x="134" y="7" width="520" height="13" rx="6" fill="#e2e8f0"/>
+      <rect x="134" y="7" width="187" height="13" rx="6" fill="url(#blue)"/>
+      <rect x="134" y="25" width="520" height="13" rx="6" fill="#e2e8f0"/>
+      <rect x="134" y="25" width="470" height="13" rx="6" fill="url(#green)"/>
+      <text x="329" y="18" class="axis">28.81%</text><text x="612" y="36" class="axis">72.31%</text>
+    </g>
+
+    <text x="371" y="333" text-anchor="middle" class="small">同量级比较中，代码专项训练远比通用 GPT 更有效；Codex 300M 已略高于 GPT-J 6B 的 pass@1。</text>
+  </g>
+
+  <g transform="translate(842 126)" filter="url(#shadow)">
+    <rect width="494" height="354" rx="22" class="card"/>
+    <text x="26" y="39" class="heading">Codex-S-12B：100 个样本该怎样“选”</text>
+    <text x="26" y="66" class="small">Figure 1；所有样本 T=0.8。</text>
+
+    <g transform="translate(26 92)">
+      <rect width="132" height="102" rx="16" fill="#eff6ff" stroke="#93c5fd"/>
+      <text x="66" y="27" text-anchor="middle" class="label">单个样本</text>
+      <text x="66" y="70" text-anchor="middle" class="big">37.7%</text>
+      <text x="66" y="92" text-anchor="middle" class="small">pass@1</text>
+      <rect x="156" width="132" height="102" rx="16" fill="#fff7ed" stroke="#fdba74"/>
+      <text x="222" y="27" text-anchor="middle" class="label">均值 log-p 重排</text>
+      <text x="222" y="70" text-anchor="middle" class="big">44.5%</text>
+      <text x="222" y="92" text-anchor="middle" class="small">只交付 1 个</text>
+      <rect x="312" width="132" height="102" rx="16" fill="#ecfdf5" stroke="#6ee7b7"/>
+      <text x="378" y="27" text-anchor="middle" class="label">测试 oracle</text>
+      <text x="378" y="70" text-anchor="middle" class="big-green">77.5%</text>
+      <text x="378" y="92" text-anchor="middle" class="small">100 个里任一通过</text>
+    </g>
+
+    <rect x="26" y="226" width="442" height="88" rx="15" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="48" y="254" class="label">77.5% 不是产品默认一次补全的准确率</text>
+    <text x="48" y="279" class="small">它假设隐藏测试知道 100 个候选中谁正确。没有测试时，</text>
+    <text x="48" y="301" class="small">均值 log-probability 只能把可交付成功率提高到 44.5%。</text>
+  </g>
+
+  <g transform="translate(64 520)" filter="url(#shadow)">
+    <rect width="392" height="198" rx="20" class="card"/>
+    <text x="24" y="39" class="heading">Codex-S 的任务适配增益</text>
+    <text x="24" y="80" class="big">+6.5 pp</text>
+    <text x="224" y="80" class="label">平均 pass@1</text>
+    <text x="24" y="122" class="big-green">+15.1 pp</text>
+    <text x="224" y="122" class="label">平均 pass@100</text>
+    <text x="24" y="159" class="small">跨模型规模相对 Codex 的平均提升；Codex-S 在</text>
+    <text x="24" y="181" class="small">pass@1 / pass@100 上达到高一至两个数量级参数效率。</text>
+  </g>
+
+  <g transform="translate(490 520)" filter="url(#shadow)">
+    <rect width="394" height="198" rx="20" class="card"/>
+    <text x="24" y="39" class="heading">k 越大，最佳温度越高</text>
+    <text x="24" y="82" class="label">Codex 679M：</text>
+    <rect x="154" y="57" width="94" height="42" rx="21" fill="#dbeafe"/>
+    <text x="201" y="84" text-anchor="middle" class="label">@1：T=0.2</text>
+    <rect x="260" y="57" width="106" height="42" rx="21" fill="#dcfce7"/>
+    <text x="313" y="84" text-anchor="middle" class="label">@100：T=0.8</text>
+    <text x="24" y="127" class="small">一次机会重精度，多次机会重多样性；同一温度不能</text>
+    <text x="24" y="149" class="small">公平代表所有 k。Codex-S 的最优端点约为 T=0 / 1。</text>
+    <text x="24" y="179" class="small">采样协议是指标定义的一部分，不是无关超参数。</text>
+  </g>
+
+  <g transform="translate(918 520)" filter="url(#shadow)">
+    <rect width="418" height="198" rx="20" class="card"/>
+    <text x="24" y="39" class="heading">BLEU 无法替代执行测试</text>
+    <g transform="translate(24 68)">
+      <rect width="350" height="20" rx="10" fill="#dbeafe"/>
+      <rect x="92" width="196" height="20" rx="10" fill="#93c5fd"/>
+      <text x="370" y="16" class="small">正确</text>
+      <rect y="40" width="350" height="20" rx="10" fill="#dcfce7"/>
+      <rect x="52" y="40" width="230" height="20" rx="10" fill="#86efac"/>
+      <text x="370" y="56" class="small">错误</text>
+    </g>
+    <text x="24" y="151" class="small">正确和错误代码的 BLEU 分布大量重叠；某个错误程序</text>
+    <text x="24" y="173" class="small">甚至可能比功能等价的另一写法更像 reference。</text>
+  </g>
+
+  <text x="700" y="774" text-anchor="middle" class="small">pp = percentage points。论文摘要另报告 Codex-12B 在其概述协议下 pass@100=70.2%；Table 1 的最佳温度估计为 72.31%。</text>
+</svg>

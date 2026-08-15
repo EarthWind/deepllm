@@ -517,11 +517,11 @@
 
 | 编号 | 论文 | 为什么值得读 | 阅读重点 |
 |---:|---|---|---|
-| 51 | [Learning to Summarize from Human Feedback (2020)](https://arxiv.org/abs/2009.01325) | 是 InstructGPT 之前最清楚的语言模型偏好学习范例之一。 | 人类比较数据、reward model、RL 优化与代理指标偏差。 |
-| 52 | [Codex / HumanEval (2021)](https://arxiv.org/abs/2107.03374) — `Evaluating Large Language Models Trained on Code` | 证明代码可成为 LLM 的核心能力，并引入影响深远的 HumanEval 与 pass@k。 | 代码数据、函数级生成、执行式评测、数据污染。 |
-| 53 | [Training Verifiers (2021)](https://arxiv.org/abs/2110.14168) — `Training Verifiers to Solve Math Word Problems` | 把生成候选与验证答案分开，预示 verifier 和 test-time sampling 的推理路线。 | GSM8K、solution verifier、采样后排序。 |
-| 54 | [WebGPT (2021)](https://arxiv.org/abs/2112.09332) — `Browser-assisted Question-answering with Human Feedback` | 把浏览、引用和人类偏好结合，是联网问答 Agent 与可追溯回答的重要前身。 | 行为克隆、浏览环境、引用支持、reward model。 |
-| 55 | [STaR (2022)](https://arxiv.org/abs/2203.14465) — `Self-Taught Reasoner: Bootstrapping Reasoning With Reasoning` | 用模型生成并筛选 rationale，再反复微调，开创推理轨迹自举路线。 | rationale filtering、rationalization、迭代自训练。 |
+| 51 | [Learning to Summarize from Human Feedback (2020)](https://arxiv.org/abs/2009.01325) · [中文详解](51_Learning_to_Summarize_from_Human_Feedback_2020_原理.md) | 是 InstructGPT 之前最清楚的语言模型偏好学习范例之一。 | 人类比较数据、reward model、RL 优化与代理指标偏差。 |
+| 52 | [Codex / HumanEval (2021)](https://arxiv.org/abs/2107.03374) — `Evaluating Large Language Models Trained on Code` · [中文详解](52_Codex_HumanEval_2021_原理.md) | 证明代码可成为 LLM 的核心能力，并引入影响深远的 HumanEval 与 pass@k。 | 代码数据、函数级生成、执行式评测、数据污染。 |
+| 53 | [Training Verifiers (2021)](https://arxiv.org/abs/2110.14168) — `Training Verifiers to Solve Math Word Problems` · [中文详解](53_Training_Verifiers_2021_原理.md) | 把生成候选与验证答案分开，预示 verifier 和 test-time sampling 的推理路线。 | GSM8K、solution verifier、采样后排序。 |
+| 54 | [WebGPT (2021)](https://arxiv.org/abs/2112.09332) — `Browser-assisted Question-answering with Human Feedback` · [中文详解](54_WebGPT_2021_原理.md) | 把浏览、引用和人类偏好结合，是联网问答 Agent 与可追溯回答的重要前身。 | 行为克隆、浏览环境、引用支持、reward model。 |
+| 55 | [STaR (2022)](https://arxiv.org/abs/2203.14465) — `Self-Taught Reasoner: Bootstrapping Reasoning With Reasoning` · [中文详解](55_STaR_2022_原理.md) | 用模型生成并筛选 rationale，再反复微调，开创推理轨迹自举路线。 | rationale filtering、rationalization、迭代自训练。 |
 | 56 | [GPT-4 Technical Report (2023)](https://arxiv.org/abs/2303.08774) | 历史与评测价值很高，但架构、数据和训练细节披露有限，不适合作为可复现方法论文读。 | 多模态能力、可预测扩展、风险评测，以及“没有披露什么”。 |
 | 57 | [DeepSeekMath (2024)](https://arxiv.org/abs/2402.03300) | 系统展示数学数据工程，并首次提出后来用于 R1 的 GRPO。 | 数学语料筛选、continued pretraining、GRPO。 |
 | 58 | [Scaling LLM Test-Time Compute Optimally (2024)](https://arxiv.org/abs/2408.03314) | 把推理时计算当作可分配预算，说明何时搜索/验证比单纯增大模型更有效。 | 难度自适应预算、PRM 搜索、best-of-N 基线。 |
@@ -624,7 +624,7 @@
 
 ### C. 如果你重点看 Agent / 工具调用
 
-- [WebGPT (2021)](https://arxiv.org/abs/2112.09332)：浏览、引用与人类反馈。
+- [WebGPT (2021)](https://arxiv.org/abs/2112.09332) · [中文详解](54_WebGPT_2021_原理.md)：浏览、引用与人类反馈。
 - [ReAct (2022/2023)](https://arxiv.org/abs/2210.03629)：推理与行动交替。
 - [Toolformer (2023)](https://arxiv.org/abs/2302.04761)：自监督学习何时调用工具。
 - [Reflexion (2023)](https://arxiv.org/abs/2303.11366)：用语言反馈和记忆改进下一轮轨迹。
@@ -655,7 +655,7 @@
 
 ### E. 如果你重点看后训练与对齐
 
-- [Learning to Summarize from Human Feedback (2020)](https://arxiv.org/abs/2009.01325)
+- [Learning to Summarize from Human Feedback (2020)](https://arxiv.org/abs/2009.01325) · [中文详解](51_Learning_to_Summarize_from_Human_Feedback_2020_原理.md)
 - [InstructGPT (2022)](https://arxiv.org/abs/2203.02155)
 - [Constitutional AI (2022/2023)](https://arxiv.org/abs/2212.08073)
 - [DPO (2023)](https://arxiv.org/abs/2305.18290)

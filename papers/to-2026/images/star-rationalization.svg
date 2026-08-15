@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">STaR rationale generation 与 rationalization 的区别</title>
+  <desc id="desc">直接生成从问题预测理由和答案；失败时 rationalization 额外条件化正确答案，生成后去掉提示再用于训练。</desc>
+  <defs>
+    <linearGradient id="bg2"><stop stop-color="#071423"/><stop offset="1" stop-color="#23162f"/></linearGradient>
+    <linearGradient id="g2a" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#06b6d4"/></linearGradient>
+    <linearGradient id="g2b" x1="0" x2="1"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#ea580c"/></linearGradient>
+    <filter id="s2"><feDropShadow dx="0" dy="9" stdDeviation="13" flood-color="#000" flood-opacity=".45"/></filter>
+    <marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.h{font:700 34px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.sub{font:400 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#c4b5fd}.card{fill:#0e2237;stroke:#36516c;stroke-width:1.5}.th{font:700 22px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fff}.p{font:400 16px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#cbd5e1}.mini{font:500 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#bae6fd}.eq{font:500 18px 'Times New Roman',serif;fill:#cffafe}.ar{stroke:#67e8f9;stroke-width:3;fill:none;marker-end:url(#a2)}.bad{fill:#fecaca}.good{fill:#bbf7d0}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg2)"/>
+  <text x="65" y="68" class="h">Rationalization：答案只是一座临时脚手架，不是训练时的输入</text>
+  <text x="65" y="103" class="sub">它把难搜索的 p(r | x) 改成较容易的 p(r | x, y)，再要求模型离开脚手架独立完成</text>
+
+  <rect x="65" y="150" width="600" height="250" rx="22" class="card" filter="url(#s2)"/>
+  <rect x="65" y="150" width="600" height="55" rx="22" fill="url(#g2a)"/><text x="95" y="185" class="th">路线 A：直接 rationale generation</text>
+  <g transform="translate(95 236)">
+    <rect width="145" height="75" rx="14" fill="#142e4a"/><text x="45" y="31" class="th">问题 x</text><text x="20" y="57" class="mini">看不到正确答案</text>
+    <path d="M145 38H223" class="ar"/>
+    <rect x="228" width="145" height="75" rx="14" fill="#172554"/><text x="256" y="31" class="th">理由 r̂</text><text x="253" y="57" class="mini">向前搜索路径</text>
+    <path d="M373 38H441" class="ar"/>
+    <rect x="446" width="110" height="75" rx="14" fill="#123c43"/><text x="472" y="45" class="th">答案 ŷ</text>
+    <text y="130" class="eq">(r̂, ŷ) ∼ pM(r, y | x)</text>
+    <text x="275" y="130" class="p">仅当 ŷ = y 时进入 Dₙ</text>
+  </g>
+
+  <rect x="735" y="150" width="600" height="250" rx="22" class="card" filter="url(#s2)"/>
+  <rect x="735" y="150" width="600" height="55" rx="22" fill="url(#g2b)"/><text x="765" y="185" class="th">路线 B：失败后的 rationalization</text>
+  <g transform="translate(765 236)">
+    <rect width="145" height="75" rx="14" fill="#142e4a"/><text x="45" y="31" class="th">问题 x</text><text x="25" y="57" class="mini">上一条路径失败</text>
+    <rect x="160" width="105" height="75" rx="14" fill="#713f12" stroke="#f59e0b"/><text x="184" y="31" class="th">提示 y</text><text x="179" y="57" class="mini">仅生成时可见</text>
+    <path d="M265 38H330" class="ar"/>
+    <rect x="335" width="120" height="75" rx="14" fill="#4a2810"/><text x="352" y="31" class="th">反向理由</text><text x="352" y="57" class="mini">连接 x 与 y</text>
+    <path d="M455 38H493" class="ar"/>
+    <rect x="498" width="58" height="75" rx="14" fill="#123c43"/><text x="517" y="45" class="th">y</text>
+    <text y="130" class="eq">(r̂rat, ŷrat) ∼ pM(r, y | x, y*)</text>
+  </g>
+
+  <path d="M1035 400V482" class="ar"/>
+  <rect x="735" y="488" width="600" height="205" rx="22" class="card" filter="url(#s2)"/>
+  <text x="765" y="530" class="th">保存训练样本时执行“去提示”</text>
+  <g transform="translate(765 557)">
+    <rect width="170" height="75" rx="14" fill="#51260f" stroke="#fb923c"/><text x="30" y="31" class="p">生成上下文</text><text x="22" y="58" class="mini">x + HINT(y)</text>
+    <text x="194" y="47" class="th bad">✕</text>
+    <path d="M238 38H311" class="ar"/>
+    <rect x="316" width="240" height="75" rx="14" fill="#064e3b" stroke="#34d399"/><text x="347" y="31" class="p">微调样本</text><text x="344" y="58" class="mini">x → r̂rat → y</text>
+  </g>
+  <text x="765" y="674" class="p">模型下一轮必须在没有 hint 的条件下复现这条理由与答案。</text>
+
+  <rect x="65" y="470" width="600" height="223" rx="22" class="card" filter="url(#s2)"/>
+  <text x="95" y="515" class="th">为什么它能突破平台期？</text>
+  <text x="95" y="559" class="p">直接过滤只训练“模型本来就会”的题，失败题没有梯度信号。</text>
+  <text x="95" y="596" class="p">给出目标答案后，模型可搜索“怎样走到这里”，把困难题带进课程。</text>
+  <rect x="95" y="623" width="540" height="45" rx="12" fill="#1f2937"/>
+  <text x="119" y="652" class="mini">重要风险：模型也可能只是在答案确定后编一个貌似合理的事后解释。</text>
+
+  <rect x="65" y="740" width="1270" height="45" rx="16" fill="#102038" stroke="#475569"/>
+  <text x="92" y="768" class="p">Rationalization 是 proposal distribution：它扩大能被训练的题目覆盖，但最终答案正确仍不足以证明理由正确、可泛化或 faithful。</text>
+</svg>

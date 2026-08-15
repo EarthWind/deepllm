@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+  <title id="title">WebGPT 的行为克隆、奖励模型、PPO 和 best-of-N</title>
+  <desc id="desc">人工示范训练行为克隆，人工比较训练奖励模型，奖励模型可驱动 PPO 或推理时 best-of-N 选择。</desc>
+  <defs>
+    <linearGradient id="bg3"><stop stop-color="#080d21"/><stop offset="1" stop-color="#1e1537"/></linearGradient>
+    <linearGradient id="g3a" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <linearGradient id="g3b" x1="0" x2="1"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#059669"/></linearGradient>
+    <filter id="s3"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".45"/></filter>
+    <marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#a5b4fc"/></marker>
+    <style>.h{font:700 34px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.sub{font:400 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#c4b5fd}.card{fill:#101c35;stroke:#344766;stroke-width:1.5}.th{font:700 22px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fff}.t{font:600 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#e2e8f0}.p{font:400 15px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#bac7d9}.eq{font:500 16px 'Times New Roman',serif;fill:#cffafe}.small{font:400 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#a5b4fc}.ar{stroke:#a5b4fc;stroke-width:3;fill:none;marker-end:url(#a3)}</style>
+  </defs>
+  <rect width="1400" height="850" rx="28" fill="url(#bg3)"/>
+  <text x="65" y="68" class="h">同一批人类反馈，训练出“会浏览”的策略与“会比较”的裁判</text>
+  <text x="65" y="103" class="sub">奖励模型既能进入训练环（PPO），也能只在推理时给完整轨迹排序（rejection sampling）</text>
+
+  <rect x="65" y="150" width="285" height="220" rx="22" class="card" filter="url(#s3)"/>
+  <rect x="65" y="150" width="285" height="53" rx="22" fill="url(#g3a)"/><text x="93" y="184" class="th">6,209 条人工示范</text>
+  <text x="93" y="238" class="p">标注员直接操作浏览器</text><text x="93" y="268" class="p">并写出带引用的最终答案</text>
+  <rect x="93" y="296" width="229" height="45" rx="12" fill="#172554"/><text x="111" y="324" class="eq">L_BC = −Σ log πθ(a_t | h_t)</text>
+
+  <path d="M350 260H440" class="ar"/>
+  <rect x="445" y="170" width="300" height="180" rx="22" class="card" filter="url(#s3)"/>
+  <text x="475" y="215" class="th">行为克隆 BC</text>
+  <text x="475" y="251" class="p">从 GPT-3 初始化</text><text x="475" y="280" class="p">模仿每个浏览动作与答案 token</text>
+  <rect x="475" y="302" width="240" height="25" rx="12" fill="#1d4ed8"/><text x="533" y="320" class="small">得到基础策略 πBC</text>
+
+  <rect x="65" y="455" width="285" height="245" rx="22" class="card" filter="url(#s3)"/>
+  <rect x="65" y="455" width="285" height="53" rx="22" fill="url(#g3b)"/><text x="93" y="489" class="th">21,548 组成对比较</text>
+  <text x="93" y="542" class="p">同一问题的轨迹 A 与 B</text><text x="93" y="571" class="p">整体更有用 / 平局 / 更差</text>
+  <text x="93" y="606" class="small">训练 RM 约用 16K，约 5.5K 留作评估</text>
+  <rect x="93" y="630" width="229" height="44" rx="12" fill="#064e3b"/><text x="106" y="658" class="eq">P(A≻B)=σ(rφ(A)−rφ(B))</text>
+
+  <path d="M350 575H440" class="ar"/>
+  <rect x="445" y="455" width="300" height="245" rx="22" class="card" filter="url(#s3)"/>
+  <text x="475" y="500" class="th">奖励模型 RM</text>
+  <text x="475" y="537" class="p">输入：问题 + 引文 + 答案</text><text x="475" y="566" class="p">输出：整条轨迹的标量分数</text>
+  <rect x="475" y="595" width="240" height="64" rx="12" fill="#0b3441"/><text x="491" y="621" class="small">差 1 分 → 约 73% 偏好概率</text><text x="491" y="645" class="small">平局目标为 0.5</text>
+  <text x="475" y="684" class="small">它是代理指标，不是事实 oracle</text>
+
+  <path d="M745 255C835 255 830 214 900 214" class="ar"/>
+  <path d="M745 575C820 575 840 294 900 294" class="ar"/>
+  <rect x="905" y="150" width="430" height="245" rx="22" class="card" filter="url(#s3)"/>
+  <rect x="905" y="150" width="430" height="53" rx="22" fill="#7c3aed"/><text x="935" y="184" class="th">路线 A：PPO 更新策略</text>
+  <text x="935" y="237" class="p">完整轨迹结束时获得 rφ(q, τ)</text>
+  <rect x="935" y="259" width="370" height="55" rx="12" fill="#27154d"/><text x="956" y="292" class="eq">R = rφ(q,τ) − β Σ log(πθ / πBC)</text>
+  <text x="935" y="345" class="p">KL 惩罚限制策略偏离行为克隆；论文中 RL 对</text><text x="935" y="372" class="p">单次采样有提升，但叠加 best-of-N 后增益很小。</text>
+
+  <path d="M745 300C805 335 830 518 900 518" class="ar"/>
+  <path d="M745 575C810 575 835 598 900 598" class="ar"/>
+  <rect x="905" y="455" width="430" height="245" rx="22" class="card" filter="url(#s3)"/>
+  <rect x="905" y="455" width="430" height="53" rx="22" fill="#0f766e"/><text x="935" y="489" class="th">路线 B：BC + best-of-N</text>
+  <text x="935" y="542" class="p">① 从 πBC 独立采样 N 条完整浏览轨迹</text><text x="935" y="574" class="p">② 用同一个 RM 给每条轨迹打分</text><text x="935" y="606" class="p">③ 返回 argmax rφ(τᵢ)</text>
+  <rect x="935" y="628" width="370" height="43" rx="12" fill="#064e3b"/><text x="1001" y="656" class="eq">τ* = arg max_i rφ(q, τ_i)</text>
+  <text x="935" y="690" class="small">论文最佳系统：175B BC，N=64</text>
+
+  <rect x="65" y="755" width="1270" height="55" rx="18" fill="#111b31" stroke="#475569"/>
+  <text x="92" y="789" class="p">关键区别：PPO 把奖励写回参数；best-of-N 不改参数，用更多在线计算换取选择空间，因此更易部署但推理成本随 N 线性增加。</text>
+</svg>

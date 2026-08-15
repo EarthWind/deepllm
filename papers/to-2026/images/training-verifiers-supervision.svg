@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="810" viewBox="0 0 1400 810" role="img" aria-labelledby="title desc">
+  <title id="title">Training Verifiers 的结果监督与 token-level value</title>
+  <desc id="desc">解释最终答案标签如何复制到每个解答 token，以及它与过程监督的区别和标签噪声。</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#334155" flood-opacity="0.16"/></filter>
+    <linearGradient id="heat" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fecaca"/><stop offset="0.52" stop-color="#fef3c7"/><stop offset="1" stop-color="#bbf7d0"/></linearGradient>
+    <style>
+      .title{font:700 32px system-ui,'Noto Sans CJK SC',sans-serif;fill:#0f172a}.sub{font:16px system-ui,'Noto Sans CJK SC',sans-serif;fill:#475569}
+      .head{font:700 22px system-ui,'Noto Sans CJK SC',sans-serif;fill:#172033}.body{font:15px system-ui,'Noto Sans CJK SC',sans-serif;fill:#475569}
+      .small{font:13px system-ui,'Noto Sans CJK SC',sans-serif;fill:#64748b}.mono{font:14px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#334155}
+      .big{font:800 26px system-ui,'Noto Sans CJK SC',sans-serif;fill:#172033}.label{font:700 14px system-ui,'Noto Sans CJK SC',sans-serif}
+    </style>
+  </defs>
+  <rect width="1400" height="810" fill="#f7f7fb"/>
+  <text x="64" y="58" class="title">token-level verifier：每个位置都预测“这条解最终会不会答对”</text>
+  <text x="64" y="89" class="sub">监督仍来自最终答案，不是逐步人工标注。token-level 描述预测位置，outcome supervision 描述标签来源。</text>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="128" width="1272" height="254" rx="24" fill="white" stroke="#cbd5e1"/>
+    <text x="94" y="169" class="head">同一条 solution 的最终标签，被复制到每个未遮蔽的 solution token</text>
+    <rect x="94" y="198" width="238" height="62" rx="14" fill="#e2e8f0"/><text x="213" y="224" text-anchor="middle" class="label" fill="#475569">QUESTION TOKENS</text><text x="213" y="246" text-anchor="middle" class="small">mask：不计 LM / verifier loss</text>
+    <g>
+      <rect x="360" y="198" width="118" height="62" rx="12" fill="#fee2e2"/><rect x="486" y="198" width="118" height="62" rx="12" fill="#ffedd5"/><rect x="612" y="198" width="118" height="62" rx="12" fill="#fef3c7"/><rect x="738" y="198" width="118" height="62" rx="12" fill="#dcfce7"/><rect x="864" y="198" width="118" height="62" rx="12" fill="#bbf7d0"/>
+      <text x="419" y="225" text-anchor="middle" class="mono">S₁</text><text x="545" y="225" text-anchor="middle" class="mono">S₂</text><text x="671" y="225" text-anchor="middle" class="mono">S₃</text><text x="797" y="225" text-anchor="middle" class="mono">…</text><text x="923" y="225" text-anchor="middle" class="mono">Sₘ</text>
+      <text x="419" y="247" text-anchor="middle" class="small">p₁=.18</text><text x="545" y="247" text-anchor="middle" class="small">p₂=.34</text><text x="671" y="247" text-anchor="middle" class="small">p₃=.55</text><text x="797" y="247" text-anchor="middle" class="small">pₜ</text><text x="923" y="247" text-anchor="middle" class="small">pₘ=.91</text>
+    </g>
+    <rect x="1015" y="198" width="285" height="62" rx="14" fill="#ecfdf5" stroke="#34d399"/><text x="1157" y="225" text-anchor="middle" class="label" fill="#047857">FINAL OUTCOME y = 1</text><text x="1157" y="247" text-anchor="middle" class="small">每个 pₜ 都回归同一个 y</text>
+    <rect x="94" y="292" width="1206" height="57" rx="13" fill="#f8fafc" stroke="#d6deea"/>
+    <text x="118" y="326" class="mono">L_ver = mean_t (p_t - y)^2　　L_joint = L_ver + L_LM</text>
+    <text x="795" y="326" class="body">论文主实验用 MSE；交叉熵在消融中差异很小。</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="420" width="392" height="309" rx="24" fill="white" stroke="#cbd5e1"/>
+    <circle cx="105" cy="466" r="21" fill="#dbeafe"/><text x="105" y="473" text-anchor="middle" class="label" fill="#1d4ed8">1</text>
+    <text x="141" y="473" class="head">solution-level</text>
+    <rect x="92" y="507" width="336" height="72" rx="14" fill="#eff6ff" stroke="#93c5fd"/><text x="260" y="537" text-anchor="middle" class="body">读完整条解后只预测一次</text><text x="260" y="563" text-anchor="middle" class="mono">p(correct | q, s₁…sₘ)</text>
+    <text x="92" y="615" class="body">优点：任务较容易、训练初期收敛快。</text><text x="92" y="643" class="body">缺点：很快过拟合，容易记最终答案模式。</text>
+    <rect x="92" y="672" width="336" height="34" rx="10" fill="#fee2e2"/><text x="260" y="695" text-anchor="middle" class="label" fill="#be123c">论文中后期落后于 token-level</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="504" y="420" width="392" height="309" rx="24" fill="white" stroke="#cbd5e1"/>
+    <circle cx="545" cy="466" r="21" fill="#ede9fe"/><text x="545" y="473" text-anchor="middle" class="label" fill="#6d28d9">2</text>
+    <text x="581" y="473" class="head">token-level value</text>
+    <rect x="532" y="507" width="336" height="72" rx="14" fill="url(#heat)" stroke="#c4b5fd"/><text x="700" y="537" text-anchor="middle" class="body">每个解答 token 后都预测一次</text><text x="700" y="563" text-anchor="middle" class="mono">p_t = V(q, s_≤t)</text>
+    <text x="532" y="615" class="body">优点：更多监督位置，迫使模型追踪整条推理。</text><text x="532" y="643" class="body">缺点：早期前缀信息不足，目标更噪、更难。</text>
+    <rect x="532" y="672" width="336" height="34" rx="10" fill="#dcfce7"/><text x="700" y="695" text-anchor="middle" class="label" fill="#047857">训练更慢，但最终更强、较抗过拟合</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="944" y="420" width="392" height="309" rx="24" fill="white" stroke="#cbd5e1"/>
+    <circle cx="985" cy="466" r="21" fill="#fee2e2"/><text x="985" y="473" text-anchor="middle" class="label" fill="#be123c">3</text>
+    <text x="1021" y="473" class="head">outcome 标签的盲区</text>
+    <rect x="972" y="507" width="336" height="54" rx="13" fill="#fff7ed" stroke="#fdba74"/><text x="1140" y="530" text-anchor="middle" class="body">错误推理 + 碰巧正确答案</text><text x="1140" y="550" text-anchor="middle" class="label" fill="#b45309">标签仍是 y = 1（false positive）</text>
+    <rect x="972" y="575" width="336" height="54" rx="13" fill="#fef2f2" stroke="#fca5a5"/><text x="1140" y="598" text-anchor="middle" class="body">正确过程 + 格式解析失败</text><text x="1140" y="618" text-anchor="middle" class="label" fill="#be123c">可能得到 y = 0（false negative）</text>
+    <text x="972" y="659" class="body">论文的 token 热力图能定位置信度变化，</text><text x="972" y="685" class="body">但训练信号并未告诉模型“哪一步错”。</text>
+    <text x="972" y="711" class="label" fill="#7c2d12">这正是后续 process supervision 的切入点。</text>
+  </g>
+
+  <text x="700" y="773" text-anchor="middle" class="small">不要把 token-level verifier 误写成逐步监督：同一个最终结果标签被广播到所有 solution token，问题 token 则被 mask。</text>
+</svg>

@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="810" viewBox="0 0 1400 810" role="img" aria-labelledby="title desc">
+  <title id="title">Codex 论文中的能力限制、对齐失败与执行风险</title>
+  <desc id="desc">四张卡片分别展示链式指令每增加一步成功率下降约二到三倍、多变量操作绑定错误、带细微 bug 的上下文诱导更多 bug 且规模增大不自动修复，以及执行生成代码和不安全密码配置的风险。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#fff7ed"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .heading { font: 700 19px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .mono { font: 500 13px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #334155; }
+      .big-red { font: 800 30px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #dc2626; }
+      .white { font: 700 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #fff; }
+      .card { fill: #fff; stroke: #cbd5e1; stroke-width: 1.4; }
+      .arrow { fill: none; stroke: #64748b; stroke-width: 2.2; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="810" fill="url(#bg)"/>
+  <text x="64" y="58" class="title">会通过一些单元测试，不等于已经成为可靠的软件工程师</text>
+  <text x="64" y="88" class="subtitle">论文不仅发布榜单，也系统检查 specification complexity、变量绑定、上下文模仿、软件安全与人类过度依赖。</text>
+
+  <g transform="translate(64 126)" filter="url(#shadow)">
+    <rect width="612" height="276" rx="22" class="card"/>
+    <circle cx="42" cy="42" r="21" fill="#fee2e2"/>
+    <text x="42" y="48" text-anchor="middle" class="label">1</text>
+    <text x="78" y="48" class="heading">长链式规格：每多一步，成功率约降 2–3 倍</text>
+
+    <g transform="translate(28 88)">
+      <rect width="88" height="54" rx="12" fill="#dcfce7" stroke="#4ade80"/>
+      <text x="44" y="33" text-anchor="middle" class="label">lowercase</text>
+      <path d="M88 27 H126" class="arrow"/>
+      <rect x="130" width="88" height="54" rx="12" fill="#fef3c7" stroke="#fbbf24"/>
+      <text x="174" y="33" text-anchor="middle" class="label">trim</text>
+      <path d="M218 27 H256" class="arrow"/>
+      <rect x="260" width="88" height="54" rx="12" fill="#ffedd5" stroke="#fb923c"/>
+      <text x="304" y="33" text-anchor="middle" class="label">reverse</text>
+      <path d="M348 27 H386" class="arrow"/>
+      <rect x="390" width="134" height="54" rx="12" fill="#fee2e2" stroke="#f87171"/>
+      <text x="457" y="33" text-anchor="middle" class="label">remove every 3rd</text>
+    </g>
+
+    <text x="28" y="180" class="small">作者从 13 个基本字符串操作合成规格；单个操作都会，不代表能稳定组合。</text>
+    <text x="28" y="206" class="label">暴露的是组合泛化与状态跟踪瓶颈，而不是 Python 语法不会。</text>
+    <rect x="28" y="226" width="556" height="28" rx="14" fill="#fee2e2"/>
+    <text x="306" y="246" text-anchor="middle" class="small">真实软件需求通常比 HumanEval docstring 更长、更跨文件、更依赖隐含状态。</text>
+  </g>
+
+  <g transform="translate(724 126)" filter="url(#shadow)">
+    <rect width="612" height="276" rx="22" class="card"/>
+    <circle cx="42" cy="42" r="21" fill="#fef3c7"/>
+    <text x="42" y="48" text-anchor="middle" class="label">2</text>
+    <text x="78" y="48" class="heading">变量绑定：知道操作，却绑错对象或漏掉步骤</text>
+
+    <g transform="translate(28 88)">
+      <rect width="122" height="50" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+      <text x="61" y="31" text-anchor="middle" class="mono">x − 4</text>
+      <rect x="144" width="122" height="50" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+      <text x="205" y="31" text-anchor="middle" class="mono">y + 3</text>
+      <rect x="288" width="122" height="50" rx="12" fill="#fee2e2" stroke="#f87171"/>
+      <text x="349" y="31" text-anchor="middle" class="mono">w unchanged</text>
+      <rect x="432" width="122" height="50" rx="12" fill="#fee2e2" stroke="#f87171"/>
+      <text x="493" y="31" text-anchor="middle" class="mono">wrong return</text>
+    </g>
+
+    <text x="28" y="174" class="small">论文示例要求分别更新 x、y、w 再返回四数乘积，模型却漏改 w 并返回错误量。</text>
+    <text x="28" y="203" class="label">对象越多、操作越多，attribute–object binding 越容易混乱。</text>
+    <text x="28" y="234" class="small">局部补全看似合理；只有把整个状态转移逐项核对，才能发现语义错位。</text>
+  </g>
+
+  <g transform="translate(64 438)" filter="url(#shadow)">
+    <rect width="612" height="276" rx="22" class="card"/>
+    <circle cx="42" cy="42" r="21" fill="#ede9fe"/>
+    <text x="42" y="48" text-anchor="middle" class="label">3</text>
+    <text x="78" y="48" class="heading">上下文里的细微 bug 会被继续模仿</text>
+
+    <g transform="translate(28 88)">
+      <rect width="164" height="72" rx="14" fill="#ecfdf5" stroke="#6ee7b7"/>
+      <text x="82" y="29" text-anchor="middle" class="label">高质量示例</text>
+      <text x="82" y="53" text-anchor="middle" class="small">较低 bug rate</text>
+      <path d="M164 36 H204" class="arrow"/>
+      <rect x="208" width="164" height="72" rx="14" fill="#fee2e2" stroke="#f87171"/>
+      <text x="290" y="29" text-anchor="middle" class="label">细微 bug 示例</text>
+      <text x="290" y="53" text-anchor="middle" class="small">更高 bug rate</text>
+      <path d="M372 36 H412" class="arrow"/>
+      <rect x="416" width="138" height="72" rx="14" fill="#f5f3ff" stroke="#c4b5fd"/>
+      <text x="485" y="29" text-anchor="middle" class="label">模型更大</text>
+      <text x="485" y="53" text-anchor="middle" class="small">差距反而扩大</text>
+    </g>
+
+    <text x="28" y="194" class="small">即使明确写“生成正确代码”，错误示例的诱导也只被部分缓解。</text>
+    <text x="28" y="223" class="label">next-token imitation 的目标是续写分布，不天然等于服从用户正确性意图。</text>
+    <text x="28" y="251" class="small">能力随规模增强，不保证这种行为错位自动消失。</text>
+  </g>
+
+  <g transform="translate(724 438)" filter="url(#shadow)">
+    <rect width="612" height="276" rx="22" class="card"/>
+    <circle cx="42" cy="42" r="21" fill="#fee2e2"/>
+    <text x="42" y="48" text-anchor="middle" class="label">4</text>
+    <text x="78" y="48" class="heading">执行与安全：timeout 不是 sandbox</text>
+
+    <rect x="28" y="82" width="176" height="76" rx="14" fill="#fff7ed" stroke="#fb923c"/>
+    <text x="116" y="110" text-anchor="middle" class="label">生成程序</text>
+    <text x="116" y="134" text-anchor="middle" class="small">未知意图 / 可能破坏</text>
+    <path d="M204 120 H244" class="arrow"/>
+    <rect x="248" y="82" width="150" height="76" rx="14" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="323" y="110" text-anchor="middle" class="label">真正隔离</text>
+    <text x="323" y="134" text-anchor="middle" class="small">FS / network / host</text>
+    <path d="M398 120 H438" class="arrow"/>
+    <rect x="442" y="82" width="142" height="76" rx="14" fill="#ecfdf5" stroke="#34d399"/>
+    <text x="513" y="110" text-anchor="middle" class="label">测试结果</text>
+    <text x="513" y="134" text-anchor="middle" class="small">pass / fail / timeout</text>
+
+    <text x="28" y="192" class="small">论文使用 gVisor 与 eBPF；官方 harness 默认注释掉 exec，并明确警告本地 guard</text>
+    <text x="28" y="214" class="small">不是安全沙箱。模型还会产生短 RSA key、AES-ECB 等明显不安全配置。</text>
+    <rect x="28" y="232" width="556" height="28" rx="14" fill="#dc2626"/>
+    <text x="306" y="252" text-anchor="middle" class="white">生成代码必须在独立环境执行，并由合格人员审查后才能信任</text>
+  </g>
+
+  <text x="700" y="770" text-anchor="middle" class="small">论文安全实验检测的是明确“不安全”条件；未被判为不安全的样本，不应反向解释为已证明安全。</text>
+</svg>

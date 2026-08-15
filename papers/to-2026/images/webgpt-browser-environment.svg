@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">WebGPT 文本浏览器环境和动作循环</title>
+  <desc id="desc">左侧是模型可见状态，中间是受限动作语言，右侧是网页转换和引用内存，底部说明终止与安全约束。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061421"/><stop offset="1" stop-color="#152238"/></linearGradient>
+    <linearGradient id="head2" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0e7490"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+    <filter id="s2"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#020617" flood-opacity=".5"/></filter>
+    <marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#22d3ee"/></marker>
+    <style>.h{font:700 34px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.sub{font:400 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#93c5fd}.card{fill:#0c2034;stroke:#36516c;stroke-width:1.5}.th{font:700 22px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fff}.t{font:500 16px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#dbeafe}.m{font:500 14px ui-monospace,'SFMono-Regular',monospace;fill:#a5f3fc}.note{font:400 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#cbd5e1}.ar{stroke:#22d3ee;stroke-width:3;fill:none;marker-end:url(#a2)}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg2)"/>
+  <text x="65" y="68" class="h">浏览器不是完整网页：它是给语言模型设计的受限状态机</text>
+  <text x="65" y="103" class="sub">每一步重新序列化当前状态；无效动作也消耗预算，引用必须来自已打开页面的精确片段</text>
+
+  <rect x="65" y="150" width="355" height="480" rx="22" class="card" filter="url(#s2)"/>
+  <rect x="65" y="150" width="355" height="55" rx="22" fill="url(#head2)"/><text x="94" y="185" class="th">模型看到的文本状态</text>
+  <g transform="translate(94 232)">
+    <rect width="297" height="54" rx="12" fill="#122c46"/><text x="18" y="25" class="m">QUESTION</text><text x="18" y="45" class="note">原始问题始终保留</text>
+    <rect y="70" width="297" height="66" rx="12" fill="#122c46"/><text x="18" y="96" class="m">SAVED QUOTES</text><text x="18" y="119" class="note">标题、域名、原文片段</text>
+    <rect y="152" width="297" height="66" rx="12" fill="#122c46"/><text x="18" y="178" class="m">ACTION HISTORY</text><text x="18" y="201" class="note">过去命令与环境反馈</text>
+    <rect y="234" width="297" height="92" rx="12" fill="#122c46"/><text x="18" y="260" class="m">CURRENT PAGE</text><text x="18" y="283" class="note">标题 + 当前可见正文</text><text x="18" y="306" class="note">滚动条位置 + 剩余动作数</text>
+    <rect y="342" width="297" height="48" rx="12" fill="#172554" stroke="#6366f1"/><text x="18" y="372" class="t">→ 预测下一条动作字符串</text>
+  </g>
+
+  <path d="M420 280H488" class="ar"/><path d="M488 508H420" class="ar"/>
+  <text x="437" y="268" class="note">动作</text><text x="431" y="537" class="note">新状态</text>
+
+  <rect x="490" y="150" width="390" height="480" rx="22" class="card" filter="url(#s2)"/>
+  <rect x="490" y="150" width="390" height="55" rx="22" fill="#4338ca"/><text x="520" y="185" class="th">论文中的动作语言</text>
+  <g transform="translate(520 232)">
+    <text class="m" y="0">Search &lt;query&gt;</text><text x="182" class="note" y="0">调用搜索 API</text>
+    <text class="m" y="44">Clicked on link &lt;ID&gt;</text><text x="218" class="note" y="44">打开结果/链接</text>
+    <text class="m" y="88">Find in page: &lt;text&gt;</text><text x="229" class="note" y="88">页内定位</text>
+    <text class="m" y="132">Quote: &lt;text&gt;</text><text x="181" class="note" y="132">保存精确引文</text>
+    <text class="m" y="176">Scrolled up/down &lt;1–3&gt;</text><text x="246" class="note" y="176">移动窗口</text>
+    <text class="m" y="220">Top / Back</text><text x="181" class="note" y="220">页面导航</text>
+    <rect y="248" width="330" height="1" fill="#36516c"/>
+    <text class="m" y="283">End: Answer</text><text x="181" class="note" y="283">进入回答阶段</text>
+    <text class="m" y="327">End: Nonsense</text><text x="181" class="note" y="327">问题无意义</text>
+    <text class="m" y="371">End: Controversial</text><text x="218" class="note" y="371">争议问题</text>
+  </g>
+
+  <path d="M880 280H943" class="ar"/><path d="M943 508H880" class="ar"/>
+
+  <rect x="945" y="150" width="390" height="480" rx="22" class="card" filter="url(#s2)"/>
+  <rect x="945" y="150" width="390" height="55" rx="22" fill="#047857"/><text x="975" y="185" class="th">环境变换与证据内存</text>
+  <g transform="translate(975 232)">
+    <rect width="330" height="80" rx="12" fill="#0b3441"/><text x="18" y="29" class="t">搜索</text><text x="18" y="56" class="note">Bing Web Search API 返回链接</text>
+    <rect y="98" width="330" height="102" rx="12" fill="#0b3441"/><text x="18" y="127" class="t">正文抽取</text><text x="18" y="154" class="note">Readability → HTML 转纯文本</text><text x="18" y="178" class="note">PDF → pdfminer.six</text>
+    <rect y="218" width="330" height="105" rx="12" fill="#064e3b" stroke="#10b981"/><text x="18" y="247" class="t">引用内存</text><text x="18" y="274" class="note">页面标题 + 域名 + 精确文本</text><text x="18" y="298" class="note">最终答案用 [1][2] 回指</text>
+    <rect y="341" width="330" height="50" rx="12" fill="#3a2510" stroke="#f59e0b"/><text x="18" y="372" class="note">支持关系 ≠ 来源可靠 ≠ 命题为真</text>
+  </g>
+
+  <rect x="65" y="680" width="1270" height="92" rx="20" fill="#111e30" stroke="#475569"/>
+  <circle cx="103" cy="726" r="20" fill="#f59e0b"/><text x="97" y="733" class="th">!</text>
+  <text x="140" y="713" class="t">边界与约束</text>
+  <text x="140" y="743" class="note">测试最多 100 个浏览动作；至少保存 1 条引文才能回答；只能搜索和跟随现有链接，不提交表单、不执行写操作。</text>
+  <text x="140" y="765" class="note">论文还屏蔽 Reddit / Quora，并用 10-gram 重合检查降低直接抄答案的风险。</text>
+</svg>

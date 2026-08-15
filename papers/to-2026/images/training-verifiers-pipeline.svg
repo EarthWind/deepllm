@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+  <title id="title">Training Verifiers 训练与推理管线</title>
+  <desc id="desc">从 GSM8K、生成器采样、结果标签、verifier 训练到测试时 best-of-100 选择的完整流程。</desc>
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1184df"/><stop offset="1" stop-color="#3151e8"/></linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c026d3"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#059669"/><stop offset="1" stop-color="#0f766e"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#25324b" flood-opacity="0.17"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#64748b"/></marker>
+    <style>
+      .title{font:700 32px system-ui,'Noto Sans CJK SC',sans-serif;fill:#0f172a}.sub{font:16px system-ui,'Noto Sans CJK SC',sans-serif;fill:#475569}
+      .head{font:700 24px system-ui,'Noto Sans CJK SC',sans-serif;fill:white}.step{font:700 19px system-ui,'Noto Sans CJK SC',sans-serif;fill:#172033}
+      .body{font:15px system-ui,'Noto Sans CJK SC',sans-serif;fill:#475569}.small{font:13px system-ui,'Noto Sans CJK SC',sans-serif;fill:#64748b}
+      .mono{font:14px ui-monospace,SFMono-Regular,Consolas,monospace;fill:#334155}.note{font:700 16px system-ui,'Noto Sans CJK SC',sans-serif;fill:#172033}
+    </style>
+  </defs>
+  <rect width="1400" height="850" fill="#f3f6fd"/>
+  <text x="64" y="58" class="title">Training Verifiers：把“会生成”与“会选择”拆成两个学习问题</text>
+  <text x="64" y="89" class="sub">论文主协议：生成器训练 2 epochs；每道训练题采样 100 个解；verifier 训练 1 epoch；测试时再从 100 个候选中选一个。</text>
+
+  <g filter="url(#shadow)">
+    <rect x="64" y="126" width="390" height="596" rx="24" fill="white" stroke="#cbd5e1"/>
+    <path d="M88 126h342a24 24 0 0 1 24 24v86H64v-86a24 24 0 0 1 24-24z" fill="url(#blue)"/>
+    <text x="92" y="169" class="head">1　训练生成器</text><text x="92" y="203" fill="white" font-family="system-ui" font-size="15">learn to write full natural-language solutions</text>
+    <rect x="92" y="266" width="334" height="91" rx="16" fill="#eff6ff" stroke="#7db7ff"/>
+    <text x="259" y="298" text-anchor="middle" class="step">GSM8K</text><text x="259" y="326" text-anchor="middle" class="body">7,473 train / 1,319 test</text><text x="259" y="348" text-anchor="middle" class="small">每题约 2–8 步，自然语言解答</text>
+    <path d="M259 358v48" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="112" y="416" width="294" height="82" rx="41" fill="#e0e7ff" stroke="#5b73f1" stroke-width="2"/>
+    <text x="259" y="449" text-anchor="middle" class="step">GPT-3 family generator</text><text x="259" y="476" text-anchor="middle" class="body">3B / 6B / 12B / 175B</text>
+    <rect x="92" y="531" width="334" height="124" rx="16" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="112" y="563" class="note">为什么只训 2 epochs？</text>
+    <text x="112" y="593" class="body">继续训练虽提高低温 test@1，</text><text x="112" y="619" class="body">却让分布更自信、候选覆盖率下降。</text><text x="112" y="643" class="body">verifier 需要“多样且会犯错”的生成器。</text>
+  </g>
+
+  <path d="M455 425h46" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="505" y="126" width="390" height="596" rx="24" fill="white" stroke="#cbd5e1"/>
+    <path d="M529 126h342a24 24 0 0 1 24 24v86H505v-86a24 24 0 0 1 24-24z" fill="url(#violet)"/>
+    <text x="533" y="169" class="head">2　构造 verifier 数据</text><text x="533" y="203" fill="white" font-family="system-ui" font-size="15">sample → outcome label → learn a value</text>
+    <rect x="533" y="260" width="334" height="67" rx="14" fill="#faf5ff" stroke="#d8b4fe"/>
+    <text x="700" y="289" text-anchor="middle" class="step">每道训练题采样 100 个完整解</text><text x="700" y="314" text-anchor="middle" class="small">T = 0.7；高温维持候选覆盖</text>
+    <path d="M700 328v39" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="533" y="377" width="334" height="108" rx="14" fill="#fff7ed" stroke="#fdba74"/>
+    <text x="700" y="409" text-anchor="middle" class="step">只看最终答案生成标签</text>
+    <text x="700" y="438" text-anchor="middle" class="mono">y = 1[extract(solution) = answer]</text>
+    <text x="700" y="468" text-anchor="middle" class="small">推理过程错但碰巧答对，仍会得到正标签</text>
+    <path d="M700 486v39" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="555" y="535" width="290" height="82" rx="41" fill="#f3e8ff" stroke="#a855f7" stroke-width="2"/>
+    <text x="700" y="568" text-anchor="middle" class="step">token-level verifier</text><text x="700" y="595" text-anchor="middle" class="body">每个 solution token 预测最终正确率</text>
+    <rect x="533" y="642" width="334" height="52" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="700" y="674" text-anchor="middle" class="body">联合目标：verifier MSE + language-model loss</text>
+  </g>
+
+  <path d="M896 425h46" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="946" y="126" width="390" height="596" rx="24" fill="white" stroke="#cbd5e1"/>
+    <path d="M970 126h342a24 24 0 0 1 24 24v86H946v-86a24 24 0 0 1 24-24z" fill="url(#green)"/>
+    <text x="974" y="169" class="head">3　测试时搜索与选择</text><text x="974" y="203" fill="white" font-family="system-ui" font-size="15">best-of-N is a generator–verifier system metric</text>
+    <rect x="974" y="264" width="334" height="68" rx="14" fill="#ecfdf5" stroke="#6ee7b7"/>
+    <text x="1141" y="294" text-anchor="middle" class="step">新问题：生成 N = 100 个候选</text><text x="1141" y="319" text-anchor="middle" class="small">生成器参数冻结；候选允许重复答案</text>
+    <path d="M1141 333v39" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <g>
+      <rect x="984" y="382" width="62" height="52" rx="12" fill="#fee2e2" stroke="#fb7185"/><text x="1015" y="414" text-anchor="middle" font-size="19" fill="#be123c">.18</text>
+      <rect x="1058" y="382" width="62" height="52" rx="12" fill="#dcfce7" stroke="#4ade80"/><text x="1089" y="414" text-anchor="middle" font-size="19" fill="#047857">.81</text>
+      <rect x="1132" y="382" width="62" height="52" rx="12" fill="#fef3c7" stroke="#f59e0b"/><text x="1163" y="414" text-anchor="middle" font-size="19" fill="#b45309">.63</text>
+      <rect x="1206" y="382" width="62" height="52" rx="12" fill="#fee2e2" stroke="#fb7185"/><text x="1237" y="414" text-anchor="middle" font-size="19" fill="#be123c">.09</text>
+      <text x="1284" y="414" font-size="23" fill="#64748b">…</text>
+    </g>
+    <path d="M1141 442v41" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+    <rect x="998" y="493" width="286" height="77" rx="18" fill="#d1fae5" stroke="#10b981" stroke-width="2"/>
+    <text x="1141" y="526" text-anchor="middle" class="step">返回 verifier score 最高者</text><text x="1141" y="553" text-anchor="middle" class="body">或让 top-ranked 3–5 个答案投票</text>
+    <rect x="974" y="601" width="334" height="93" rx="14" fill="#fff1f2" stroke="#fda4af"/>
+    <text x="1141" y="632" text-anchor="middle" class="note">关键边界：最高分不等于正确</text>
+    <text x="1141" y="660" text-anchor="middle" class="body">N 过大时更容易找到“骗过” verifier 的解；</text><text x="1141" y="684" text-anchor="middle" class="body">搜索收益因此可能先升后降。</text>
+  </g>
+
+  <rect x="194" y="756" width="1012" height="58" rx="18" fill="white" stroke="#cbd5e1"/>
+  <text x="700" y="782" text-anchor="middle" class="note">这不是“让同一个模型反思一次”，而是训练独立判别器，再用额外推理计算搜索候选空间。</text>
+  <text x="700" y="804" text-anchor="middle" class="small">论文默认 generator 与 verifier 同规模，但消融表明：优先增大 generator，通常比优先增大 verifier 更有效。</text>
+</svg>

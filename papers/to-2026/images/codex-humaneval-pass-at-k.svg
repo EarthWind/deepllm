@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="790" viewBox="0 0 1400 790" role="img" aria-labelledby="title desc">
+  <title id="title">HumanEval pass at k 的组合意义、无偏估计与解释边界</title>
+  <desc id="desc">用十个候选中三个正确、抽取四个为例，展示至少包含一个正确答案的概率等于一减全错组合数之比；对比有偏的插件估计，并说明数据集指标是逐问题估计后的平均，且依赖测试覆盖与 oracle 选择。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .title { font: 700 31px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .heading { font: 700 20px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .label { font: 600 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .small { font: 400 13px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #475569; }
+      .mono { font: 500 13px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #334155; }
+      .big-mono { font: 600 18px "JetBrains Mono", "Noto Sans Mono CJK SC", monospace; fill: #312e81; }
+      .big { font: 800 36px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #1d4ed8; }
+      .white { font: 700 15px Inter, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #fff; }
+      .card { fill: #fff; stroke: #cbd5e1; stroke-width: 1.4; }
+      .arrow { fill: none; stroke: #64748b; stroke-width: 2.2; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1400" height="790" fill="url(#bg)"/>
+  <text x="64" y="58" class="title">pass@k：不是“前 k 个都正确”，而是“k 次机会里至少一次成功”</text>
+  <text x="64" y="88" class="subtitle">论文每题实际评估 n=200 个样本，再从观测到的正确数 c 推断任取 k 个候选至少一个通过测试的概率。</text>
+
+  <g transform="translate(64 128)" filter="url(#shadow)">
+    <rect width="420" height="526" rx="22" class="card"/>
+    <text x="28" y="42" class="heading">1　先得到每题的 n 个执行结果</text>
+    <text x="28" y="72" class="small">教学例：n=10，正确 c=3，要计算 pass@4。</text>
+
+    <g transform="translate(28 102)">
+      <rect x="0" y="0" width="58" height="54" rx="12" fill="#dcfce7" stroke="#22c55e"/>
+      <rect x="72" y="0" width="58" height="54" rx="12" fill="#fee2e2" stroke="#ef4444"/>
+      <rect x="144" y="0" width="58" height="54" rx="12" fill="#fee2e2" stroke="#ef4444"/>
+      <rect x="216" y="0" width="58" height="54" rx="12" fill="#dcfce7" stroke="#22c55e"/>
+      <rect x="288" y="0" width="58" height="54" rx="12" fill="#fee2e2" stroke="#ef4444"/>
+      <rect x="0" y="70" width="58" height="54" rx="12" fill="#fee2e2" stroke="#ef4444"/>
+      <rect x="72" y="70" width="58" height="54" rx="12" fill="#fee2e2" stroke="#ef4444"/>
+      <rect x="144" y="70" width="58" height="54" rx="12" fill="#dcfce7" stroke="#22c55e"/>
+      <rect x="216" y="70" width="58" height="54" rx="12" fill="#fee2e2" stroke="#ef4444"/>
+      <rect x="288" y="70" width="58" height="54" rx="12" fill="#fee2e2" stroke="#ef4444"/>
+      <g class="label" text-anchor="middle">
+        <text x="29" y="34">✓</text><text x="101" y="34">×</text><text x="173" y="34">×</text>
+        <text x="245" y="34">✓</text><text x="317" y="34">×</text><text x="29" y="104">×</text>
+        <text x="101" y="104">×</text><text x="173" y="104">✓</text><text x="245" y="104">×</text>
+        <text x="317" y="104">×</text>
+      </g>
+    </g>
+
+    <path d="M202 240 V278" class="arrow"/>
+    <rect x="28" y="278" width="364" height="92" rx="15" fill="#f5f3ff" stroke="#c4b5fd"/>
+    <text x="210" y="308" text-anchor="middle" class="label">随机选 4 个，失败只可能是 4 个全来自 7 个错解</text>
+    <text x="210" y="338" text-anchor="middle" class="big-mono">P(all fail) = C(7,4) / C(10,4)</text>
+    <text x="210" y="358" text-anchor="middle" class="small">无放回抽取；候选子集等概率</text>
+
+    <rect x="28" y="400" width="364" height="92" rx="15" fill="#eff6ff" stroke="#60a5fa"/>
+    <text x="210" y="429" text-anchor="middle" class="big-mono">pass@4 = 1 − 35/210</text>
+    <text x="210" y="468" text-anchor="middle" class="big">83.33%</text>
+  </g>
+
+  <g transform="translate(510 128)" filter="url(#shadow)">
+    <rect width="410" height="526" rx="22" class="card"/>
+    <text x="28" y="42" class="heading">2　一般公式与稳定计算</text>
+
+    <rect x="28" y="76" width="354" height="88" rx="15" fill="#f5f3ff" stroke="#a78bfa"/>
+    <text x="205" y="108" text-anchor="middle" class="big-mono">p̂_k(n,c) = 1 − C(n−c,k) / C(n,k)</text>
+    <text x="205" y="137" text-anchor="middle" class="small">若 n−c&lt;k，则不可能抽到 k 个全错，结果为 1。</text>
+
+    <text x="28" y="202" class="label">避免直接计算巨大组合数：</text>
+    <rect x="28" y="220" width="354" height="90" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="205" y="252" text-anchor="middle" class="mono">if n - c &lt; k: return 1.0</text>
+    <text x="205" y="279" text-anchor="middle" class="mono">1 − ∏[1 − k/i], i=n−c+1,…,n</text>
+    <text x="205" y="300" text-anchor="middle" class="small">官方实现逐项乘积，数值稳定且不构造大整数。</text>
+
+    <rect x="28" y="340" width="354" height="132" rx="15" fill="#fff7ed" stroke="#fb923c"/>
+    <text x="48" y="370" class="label">看似自然、实际有偏的写法</text>
+    <text x="205" y="402" text-anchor="middle" class="mono">1 − (1 − c/n)^k</text>
+    <text x="48" y="431" class="small">它把从有限候选池重复抽样误当成独立试验。</text>
+    <text x="48" y="453" class="small">本例得到 1−0.7⁴=75.99%，低于无偏 83.33%。</text>
+
+    <text x="205" y="507" text-anchor="middle" class="small">论文附录证明：有限 n 下偏差不会很快消失。</text>
+  </g>
+
+  <g transform="translate(946 128)" filter="url(#shadow)">
+    <rect width="390" height="526" rx="22" class="card"/>
+    <text x="28" y="42" class="heading">3　数据集聚合与解释边界</text>
+
+    <rect x="28" y="76" width="334" height="86" rx="15" fill="#ecfdf5" stroke="#6ee7b7"/>
+    <text x="195" y="107" text-anchor="middle" class="big-mono">pass@k = mean_problem p̂_k(n_i,c_i)</text>
+    <text x="195" y="136" text-anchor="middle" class="small">先逐题估计，再对 164 道题取平均；</text>
+    <text x="195" y="155" text-anchor="middle" class="small">不是把所有 completion 混成一个大池。</text>
+
+    <g transform="translate(28 196)">
+      <circle cx="17" cy="17" r="17" fill="#dbeafe"/>
+      <text x="17" y="23" text-anchor="middle" class="label">1</text>
+      <text x="50" y="13" class="label">它衡量采样预算</text>
+      <text x="50" y="37" class="small">pass@100 高不等于单次补全可靠；</text>
+      <text x="50" y="57" class="small">它允许 100 次机会。</text>
+    </g>
+
+    <g transform="translate(28 286)">
+      <circle cx="17" cy="17" r="17" fill="#fef3c7"/>
+      <text x="17" y="23" text-anchor="middle" class="label">2</text>
+      <text x="50" y="13" class="label">它假设有测试 oracle</text>
+      <text x="50" y="37" class="small">知道哪个候选通过隐藏测试，才可从</text>
+      <text x="50" y="57" class="small">k 个中“选对”；真实部署未必拥有。</text>
+    </g>
+
+    <g transform="translate(28 376)">
+      <circle cx="17" cy="17" r="17" fill="#fee2e2"/>
+      <text x="17" y="23" text-anchor="middle" class="label">3</text>
+      <text x="50" y="13" class="label">通过测试不等于完全正确</text>
+      <text x="50" y="37" class="small">未覆盖输入上的错误、性能、安全、可读性</text>
+      <text x="50" y="57" class="small">和副作用仍可能被测试漏掉。</text>
+    </g>
+
+    <rect x="28" y="464" width="334" height="40" rx="20" fill="#047857"/>
+    <text x="195" y="490" text-anchor="middle" class="white">报告 k、n、温度、top-p 与测试版本</text>
+  </g>
+
+  <text x="700" y="716" text-anchor="middle" class="label">不同 k 对应不同产品问题：pass@1 看默认建议，pass@100 更接近“有测试和搜索预算时能否找到一个解”。</text>
+  <text x="700" y="746" text-anchor="middle" class="small">若任何问题的实际样本数 n&lt;k，就不存在无偏的 pass@k 估计；官方脚本会跳过该 k，而不是补零或外推。</text>
+</svg>

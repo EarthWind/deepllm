@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">STaR 训练数据与能力边界逐轮演化</title>
+  <desc id="desc">没有 rationalization 时数据停在容易题；有 rationalization 时答案提示把下一层困难题加入数据，每轮都从相同预训练模型重新训练。</desc>
+  <defs>
+    <linearGradient id="bg3"><stop stop-color="#081526"/><stop offset="1" stop-color="#1b1838"/></linearGradient>
+    <linearGradient id="head3" x1="0" x2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <filter id="s3"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".45"/></filter>
+    <marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#93c5fd"/></marker>
+    <style>.h{font:700 34px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#f8fafc}.sub{font:400 17px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#c4b5fd}.card{fill:#0e2237;stroke:#36516c;stroke-width:1.5}.th{font:700 21px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#fff}.p{font:400 15px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#cbd5e1}.mini{font:500 14px 'Noto Sans SC','Microsoft YaHei',sans-serif;fill:#bae6fd}.ar{stroke:#93c5fd;stroke-width:3;fill:none;marker-end:url(#a3)}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg3)"/>
+  <text x="65" y="68" class="h">外循环真正更新的不是“同一个模型”，而是本轮合成课程</text>
+  <text x="65" y="103" class="sub">更强模型 → 覆盖更多题 → 生成更大理由集 → 从原始 M 训练出下一代模型</text>
+
+  <text x="65" y="153" class="th">没有 rationalization：只重复容易样本</text>
+  <g transform="translate(65 180)">
+    <rect width="260" height="170" rx="20" class="card" filter="url(#s3)"/><text x="28" y="42" class="th">第 1 轮</text>
+    <rect x="28" y="66" width="48" height="48" rx="10" fill="#10b981"/><text x="45" y="97" class="th">✓</text>
+    <rect x="86" y="66" width="48" height="48" rx="10" fill="#3f2632"/><text x="103" y="97" class="th">×</text>
+    <rect x="144" y="66" width="48" height="48" rx="10" fill="#3f2632"/><text x="161" y="97" class="th">×</text>
+    <rect x="202" y="66" width="30" height="48" rx="10" fill="#3f2632"/>
+    <text x="28" y="145" class="mini">训练集仍只有最容易层</text>
+    <path d="M260 85H325" class="ar"/>
+    <rect x="330" width="260" height="170" rx="20" class="card" filter="url(#s3)"/><text x="358" y="42" class="th">第 2、3、4 轮</text>
+    <rect x="358" y="66" width="48" height="48" rx="10" fill="#10b981"/><text x="375" y="97" class="th">✓</text>
+    <rect x="416" y="66" width="48" height="48" rx="10" fill="#3f2632"/><text x="433" y="97" class="th">×</text>
+    <rect x="474" y="66" width="48" height="48" rx="10" fill="#3f2632"/><text x="491" y="97" class="th">×</text>
+    <text x="358" y="145" class="mini">失败题一直没有训练信号</text>
+    <rect x="625" y="31" width="255" height="108" rx="16" fill="#3b1d2d" stroke="#ef4444"/><text x="650" y="70" class="th">平台期</text><text x="650" y="104" class="p">coverage 不再增长</text>
+  </g>
+
+  <text x="65" y="420" class="th">加入 rationalization：一次跨越一个能力边界</text>
+  <g transform="translate(65 448)">
+    <rect width="260" height="210" rx="20" class="card" filter="url(#s3)"/>
+    <rect width="260" height="48" rx="20" fill="url(#head3)"/><text x="28" y="31" class="th">第 1 轮</text>
+    <rect x="28" y="72" width="48" height="48" rx="10" fill="#10b981"/><text x="45" y="103" class="th">✓</text>
+    <rect x="86" y="72" width="48" height="48" rx="10" fill="#f59e0b"/><text x="102" y="103" class="th">H</text>
+    <rect x="144" y="72" width="48" height="48" rx="10" fill="#3f2632"/><text x="161" y="103" class="th">×</text>
+    <text x="28" y="151" class="mini">会做 1 层 + hint 打开 1 层</text><text x="28" y="179" class="p">T₁ 覆盖难度 0–1</text>
+    <path d="M260 103H305" class="ar"/>
+
+    <rect x="310" width="260" height="210" rx="20" class="card" filter="url(#s3)"/>
+    <rect x="310" width="260" height="48" rx="20" fill="url(#head3)"/><text x="338" y="31" class="th">第 2 轮</text>
+    <rect x="338" y="72" width="48" height="48" rx="10" fill="#10b981"/><text x="355" y="103" class="th">✓</text>
+    <rect x="396" y="72" width="48" height="48" rx="10" fill="#10b981"/><text x="413" y="103" class="th">✓</text>
+    <rect x="454" y="72" width="48" height="48" rx="10" fill="#f59e0b"/><text x="470" y="103" class="th">H</text>
+    <text x="338" y="151" class="mini">上一轮难题变成直接正确</text><text x="338" y="179" class="p">T₂ 覆盖难度 0–2</text>
+    <path d="M570 103H615" class="ar"/>
+
+    <rect x="620" width="260" height="210" rx="20" class="card" filter="url(#s3)"/>
+    <rect x="620" width="260" height="48" rx="20" fill="url(#head3)"/><text x="648" y="31" class="th">第 3 轮</text>
+    <rect x="648" y="72" width="48" height="48" rx="10" fill="#10b981"/><text x="665" y="103" class="th">✓</text>
+    <rect x="706" y="72" width="48" height="48" rx="10" fill="#10b981"/><text x="723" y="103" class="th">✓</text>
+    <rect x="764" y="72" width="48" height="48" rx="10" fill="#10b981"/><text x="781" y="103" class="th">✓</text>
+    <text x="648" y="151" class="mini">能力与数据协同扩张</text><text x="648" y="179" class="p">T₃ 覆盖难度 0–3</text>
+    <path d="M880 103H925" class="ar"/>
+
+    <rect x="930" width="405" height="210" rx="20" class="card" filter="url(#s3)"/>
+    <text x="960" y="44" class="th">每轮的 reset 不变量</text>
+    <g transform="translate(960 70)">
+      <rect width="105" height="55" rx="12" fill="#312e81"/><text x="29" y="34" class="th">原始 M</text>
+      <path d="M105 28H169" class="ar"/>
+      <rect x="174" width="168" height="55" rx="12" fill="#064e3b"/><text x="194" y="34" class="mini">用本轮 Tₙ 微调</text>
+      <text y="101" class="p">✓ train(M, Tₙ)</text><text x="177" y="101" class="p">✕ train(Mₙ₋₁, Tₙ)</text>
+    </g>
+    <text x="960" y="194" class="mini">降低连续自训练的过拟合与漂移</text>
+  </g>
+
+  <rect x="65" y="715" width="1270" height="55" rx="18" fill="#102038" stroke="#475569"/>
+  <text x="92" y="749" class="p">图中“每轮跨一层”是配套代码的教学性玩具设定；论文真实增长由模型能力、任务难度、采样温度与答案过滤噪声共同决定。</text>
+</svg>
