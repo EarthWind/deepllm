@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title desc">
+  <title id="title">Llama 3 训练并行、GQA KV Cache 与 FP8 推理</title>
+  <desc id="desc">展示 Llama 3 405B 的张量、上下文、流水线和数据四维并行，16K H100 上的利用率，以及 8 KV heads 对 128K KV Cache 的理论压缩和 FP8 推理范围。</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#18113a"/></linearGradient>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px;fill:#e0f2fe}.num{font-size:30px;font-weight:800;fill:#67e8f9}.box{fill:#0d2542;stroke:#355170;stroke-width:2}.tag{font-size:15px;font-weight:800;fill:#071326}</style>
+  </defs>
+  <rect width="1440" height="920" rx="30" fill="url(#bg4)"/>
+  <text x="70" y="72" class="zh title">405B 真正的“架构创新”，大量发生在模型外部</text>
+  <text x="70" y="108" class="zh sub">稠密 Transformer 保持简单；4D 并行、网络拓扑、故障自动化、GQA 与 FP8 承担规模化复杂度</text>
+
+  <rect x="70" y="154" width="820" height="320" rx="24" class="box"/>
+  <text x="98" y="198" class="zh h">4D 并行顺序：[TP, CP, PP, DP]</text>
+  <g class="zh">
+    <rect x="98" y="238" width="172" height="118" rx="18" fill="#155e75"/><text x="184" y="273" text-anchor="middle" class="h">TP · 张量</text><text x="184" y="306" text-anchor="middle" class="b">层内矩阵切分</text><text x="184" y="333" text-anchor="middle" class="small">最高带宽 · 同机 NVLink</text>
+    <rect x="294" y="238" width="172" height="118" rx="18" fill="#1e3a5f"/><text x="380" y="273" text-anchor="middle" class="h">CP · 上下文</text><text x="380" y="306" text-anchor="middle" class="b">序列维切分</text><text x="380" y="333" text-anchor="middle" class="small">128K 时 CP=16</text>
+    <rect x="490" y="238" width="172" height="118" rx="18" fill="#30265b"/><text x="576" y="273" text-anchor="middle" class="h">PP · 流水线</text><text x="576" y="306" text-anchor="middle" class="b">按层分 stage</text><text x="576" y="333" text-anchor="middle" class="small">固定 PP=16</text>
+    <rect x="686" y="238" width="172" height="118" rx="18" fill="#432650"/><text x="772" y="273" text-anchor="middle" class="h">DP · FSDP</text><text x="772" y="306" text-anchor="middle" class="b">数据与状态分片</text><text x="772" y="333" text-anchor="middle" class="small">最能容忍跨 pod 延迟</text>
+  </g>
+  <text x="98" y="405" class="zh mono">16,384 GPUs · TP=8 · CP=16 · PP=16 · DP=8 · seq=131,072</text>
+  <text x="98" y="441" class="zh b">128K 配置约 380 TFLOPs/GPU，BF16 MFU 38%；8K 配置 MFU 为 41–43%</text>
+
+  <rect x="940" y="154" width="430" height="320" rx="24" class="box"/>
+  <text x="968" y="198" class="zh h">规模化首先是可靠性问题</text>
+  <text x="968" y="244" class="zh num">&gt;90%</text><text x="1070" y="244" class="zh b">effective training time</text>
+  <text x="968" y="291" class="zh num">466</text><text x="1064" y="291" class="zh b">次中断 / 54 天快照</text>
+  <text x="968" y="338" class="zh num">78%</text><text x="1064" y="338" class="zh b">意外中断源于确认/疑似硬件</text>
+  <text x="968" y="385" class="zh num">3</text><text x="1010" y="385" class="zh b">次需要显著人工干预</text>
+  <text x="968" y="434" class="zh small">NCCLX 记录、自动超时、straggler 定位与 checkpoint 恢复</text>
+
+  <rect x="70" y="524" width="610" height="286" rx="24" class="box"/>
+  <text x="98" y="568" class="zh h">GQA：128 个 Query heads 共享 8 个 KV heads</text>
+  <text x="98" y="611" class="zh mono">KV = L × S × 2 × Hkv × Dhead × bytes</text>
+  <rect x="98" y="650" width="250" height="112" rx="18" fill="#123a52"/><text x="223" y="685" text-anchor="middle" class="zh small">405B · 128K · BF16 · batch=1</text><text x="223" y="724" text-anchor="middle" class="zh num">GQA ≈ 63 GiB</text><text x="223" y="750" text-anchor="middle" class="zh small">8 KV heads</text>
+  <rect x="377" y="650" width="264" height="112" rx="18" fill="#39243b"/><text x="509" y="685" text-anchor="middle" class="zh small">若使用传统 MHA</text><text x="509" y="724" text-anchor="middle" class="zh num">≈ 1008 GiB</text><text x="509" y="750" text-anchor="middle" class="zh small">128 KV heads · 理论大 16×</text>
+
+  <rect x="730" y="524" width="640" height="286" rx="24" class="box"/>
+  <text x="758" y="568" class="zh h">405B 推理：BF16 跨两机，FP8 谨慎量化</text>
+  <text x="758" y="610" class="zh b">BF16 权重本身约 754 GiB，论文用 16 张 H100、TP8 + PP2</text>
+  <text x="758" y="652" class="zh b">FP8 量化 FFN 中多数矩阵乘；不量化 self-attention、首层和末层</text>
+  <text x="758" y="694" class="zh b">采用 row-wise scale，并把动态 scaling factor 上限设为 1200</text>
+  <text x="758" y="736" class="zh b">标准 benchmark 不足以发现偶发损坏，另比较 100K 回答的 RM 分布</text>
+  <rect x="758" y="758" width="584" height="34" rx="17" fill="#155e75"/><text x="1050" y="781" text-anchor="middle" class="zh tag">论文报告：FP8 prefill throughput 最高提升约 50%</text>
+  <text x="720" y="874" text-anchor="middle" class="zh sub">容量公式是理论下界：真实服务还要计 allocator、分页、激活、batch、并行通信与运行时缓冲区</text>
+</svg>

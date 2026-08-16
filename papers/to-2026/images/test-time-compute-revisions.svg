@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">串行修订与并行采样的预算分解</title>
+  <desc id="desc">固定 N 次生成既可以完全并行，也可排成多条串行修订链；容易题偏向串行修订，较难题需要串并行平衡，最终还需多数投票或 verifier 防止正确答案被改错。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#19113d"/></linearGradient>
+    <marker id="a3" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#a78bfa"/></marker>
+    <style>
+      .zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px;fill:#e0f2fe}.box{fill:#0d2542;stroke:#355170;stroke-width:2}.tag{font-size:15px;font-weight:800;fill:#071326}
+    </style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg3)"/>
+  <text x="70" y="72" class="zh title">固定 N 次生成：横向探索新路线，还是纵向修订同一路线？</text>
+  <text x="70" y="108" class="zh sub">论文训练了专用 revision model；“再检查一下”提示普通模型并不自动获得有效自纠能力</text>
+
+  <rect x="70" y="158" width="596" height="337" rx="24" class="box"/>
+  <rect x="96" y="181" width="162" height="34" rx="17" fill="#22d3ee"/>
+  <text x="177" y="204" text-anchor="middle" class="zh tag">PARALLEL SAMPLING</text>
+  <text x="96" y="252" class="zh h">全并行：N 条相互独立的尝试</text>
+  <g stroke="#22d3ee" stroke-width="4" fill="none"><path d="M118 302H590"/><path d="M118 346H540"/><path d="M118 390H612"/><path d="M118 434H565"/></g>
+  <g fill="#22d3ee"><circle cx="590" cy="302" r="11"/><circle cx="540" cy="346" r="11"/><circle cx="612" cy="390" r="11"/><circle cx="565" cy="434" r="11"/></g>
+  <text x="96" y="477" class="zh b">覆盖不同高层解法；每条轨迹不读取其他轨迹</text>
+
+  <rect x="716" y="158" width="654" height="337" rx="24" class="box"/>
+  <rect x="742" y="181" width="184" height="34" rx="17" fill="#a78bfa"/>
+  <text x="834" y="204" text-anchor="middle" class="zh tag">SEQUENTIAL REVISIONS</text>
+  <text x="742" y="252" class="zh h">全串行：后一版看到前四版上下文</text>
+  <g fill="#a78bfa"><rect x="757" y="300" width="96" height="66" rx="14"/><rect x="893" y="300" width="96" height="66" rx="14"/><rect x="1029" y="300" width="96" height="66" rx="14"/><rect x="1165" y="300" width="96" height="66" rx="14"/></g>
+  <g stroke="#a78bfa" stroke-width="4" marker-end="url(#a3)"><line x1="853" y1="333" x2="884" y2="333"/><line x1="989" y1="333" x2="1020" y2="333"/><line x1="1125" y1="333" x2="1156" y2="333"/></g>
+  <text x="805" y="341" text-anchor="middle" class="zh tag">尝试 1</text><text x="941" y="341" text-anchor="middle" class="zh tag">修订 2</text><text x="1077" y="341" text-anchor="middle" class="zh tag">修订 3</text><text x="1213" y="341" text-anchor="middle" class="zh tag">修订 4</text>
+  <text x="742" y="408" class="zh b">局部改进已接近正确的答案；但错误也会沿上下文传播</text>
+  <text x="742" y="448" class="zh b">论文观察：朴素修订把约 38% 的正确答案再次改错</text>
+  <text x="742" y="477" class="zh b">因此必须保存历史，并用 majority / verifier 选答案</text>
+
+  <rect x="70" y="545" width="1300" height="244" rx="24" class="box"/>
+  <text x="98" y="589" class="zh h">最优点通常在二维网格上，而不是某个固定极端</text>
+  <text x="98" y="631" class="zh mono">total budget N = parallel chains P × sequential length S</text>
+  <g class="zh">
+    <rect x="98" y="667" width="178" height="72" rx="16" fill="#12384f"/><text x="187" y="697" text-anchor="middle" class="h">64 × 1</text><text x="187" y="725" text-anchor="middle" class="b">纯并行</text>
+    <rect x="298" y="667" width="178" height="72" rx="16" fill="#1d3157"/><text x="387" y="697" text-anchor="middle" class="h">16 × 4</text><text x="387" y="725" text-anchor="middle" class="b">偏并行</text>
+    <rect x="498" y="667" width="178" height="72" rx="16" fill="#28285c"/><text x="587" y="697" text-anchor="middle" class="h">8 × 8</text><text x="587" y="725" text-anchor="middle" class="b">平衡</text>
+    <rect x="698" y="667" width="178" height="72" rx="16" fill="#33245a"/><text x="787" y="697" text-anchor="middle" class="h">1 × 64</text><text x="787" y="725" text-anchor="middle" class="b">纯串行</text>
+    <rect x="930" y="631" width="394" height="122" rx="18" fill="#102f4d" stroke="#2dd4bf" stroke-width="3"/><text x="956" y="669" class="h">难度依赖</text><text x="956" y="705" class="b">容易题：更多串行修订</text><text x="956" y="736" class="b">较难题：串行与并行之间存在最佳比例</text>
+  </g>
+  <text x="720" y="854" text-anchor="middle" class="zh sub">Revision 提高的是 proposal distribution；最终 selection 仍是系统的一部分，不能只看“最后一次修订”</text>
+</svg>

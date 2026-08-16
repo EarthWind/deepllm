@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title desc">
+  <title id="title">PRM 搜索策略与难度依赖</title>
+  <desc id="desc">比较 best-of-N weighted、beam search 与 lookahead search，展示生成预算核算、简单题的 verifier 过度优化、中等难度题的 beam 优势和最难题的收益有限。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#1b123b"/></linearGradient>
+    <marker id="a2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#5eead4"/></marker>
+    <style>
+      .zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px;fill:#e0f2fe}.box{fill:#0d2542;stroke:#355170;stroke-width:2}.tag{font-size:15px;font-weight:800;fill:#071326}
+    </style>
+  </defs>
+  <rect width="1440" height="920" rx="30" fill="url(#bg2)"/>
+  <text x="70" y="72" class="zh title">更强的搜索不保证更好：它也会更强地利用 PRM 漏洞</text>
+  <text x="70" y="108" class="zh sub">论文统一用“完整生成次数”近似预算；lookahead 的成本按 N × (k + 1) 计算</text>
+
+  <rect x="70" y="156" width="400" height="315" rx="24" class="box"/>
+  <rect x="94" y="180" width="158" height="34" rx="17" fill="#22d3ee"/>
+  <text x="173" y="203" text-anchor="middle" class="zh tag">BEST-OF-N WEIGHTED</text>
+  <text x="94" y="250" class="zh h">N 条完整答案，最后再选</text>
+  <g stroke="#22d3ee" stroke-width="5" stroke-linecap="round"><line x1="112" y1="291" x2="376" y2="291"/><line x1="112" y1="327" x2="340" y2="327"/><line x1="112" y1="363" x2="395" y2="363"/><line x1="112" y1="399" x2="315" y2="399"/></g>
+  <circle cx="405" cy="291" r="12" fill="#64748b"/><circle cx="369" cy="327" r="12" fill="#fbbf24"/><circle cx="424" cy="363" r="12" fill="#fbbf24"/><circle cx="344" cy="399" r="12" fill="#64748b"/>
+  <text x="94" y="447" class="zh mono">cost = N</text>
+
+  <rect x="520" y="156" width="400" height="315" rx="24" class="box"/>
+  <rect x="544" y="180" width="138" height="34" rx="17" fill="#a78bfa"/>
+  <text x="613" y="203" text-anchor="middle" class="zh tag">BEAM SEARCH</text>
+  <text x="544" y="250" class="zh h">逐步扩展，只保留高分 prefix</text>
+  <g stroke-width="3"><line x1="579" y1="294" x2="652" y2="274" stroke="#a78bfa"/><line x1="579" y1="294" x2="652" y2="314" stroke="#475569"/><line x1="663" y1="274" x2="742" y2="252" stroke="#a78bfa"/><line x1="663" y1="274" x2="742" y2="290" stroke="#a78bfa"/><line x1="663" y1="314" x2="742" y2="330" stroke="#475569"/><line x1="663" y1="314" x2="742" y2="364" stroke="#475569"/><line x1="753" y1="252" x2="840" y2="239" stroke="#fbbf24"/><line x1="753" y1="290" x2="840" y2="306" stroke="#a78bfa"/></g>
+  <g><circle cx="579" cy="294" r="11" fill="#22d3ee"/><circle cx="652" cy="274" r="11" fill="#a78bfa"/><circle cx="652" cy="314" r="11" fill="#475569"/><circle cx="742" cy="252" r="11" fill="#a78bfa"/><circle cx="742" cy="290" r="11" fill="#a78bfa"/><circle cx="742" cy="330" r="11" fill="#475569"/><circle cx="742" cy="364" r="11" fill="#475569"/><circle cx="840" cy="239" r="11" fill="#fbbf24"/><circle cx="840" cy="306" r="11" fill="#a78bfa"/></g>
+  <text x="544" y="412" class="zh b">最多 40 轮扩展；论文测试 M=4 与 M=√N</text>
+  <text x="544" y="447" class="zh mono">cost ≈ N</text>
+
+  <rect x="970" y="156" width="400" height="315" rx="24" class="box"/>
+  <rect x="994" y="180" width="166" height="34" rx="17" fill="#fbbf24"/>
+  <text x="1077" y="203" text-anchor="middle" class="zh tag">LOOKAHEAD SEARCH</text>
+  <text x="994" y="250" class="zh h">先向前模拟 k 步，再决定保留</text>
+  <path d="M1022 310H1100L1140 270L1180 310L1220 254L1270 310H1330" fill="none" stroke="#fbbf24" stroke-width="5" marker-end="url(#a2)"/>
+  <path d="M1100 310L1140 350L1190 330" fill="none" stroke="#64748b" stroke-width="3" stroke-dasharray="8 7"/>
+  <text x="994" y="372" class="zh b">k=0 即 beam；论文还测试 k=1 / 3</text>
+  <text x="994" y="412" class="zh b">额外模拟提高 value 估计，也迅速消耗预算</text>
+  <text x="994" y="447" class="zh mono">cost = N × (k + 1)</text>
+
+  <rect x="70" y="523" width="1300" height="286" rx="24" class="box"/>
+  <text x="98" y="567" class="zh h">按基础模型自己的成功率划难度，聚合曲线背后是三种不同区域</text>
+  <g class="zh">
+    <rect x="100" y="605" width="234" height="146" rx="18" fill="#133952"/><text x="217" y="640" text-anchor="middle" class="h">Level 1–2 · 容易</text><text x="124" y="681" class="b">高预算 beam 反而退化</text><text x="124" y="714" class="b">PRM 的伪特征被放大</text>
+    <rect x="359" y="605" width="234" height="146" rx="18" fill="#262058"/><text x="476" y="640" text-anchor="middle" class="h">Level 3–4 · 中等</text><text x="383" y="681" class="b">beam 持续优于 best-of-N</text><text x="383" y="714" class="b">逐步引导能找到正确路径</text>
+    <rect x="618" y="605" width="234" height="146" rx="18" fill="#39233b"/><text x="735" y="640" text-anchor="middle" class="h">Level 5 · 最难</text><text x="642" y="681" class="b">所有方法都进展很小</text><text x="642" y="714" class="b">proposal 支持集形成上限</text>
+    <rect x="895" y="588" width="432" height="181" rx="20" fill="#102f4d" stroke="#2dd4bf" stroke-width="3"/><text x="921" y="629" class="h">Compute-optimal search</text><text x="921" y="671" class="b">对每个 difficulty × budget 单元格</text><text x="921" y="704" class="b">选择验证集上最优的 search setting</text><text x="921" y="741" class="mono">16 generations ≈ baseline 64（局部结果）</text>
+  </g>
+  <text x="720" y="874" text-anchor="middle" class="zh sub">越强的 optimizer 越需要可靠 verifier；搜索深度、reward fidelity 与问题难度必须一起看</text>
+</svg>

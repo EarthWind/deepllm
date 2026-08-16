@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">TruthfulQA 从论文版本到 2025 二选一版本的演化</title>
+  <desc id="desc">时间线对比原论文 817 题 38 类、当前根目录 790 题 37 类及新增 binary MC0，并解释旧版多选的 odd-one-out 捷径和复现版本锁定。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#21113b"/></linearGradient>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:760;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:760;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:31px;font-weight:820;fill:#67e8f9}.panel{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">同一个名字，至少两套口径：复现前先锁数据 revision 与选择题协议</text>
+  <text x="70" y="108" class="zh sub">论文结论来自 817 题；官方仓库 2025 年清理题目并新增更稳健的 binary / MC0，不能把分数直接混在一起</text>
+
+  <line x1="160" y1="250" x2="1280" y2="250" stroke="#67e8f9" stroke-width="5"/>
+  <circle cx="250" cy="250" r="17" fill="#a78bfa"/><circle cx="700" cy="250" r="17" fill="#60a5fa"/><circle cx="1170" cy="250" r="17" fill="#2dd4bf"/>
+  <g class="zh">
+    <text x="250" y="196" text-anchor="middle" class="h">2021–2022 · 论文 / ACL</text>
+    <text x="700" y="196" text-anchor="middle" class="h">仓库保留历史快照</text>
+    <text x="1170" y="196" text-anchor="middle" class="h">2025 · 当前根数据</text>
+  </g>
+
+  <g transform="translate(70 300)" class="zh">
+    <rect width="390" height="316" rx="26" class="panel"/>
+    <text x="26" y="48" class="h">论文报告口径</text><text x="26" y="100" class="num">817 题 · 38 类</text>
+    <text x="26" y="142" class="b">437 adversarial + 380 unfiltered</text><text x="26" y="180" class="b">开放生成 + MC1 / MC2</text>
+    <text x="26" y="218" class="b">GPT-3 175B 用于对抗过滤</text><text x="26" y="256" class="small">引用论文主表时必须回到这一快照</text>
+    <rect x="26" y="276" width="338" height="22" rx="8" fill="#30223d"/>
+
+    <rect x="420" width="390" height="316" rx="26" class="panel"/>
+    <text x="446" y="48" class="h">data/v0 与 data/v1</text><text x="446" y="100" class="num">817 题 · 38 类</text>
+    <text x="446" y="142" class="b">可用于追踪旧版数据差异</text><text x="446" y="180" class="b">旧 mc_task 含 MC1 / MC2</text>
+    <text x="446" y="218" class="b">先固定 commit，再记录 prompt / tokenizer</text><text x="446" y="256" class="small">“拉取 main 后运行”不是可复现实验</text>
+    <rect x="446" y="276" width="338" height="22" rx="8" fill="#173451"/>
+
+    <rect x="840" width="390" height="316" rx="26" class="panel"/>
+    <text x="866" y="48" class="h">清理后的根 TruthfulQA.csv</text><text x="866" y="100" class="num">790 题 · 37 类</text>
+    <text x="866" y="142" class="b">425 adversarial + 365 non-adversarial</text><text x="866" y="180" class="b">删除失效、过时或需联网的题</text>
+    <text x="866" y="218" class="b">增加 Best Incorrect Answer 与 MC0</text><text x="866" y="256" class="small">这是维护版，不是论文主表的原始母体</text>
+    <rect x="866" y="276" width="338" height="22" rx="8" fill="#10423c"/>
+  </g>
+
+  <g transform="translate(70 660)" class="zh">
+    <rect width="620" height="166" rx="24" fill="#482137" stroke="#fb7185" stroke-width="2"/>
+    <text x="28" y="42" class="h">旧 MC1 / MC2 的捷径风险</text><text x="28" y="80" class="b">多个 false 往往是彼此相似的误解变体，唯一 true 可能靠</text><text x="28" y="114" class="b">“odd one out”被识别，而不需要真正判断事实。</text><text x="28" y="145" class="small">此外，sequence log-prob 求和还受答案长度、前缀与 tokenizer 影响。</text>
+
+    <rect x="650" width="620" height="166" rx="24" fill="#10423c" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="678" y="42" class="h">新版 binary / MC0</text><text x="678" y="80" class="b">仅比较 Best Answer 与人工挑选的 Best Incorrect Answer，</text><text x="678" y="114" class="b">随机 A/B 顺序；更难靠候选集形状取巧。</text><text x="678" y="145" class="small">旧新分数高度相关，但新的官方建议是优先报告 binary。</text>
+  </g>
+  <text x="720" y="870" text-anchor="middle" class="zh sub">公开测试集还会随时间产生训练污染：现代模型评测应增加私有轮换题、开放生成审计与来源核验</text>
+</svg>

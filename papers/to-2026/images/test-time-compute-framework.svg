@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">测试时计算的 proposer 与 verifier 统一框架</title>
+  <desc id="desc">固定计算预算可以用于修改模型的提议分布，或使用过程奖励模型搜索和筛选候选；compute-optimal 路由根据问题难度和预算选择策略。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#17113a"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14b8a6"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#fbbf24"/></linearGradient>
+    <marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6 0 12Z" fill="#67e8f9"/></marker>
+    <style>
+      .zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:19px;fill:#a5b4fc}.h{font-size:25px;font-weight:750;fill:#f8fafc}.b{font-size:18px;fill:#cbd5e1}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px;fill:#e0f2fe}.box{fill:#0d2542;stroke:#365373;stroke-width:2}.tag{font-size:15px;font-weight:800;fill:#071326}
+    </style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="73" class="zh title">测试时计算不是一个旋钮，而是 Proposer × Verifier 两条轴</text>
+  <text x="70" y="109" class="zh sub">同样的生成预算 N，可以改变候选从哪里来，也可以改变怎样搜索和选择候选</text>
+
+  <rect x="70" y="178" width="245" height="160" rx="22" class="box"/>
+  <text x="96" y="222" class="zh sub">输入问题 q</text>
+  <text x="96" y="265" class="zh h">固定推理预算</text>
+  <text x="96" y="304" class="zh mono">N generations</text>
+  <path d="M315 258H383" stroke="#67e8f9" stroke-width="4" marker-end="url(#a)"/>
+
+  <rect x="393" y="159" width="292" height="199" rx="24" fill="url(#cyan)"/>
+  <text x="420" y="203" class="zh tag">BASE LANGUAGE MODEL</text>
+  <text x="420" y="253" class="zh h">提议分布 π(y | q)</text>
+  <text x="420" y="294" class="zh b" fill="#071326">采样答案、步骤或修订</text>
+  <text x="420" y="328" class="zh b" fill="#071326">预算只约束总生成量</text>
+
+  <path d="M685 224H753" stroke="#a78bfa" stroke-width="4" marker-end="url(#a)"/>
+  <path d="M685 292H753" stroke="#fbbf24" stroke-width="4" marker-end="url(#a)"/>
+
+  <rect x="763" y="143" width="607" height="185" rx="24" class="box"/>
+  <rect x="789" y="165" width="186" height="34" rx="17" fill="url(#violet)"/>
+  <text x="882" y="188" text-anchor="middle" class="zh tag">轴 A · 改 Proposer</text>
+  <text x="789" y="241" class="zh h">串行 revision</text>
+  <text x="789" y="278" class="zh b">下一次生成看到前几次尝试，进行局部修正</text>
+  <text x="789" y="307" class="zh mono">yₜ ~ π(· | q, yₜ₋₁, …)</text>
+  <path d="M1090 256h42l18-22 32 42 35-54 40 34h74" fill="none" stroke="#a78bfa" stroke-width="5"/>
+
+  <rect x="763" y="366" width="607" height="185" rx="24" class="box"/>
+  <rect x="789" y="388" width="186" height="34" rx="17" fill="url(#amber)"/>
+  <text x="882" y="411" text-anchor="middle" class="zh tag">轴 B · 优化 Verifier</text>
+  <text x="789" y="464" class="zh h">PRM 搜索 / 聚合</text>
+  <text x="789" y="501" class="zh b">对中间步骤评分，用 best-of-N、beam 或 lookahead 搜索</text>
+  <text x="789" y="530" class="zh mono">score(prefix) ≈ P(success | prefix)</text>
+  <circle cx="1135" cy="463" r="11" fill="#fbbf24"/><circle cx="1190" cy="443" r="11" fill="#fbbf24"/><circle cx="1190" cy="483" r="11" fill="#64748b"/><circle cx="1250" cy="422" r="11" fill="#fbbf24"/><circle cx="1250" cy="463" r="11" fill="#64748b"/><circle cx="1250" cy="504" r="11" fill="#64748b"/>
+  <g stroke="#fbbf24" stroke-width="3"><line x1="1146" y1="461" x2="1179" y2="446"/><line x1="1146" y1="466" x2="1179" y2="480"/><line x1="1201" y1="440" x2="1239" y2="425"/><line x1="1201" y1="446" x2="1239" y2="460"/></g>
+
+  <path d="M1064 551V619" stroke="#67e8f9" stroke-width="4" marker-end="url(#a)"/>
+  <rect x="236" y="621" width="968" height="177" rx="28" fill="#102d4a" stroke="#2dd4bf" stroke-width="3"/>
+  <rect x="266" y="647" width="250" height="40" rx="20" fill="url(#cyan)"/>
+  <text x="391" y="674" text-anchor="middle" class="zh tag">COMPUTE-OPTIMAL ROUTER</text>
+  <text x="266" y="727" class="zh h">给定问题难度 d(q) 与预算 N，查表选择最有效的 θ</text>
+  <text x="266" y="768" class="zh mono">θ*(d, N) = argmaxθ  validation accuracy(d, N, θ)</text>
+  <rect x="915" y="653" width="252" height="108" rx="18" fill="#172554"/>
+  <text x="941" y="688" class="zh b">不是：所有题统一 best-of-N</text>
+  <text x="941" y="721" class="zh b">也不是：难题一律多算</text>
+  <text x="941" y="754" class="zh b">而是：按题、按预算选择方法</text>
+  <text x="720" y="861" text-anchor="middle" class="zh sub">论文的“optimal”是候选策略集合内、按难度桶选择的经验最优，不是全局理论最优</text>
+</svg>

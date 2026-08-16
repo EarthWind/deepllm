@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Qwen3 thinking 与 non-thinking 结果、后训练取舍和长上下文模式差异</title>
+  <desc id="desc">展示 Qwen3-235B-A22B 和 32B 在两种模式下的代表结果，General RL 对通用与专项能力的取舍，以及 RULER 上 non-thinking 优于 thinking。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#18123d"/></linearGradient>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:28px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">Thinking 在难推理上拉开差距，但不是所有任务都该“先想 8K”</text>
+  <text x="70" y="108" class="zh sub">论文不同 benchmark 的采样与 prompt 不完全相同；下面是原表代表点，不是统一一次运行的平均分</text>
+
+  <rect x="70" y="150" width="620" height="300" rx="26" class="box"/>
+  <text x="100" y="196" class="zh h">Qwen3-235B-A22B</text>
+  <g class="zh">
+    <text x="100" y="244" class="small">Benchmark</text><text x="350" y="244" class="small">Non-thinking</text><text x="520" y="244" class="small">Thinking</text>
+    <text x="100" y="290" class="b">AIME 2024</text><text x="350" y="290" class="b">40.1</text><text x="520" y="290" class="num">85.7</text>
+    <text x="100" y="334" class="b">AIME 2025</text><text x="350" y="334" class="b">24.7</text><text x="520" y="334" class="num">81.5</text>
+    <text x="100" y="378" class="b">LiveCodeBench v5</text><text x="350" y="378" class="b">35.3</text><text x="520" y="378" class="num">70.7</text>
+    <text x="100" y="422" class="b">BFCL v3</text><text x="350" y="422" class="b">68.0</text><text x="520" y="422" class="num">70.8</text>
+  </g>
+
+  <rect x="750" y="150" width="620" height="300" rx="26" class="box"/>
+  <text x="780" y="196" class="zh h">Qwen3-32B</text>
+  <g class="zh">
+    <text x="780" y="244" class="small">Benchmark</text><text x="1030" y="244" class="small">Non-thinking</text><text x="1200" y="244" class="small">Thinking</text>
+    <text x="780" y="290" class="b">MATH-500</text><text x="1030" y="290" class="b">88.6</text><text x="1200" y="290" class="num">97.2</text>
+    <text x="780" y="334" class="b">AIME 2024</text><text x="1030" y="334" class="b">31.0</text><text x="1200" y="334" class="num">81.4</text>
+    <text x="780" y="378" class="b">GPQA-Diamond</text><text x="1030" y="378" class="b">54.6</text><text x="1200" y="378" class="num">68.4</text>
+    <text x="780" y="422" class="b">Arena-Hard</text><text x="1030" y="422" class="b">92.8</text><text x="1200" y="422" class="num">93.8</text>
+  </g>
+
+  <rect x="70" y="500" width="820" height="280" rx="26" fill="#241d48" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="100" y="546" class="zh h">从 Stage 2 Reasoning RL 到最终 Stage 4：通用性与专项能力交换</text>
+  <g class="zh">
+    <text x="100" y="594" class="small">Qwen3-32B · thinking</text><text x="390" y="594" class="small">Stage 2</text><text x="530" y="594" class="small">Stage 4</text><text x="675" y="594" class="small">变化</text>
+    <text x="100" y="640" class="b">ToolUse*</text><text x="390" y="640" class="b">63.3</text><text x="530" y="640" class="b">85.5</text><text x="675" y="640" class="num">+22.2</text>
+    <text x="100" y="686" class="b">IFEval strict</text><text x="390" y="686" class="b">73.0</text><text x="530" y="686" class="b">85.0</text><text x="675" y="686" class="num">+12.0</text>
+    <text x="100" y="732" class="b">AIME 2024</text><text x="390" y="732" class="b">83.8</text><text x="530" y="732" class="b">81.4</text><text x="675" y="732" font-size="28" font-weight="800" fill="#fb7185">−2.4</text>
+    <text x="100" y="764" class="small">* ToolUse、ThinkFollow 等为内部 benchmark；Stage 4 ThinkFollow = 98.9</text>
+  </g>
+
+  <rect x="930" y="500" width="440" height="280" rx="26" fill="#103d3a" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="960" y="546" class="zh h">RULER 长上下文检索</text>
+  <text x="960" y="590" class="zh small">Qwen3-235B-A22B · 4K–128K 平均</text>
+  <text x="960" y="642" class="zh b">Non-thinking</text><text x="1195" y="642" class="zh num">95.0</text>
+  <text x="960" y="690" class="zh b">Thinking · budget 8,192</text><text x="1195" y="690" class="zh num">92.2</text>
+  <text x="960" y="738" class="zh small">检索题不需复杂推理；额外 CoT 可能干扰定位</text>
+  <text x="960" y="765" class="zh small">128K 使用 YaRN scaling_factor=4</text>
+  <rect x="70" y="820" width="1300" height="50" rx="18" fill="#30223d" stroke="#f59e0b"/>
+  <text x="720" y="852" text-anchor="middle" class="zh b">“模型支持 thinking”不代表每个请求都应开启；最合理的产品策略仍是按任务与成本选择模式和预算</text>
+</svg>

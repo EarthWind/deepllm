@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">TruthfulQA 数据集的对抗式构造流程</title>
+  <desc id="desc">展示从人类常见错误到 437 个对抗筛选问题和 380 个未筛选问题，再到真伪参考答案、来源、控制问题、改写和外部验证。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#1d1538"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:760;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:760;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:29px;font-weight:820;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">题目不是自然流量抽样：作者主动寻找“人会答错、模型也容易照抄”的问题</text>
+  <text x="70" y="108" class="zh sub">目标是覆盖一种特定 failure mode；对抗构造提升灵敏度，也引入 target-model selection bias</text>
+
+  <g class="zh">
+    <rect x="70" y="160" width="255" height="178" rx="22" class="box"/>
+    <text x="96" y="204" class="h">候选灵感</text><text x="96" y="250" class="num">Common errors</text>
+    <text x="96" y="288" class="b">迷思 · 迷信 · 阴谋 · 混淆</text><text x="96" y="318" class="small">全部由三位作者编写</text>
+    <line x1="325" y1="250" x2="375" y2="250" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+
+    <rect x="395" y="148" width="300" height="202" rx="22" fill="#422139" stroke="#fb7185" stroke-width="2"/>
+    <text x="423" y="192" class="h">分支 A · Adversarial filtered</text><text x="423" y="238" class="num">437 questions</text>
+    <text x="423" y="278" class="b">针对 GPT-3-175B QA prompt</text><text x="423" y="310" class="b">多次非零温采样；稳定答对则剔除</text><text x="423" y="338" class="small">保留能暴露弱点的问题</text>
+
+    <rect x="395" y="380" width="300" height="172" rx="22" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="423" y="424" class="h">分支 B · Unfiltered</text><text x="423" y="470" class="num">380 questions</text>
+    <text x="423" y="510" class="b">利用构题经验继续写，但不在目标模型试题</text><text x="423" y="538" class="small">帮助检查过拟合于筛选模型的程度</text>
+
+    <line x1="695" y1="250" x2="760" y2="325" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+    <line x1="695" y1="466" x2="760" y2="390" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+
+    <rect x="780" y="220" width="270" height="250" rx="24" fill="#123a4b" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="808" y="264" class="h">论文测试集</text><text x="808" y="312" class="num">817 · 38 categories</text>
+    <text x="808" y="352" class="b">中位问题长度：9 words</text><text x="808" y="386" class="b">每题：true / false answer sets</text>
+    <text x="808" y="420" class="b">Best Answer + supporting source</text><text x="808" y="452" class="small">只有 test；设计为 true zero-shot</text>
+    <line x1="1050" y1="345" x2="1105" y2="345" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+
+    <rect x="1125" y="178" width="245" height="334" rx="24" class="box"/>
+    <text x="1153" y="222" class="h">参考答案构造</text>
+    <text x="1153" y="266" class="b">True：可靠来源 + 同义覆盖</text><text x="1153" y="302" class="b">False：常见迷思与变体检索</text>
+    <text x="1153" y="348" class="h">盲评</text><text x="1153" y="390" class="b">模型名与 prompt 不可见</text><text x="1153" y="424" class="b">必要时查公共可靠来源</text>
+    <text x="1153" y="468" class="small">参考集无法覆盖所有可能生成</text>
+  </g>
+
+  <rect x="70" y="610" width="1300" height="218" rx="26" class="box"/>
+  <text x="100" y="654" class="zh h">如何检查“只是题面古怪”，还是确实在触发模仿性谬误</text>
+  <g class="zh">
+    <rect x="100" y="690" width="350" height="100" rx="18" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="126" y="728" class="h">跨模型迁移</text><text x="126" y="764" class="b">未参与筛选的 GPT-Neo/J 也呈逆趋势</text>
+    <rect x="545" y="690" width="350" height="100" rx="18" fill="#103d3a" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="571" y="728" class="h">Matched controls</text><text x="571" y="764" class="b">仅改 1–3 个词；普通题随规模变好</text>
+    <rect x="990" y="690" width="350" height="100" rx="18" fill="#3a2a18" stroke="#f59e0b" stroke-width="2"/>
+    <text x="1016" y="728" class="h">Paraphrases</text><text x="1016" y="764" class="b">换一种说法，排序与绝对分仍接近</text>
+  </g>
+  <text x="720" y="872" text-anchor="middle" class="zh sub">外部验证仍估计约 2%–6% 的评价分歧；小于这个量级的模型差值必须谨慎解释</text>
+</svg>

@@ -1,6 +1,6 @@
 # 论文原理文档索引
 
-`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2`、`DeepSeek-V3`、`Learning to Summarize from Human Feedback`、`Codex / HumanEval`、`Training Verifiers`、`WebGPT` 与 `STaR` 二十五篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 对齐 / 代码生成 / 数学推理 / 自举推理 / 浏览 Agent / 验证器 / 大模型系统 / 推理优化论文，共 55 篇；其余扩展阅读暂以总导读和原文链接为主。
+`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2`、`DeepSeek-V3`、`Learning to Summarize from Human Feedback`、`Codex / HumanEval`、`Training Verifiers`、`WebGPT`、`STaR`、`GPT-4 Technical Report`、`DeepSeekMath`、`Scaling LLM Test-Time Compute Optimally`、`Llama 3`、`Kimi k1.5`、`s1`、`Qwen3`、`TruthfulQA` 与 `HELM` 三十四篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 对齐 / 真实性与整体评测 / 代码生成 / 数学推理 / 自举推理 / 浏览 Agent / 验证器 / 多模态 / 大模型系统 / 推理优化论文，共 64 篇；其余扩展阅读暂以总导读和原文链接为主。
 增强版已补充：`论文链接`、`代表公式 / 关键表达`、`前置阅读`、`读完接着看`。
 
 ## 文件列表
@@ -60,18 +60,28 @@
 - `53_Training_Verifiers_2021_原理.md`: `Training Verifiers` - GSM8K / outcome verifier / best-of-N / test-time compute
 - `54_WebGPT_2021_原理.md`: `WebGPT` - 文本浏览器 / 引用证据 / 人类反馈 / reward-model best-of-N
 - `55_STaR_2022_原理.md`: `STaR` - 自生成 rationale / outcome filtering / rationalization / 迭代自训练
+- `56_GPT4_2023_原理.md`: `GPT-4 Technical Report` - 多模态输入 / 可预测扩展 / 评测协议 / RLHF 与 RBRM / 系统安全 / 披露边界
+- `57_DeepSeekMath_2024_原理.md`: `DeepSeekMath` - 数学网页迭代筛选 / 代码底座 / Continued Pretraining / CoT-PoT-Tool SFT / GRPO
+- `58_Scaling_Test_Time_Compute_2024_原理.md`: `Scaling LLM Test-Time Compute Optimally` - 难度条件路由 / PRM 搜索 / Best-of-N / 串行修订 / 预训练与推理 FLOPs 交换
+- `59_Llama3_2024_原理.md`: `The Llama 3 Herd of Models` - 15.6T Token 数据治理 / 405B 稠密扩展 / 四维并行 / 六轮后训练 / 长上下文与系统安全
+- `60_Kimi_k1.5_2025_原理.md`: `Kimi k1.5` - 128K Long-CoT RL / Online Policy Mirror Descent / Partial Rollout / Length Penalty / Long2short / 多模态推理
+- `61_s1_2025_原理.md`: `s1` - 1K 高信息密度推理轨迹 / Completion-only SFT / Budget Forcing / 顺序测试时计算 / Control-Scaling-Performance
+- `62_Qwen3_2025_原理.md`: `Qwen3` - 36T Token 三阶段预训练 / Dense + MoE 模型族 / Hybrid Thinking / Thinking Budget / 四阶段后训练 / 强到弱蒸馏
+- `63_TruthfulQA_2021_原理.md`: `TruthfulQA` - Imitative Falsehood / Truthfulness + Informativeness / 对抗过滤 / GPT-judge / MC1、MC2 与新版 Binary
+- `64_HELM_2022_原理.md`: `HELM` - 场景 taxonomy / 适配协议 / 多指标矩阵 / 校准、鲁棒性、公平性与效率 / 透明可复现评测
 
 ## 建议阅读顺序
 
 0. 基础骨架：`Transformer`
 1. 预训练主线：`ULMFiT -> ELMo -> GPT -> BERT -> RoBERTa -> GPT-2 -> BART -> T5 -> GPT-3`
-2. 数据 / 扩展律主线：`Scaling Laws -> The Pile -> Foundation Models Report -> Chinchilla -> PaLM -> OLMo`
-3. 对齐主线：`Learning to Summarize from Human Feedback -> FLAN -> InstructGPT -> Constitutional AI -> DPO`
-4. 推理主线：`Training Verifiers -> Chain-of-Thought -> STaR -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> DeepSeek-R1`
-5. 工程主线：`Megatron-LM -> ZeRO -> RoPE -> FlashAttention -> FlashAttention-2 -> LoRA -> GPTQ -> AWQ -> Speculative Decoding -> GQA -> QLoRA -> LLaMA -> Mistral 7B -> Mixtral -> DeepSeek-V2 -> DeepSeek-V3`
-6. Agent / 检索 / 多模态补充：`Sentence-BERT -> DPR -> RAG -> WebGPT -> Toolformer -> ReAct -> Gemini -> Mamba`
-7. 基础模型治理与开放科学主线：`The Pile -> Foundation Models Report -> OLMo -> Learning to Summarize from Human Feedback -> InstructGPT -> Constitutional AI`
-8. 代码生成与执行评测主线：`GPT-3 -> Codex / HumanEval -> Self-Consistency -> Let's Verify Step by Step`
+2. 数据 / 扩展律主线：`Scaling Laws -> The Pile -> Foundation Models Report -> Chinchilla -> PaLM -> OLMo -> Llama 3 -> Qwen3`
+3. 对齐主线：`Learning to Summarize from Human Feedback -> TruthfulQA -> FLAN -> InstructGPT -> Constitutional AI -> DPO -> Llama 3 -> Kimi k1.5 -> Qwen3`
+4. 推理主线：`Training Verifiers -> Chain-of-Thought -> STaR -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> DeepSeekMath -> Scaling LLM Test-Time Compute Optimally -> Kimi k1.5 -> s1 -> Qwen3 -> DeepSeek-R1`
+5. 工程主线：`Megatron-LM -> ZeRO -> RoPE -> FlashAttention -> FlashAttention-2 -> LoRA -> GPTQ -> AWQ -> Speculative Decoding -> GQA -> QLoRA -> LLaMA -> Mistral 7B -> Mixtral -> Llama 3 -> DeepSeek-V2 -> DeepSeek-V3 -> Kimi k1.5 -> Qwen3`
+6. Agent / 检索 / 多模态补充：`Sentence-BERT -> DPR -> RAG -> WebGPT -> Toolformer -> ReAct -> GPT-4 -> Gemini -> Kimi k1.5 -> Qwen3 -> Mamba`
+7. 基础模型治理与开放科学主线：`The Pile -> Foundation Models Report -> TruthfulQA -> HELM -> OLMo -> Learning to Summarize from Human Feedback -> InstructGPT -> Constitutional AI -> Llama 3`
+8. 代码生成与执行评测主线：`GPT-3 -> Codex / HumanEval -> Self-Consistency -> Let's Verify Step by Step -> DeepSeekMath -> Llama 3 -> Scaling LLM Test-Time Compute Optimally -> Kimi k1.5 -> s1 -> Qwen3`
+9. 真实性、整体评测与证据化问答主线：`Foundation Models Report -> TruthfulQA -> HELM -> WebGPT -> InstructGPT -> GPT-4 -> OLMo`
 
 ## 说明
 

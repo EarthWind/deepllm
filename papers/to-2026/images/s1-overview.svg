@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">s1 从 59K 数据池到 1K 监督微调与 budget forcing 的完整路线</title>
+  <desc id="desc">展示 s1 先按质量、难度、领域多样性将问题池缩至一千条，再微调 Qwen2.5-32B-Instruct，并在推理时截短或延长思考。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#18123d"/></linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0e7490"/><stop offset="1" stop-color="#6d28d9"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:28px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.tag{font-size:14px;font-weight:800;fill:#071426}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">s1：把复杂的 reasoning recipe 压缩成“精选数据 + SFT + 解码控制”</text>
+  <text x="70" y="108" class="zh sub">原版 s1 没有 RL、PRM 或搜索树；训练时学推理格式，测试时直接控制思考 token 预算</text>
+
+  <g class="zh">
+    <rect x="70" y="158" width="230" height="176" rx="22" class="box"/>
+    <text x="95" y="199" class="h">初始蒸馏池</text><text x="95" y="246" class="num">59,029</text>
+    <text x="95" y="282" class="b">16 个来源</text><text x="95" y="310" class="small">Gemini 生成 trace + answer</text>
+
+    <line x1="300" y1="246" x2="350" y2="246" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="370" y="158" width="250" height="176" rx="22" class="box"/>
+    <text x="395" y="199" class="h">质量 + 难度</text><text x="395" y="240" class="b">API / 格式过滤</text>
+    <text x="395" y="273" class="b">Qwen 7B、32B 都答错</text><text x="395" y="310" class="num">24,496</text>
+
+    <line x1="620" y1="246" x2="670" y2="246" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="690" y="144" width="270" height="204" rx="24" fill="#3b2b1c" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="715" y="167" width="92" height="28" rx="14" fill="#fbbf24"/><text x="761" y="187" text-anchor="middle" class="tag">s1K</text>
+    <text x="715" y="232" class="h">域均衡 × 长轨迹偏置</text><text x="715" y="276" class="num">1,000</text>
+    <text x="715" y="315" class="small">质量 · 难度 · 多样性共同筛选</text>
+
+    <line x1="960" y1="246" x2="1010" y2="246" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="1030" y="144" width="340" height="204" rx="24" fill="url(#core)" stroke="#a78bfa" stroke-width="2"/>
+    <text x="1058" y="190" class="h">Qwen2.5-32B-Instruct</text><text x="1058" y="233" class="h">→ s1-32B</text>
+    <text x="1058" y="273" class="b">completion-only SFT · 5 epochs</text><text x="1058" y="307" class="b">32K sequence · 26 min / 16 H100</text>
+  </g>
+
+  <rect x="70" y="402" width="1300" height="302" rx="26" class="box"/>
+  <text x="98" y="448" class="zh h">测试时：同一个模型，两个方向控制顺序计算</text>
+  <g class="zh">
+    <rect x="98" y="486" width="360" height="164" rx="22" fill="#102e47" stroke="#22d3ee" stroke-width="2"/>
+    <text x="125" y="528" class="h">Scale down · 最大预算</text>
+    <text x="125" y="570" class="b">到 token cap → 插入思考结束符</text>
+    <text x="125" y="604" class="b">可追加 Final Answer → 输出当前答案</text>
+
+    <rect x="540" y="480" width="360" height="176" rx="22" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="568" y="523" class="h">Scale up · 最小预算</text>
+    <text x="568" y="565" class="b">拦截模型想输出的思考结束符</text>
+    <text x="568" y="599" class="b">追加 Wait → 带旧轨迹继续生成</text>
+    <text x="568" y="630" class="small">可重复 N 次，但会遇到循环与上下文上限</text>
+
+    <rect x="982" y="486" width="360" height="164" rx="22" fill="#103d3a" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="1010" y="528" class="h">结果：可控而非无限单调</text>
+    <text x="1010" y="570" class="b">AIME24：50.0 → 56.7</text>
+    <text x="1010" y="604" class="b">约 6 次延长后趋平；更长可变差</text>
+  </g>
+
+  <rect x="70" y="748" width="820" height="86" rx="22" fill="#123a4b" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="784" class="zh h">论文真正的最小 recipe</text>
+  <text x="98" y="817" class="zh b">强底座 + 高信息密度轨迹 + 完整长序列 SFT + 停止符级解码控制</text>
+  <rect x="930" y="748" width="440" height="86" rx="22" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+  <text x="958" y="784" class="zh h">版本边界</text>
+  <text x="958" y="817" class="zh b">s1：Gemini traces　·　s1.1：R1 traces</text>
+  <text x="720" y="872" text-anchor="middle" class="zh sub">“简单”描述的是增量训练与控制机制，不等于底座、教师轨迹或评测本身没有成本</text>
+</svg>

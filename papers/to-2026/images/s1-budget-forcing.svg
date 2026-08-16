@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">s1 budget forcing 的截短与续写机制</title>
+  <desc id="desc">自然解码在结束思考符处转入回答；scale down 到预算即强制转回答；scale up 拦截结束思考符、追加 Wait 并继续同一条轨迹。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#17113c"/></linearGradient>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:16px;fill:#cffafe}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.tag{font-size:14px;font-weight:800;fill:#071426}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg3)"/>
+  <text x="70" y="72" class="zh title">Budget forcing：控制“何时结束思考”，而不是让模型精确数 token</text>
+  <text x="70" y="108" class="zh sub">关键动作发生在解码循环：识别 thinking delimiter、截断或抑制它，再显式切换生成阶段</text>
+
+  <rect x="70" y="158" width="1300" height="138" rx="24" class="box"/>
+  <text x="98" y="201" class="zh h">自然解码</text>
+  <rect x="250" y="186" width="205" height="48" rx="13" fill="#155e75"/><text x="352" y="216" text-anchor="middle" class="zh tag">尝试方案</text>
+  <rect x="455" y="186" width="205" height="48" rx="13" fill="#0e7490"/><text x="558" y="216" text-anchor="middle" class="zh tag">检查 / 回退</text>
+  <rect x="660" y="186" width="140" height="48" rx="13" fill="#f59e0b"/><text x="730" y="216" text-anchor="middle" class="zh tag">END THINK</text>
+  <rect x="800" y="186" width="250" height="48" rx="13" fill="#14532d"/><text x="925" y="216" text-anchor="middle" class="zh tag">FINAL ANSWER</text>
+  <text x="250" y="268" class="zh small">模型自己决定何时从 reasoning 转入 answer</text>
+
+  <rect x="70" y="342" width="620" height="286" rx="24" fill="#102e47" stroke="#22d3ee" stroke-width="2"/>
+  <text x="98" y="386" class="zh h">Scale down：强制最大思考预算</text>
+  <rect x="98" y="424" width="142" height="44" rx="12" fill="#155e75"/><text x="169" y="452" text-anchor="middle" class="zh tag">reasoning</text>
+  <rect x="240" y="424" width="142" height="44" rx="12" fill="#0e7490"/><text x="311" y="452" text-anchor="middle" class="zh tag">reasoning</text>
+  <line x1="410" y1="410" x2="410" y2="486" stroke="#fbbf24" stroke-width="5"/>
+  <text x="427" y="443" class="zh b">token cap</text>
+  <rect x="410" y="424" width="116" height="44" rx="12" fill="#f59e0b"/><text x="468" y="452" text-anchor="middle" class="zh tag">END</text>
+  <rect x="526" y="424" width="130" height="44" rx="12" fill="#14532d"/><text x="591" y="452" text-anchor="middle" class="zh tag">ANSWER</text>
+  <text x="98" y="516" class="zh b">① 到上限就插入 answer delimiter</text>
+  <text x="98" y="550" class="zh b">② 可追加 “Final Answer:” 防止继续推理</text>
+  <text x="98" y="586" class="zh small">优势：预算上界可保证　·　风险：过早截断使答案不完整</text>
+
+  <rect x="750" y="342" width="620" height="286" rx="24" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+  <text x="778" y="386" class="zh h">Scale up：忽略结束符并追加 Wait</text>
+  <rect x="778" y="424" width="145" height="44" rx="12" fill="#155e75"/><text x="850" y="452" text-anchor="middle" class="zh tag">FIRST TRY</text>
+  <rect x="923" y="424" width="100" height="44" rx="12" fill="#4c1d2f"/><text x="973" y="452" text-anchor="middle" class="zh tag">END ×</text>
+  <rect x="1023" y="424" width="85" height="44" rx="12" fill="#a78bfa"/><text x="1065" y="452" text-anchor="middle" class="zh tag">WAIT</text>
+  <rect x="1108" y="424" width="225" height="44" rx="12" fill="#0e7490"/><text x="1220" y="452" text-anchor="middle" class="zh tag">RECHECK / REVISE</text>
+  <text x="778" y="516" class="zh b">① 模型尝试结束时，移除 stop delimiter</text>
+  <text x="778" y="550" class="zh b">② 将旧轨迹 + Wait 作为新上下文继续解码</text>
+  <text x="778" y="586" class="zh small">可重复 2 / 4 / 6 次；不是给任意模型的普通 prompt 魔法</text>
+
+  <rect x="70" y="678" width="1300" height="126" rx="24" fill="#123a4b" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="720" class="zh h">一个容易忽略的工程约束</text>
+  <text x="98" y="758" class="zh b">总上下文仍受 32,768 token 上限约束；官方实现会为 answer 预留空间，并把每次续写的旧 token 重新送入 vLLM</text>
+  <text x="98" y="788" class="zh small">延长过多可能进入重复循环；论文观测到 AIME24 在约 6× 后趋平，而非“Wait 越多越正确”</text>
+  <text x="720" y="858" text-anchor="middle" class="zh sub">控制的是实际解码边界；token / step / class prompt 只能表达愿望，模型可能不遵守或绕开约束</text>
+</svg>

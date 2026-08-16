@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">HELM 从无限场景空间到 42 个实现场景</title>
+  <desc id="desc">任务、领域、语言组成抽象场景，论文选择16个核心场景与26个定向场景。</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#061421"/><stop offset="1" stop-color="#171128"/></linearGradient><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0l10 5-10 5z" fill="#77dfff"/></marker></defs>
+  <rect width="1440" height="900" rx="32" fill="url(#bg)"/>
+  <text x="70" y="80" fill="#f4f8ff" font-family="Inter, PingFang SC, sans-serif" font-size="38" font-weight="700">场景不是数据集名，而是“任务 × 领域 × 语言”的使用愿望</text>
+  <text x="70" y="124" fill="#93a9c4" font-family="Inter, PingFang SC, sans-serif" font-size="21">抽象 taxonomy 用来暴露空白；具体 benchmark 只是其中一个有版本号的切片</text>
+  <g font-family="Inter, PingFang SC, sans-serif">
+    <g transform="translate(78 195)">
+      <rect width="420" height="540" rx="34" fill="#0a2131" stroke="#3bcff5" stroke-width="2" stroke-dasharray="12 8"/>
+      <text x="210" y="55" text-anchor="middle" fill="#dff9ff" font-size="27" font-weight="700">抽象场景空间（开放世界）</text>
+      <g transform="translate(56 105)">
+        <rect width="308" height="92" rx="20" fill="#123649"/><text x="28" y="40" fill="#57dcff" font-size="19">TASK</text><text x="28" y="70" fill="#eefbff" font-size="23">问答 / 摘要 / 检索 / …</text>
+        <rect y="122" width="308" height="136" rx="20" fill="#292044"/><text x="28" y="158" fill="#b89fff" font-size="19">DOMAIN</text><text x="28" y="191" fill="#f4efff" font-size="21">what：主题、体裁、语域</text><text x="28" y="220" fill="#d8cced" font-size="18">when：时间　 who：群体</text>
+        <rect y="288" width="308" height="92" rx="20" fill="#3a2817"/><text x="28" y="326" fill="#ffc577" font-size="19">LANGUAGE</text><text x="28" y="356" fill="#fff7e9" font-size="23">英语 / 中文 / 多语 / …</text>
+      </g>
+      <text x="210" y="515" text-anchor="middle" fill="#ffca86" font-size="18">HELM 论文版：仅英语，领域覆盖仍有限</text>
+    </g>
+    <path d="M520 465h125" stroke="#77dfff" stroke-width="4" marker-end="url(#a)"/>
+    <text x="583" y="445" text-anchor="middle" fill="#83a8bc" font-size="17">选择与实现</text>
+    <g transform="translate(665 178)">
+      <rect width="700" height="585" rx="36" fill="#10192b" stroke="#7568a1" stroke-width="2"/>
+      <text x="350" y="58" text-anchor="middle" fill="#f3f1ff" font-size="29" font-weight="700">论文实际评测：42 个场景</text>
+      <g transform="translate(36 98)">
+        <rect width="628" height="205" rx="26" fill="#102c3a" stroke="#35cff5"/>
+        <text x="28" y="44" fill="#55dcff" font-size="23" font-weight="700">16 个核心场景</text>
+        <text x="28" y="83" fill="#e7faff" font-size="20">问答 9　·　检索 2　·　摘要 2</text>
+        <text x="28" y="119" fill="#e7faff" font-size="20">情感分析 1　·　毒性检测 1　·　RAFT 分类 1</text>
+        <text x="28" y="165" fill="#91bbca" font-size="17">NaturalQuestions、MMLU、TruthfulQA、MS MARCO、XSUM…</text>
+      </g>
+      <g transform="translate(36 329)">
+        <rect width="628" height="205" rx="26" fill="#291f3e" stroke="#a889ff"/>
+        <text x="28" y="44" fill="#bea8ff" font-size="23" font-weight="700">26 个定向场景</text>
+        <text x="28" y="83" fill="#f4efff" font-size="19">语言 · 知识 · 推理 · 记忆与版权</text>
+        <text x="28" y="119" fill="#f4efff" font-size="19">虚假信息 · 偏见 · 毒性</text>
+        <text x="28" y="165" fill="#b6a8cc" font-size="17">The Pile、WikiFact、GSM8K、HumanEval、BBQ、BOLD…</text>
+      </g>
+    </g>
+    <rect x="195" y="790" width="1050" height="64" rx="18" fill="#171627" stroke="#594e75" stroke-dasharray="9 7"/>
+    <text x="720" y="830" text-anchor="middle" fill="#c1b5d2" font-size="20">“42”不是完整世界：它是一组可检查、可扩展、可替换的操作化选择</text>
+  </g>
+</svg>

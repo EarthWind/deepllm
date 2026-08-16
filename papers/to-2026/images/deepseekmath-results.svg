@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeekMath Base、Instruct 与 RL 的数学评测结果</title>
+  <desc id="desc">分图展示 Base 模型与代表基础模型的 MATH 成绩，以及 DeepSeekMath Instruct 和 RL 在 GSM8K、MATH、CMATH 上的 CoT Top-1 成绩。</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#161137"/></linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#14b8a6"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <style>
+      .zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:40px;font-weight:750;fill:#f8fafc}.s{font-size:18px;fill:#a5b4fc}.h{font-size:25px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.n{font-size:19px;font-weight:800;fill:#f8fafc}.axis{stroke:#46617e;stroke-width:2}.grid{stroke:#263d5a;stroke-width:1}.box{fill:#0c223d;stroke:#314b6a;stroke-width:2}
+    </style>
+  </defs>
+  <rect width="1440" height="920" rx="30" fill="url(#bg4)"/>
+  <text x="70" y="72" class="zh t">结果要沿 checkpoint 看：Base 证明预训练，RL 证明组相对优化</text>
+  <text x="70" y="108" class="zh s">论文报告值；右图为 CoT Top-1，不使用外部工具或 majority voting</text>
+
+  <rect x="70" y="156" width="600" height="650" rx="24" class="box"/>
+  <text x="100" y="201" class="zh h">MATH：基础模型的 CoT 表现</text>
+  <text x="100" y="232" class="zh b">不同规模仅用于论文内定位，不是参数公平排名</text>
+  <line x1="242" y1="270" x2="242" y2="708" class="axis"/>
+  <line x1="242" y1="708" x2="620" y2="708" class="axis"/>
+  <g class="zh b">
+    <text x="225" y="714" text-anchor="end">0</text><text x="318" y="740" text-anchor="middle">10</text><text x="394" y="740" text-anchor="middle">20</text><text x="470" y="740" text-anchor="middle">30</text><text x="546" y="740" text-anchor="middle">40</text>
+  </g>
+  <g class="grid"><line x1="318" y1="270" x2="318" y2="708"/><line x1="394" y1="270" x2="394" y2="708"/><line x1="470" y1="270" x2="470" y2="708"/><line x1="546" y1="270" x2="546" y2="708"/></g>
+  <g class="zh b">
+    <text x="222" y="326" text-anchor="end">Mistral 7B</text><text x="222" y="411" text-anchor="end">Llemma 34B</text><text x="222" y="496" text-anchor="end">Minerva 540B</text><text x="222" y="581" text-anchor="end">DeepSeekMath 7B</text>
+  </g>
+  <rect x="242" y="296" width="109" height="44" rx="8" fill="#64748b"/><text x="363" y="326" class="zh n">14.3</text>
+  <rect x="242" y="381" width="192" height="44" rx="8" fill="#8b5cf6"/><text x="446" y="411" class="zh n">25.3</text>
+  <rect x="242" y="466" width="255" height="44" rx="8" fill="#f59e0b"/><text x="509" y="496" class="zh n">33.6</text>
+  <rect x="242" y="551" width="275" height="44" rx="8" fill="url(#bar)"/><text x="529" y="581" class="zh n">36.2</text>
+  <rect x="100" y="758" width="530" height="1" fill="#314b6a"/>
+  <text x="100" y="786" class="zh s">Base 还报告 GSM8K 64.2；这发生在 SFT / RL 之前。</text>
+
+  <rect x="720" y="156" width="650" height="650" rx="24" class="box"/>
+  <text x="750" y="201" class="zh h">SFT → GRPO：三项 CoT Top-1</text>
+  <text x="750" y="232" class="zh b">同一 7B 系列内部比较，虚线表示 100 分满刻度</text>
+  <line x1="824" y1="708" x2="1320" y2="708" class="axis"/>
+  <line x1="824" y1="280" x2="824" y2="708" class="axis"/>
+  <g class="grid"><line x1="824" y1="280" x2="1320" y2="280"/><line x1="824" y1="387" x2="1320" y2="387"/><line x1="824" y1="494" x2="1320" y2="494"/><line x1="824" y1="601" x2="1320" y2="601"/></g>
+  <g class="zh b"><text x="804" y="714" text-anchor="end">0</text><text x="804" y="607" text-anchor="end">25</text><text x="804" y="500" text-anchor="end">50</text><text x="804" y="393" text-anchor="end">75</text><text x="804" y="286" text-anchor="end">100</text></g>
+
+  <rect x="882" y="353" width="62" height="355" rx="10 10 0 0" fill="#8b5cf6"/><rect x="952" y="330" width="62" height="378" rx="10 10 0 0" fill="#22d3ee"/>
+  <text x="913" y="339" text-anchor="middle" class="zh n">82.9</text><text x="983" y="316" text-anchor="middle" class="zh n">88.2</text><text x="948" y="747" text-anchor="middle" class="zh h">GSM8K</text>
+
+  <rect x="1053" y="508" width="62" height="200" rx="10 10 0 0" fill="#8b5cf6"/><rect x="1123" y="487" width="62" height="221" rx="10 10 0 0" fill="#22d3ee"/>
+  <text x="1084" y="494" text-anchor="middle" class="zh n">46.8</text><text x="1154" y="473" text-anchor="middle" class="zh n">51.7</text><text x="1119" y="747" text-anchor="middle" class="zh h">MATH</text>
+
+  <rect x="1224" y="346" width="62" height="362" rx="10 10 0 0" fill="#8b5cf6"/><rect x="1294" y="328" width="62" height="380" rx="10 10 0 0" fill="#22d3ee"/>
+  <text x="1255" y="332" text-anchor="middle" class="zh n">84.6</text><text x="1325" y="314" text-anchor="middle" class="zh n">88.8</text><text x="1290" y="747" text-anchor="middle" class="zh h">CMATH</text>
+
+  <rect x="850" y="767" width="18" height="18" rx="4" fill="#8b5cf6"/><text x="878" y="782" class="zh b">Instruct</text><rect x="1000" y="767" width="18" height="18" rx="4" fill="#22d3ee"/><text x="1028" y="782" class="zh b">RL</text>
+
+  <rect x="70" y="834" width="1300" height="44" rx="22" fill="#162c48"/>
+  <text x="720" y="863" text-anchor="middle" class="zh s">MATH：Instruct 46.8 → RL 51.7（+4.9）；SC@64 可到 60.9，但它是额外的推理时采样预算</text>
+</svg>

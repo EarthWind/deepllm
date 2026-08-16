@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Qwen3 的 36T 数据与三阶段预训练路线</title>
+  <desc id="desc">展示 PDF 识别和合成数据扩充、30T token 多维标注、通用阶段、推理阶段和长上下文阶段，以及 32K 训练长度到 128K 推理外推。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#18123d"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:29px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">36T 不是一次性混匀：先通用，再提纯推理，最后激活长上下文</text>
+  <text x="70" y="108" class="zh sub">相对 Qwen2.5：约 2× token、约 3× 语言覆盖；实例级标签让数据混合不只停留在“来源比例”</text>
+
+  <rect x="70" y="150" width="1300" height="220" rx="26" class="box"/>
+  <text x="100" y="196" class="zh h">数据扩展与标注</text>
+  <g class="zh">
+    <rect x="100" y="232" width="245" height="90" rx="18" fill="#123a4b" stroke="#22d3ee"/><text x="222" y="269" text-anchor="middle" class="b">网页、书籍、多语言</text><text x="222" y="300" text-anchor="middle" class="small">代码 · STEM · reasoning</text>
+    <rect x="385" y="232" width="245" height="90" rx="18" fill="#2d245b" stroke="#a78bfa"/><text x="507" y="269" text-anchor="middle" class="b">PDF-like 文档</text><text x="507" y="300" text-anchor="middle" class="small">Qwen2.5-VL OCR → 2.5 精修</text>
+    <rect x="670" y="232" width="270" height="90" rx="18" fill="#30223d" stroke="#f59e0b"/><text x="805" y="269" text-anchor="middle" class="b">合成 trillions tokens</text><text x="805" y="300" text-anchor="middle" class="small">通用 · Math · Coder 教师</text>
+    <rect x="980" y="218" width="360" height="118" rx="20" fill="#103d3a" stroke="#2dd4bf"/><text x="1010" y="257" class="num">30T+ token 已多维标注</text><text x="1010" y="291" class="b">教育价值 · 领域 · 安全 · 语言</text><text x="1010" y="319" class="small">小 proxy model 消融 → 实例级数据配比</text>
+  </g>
+
+  <text x="70" y="432" class="zh h">三阶段预训练</text>
+  <g class="zh">
+    <rect x="70" y="468" width="370" height="235" rx="24" fill="#123a4b" stroke="#22d3ee" stroke-width="2"/>
+    <text x="100" y="512" class="h">S1 · General</text><text x="100" y="558" class="num">30T+ · 4,096</text>
+    <text x="100" y="600" class="b">语言能力与世界知识</text><text x="100" y="634" class="b">覆盖 119 种语言 / 方言</text><text x="100" y="672" class="small">先建立广泛底座</text>
+    <line x1="440" y1="586" x2="490" y2="586" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="510" y="468" width="370" height="235" rx="24" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="540" y="512" class="h">S2 · Reasoning</text><text x="540" y="558" class="num">约 5T · 4,096</text>
+    <text x="540" y="600" class="b">提高 STEM、代码、推理、合成数据比例</text><text x="540" y="634" class="b">使用更快的学习率衰减</text><text x="540" y="672" class="small">不是 post-training Reasoning RL</text>
+    <line x1="880" y1="586" x2="930" y2="586" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="950" y="450" width="420" height="270" rx="24" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+    <text x="980" y="494" class="h">Long Context</text><text x="980" y="540" class="num">数千亿 token · 32,768</text>
+    <text x="980" y="582" class="b">75% 文档长 16K–32K</text><text x="980" y="616" class="b">25% 文档长 4K–16K</text>
+    <text x="980" y="650" class="b">RoPE base：10K → 1M</text><text x="980" y="684" class="small">ABF + YaRN + DCA → 推理约 4× 外推</text>
+  </g>
+
+  <rect x="70" y="764" width="1300" height="94" rx="22" fill="#103d3a" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="802" class="zh h">长度口径</text>
+  <text x="98" y="836" class="zh b">预训练 packed length = 32K；论文模型表对 4B+ 写 128K 支持，模型卡更明确写 32,768 native + 131,072 YaRN。支持长度不等于原生训练长度。</text>
+</svg>

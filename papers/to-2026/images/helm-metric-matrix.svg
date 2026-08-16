@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">HELM 核心场景与通用指标矩阵</title><desc id="desc">16个核心场景乘7类指标共112个格，论文测量98个即87.5%，缺失值被显式保留。</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#06121e"/><stop offset="1" stop-color="#151025"/></linearGradient><pattern id="cells" x="410" y="202" width="124" height="39" patternUnits="userSpaceOnUse"><rect x="2" y="2" width="118" height="33" rx="7" fill="#17384a" stroke="#398aaa"/><circle cx="106" cy="11" r="4" fill="#55e1ff"/></pattern></defs>
+  <rect width="1440" height="900" rx="32" fill="url(#bg)"/>
+  <text x="65" y="78" fill="#f6f8ff" font-family="Inter, PingFang SC, sans-serif" font-size="38" font-weight="700">核心矩阵：16 个场景 × 7 类指标 = 112 个应答格</text>
+  <text x="65" y="120" fill="#94a8c2" font-family="Inter, PingFang SC, sans-serif" font-size="20">HELM 测得 98 格（87.5%）；其余 14 格保持缺失，而不是填成 0</text>
+  <g font-family="Inter, PingFang SC, sans-serif">
+    <g transform="translate(60 0)">
+    <g fill="#bcd0e3" font-size="15" text-anchor="middle"><text x="475" y="185">准确性</text><text x="599" y="185">校准</text><text x="723" y="185">鲁棒性</text><text x="847" y="185">公平性</text><text x="971" y="185">偏见</text><text x="1095" y="185">毒性</text><text x="1219" y="185">效率</text></g>
+    <g fill="#adc1d4" font-size="15" text-anchor="end">
+      <text x="385" y="229">NQ 开卷</text><text x="385" y="268">NQ 闭卷</text><text x="385" y="307">NarrativeQA</text><text x="385" y="346">QuAC</text><text x="385" y="385">BoolQ</text><text x="385" y="424">HellaSwag</text><text x="385" y="463">OpenBookQA</text><text x="385" y="502">TruthfulQA</text><text x="385" y="541">MMLU</text><text x="385" y="580">MS MARCO</text><text x="385" y="619">MS MARCO TREC</text><text x="385" y="658">CNN/DailyMail</text><text x="385" y="697">XSUM</text><text x="385" y="736">IMDB</text><text x="385" y="775">CivilComments</text><text x="385" y="814">RAFT</text>
+    </g>
+    <rect x="410" y="202" width="868" height="624" fill="url(#cells)"/>
+    <!-- 14 deliberately missing cells; this diagram shows count, not exact paper cell identities. -->
+    <g fill="#0a111d" stroke="#525b6c" stroke-width="2" stroke-dasharray="5 4"><rect x="908" y="204" width="118" height="33" rx="7"/><rect x="1032" y="204" width="118" height="33" rx="7"/><rect x="908" y="243" width="118" height="33" rx="7"/><rect x="1032" y="243" width="118" height="33" rx="7"/><rect x="660" y="282" width="118" height="33" rx="7"/><rect x="784" y="282" width="118" height="33" rx="7"/><rect x="908" y="633" width="118" height="33" rx="7"/><rect x="1032" y="633" width="118" height="33" rx="7"/><rect x="660" y="672" width="118" height="33" rx="7"/><rect x="784" y="672" width="118" height="33" rx="7"/><rect x="908" y="672" width="118" height="33" rx="7"/><rect x="1032" y="672" width="118" height="33" rx="7"/><rect x="660" y="711" width="118" height="33" rx="7"/><rect x="784" y="711" width="118" height="33" rx="7"/></g>
+    </g>
+    <g transform="translate(70 245)"><rect width="245" height="245" rx="28" fill="#102a38" stroke="#35d5fa"/><text x="122" y="64" text-anchor="middle" fill="#57e1ff" font-size="54" font-weight="800">98 / 112</text><text x="122" y="106" text-anchor="middle" fill="#e5faff" font-size="22">87.5% 覆盖</text><path d="M50 156h145" stroke="#345a6b" stroke-width="18" stroke-linecap="round"/><path d="M50 156h127" stroke="#52dcff" stroke-width="18" stroke-linecap="round"/><text x="122" y="207" text-anchor="middle" fill="#9fc3d2" font-size="16">论文版 core matrix</text></g>
+    <g transform="translate(70 555)"><rect width="245" height="180" rx="26" fill="#261e38" stroke="#8674b6"/><rect x="28" y="35" width="42" height="26" rx="6" fill="#17384a" stroke="#398aaa"/><text x="86" y="54" fill="#d7eaff" font-size="17">已测量</text><rect x="28" y="87" width="42" height="26" rx="6" fill="#0a111d" stroke="#525b6c" stroke-dasharray="5 4"/><text x="86" y="106" fill="#c5b9d3" font-size="17">原则性缺失</text><text x="28" y="151" fill="#a99aba" font-size="15">图中暗格位置为示意</text></g>
+    <text x="850" y="865" text-anchor="middle" fill="#ffca82" font-size="17">长文本摘要上的某些扰动/公平性指标缺乏效度，选择题也未必产生可供毒性/偏见分析的长生成</text>
+  </g>
+</svg>

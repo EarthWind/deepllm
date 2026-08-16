@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Kimi k1.5 的 online policy mirror descent</title>
+  <desc id="desc">展示每轮冻结参考策略、组内多回答、均值奖励基线、正负梯度与平方对数概率比约束，并与 PPO、GRPO 和 ReST 区分。</desc>
+  <defs><linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#17113b"/></linearGradient><marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker><style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px;fill:#cffafe}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.num{font-size:30px;font-weight:800;fill:#67e8f9}</style></defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg2)"/>
+  <text x="70" y="72" class="zh title">策略优化：每一轮都把当前策略变成下一轮的镜面中心</text>
+  <text x="70" y="108" class="zh sub">组内 outcome reward 提供方向；平方 log-ratio 防止一次更新离 reference 太远</text>
+
+  <g class="zh">
+    <rect x="70" y="160" width="250" height="190" rx="24" class="box"/>
+    <text x="96" y="204" class="h">① 冻结本轮 reference</text><text x="96" y="250" class="mono">π_ref = π_θᵢ</text><text x="96" y="290" class="b">同一 prompt 采样 k 条</text><text x="96" y="320" class="small">下一轮 reference 再刷新</text>
+    <line x1="320" y1="255" x2="372" y2="255" stroke="#67e8f9" stroke-width="5" marker-end="url(#arr2)"/>
+    <rect x="390" y="145" width="300" height="220" rx="24" class="box"/>
+    <text x="416" y="190" class="h">② Verifier 给最终结果</text>
+    <rect x="416" y="220" width="74" height="62" rx="14" fill="#14532d"/><text x="453" y="258" text-anchor="middle" class="num">1</text>
+    <rect x="504" y="220" width="74" height="62" rx="14" fill="#4c1d2f"/><text x="541" y="258" text-anchor="middle" class="num">0</text>
+    <rect x="592" y="220" width="74" height="62" rx="14" fill="#14532d"/><text x="629" y="258" text-anchor="middle" class="num">1</text>
+    <text x="416" y="320" class="mono">Aⱼ = rⱼ − mean(r)</text>
+    <line x1="690" y1="255" x2="742" y2="255" stroke="#67e8f9" stroke-width="5" marker-end="url(#arr2)"/>
+    <rect x="760" y="145" width="610" height="220" rx="24" fill="#2a2056" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="788" y="190" class="h">③ 论文公式 (3) 的梯度 proxy</text>
+    <text x="788" y="236" class="mono">maximize  Aⱼ log πθ(yⱼ,zⱼ|x)</text>
+    <text x="788" y="278" class="mono">          − τ/2 · [log πθ − log πref]²</text>
+    <text x="788" y="322" class="b">正确高于组均值 → 上推；错误低于组均值 → 负梯度</text>
+  </g>
+
+  <rect x="70" y="415" width="700" height="270" rx="24" class="box"/>
+  <text x="98" y="460" class="zh h">闭式目标说明 mirror descent 在做什么</text>
+  <text x="98" y="510" class="mono">π*(y,z|x) ∝ πref(y,z|x) · exp[r/τ]</text>
+  <text x="98" y="555" class="zh b">reward 高的轨迹被指数重加权；reference 决定更新前的概率质量</text>
+  <text x="98" y="593" class="zh b">τ 小：更激进地追逐 reward　　τ 大：更保守地靠近旧策略</text>
+  <text x="98" y="635" class="zh small">实现中用 sampled reward mean 近似 τ log Z，并在每轮开始重置 optimizer</text>
+
+  <rect x="810" y="415" width="560" height="270" rx="24" fill="#102a46" stroke="#f59e0b" stroke-width="2"/>
+  <text x="838" y="460" class="zh h">不要把它直接叫作 PPO / GRPO</text>
+  <text x="838" y="506" class="zh b">• 无 PPO clipping，也不训练 critic/value network</text>
+  <text x="838" y="544" class="zh b">• 与 group-baseline 方法相似，但 reference 每轮刷新</text>
+  <text x="838" y="582" class="zh b">• 正则是整条序列 log-ratio 的平方项</text>
+  <text x="838" y="620" class="zh b">• ReST 只拟合最好回答；这里还惩罚低奖励回答</text>
+  <text x="838" y="652" class="zh small">“相似”不等于目标、采样分布和更新规则相同</text>
+
+  <rect x="70" y="725" width="1300" height="92" rx="22" fill="#123a4b" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="762" class="zh h">为何刻意不要 value network？</text>
+  <text x="98" y="798" class="zh b">一次错误尝试若最终成功纠正，outcome reward 可把“试错—恢复”整体保留下来；逐步 value 可能过早惩罚有用绕路</text>
+  <text x="720" y="860" text-anchor="middle" class="zh sub">这是论文的训练假设与经验选择，不是“value function 对所有 reasoning RL 都无用”的定理</text>
+</svg>

@@ -522,20 +522,20 @@
 | 53 | [Training Verifiers (2021)](https://arxiv.org/abs/2110.14168) — `Training Verifiers to Solve Math Word Problems` · [中文详解](53_Training_Verifiers_2021_原理.md) | 把生成候选与验证答案分开，预示 verifier 和 test-time sampling 的推理路线。 | GSM8K、solution verifier、采样后排序。 |
 | 54 | [WebGPT (2021)](https://arxiv.org/abs/2112.09332) — `Browser-assisted Question-answering with Human Feedback` · [中文详解](54_WebGPT_2021_原理.md) | 把浏览、引用和人类偏好结合，是联网问答 Agent 与可追溯回答的重要前身。 | 行为克隆、浏览环境、引用支持、reward model。 |
 | 55 | [STaR (2022)](https://arxiv.org/abs/2203.14465) — `Self-Taught Reasoner: Bootstrapping Reasoning With Reasoning` · [中文详解](55_STaR_2022_原理.md) | 用模型生成并筛选 rationale，再反复微调，开创推理轨迹自举路线。 | rationale filtering、rationalization、迭代自训练。 |
-| 56 | [GPT-4 Technical Report (2023)](https://arxiv.org/abs/2303.08774) | 历史与评测价值很高，但架构、数据和训练细节披露有限，不适合作为可复现方法论文读。 | 多模态能力、可预测扩展、风险评测，以及“没有披露什么”。 |
-| 57 | [DeepSeekMath (2024)](https://arxiv.org/abs/2402.03300) | 系统展示数学数据工程，并首次提出后来用于 R1 的 GRPO。 | 数学语料筛选、continued pretraining、GRPO。 |
-| 58 | [Scaling LLM Test-Time Compute Optimally (2024)](https://arxiv.org/abs/2408.03314) | 把推理时计算当作可分配预算，说明何时搜索/验证比单纯增大模型更有效。 | 难度自适应预算、PRM 搜索、best-of-N 基线。 |
-| 59 | [Llama 3 (2024)](https://arxiv.org/abs/2407.21783) — `The Llama 3 Herd of Models` | 是开放前沿模型在预训练、后训练、多语言、工具和安全上的完整经验总结。 | 15T token 级训练、数据过滤、SFT/RLHF/DPO、安全评测。 |
-| 60 | [Kimi k1.5 (2025)](https://arxiv.org/abs/2501.12599) — `Scaling Reinforcement Learning with LLMs` | 展示长上下文 RL 与 long-to-short 蒸馏如何同时推动文本和多模态推理。 | long-CoT RL、长度课程、策略优化、long2short。 |
-| 61 | [s1 (2025)](https://arxiv.org/abs/2501.19393) — `Simple Test-Time Scaling` | 说明精挑的 1,000 条推理轨迹和简单 budget forcing 也能产生强推理行为。 | 数据质量/难度/多样性、budget forcing、复现实验边界。 |
-| 62 | [Qwen3 (2025)](https://arxiv.org/abs/2505.09388) — `Qwen3 Technical Report` | 把 thinking 与 non-thinking 统一在一套模型中，并提供显式思考预算。 | 混合推理模式、thinking budget、强到弱蒸馏、多语言。 |
+| 56 | [GPT-4 Technical Report (2023)](https://arxiv.org/abs/2303.08774) · [中文详解](56_GPT4_2023_原理.md) | 历史与评测价值很高，但架构、数据和训练细节披露有限，不适合作为可复现方法论文读。 | 多模态能力、可预测扩展、风险评测，以及“没有披露什么”。 |
+| 57 | [DeepSeekMath (2024)](https://arxiv.org/abs/2402.03300) · [中文详解](57_DeepSeekMath_2024_原理.md) | 系统展示数学数据工程，并首次提出后来用于 R1 的 GRPO。 | 数学语料筛选、continued pretraining、GRPO。 |
+| 58 | [Scaling LLM Test-Time Compute Optimally (2024)](https://arxiv.org/abs/2408.03314) · [中文详解](58_Scaling_Test_Time_Compute_2024_原理.md) | 把推理时计算当作可分配预算，说明何时搜索/验证比单纯增大模型更有效。 | 难度自适应预算、PRM 搜索、best-of-N 基线。 |
+| 59 | [Llama 3 (2024)](https://arxiv.org/abs/2407.21783) — `The Llama 3 Herd of Models` · [中文详解](59_Llama3_2024_原理.md) | 是开放前沿模型在预训练、后训练、多语言、工具和安全上的完整经验总结。 | 15T token 级训练、数据过滤、SFT/RLHF/DPO、安全评测。 |
+| 60 | [Kimi k1.5 (2025)](https://arxiv.org/abs/2501.12599) — `Scaling Reinforcement Learning with LLMs` · [中文详解](60_Kimi_k1.5_2025_原理.md) | 展示长上下文 RL 与 long-to-short 蒸馏如何同时推动文本和多模态推理。 | long-CoT RL、长度课程、策略优化、long2short。 |
+| 61 | [s1 (2025)](https://arxiv.org/abs/2501.19393) — `Simple Test-Time Scaling` · [中文详解](61_s1_2025_原理.md) | 说明精挑的 1,000 条推理轨迹和简单 budget forcing 也能产生强推理行为。 | 数据质量/难度/多样性、budget forcing、复现实验边界。 |
+| 62 | [Qwen3 (2025)](https://arxiv.org/abs/2505.09388) — `Qwen3 Technical Report` · [中文详解](62_Qwen3_2025_原理.md) | 把 thinking 与 non-thinking 统一在一套模型中，并提供显式思考预算。 | 混合推理模式、thinking budget、强到弱蒸馏、多语言。 |
 
 ### 3.4 RAG、Agent、长上下文与评测
 
 | 编号 | 论文 | 为什么值得读 | 阅读重点 |
 |---:|---|---|---|
-| 63 | [TruthfulQA (2021)](https://arxiv.org/abs/2109.07958) | 专门测试模型是否模仿人类常见谬误，提醒“更大”不自动等于“更真实”。 | imitation falsehood、真实性与信息量、评测者偏差。 |
-| 64 | [HELM (2022)](https://arxiv.org/abs/2211.09110) — `Holistic Evaluation of Language Models` | 把准确率之外的校准、鲁棒性、公平、偏见、毒性和效率纳入统一评测。 | 场景覆盖、多指标权衡、透明可复现评测。 |
+| 63 | [TruthfulQA (2021)](https://arxiv.org/abs/2109.07958) · [中文详解](63_TruthfulQA_2021_原理.md) | 专门测试模型是否模仿人类常见谬误，提醒“更大”不自动等于“更真实”。 | imitation falsehood、真实性与信息量、评测者偏差。 |
+| 64 | [HELM (2022)](https://arxiv.org/abs/2211.09110) — `Holistic Evaluation of Language Models` · [中文详解](64_HELM_2022_原理.md) | 把准确率之外的校准、鲁棒性、公平、偏见、毒性和效率纳入统一评测。 | 场景覆盖、多指标权衡、透明可复现评测。 |
 | 65 | [Reflexion (2023)](https://arxiv.org/abs/2303.11366) — `Language Agents with Verbal Reinforcement Learning` | 用语言化反馈和记忆改进下一轮尝试，影响了大量自反思 Agent 设计。 | 轨迹反馈、episodic memory、无需更新权重的改进。 |
 | 66 | [Generative Agents (2023)](https://arxiv.org/abs/2304.03442) — `Generative Agents: Interactive Simulacra of Human Behavior` | 展示记忆、反思与计划如何组成持续运行的社会型 Agent。 | memory stream、重要性/时近性/相关性检索、反思与规划。 |
 | 67 | [Voyager (2023)](https://arxiv.org/abs/2305.16291) — `An Open-Ended Embodied Agent with Large Language Models` | 把自动课程、技能库和迭代提示结合到开放世界具身学习。 | skill library、automatic curriculum、环境反馈与代码执行。 |
@@ -683,9 +683,9 @@
 ### G. 如果你重点看评测
 
 - [MMLU (2020)](https://arxiv.org/abs/2009.03300)：大规模多任务知识与理解评测。
-- [TruthfulQA (2021)](https://arxiv.org/abs/2109.07958)：模型是否复述常见谬误。
+- [TruthfulQA (2021)](https://arxiv.org/abs/2109.07958) · [中文详解](63_TruthfulQA_2021_原理.md)：模型是否复述常见谬误。
 - [BIG-bench (2022)](https://arxiv.org/abs/2206.04615)：大规模协作式任务集合与能力边界。
-- [HELM (2022)](https://arxiv.org/abs/2211.09110)：多场景、多指标、透明评测。
+- [HELM (2022)](https://arxiv.org/abs/2211.09110) · [中文详解](64_HELM_2022_原理.md)：多场景、多指标、透明评测。
 - [MT-Bench / Chatbot Arena (2023)](https://arxiv.org/abs/2306.05685)：LLM judge 与人类两两偏好。
 - [SWE-bench (2023)](https://arxiv.org/abs/2310.06770)：真实软件工程任务。
 
