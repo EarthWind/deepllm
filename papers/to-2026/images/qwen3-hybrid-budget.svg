@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Qwen3 混合思考模式、软硬开关与最大 thinking budget</title>
+  <desc id="desc">展示默认 thinking、enable_thinking 硬开关、最后一个 think 或 no_think 指令生效、非思考空 block，以及达到预算后插入停止指令并转答案。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#18123d"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:27px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:16px;fill:#ddd6fe}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">“统一模式”靠训练格式与生成边界，不是模型自动判断题目难度</text>
+  <text x="70" y="108" class="zh sub">硬开关决定是否允许 thinking；软 flag 支持逐轮切换；thinking budget 只提供最大上限</text>
+
+  <rect x="70" y="150" width="630" height="286" rx="26" class="box"/>
+  <text x="100" y="196" class="zh h">模式解析优先级</text>
+  <g class="zh">
+    <rect x="100" y="232" width="250" height="72" rx="18" fill="#30223d" stroke="#f59e0b"/><text x="225" y="261" text-anchor="middle" class="b">enable_thinking=False</text><text x="225" y="288" text-anchor="middle" class="small">硬关闭，严格 non-thinking</text>
+    <text x="380" y="276" class="num">优先</text>
+    <rect x="100" y="330" width="250" height="72" rx="18" fill="#2d245b" stroke="#a78bfa"/><text x="225" y="359" text-anchor="middle" class="b">enable_thinking=True</text><text x="225" y="386" text-anchor="middle" class="small">允许软 flag 控制</text>
+    <text x="380" y="359" class="mono">system: /no_think</text><text x="380" y="390" class="mono">user:   /think  ← last wins</text>
+  </g>
+
+  <rect x="740" y="150" width="630" height="286" rx="26" fill="#241d48" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="770" y="196" class="zh h">同一格式空间中的两种 SFT target</text>
+  <g class="zh">
+    <rect x="770" y="232" width="270" height="156" rx="18" fill="#2d245b" stroke="#a78bfa"/>
+    <text x="798" y="268" class="h">Thinking</text><text x="798" y="304" class="mono">&lt;think&gt;</text><text x="798" y="332" class="mono">reasoning...</text><text x="798" y="360" class="mono">&lt;/think&gt; answer</text>
+    <rect x="1070" y="232" width="270" height="156" rx="18" fill="#3a2a18" stroke="#f59e0b"/>
+    <text x="1098" y="268" class="h">Non-thinking</text><text x="1098" y="304" class="mono">&lt;think&gt;</text><text x="1098" y="332" class="mono">[ empty ]</text><text x="1098" y="360" class="mono">&lt;/think&gt; answer</text>
+    <text x="770" y="416" class="small">默认 thinking；多轮对话中随机插 flag 训练“最后一个指令生效”</text>
+  </g>
+
+  <rect x="70" y="486" width="1300" height="270" rx="26" class="box"/>
+  <text x="100" y="532" class="zh h">最大 thinking budget：截断式 scale down</text>
+  <g class="zh">
+    <rect x="100" y="575" width="190" height="62" rx="16" fill="#155e75" stroke="#22d3ee"/><text x="195" y="613" text-anchor="middle" class="b">计划 / 推导</text>
+    <rect x="290" y="575" width="190" height="62" rx="16" fill="#0e7490" stroke="#22d3ee"/><text x="385" y="613" text-anchor="middle" class="b">检查 / 回退</text>
+    <rect x="480" y="575" width="190" height="62" rx="16" fill="#6d28d9" stroke="#a78bfa"/><text x="575" y="613" text-anchor="middle" class="b">继续推理</text>
+    <line x1="670" y1="555" x2="670" y2="660" stroke="#fbbf24" stroke-width="6"/>
+    <text x="670" y="690" text-anchor="middle" class="num">BUDGET</text>
+    <line x1="675" y1="606" x2="735" y2="606" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="755" y="555" width="300" height="102" rx="18" fill="#30223d" stroke="#f59e0b"/>
+    <text x="782" y="592" class="h">插入 stop-thinking 指令</text><text x="782" y="626" class="small">要求基于已积累 reasoning 立即解答</text>
+    <line x1="1055" y1="606" x2="1115" y2="606" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="1135" y="575" width="205" height="62" rx="16" fill="#166534" stroke="#2dd4bf"/><text x="1238" y="613" text-anchor="middle" class="b">Final answer</text>
+    <text x="100" y="724" class="small">若模型在阈值前自然结束，则不插入；报告未提供“强制至少思考 N token”的机制</text>
+  </g>
+  <rect x="70" y="800" width="1300" height="62" rx="20" fill="#30223d" stroke="#f59e0b"/>
+  <text x="720" y="839" text-anchor="middle" class="zh b">与 s1 的关键差异：Qwen3 报告的是到上限后停思考；没有通过忽略结束符 + Wait 来强制 scale up</text>
+</svg>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeekMath 三阶段训练流水线</title>
+  <desc id="desc">从 DeepSeek-Coder-Base-v1.5 7B 出发，使用 500B token 混合语料继续预训练得到 Base，再以 776K 样本监督微调，最后用约 144K 问题和 GRPO 得到 RL 模型。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#18113d"/></linearGradient>
+    <linearGradient id="c1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="c2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    <linearGradient id="c3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#fbbf24"/></linearGradient>
+    <marker id="a2" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6 0 12Z" fill="#67e8f9"/></marker>
+    <style>
+      .zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:40px;font-weight:750;fill:#f8fafc}.s{font-size:19px;fill:#a5b4fc}.h{font-size:25px;font-weight:750;fill:#f8fafc}.b{font-size:18px;fill:#cbd5e1}.n{font-size:31px;font-weight:800;fill:#f8fafc}.box{fill:#0c2340;stroke:#345174;stroke-width:2}.chip{font-size:15px;font-weight:800;fill:#071426}
+    </style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg2)"/>
+  <text x="70" y="72" class="zh t">DeepSeekMath 不是“只做一次 RL”：它有三个可分离的检查点</text>
+  <text x="70" y="108" class="zh s">数据与 continued pretraining 建能力，SFT 建立输出范式，GRPO 再改变正确答案在采样分布中的权重</text>
+
+  <rect x="70" y="170" width="270" height="160" rx="22" class="box"/>
+  <text x="94" y="216" class="zh s">初始化检查点</text>
+  <text x="94" y="258" class="zh h">DeepSeek-Coder</text>
+  <text x="94" y="291" class="zh h">Base v1.5 · 7B</text>
+  <text x="94" y="317" class="zh b">学习率衰减前 checkpoint</text>
+  <path d="M340 250H400" stroke="#67e8f9" stroke-width="4" marker-end="url(#a2)"/>
+
+  <rect x="410" y="150" width="300" height="200" rx="24" fill="url(#c1)"/>
+  <text x="438" y="194" class="zh chip">STAGE 1 · CONTINUED PRETRAINING</text>
+  <text x="438" y="242" class="zh h">DeepSeekMath-Base</text>
+  <text x="438" y="281" class="zh h">7B · 500B tokens</text>
+  <text x="438" y="317" class="zh chip">max LR 4.2e−4 · batch 10M · 4K</text>
+  <path d="M710 250H770" stroke="#67e8f9" stroke-width="4" marker-end="url(#a2)"/>
+
+  <rect x="780" y="150" width="270" height="200" rx="24" fill="url(#c2)"/>
+  <text x="807" y="194" class="zh chip">STAGE 2 · SFT</text>
+  <text x="807" y="244" class="zh n">Math-Instruct</text>
+  <text x="807" y="281" class="zh h">776K examples</text>
+  <text x="807" y="317" class="zh chip">CoT · PoT · tool-integrated</text>
+  <path d="M1050 250H1110" stroke="#67e8f9" stroke-width="4" marker-end="url(#a2)"/>
+
+  <rect x="1120" y="150" width="250" height="200" rx="24" fill="url(#c3)"/>
+  <text x="1147" y="194" class="zh chip">STAGE 3 · GRPO</text>
+  <text x="1147" y="244" class="zh n">DeepSeekMath-RL</text>
+  <text x="1147" y="281" class="zh h">≈144K questions</text>
+  <text x="1147" y="317" class="zh chip">G=64 · KL β=0.04</text>
+
+  <text x="70" y="430" class="zh h">500B token 的 continued-pretraining 混合</text>
+  <rect x="70" y="466" width="728" height="72" rx="16" fill="#22d3ee"/>
+  <rect x="798" y="466" width="52" height="72" fill="#8b5cf6"/>
+  <rect x="850" y="466" width="130" height="72" fill="#c084fc"/>
+  <rect x="980" y="466" width="260" height="72" fill="#f59e0b"/>
+  <rect x="1240" y="466" width="130" height="72" rx="0 16 16 0" fill="#64748b"/>
+  <text x="434" y="510" text-anchor="middle" class="zh h" fill="#071426">56% · DeepSeekMath Corpus · 280B consumed</text>
+  <text x="824" y="510" text-anchor="middle" class="zh chip">4%</text>
+  <text x="915" y="510" text-anchor="middle" class="zh chip">10% arXiv</text>
+  <text x="1110" y="510" text-anchor="middle" class="zh chip">20% GitHub code</text>
+  <text x="1305" y="510" text-anchor="middle" class="zh chip">10% NL</text>
+  <text x="70" y="573" class="zh b">AlgebraicStack 4% = 20B</text>
+  <text x="338" y="573" class="zh b">arXiv 10% = 50B</text>
+  <text x="585" y="573" class="zh b">GitHub code 20% = 100B</text>
+  <text x="920" y="573" class="zh b">中英自然语言 10% = 50B</text>
+
+  <rect x="70" y="637" width="1300" height="179" rx="24" class="box"/>
+  <text x="99" y="680" class="zh h">两个常被混淆的 token 数</text>
+  <circle cx="117" cy="728" r="9" fill="#22d3ee"/>
+  <text x="142" y="735" class="zh b"><tspan font-weight="700" fill="#67e8f9">120B</tspan> 是筛选后数学网页语料库的独立规模。</text>
+  <circle cx="117" cy="774" r="9" fill="#fbbf24"/>
+  <text x="142" y="781" class="zh b"><tspan font-weight="700" fill="#fde68a">500B</tspan> 是 Base 阶段实际读过的总 token；其中数学网页占 280B，意味着会重复采样。</text>
+  <text x="844" y="704" class="zh h">能力归因要按 checkpoint 分层</text>
+  <text x="844" y="742" class="zh b">Base 的提升不能归给 GRPO</text>
+  <text x="844" y="776" class="zh b">RL 的增益也不能反推为“预训练数据无关”</text>
+  <text x="720" y="862" text-anchor="middle" class="zh s">三阶段共同构成系统，但论文给出的消融证据强度并不相同</text>
+</svg>

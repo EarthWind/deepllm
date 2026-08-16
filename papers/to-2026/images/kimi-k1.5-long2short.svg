@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Kimi k1.5 的四种 long2short 方法</title>
+  <desc id="desc">比较模型权重平均、最短正确拒绝采样、长度偏好 DPO 和缩短 rollout 上限的二阶段强化学习。</desc>
+  <defs><linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#17113c"/></linearGradient><marker id="a5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#5eead4"/></marker><style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:16px;fill:#cffafe}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.num{font-size:32px;font-weight:800;fill:#67e8f9}.tag{font-size:14px;font-weight:800;fill:#071426}</style></defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg5)"/>
+  <text x="70" y="72" class="zh title">Long2short：把探索得到的能力，重新压进可部署的 token 预算</text>
+  <text x="70" y="108" class="zh sub">不是删除“废话”这么简单，而是同时优化 correctness 与 response length 的 Pareto 前沿</text>
+
+  <rect x="70" y="155" width="1300" height="150" rx="24" class="box"/>
+  <text x="98" y="200" class="zh h">同一道题的 long-CoT 候选</text>
+  <rect x="98" y="230" width="780" height="38" rx="12" fill="#3b2d70"/><text x="115" y="255" class="zh small">尝试 A → 发现错误 → 回退 → 尝试 B → 验证 → 正确答案</text>
+  <path d="M900 249 C975 190 1040 305 1110 238 C1170 183 1230 280 1320 225" fill="none" stroke="#67e8f9" stroke-width="8"/>
+  <text x="1120" y="285" text-anchor="middle" class="zh small">目标：更短，但别丢掉会纠错的先验</text>
+
+  <g class="zh">
+    <rect x="70" y="355" width="290" height="280" rx="24" class="box"/>
+    <rect x="94" y="378" width="92" height="30" rx="15" fill="#22d3ee"/><text x="140" y="398" text-anchor="middle" class="tag">MERGE</text>
+    <text x="94" y="450" class="h">权重平均</text><text x="94" y="493" class="mono">θ = (θlong + θshort)/2</text><text x="94" y="536" class="b">无需训练、保留泛化</text><text x="94" y="574" class="small">但无法显式指定目标长度</text>
+
+    <rect x="390" y="355" width="290" height="280" rx="24" class="box"/>
+    <rect x="414" y="378" width="92" height="30" rx="15" fill="#38bdf8"/><text x="460" y="398" text-anchor="middle" class="tag">RS × 8</text>
+    <text x="414" y="450" class="h">最短正确 SFT</text><text x="414" y="493" class="b">同题采样 8 次</text><text x="414" y="531" class="b">只选 shortest correct</text><text x="414" y="574" class="small">前提：可可靠验证 correctness</text>
+
+    <rect x="710" y="355" width="290" height="280" rx="24" class="box"/>
+    <rect x="734" y="378" width="82" height="30" rx="15" fill="#a78bfa"/><text x="775" y="398" text-anchor="middle" class="tag">DPO</text>
+    <text x="734" y="450" class="h">长度偏好对</text><text x="734" y="493" class="b">chosen：最短正确</text><text x="734" y="531" class="b">rejected：更长错误</text><text x="734" y="567" class="b">或 ≥1.5× 的正确回答</text>
+
+    <rect x="1030" y="335" width="340" height="320" rx="24" fill="#2d225a" stroke="#8b5cf6" stroke-width="3"/>
+    <rect x="1054" y="358" width="126" height="30" rx="15" fill="#c084fc"/><text x="1117" y="378" text-anchor="middle" class="tag">SECOND RL</text>
+    <text x="1054" y="430" class="h">Long2short RL</text><text x="1054" y="475" class="b">从性能/长度平衡点出发</text><text x="1054" y="513" class="b">启用 length penalty</text><text x="1054" y="551" class="b">显著缩小 max rollout</text><text x="1054" y="596" class="small">论文图中 token efficiency 最佳</text>
+  </g>
+
+  <rect x="70" y="695" width="1300" height="100" rx="24" fill="#123a4b" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="738" class="zh h">代表性 operating point</text>
+  <text x="430" y="742" class="zh num">AIME 60.8</text><text x="650" y="742" class="zh b">平均 3,272 tokens · 8 次运行均值</text>
+  <text x="1010" y="742" class="zh b">k1.5-short w/ RL</text>
+  <text x="720" y="850" text-anchor="middle" class="zh sub">“短”不是绝对最短：应在准确率—长度曲线上比较同一预算附近的模型，而不是只比较榜单最高点</text>
+</svg>

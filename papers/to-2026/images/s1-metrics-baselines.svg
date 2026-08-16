@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title desc">
+  <title id="title">s1 的测试时扩展指标与方法消融</title>
+  <desc id="desc">解释 Control、Scaling、Performance 三个指标，并列出 budget forcing、token、step、class 条件控制和 rejection sampling 在 AIME24 上的对比。</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#17113c"/></linearGradient>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:23px;font-weight:750;fill:#f8fafc}.b{font-size:16px;fill:#cbd5e1}.small{font-size:14px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:15px;fill:#cffafe}.num{font-size:27px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="920" rx="30" fill="url(#bg4)"/>
+  <text x="70" y="72" class="zh title">只报最高准确率不够：扩展方法还要“可控”和“随预算变强”</text>
+  <text x="70" y="108" class="zh sub">对一组 compute operating points 画分段线性曲线 f(a)，再同时看三个互补指标</text>
+
+  <g class="zh">
+    <rect x="70" y="158" width="400" height="220" rx="24" class="box"/>
+    <text x="98" y="202" class="h">Control · 预算是否真的听话</text>
+    <text x="98" y="248" class="mono">mean 𝟙[a_min ≤ observed ≤ a_max]</text>
+    <text x="98" y="296" class="num">100% = 每个点都落在区间</text>
+    <text x="98" y="338" class="small">衡量 compute 约束，不是答案正确率</text>
+
+    <rect x="520" y="158" width="400" height="220" rx="24" fill="#2d245b" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="548" y="202" class="h">Scaling · 多花 token 是否有用</text>
+    <text x="548" y="248" class="mono">avg_{b&gt;a} [f(b)-f(a)] / (b-a)</text>
+    <text x="548" y="296" class="num">正斜率才是有效扩展</text>
+    <text x="548" y="338" class="small">论文表中的数值按其报告尺度展示</text>
+
+    <rect x="970" y="158" width="400" height="220" rx="24" fill="#123a3c" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="998" y="202" class="h">Performance · 最佳 operating point</text>
+    <text x="998" y="248" class="mono">max_a f(a)</text>
+    <text x="998" y="296" class="num">峰值 ≠ 单调 ≠ 可控</text>
+    <text x="998" y="338" class="small">必须和 token、采样、运行次数一起读</text>
+  </g>
+
+  <rect x="70" y="430" width="1300" height="350" rx="26" class="box"/>
+  <text x="98" y="474" class="zh h">AIME24 方法消融（论文 Table 3）</text>
+  <g class="zh">
+    <text x="112" y="525" class="b">方法</text><text x="500" y="525" class="b">Control</text><text x="720" y="525" class="b">Scaling</text><text x="940" y="525" class="b">Performance</text><text x="1200" y="525" class="b">运行点数</text>
+    <line x1="98" y1="542" x2="1342" y2="542" stroke="#345674" stroke-width="2"/>
+    <rect x="98" y="555" width="1244" height="44" rx="11" fill="#12434a"/>
+    <text x="112" y="584" class="h">Budget forcing</text><text x="500" y="584" class="num">100%</text><text x="720" y="584" class="num">15</text><text x="940" y="584" class="num">56.7</text><text x="1240" y="584" class="b">5</text>
+    <text x="112" y="636" class="b">Token-conditional</text><text x="500" y="636" class="b">40%</text><text x="720" y="636" class="b">−24</text><text x="940" y="636" class="b">40.0</text><text x="1240" y="636" class="b">5</text>
+    <text x="112" y="680" class="b">Step-conditional</text><text x="500" y="680" class="b">60%</text><text x="720" y="680" class="b">3</text><text x="940" y="680" class="b">36.7</text><text x="1240" y="680" class="b">5</text>
+    <text x="112" y="724" class="b">Class-conditional</text><text x="500" y="724" class="b">50%</text><text x="720" y="724" class="b">25</text><text x="940" y="724" class="b">36.7</text><text x="1240" y="724" class="b">2</text>
+    <text x="112" y="768" class="b">Length rejection sampling</text><text x="500" y="768" class="b">100%</text><text x="720" y="768" class="b">−35</text><text x="940" y="768" class="b">40.0</text><text x="1240" y="768" class="b">5</text>
+  </g>
+
+  <text x="90" y="830" class="zh b">为什么 prompt 控制会失败？模型不会可靠数 token；按 step 控制时，会用“更少但更长的步骤”绕开预算。</text>
+  <text x="90" y="862" class="zh b">为什么 length rejection 反向扩展？短样本常是“一开始就走对”，长样本常包含错误与反复回退，按长度条件采样改变了样本分布。</text>
+  <text x="720" y="898" text-anchor="middle" class="zh sub">Budget forcing 的优势首先是 100% 上界控制；性能增长仍是有限区间内的经验结果</text>
+</svg>

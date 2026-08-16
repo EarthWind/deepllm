@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Llama 3 模型安全与系统护栏的分层结构</title>
+  <desc id="desc">展示从预训练数据过滤、安全 SFT 和 DPO，到 Llama Guard 3 输入输出过滤、Prompt Guard 和 Code Shield 的安全层次，并强调降低违规率会增加误拒率且测试不可能穷尽风险。</desc>
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#19113d"/></linearGradient>
+    <marker id="a6" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#fbbf24"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px;fill:#e0f2fe}.num{font-size:29px;font-weight:800;fill:#fbbf24}.box{fill:#0d2542;stroke:#355170;stroke-width:2}.tag{font-size:15px;font-weight:800;fill:#071326}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg6)"/>
+  <text x="70" y="72" class="zh title">安全不是一个 checkpoint 属性，而是模型训练与部署系统的共同结果</text>
+  <text x="70" y="108" class="zh sub">论文同时优化 Violation Rate 与 False Refusal Rate；任何降低伤害的机制都可能牺牲正常请求的可用性</text>
+
+  <rect x="70" y="154" width="1300" height="348" rx="24" class="box"/>
+  <text x="98" y="198" class="zh h">从数据到系统的四层防线</text>
+  <g class="zh">
+    <rect x="98" y="238" width="260" height="190" rx="20" fill="#123a52"/><rect x="122" y="259" width="106" height="32" rx="16" fill="#22d3ee"/><text x="175" y="281" text-anchor="middle" class="tag">PRETRAIN</text><text x="122" y="326" class="h">数据过滤</text><text x="122" y="361" class="b">PII / 成人 / 风险域</text><text x="122" y="394" class="b">去重与 memorization probing</text>
+    <rect x="411" y="238" width="260" height="190" rx="20" fill="#242b58"/><rect x="435" y="259" width="128" height="32" rx="16" fill="#a78bfa"/><text x="499" y="281" text-anchor="middle" class="tag">FINETUNE</text><text x="435" y="326" class="h">安全 SFT + DPO</text><text x="435" y="361" class="b">adversarial + borderline</text><text x="435" y="394" class="b">不同尺寸使用不同安全 mix</text>
+    <rect x="724" y="238" width="260" height="190" rx="20" fill="#35264e"/><rect x="748" y="259" width="146" height="32" rx="16" fill="#f59e0b"/><text x="821" y="281" text-anchor="middle" class="tag">INPUT / OUTPUT</text><text x="748" y="326" class="h">Llama Guard 3</text><text x="748" y="361" class="b">输入与输出分类</text><text x="748" y="394" class="b">可按风险类别启停</text>
+    <rect x="1037" y="238" width="305" height="190" rx="20" fill="#44283f"/><rect x="1061" y="259" width="158" height="32" rx="16" fill="#fbbf24"/><text x="1140" y="281" text-anchor="middle" class="tag">APPLICATION</text><text x="1061" y="326" class="h">Prompt Guard + Code Shield</text><text x="1061" y="361" class="b">检测 jailbreak / prompt injection</text><text x="1061" y="394" class="b">静态分析不安全代码</text>
+  </g>
+  <g stroke="#fbbf24" stroke-width="4" marker-end="url(#a6)"><line x1="358" y1="333" x2="400" y2="333"/><line x1="671" y1="333" x2="713" y2="333"/><line x1="984" y1="333" x2="1026" y2="333"/></g>
+  <text x="98" y="470" class="zh small">内部 benchmark：每种能力或语言超过 4,000 条 adversarial / borderline prompts，并包含单轮与多轮</text>
+
+  <rect x="70" y="548" width="620" height="226" rx="24" class="box"/>
+  <text x="98" y="592" class="zh h">系统护栏带来的真实交换</text>
+  <text x="98" y="643" class="zh num">约 −65% 平均违规率</text>
+  <text x="98" y="682" class="zh b">Llama Guard 3 在论文内部 benchmark 上的平均结果</text>
+  <text x="98" y="722" class="zh b">代价：正常 prompt 的误拒率上升；英文 full guard 表中 FRR 相对 +102%</text>
+  <text x="98" y="754" class="zh small">相对变化依赖数据分布，不能当作任意生产流量上的固定数字</text>
+
+  <rect x="740" y="548" width="630" height="226" rx="24" class="box"/>
+  <text x="768" y="592" class="zh h">论文主动披露的边界</text>
+  <text x="768" y="633" class="zh b">• Prompt injection 评测中弱于 GPT-4 Turbo 与 Gemini Pro</text>
+  <text x="768" y="669" class="zh b">• 网络安全与化生 uplift 研究未见显著提升，不等于证明无风险</text>
+  <text x="768" y="705" class="zh b">• 多语言、工具与长上下文扩大攻击面；红队测试不可能穷尽</text>
+  <text x="768" y="741" class="zh b">• 开发者仍需按具体应用重新定义策略、测试与 guardrail</text>
+  <text x="720" y="853" text-anchor="middle" class="zh sub">“模型拒绝得更多”不自动等于“系统更安全”；VR、FRR、覆盖率和下游动作权限必须一起评估</text>
+</svg>

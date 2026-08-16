@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Kimi k1.5 从多模态预训练到 long2short 的训练路线</title>
+  <desc id="desc">展示语言与视觉预训练、普通监督微调、长思维链热身、128K 强化学习和长到短压缩，并标明论文公开与未公开边界。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#17113c"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#5eead4"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:16px;fill:#cffafe}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.tag{font-size:14px;font-weight:800;fill:#071426}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="72" class="zh title">Kimi k1.5：把 RL 的扩展轴放在长上下文，而不是显式搜索树</text>
+  <text x="70" y="108" class="zh sub">主线是多模态底座 → long-CoT 热身 → outcome RL → 128K 隐式搜索 → long2short</text>
+
+  <g class="zh">
+    <rect x="70" y="165" width="240" height="270" rx="24" class="box"/>
+    <rect x="94" y="188" width="100" height="30" rx="15" fill="#22d3ee"/><text x="144" y="208" text-anchor="middle" class="tag">PRETRAIN</text>
+    <text x="94" y="258" class="h">多模态底座</text>
+    <text x="94" y="298" class="b">中英 / 代码 / 数学</text><text x="94" y="329" class="b">知识 / 图文 / OCR</text>
+    <text x="94" y="371" class="mono">4K → 32K → 128K</text><text x="94" y="402" class="small">RoPE frequency 1,000,000</text>
+
+    <line x1="310" y1="300" x2="352" y2="300" stroke="#5eead4" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="370" y="165" width="210" height="270" rx="24" class="box"/>
+    <rect x="394" y="188" width="84" height="30" rx="15" fill="#38bdf8"/><text x="436" y="208" text-anchor="middle" class="tag">SFT</text>
+    <text x="394" y="258" class="h">普通 SFT</text>
+    <text x="394" y="298" class="b">约 1M 文本样本</text><text x="394" y="329" class="b">约 1M 图文样本</text>
+    <text x="394" y="371" class="mono">32K × 1 epoch</text><text x="394" y="402" class="mono">128K × 1 epoch</text>
+
+    <line x1="580" y1="300" x2="622" y2="300" stroke="#5eead4" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="640" y="165" width="220" height="270" rx="24" class="box"/>
+    <rect x="664" y="188" width="118" height="30" rx="15" fill="#a78bfa"/><text x="723" y="208" text-anchor="middle" class="tag">LONG-COT</text>
+    <text x="664" y="258" class="h">小而精的热身</text>
+    <text x="664" y="298" class="b">规划 · 评价</text><text x="664" y="329" class="b">反思 · 探索</text>
+    <text x="664" y="371" class="small">文本 + 图像题</text><text x="664" y="402" class="small">验证后再做轻量 SFT</text>
+
+    <line x1="860" y1="300" x2="902" y2="300" stroke="#5eead4" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="920" y="145" width="250" height="310" rx="24" fill="#2e225d" stroke="#8b5cf6" stroke-width="2"/>
+    <rect x="944" y="168" width="104" height="30" rx="15" fill="#c084fc"/><text x="996" y="188" text-anchor="middle" class="tag">RL 128K</text>
+    <text x="944" y="238" class="h">Outcome reward</text>
+    <text x="944" y="278" class="b">Online mirror descent</text><text x="944" y="309" class="b">Partial rollout</text><text x="944" y="340" class="b">课程 + 优先采样</text>
+    <text x="944" y="382" class="small">无 value network</text><text x="944" y="410" class="small">无 MCTS / PRM</text>
+
+    <line x1="1170" y1="300" x2="1212" y2="300" stroke="#5eead4" stroke-width="5" marker-end="url(#arrow)"/>
+    <rect x="1230" y="165" width="140" height="270" rx="24" fill="#143f46" stroke="#34d399" stroke-width="2"/>
+    <text x="1252" y="225" class="h">短 CoT</text>
+    <path d="M1254 270 C1285 235 1315 315 1345 270" fill="none" stroke="#67e8f9" stroke-width="7"/>
+    <text x="1252" y="340" class="b">保留能力</text><text x="1252" y="371" class="b">压缩 token</text><text x="1252" y="411" class="small">long2short</text>
+  </g>
+
+  <rect x="70" y="505" width="820" height="260" rx="24" fill="#0b233e" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="550" class="zh h">论文真正提出的“简洁框架”</text>
+  <text x="98" y="594" class="zh b">① 让一条自回归上下文容纳尝试、回退、纠错与再规划</text>
+  <text x="98" y="630" class="zh b">② 最终答案给 outcome reward，不对每一步强行分配 value</text>
+  <text x="98" y="666" class="zh b">③ 用系统调度把 128K rollout 拆段，避免长轨迹独占 worker</text>
+  <text x="98" y="702" class="zh b">④ 再把长推理先验压进短模型，优化部署时 token 成本</text>
+  <rect x="98" y="722" width="754" height="24" rx="12" fill="#164e63"/>
+
+  <rect x="930" y="505" width="440" height="260" rx="24" fill="#261b3f" stroke="#f59e0b" stroke-width="2"/>
+  <text x="958" y="550" class="zh h">披露边界必须一起读</text>
+  <text x="958" y="594" class="zh b">✓ 公开：算法公式、数据类别、系统设计</text>
+  <text x="958" y="630" class="zh b">✓ 公开：主要结果、消融与评测协议</text>
+  <text x="958" y="674" class="zh b">✗ 未公开：参数量、训练 FLOPs、权重</text>
+  <text x="958" y="710" class="zh b">✗ 未公开：完整数据与官方训练代码</text>
+  <text x="720" y="842" text-anchor="middle" class="zh sub">“更长”是探索预算；“更短”是部署目标——两者由 long2short 连接，而不是互相否定</text>
+</svg>

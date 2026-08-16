@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="940" viewBox="0 0 1440 940" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeekMath 论文中的 GRPO</title>
+  <desc id="desc">同一问题生成一组回答，由奖励模型评分并组内标准化，无需单独 critic；支持 outcome 和 process 两种监督，并使用 clipped ratio 与直接 KL 约束更新策略。</desc>
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071325"/><stop offset="1" stop-color="#1d123f"/></linearGradient>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14b8a6"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <marker id="a3" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6 0 12Z" fill="#5eead4"/></marker>
+    <style>
+      .zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:40px;font-weight:750;fill:#f8fafc}.s{font-size:19px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:18px;fill:#cbd5e1}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:18px;fill:#e0f2fe}.box{fill:#0d2340;stroke:#355170;stroke-width:2}.pill{font-size:16px;font-weight:800;fill:#071325}
+    </style>
+  </defs>
+  <rect width="1440" height="940" rx="30" fill="url(#bg3)"/>
+  <text x="70" y="72" class="zh t">GRPO：不用训练一个与策略同规模的 Critic，也能得到相对优势</text>
+  <text x="70" y="108" class="zh s">论文版本使用 learned reward model；它不是后来 R1-Zero 的纯规则奖励复刻</text>
+
+  <rect x="70" y="168" width="210" height="142" rx="22" class="box"/>
+  <text x="94" y="209" class="zh s">问题 q</text>
+  <text x="94" y="248" class="zh h">同题多次采样</text>
+  <text x="94" y="280" class="zh b">旧策略 πθ_old</text>
+  <path d="M280 239H347" stroke="#5eead4" stroke-width="4" marker-end="url(#a3)"/>
+
+  <rect x="357" y="145" width="326" height="188" rx="22" class="box"/>
+  <text x="383" y="184" class="zh h">G 个候选推导</text>
+  <path d="M389 214H651" stroke="#22d3ee" stroke-width="10" stroke-linecap="round"/>
+  <path d="M389 246H607" stroke="#8b5cf6" stroke-width="10" stroke-linecap="round"/>
+  <path d="M389 278H631" stroke="#f59e0b" stroke-width="10" stroke-linecap="round"/>
+  <path d="M389 310H571" stroke="#64748b" stroke-width="10" stroke-linecap="round"/>
+  <path d="M683 239H750" stroke="#5eead4" stroke-width="4" marker-end="url(#a3)"/>
+
+  <rect x="760" y="145" width="252" height="188" rx="22" class="box"/>
+  <text x="786" y="184" class="zh h">奖励模型打分</text>
+  <text x="786" y="224" class="zh mono">r₁, r₂, …, r_G</text>
+  <rect x="786" y="250" width="178" height="38" rx="19" fill="url(#g3)"/>
+  <text x="875" y="276" text-anchor="middle" class="zh pill">无需 value model</text>
+  <text x="786" y="316" class="zh b">同组形成局部基线</text>
+  <path d="M1012 239H1079" stroke="#5eead4" stroke-width="4" marker-end="url(#a3)"/>
+
+  <rect x="1089" y="145" width="281" height="188" rx="22" fill="#12304d" stroke="#2dd4bf" stroke-width="3"/>
+  <text x="1115" y="184" class="zh h">组内标准化</text>
+  <text x="1115" y="232" class="zh mono">Âᵢ = (rᵢ − mean(r))</text>
+  <text x="1115" y="260" class="zh mono">      / std(r)</text>
+  <text x="1115" y="302" class="zh b">好于同组平均：正优势</text>
+  <text x="1115" y="327" class="zh b">差于同组平均：负优势</text>
+
+  <rect x="70" y="401" width="625" height="260" rx="24" class="box"/>
+  <rect x="95" y="424" width="194" height="34" rx="17" fill="#22d3ee"/>
+  <text x="192" y="447" text-anchor="middle" class="zh pill">OUTCOME SUPERVISION</text>
+  <text x="95" y="502" class="zh h">只知道整题结果</text>
+  <text x="95" y="543" class="zh mono">Âᵢ,t = (rᵢ − mean(r)) / std(r)</text>
+  <text x="95" y="584" class="zh b">同一回答中的所有 token 共用一个优势。</text>
+  <text x="95" y="619" class="zh b">优点：标签便宜；缺点：难定位哪一步推理有问题。</text>
+
+  <rect x="745" y="401" width="625" height="260" rx="24" class="box"/>
+  <rect x="770" y="424" width="194" height="34" rx="17" fill="#a78bfa"/>
+  <text x="867" y="447" text-anchor="middle" class="zh pill">PROCESS SUPERVISION</text>
+  <text x="770" y="502" class="zh h">每个推理步骤都有 reward</text>
+  <text x="770" y="543" class="zh mono">Âᵢ,t = Σ normalized(rᵢ,j),  end(j) ≥ t</text>
+  <text x="770" y="584" class="zh b">先对该组所有 step reward 统一标准化，再向前归因。</text>
+  <text x="770" y="619" class="zh b">论文实验中 GRPO + process supervision 更强。</text>
+
+  <path d="M382 661V706" stroke="#5eead4" stroke-width="4" marker-end="url(#a3)"/>
+  <path d="M1058 661V706" stroke="#5eead4" stroke-width="4" marker-end="url(#a3)"/>
+  <rect x="160" y="716" width="1120" height="154" rx="24" fill="#102a48" stroke="#3b82f6" stroke-width="2"/>
+  <text x="188" y="756" class="zh h">同一个 clipped policy objective</text>
+  <text x="188" y="800" class="zh mono">min(ρᵢ,t Âᵢ,t, clip(ρᵢ,t, 1−ε, 1+ε) Âᵢ,t) − β D_KL(πθ ∥ πref)</text>
+  <text x="188" y="840" class="zh b">ρ = πθ / πθ_old；KL 直接写进目标，而不是先塞进 reward 再计算 advantage。</text>
+  <rect x="1065" y="748" width="170" height="46" rx="23" fill="#fbbf24"/>
+  <text x="1150" y="778" text-anchor="middle" class="zh pill">Critic removed</text>
+  <text x="720" y="913" text-anchor="middle" class="zh s">节省 Critic 训练与显存，并不意味着“奖励模型也被删除”</text>
+</svg>

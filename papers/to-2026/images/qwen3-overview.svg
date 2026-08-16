@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Qwen3 从三阶段预训练、混合架构到双模式后训练的整体路线</title>
+  <desc id="desc">展示 36 万亿 token、119 种语言、dense 与 MoE 模型、旗舰四阶段后训练、轻量模型强到弱蒸馏，以及同一模型的 thinking 与 non-thinking 模式。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#1b123a"/></linearGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#155e75"/><stop offset="1" stop-color="#6d28d9"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:29px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.tag{font-size:14px;font-weight:800;fill:#071426}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">Qwen3：同一套权重，把“快答、深思考、预算控制”统一起来</text>
+  <text x="70" y="108" class="zh sub">Qwen3-2504 = 三阶段预训练 + dense / MoE 模型族 + 四阶段旗舰后训练 + 强到弱蒸馏</text>
+
+  <g class="zh">
+    <rect x="70" y="150" width="260" height="178" rx="22" class="box"/>
+    <text x="96" y="192" class="h">预训练数据</text><text x="96" y="238" class="num">36T tokens</text>
+    <text x="96" y="276" class="b">119 种语言与方言</text><text x="96" y="306" class="small">30T+ token 有细粒度标签</text>
+    <line x1="330" y1="240" x2="380" y2="240" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+
+    <rect x="400" y="150" width="270" height="178" rx="22" class="box"/>
+    <text x="426" y="192" class="h">混合模型族</text><text x="426" y="238" class="num">6 Dense + 2 MoE</text>
+    <text x="426" y="276" class="b">0.6B → 235B total</text><text x="426" y="306" class="small">旗舰 235B-A22B · 每 token 激活 22B</text>
+    <line x1="670" y1="240" x2="720" y2="240" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+
+    <rect x="740" y="136" width="300" height="206" rx="24" fill="url(#core)" stroke="#a78bfa" stroke-width="2"/>
+    <text x="768" y="180" class="h">三阶段预训练</text>
+    <text x="768" y="222" class="b">S1 · 通用 30T+</text><text x="768" y="256" class="b">S2 · 推理约 5T</text>
+    <text x="768" y="290" class="b">Long · 32K 训练长度</text><text x="768" y="320" class="small">YaRN + DCA → 约 128K 支持</text>
+    <line x1="1040" y1="240" x2="1090" y2="240" stroke="#67e8f9" stroke-width="5" marker-end="url(#arrow)"/>
+
+    <rect x="1110" y="150" width="260" height="178" rx="22" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+    <text x="1136" y="192" class="h">旗舰后训练</text><text x="1136" y="234" class="b">Cold Start → Reasoning RL</text>
+    <text x="1136" y="270" class="b">Mode Fusion → General RL</text><text x="1136" y="304" class="small">32B 与 235B-A22B 完整四阶段</text>
+  </g>
+
+  <rect x="70" y="386" width="1300" height="310" rx="26" class="box"/>
+  <text x="98" y="432" class="zh h">一个 Qwen3-2504 checkpoint，三种可控 operating point</text>
+  <g class="zh">
+    <rect x="98" y="472" width="350" height="166" rx="22" fill="#3a2a18" stroke="#f59e0b" stroke-width="2"/>
+    <text x="126" y="514" class="h">Non-thinking · 快答</text>
+    <text x="126" y="556" class="b">硬开关 enable_thinking=False</text><text x="126" y="590" class="b">或最新指令 /no_think</text>
+    <text x="126" y="620" class="small">训练目标保留空 thinking block</text>
+
+    <rect x="545" y="458" width="350" height="194" rx="22" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="573" y="500" class="h">Thinking · 完整推理</text>
+    <text x="573" y="542" class="b">默认模式，或最新指令 /think</text><text x="573" y="576" class="b">输出 &lt;think&gt; reasoning &lt;/think&gt;</text>
+    <text x="573" y="610" class="small">论文评测通常 temperature 0.6</text>
+
+    <rect x="992" y="472" width="350" height="166" rx="22" fill="#103d3a" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="1020" y="514" class="h">Thinking budget · 截止</text>
+    <text x="1020" y="556" class="b">达到最大阈值 → 插入停止思考指令</text><text x="1020" y="590" class="b">用已有中间状态直接给答案</text>
+    <text x="1020" y="620" class="small">不是强迫模型继续思考的 scale-up</text>
+  </g>
+
+  <rect x="70" y="742" width="820" height="92" rx="22" fill="#123a4b" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="779" class="zh h">轻量模型：强到弱蒸馏</text>
+  <text x="98" y="814" class="zh b">教师双模式输出 → off-policy 蒸馏 → 学生 on-policy rollout → teacher-logit KL</text>
+  <rect x="930" y="742" width="440" height="92" rx="22" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+  <text x="958" y="779" class="zh h">版本边界</text>
+  <text x="958" y="814" class="zh b">报告讲 2504 混合模式；2507 后来拆成两版</text>
+  <text x="720" y="874" text-anchor="middle" class="zh sub">统一不等于自动路由：模式由用户、模板或显式预算控制</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Kimi k1.5 的长度奖励、课程学习和优先采样</title>
+  <desc id="desc">解释组内相对长度奖励如何鼓励短正确答案而不奖励错误短答，以及课程采样和按一减成功率优先采样。</desc>
+  <defs><linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#19113b"/></linearGradient><style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px;fill:#cffafe}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.num{font-size:28px;font-weight:800;fill:#67e8f9}</style></defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg3)"/>
+  <text x="70" y="72" class="zh title">长度不是越多越好：先学会探索，再为 token 效率付费</text>
+  <text x="70" y="108" class="zh sub">长度奖励在组内归一化；采样策略把训练算力从“太易/太难”逐步移向最有学习价值的问题</text>
+
+  <rect x="70" y="155" width="780" height="420" rx="24" class="box"/>
+  <text x="98" y="200" class="zh h">Group-relative length reward</text>
+  <text x="98" y="242" class="mono">λᵢ = 0.5 − (lenᵢ − min_len) / (max_len − min_len)</text>
+  <line x1="140" y1="450" x2="780" y2="450" stroke="#64748b" stroke-width="2"/>
+  <line x1="140" y1="280" x2="140" y2="505" stroke="#64748b" stroke-width="2"/>
+  <line x1="140" y1="315" x2="780" y2="500" stroke="#67e8f9" stroke-width="5"/>
+  <circle cx="140" cy="315" r="10" fill="#34d399"/><circle cx="460" cy="408" r="10" fill="#34d399"/><circle cx="780" cy="500" r="10" fill="#f59e0b"/>
+  <text x="112" y="306" text-anchor="end" class="zh num">+0.5</text><text x="112" y="456" text-anchor="end" class="zh b">0</text><text x="112" y="510" text-anchor="end" class="zh b">−0.5</text>
+  <text x="140" y="535" text-anchor="middle" class="zh small">组内最短</text><text x="780" y="535" text-anchor="middle" class="zh small">组内最长</text>
+  <text x="180" y="380" class="zh b">正确：使用完整 λ</text>
+  <path d="M140 450 L460 450 L780 500" fill="none" stroke="#f472b6" stroke-width="5" stroke-dasharray="10 8"/>
+  <text x="485" y="477" class="zh b">错误：min(0, λ)</text>
+  <text x="98" y="560" class="zh small">所以短错误回答不会因为短而得到正奖励；组内等长时全部为 0</text>
+
+  <rect x="890" y="155" width="480" height="420" rx="24" class="box"/>
+  <text x="918" y="200" class="zh h">两种 prompt 调度信号</text>
+  <rect x="918" y="235" width="424" height="130" rx="18" fill="#173654"/>
+  <text x="942" y="273" class="zh h">Curriculum sampling</text>
+  <text x="942" y="310" class="zh b">前期：混合 easy / medium / hard</text><text x="942" y="340" class="zh b">后期：集中训练 hard prompts</text>
+  <rect x="918" y="390" width="424" height="145" rx="18" fill="#30245b"/>
+  <text x="942" y="428" class="zh h">Prioritized sampling</text>
+  <text x="942" y="470" class="mono">pᵢ = (1 − sᵢ) / Σⱼ(1 − sⱼ)</text>
+  <text x="942" y="510" class="zh b">历史成功率越低，后续抽到概率越高</text>
+
+  <rect x="70" y="625" width="1300" height="165" rx="24" fill="#102b46" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="670" class="zh h">难度来自模型自身，而不是题库标签</text>
+  <text x="98" y="712" class="zh b">每题用 SFT 模型高温采样 10 次：difficulty = 1 − pass rate；先过滤 trivial prompts</text>
+  <text x="98" y="750" class="zh b">再用 8 次“无 CoT 猜答案”排除容易撞中 outcome 的题，降低 verifier 被投机利用的空间</text>
+  <text x="720" y="850" text-anchor="middle" class="zh sub">长度惩罚在训练初期会拖慢探索，因此论文先不用，之后再启用固定 penalty</text>
+</svg>

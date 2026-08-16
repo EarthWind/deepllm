@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">TruthfulQA 自动裁判的训练、验证与失效边界</title>
+  <desc id="desc">展示 GPT-judge 和 GPT-info 如何从人工标签训练、如何输出概率，以及相似度指标与裁判失效模式。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#17143b"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#67e8f9"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:760;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:760;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:29px;font-weight:820;fill:#67e8f9}.panel{fill:#0d2944;stroke:#345674;stroke-width:2}.arrow{stroke:#67e8f9;stroke-width:3;fill:none;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">自动裁判不是“真理 API”：它是为这 817 道题拟合的人类标签代理</text>
+  <text x="70" y="108" class="zh sub">论文主结论由盲化人工评估支撑；GPT-judge / GPT-info 用于规模化测量，并必须先做跨模型验证</text>
+
+  <g transform="translate(70 162)" class="zh">
+    <rect width="1300" height="328" rx="26" class="panel"/>
+    <text x="30" y="48" class="h">训练与推断流水线</text>
+
+    <rect x="32" y="86" width="250" height="174" rx="20" fill="#173451" stroke="#60a5fa" stroke-width="2"/>
+    <text x="54" y="124" class="h">训练语料</text><text x="54" y="166" class="num">≈ 6.9k</text><text x="160" y="166" class="b">参考答案</text>
+    <text x="54" y="204" class="num">≈ 15.5k</text><text x="176" y="204" class="b">模型回答</text><text x="54" y="238" class="small">均由人类标注 truth / info</text>
+
+    <path d="M292 174H390" class="arrow"/>
+    <rect x="402" y="86" width="280" height="174" rx="20" fill="#25234b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="426" y="124" class="h">两个 GPT-3 6.7B 裁判</text><text x="426" y="166" class="num" fill="#c4b5fd">GPT-judge</text><text x="426" y="198" class="b">question + answer → “yes” 概率</text><text x="426" y="232" class="b">GPT-info：同构的信息量裁判</text>
+
+    <path d="M692 174H790" class="arrow"/>
+    <rect x="802" y="86" width="220" height="174" rx="20" fill="#10423c" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="826" y="124" class="h">连续分数</text><text x="826" y="170" class="num">P(“yes”)</text><text x="826" y="208" class="b">阈值 0.5</text><text x="826" y="238" class="small">再汇总为通过率</text>
+
+    <path d="M1032 174H1116" class="arrow"/>
+    <rect x="1128" y="86" width="140" height="174" rx="20" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+    <text x="1198" y="124" text-anchor="middle" class="h">验证</text><text x="1198" y="174" text-anchor="middle" class="num" fill="#fbbf24">90–96%</text><text x="1198" y="208" text-anchor="middle" class="small">跨基座家族</text><text x="1198" y="234" text-anchor="middle" class="small">非完美一致</text>
+  </g>
+
+  <g transform="translate(70 530)" class="zh">
+    <rect width="628" height="288" rx="26" class="panel"/>
+    <text x="28" y="48" class="h">字符串相似度代理</text>
+    <text x="28" y="90" class="num">max sim(answer, true)</text><text x="28" y="130" class="num" fill="#fb7185">− max sim(answer, false)</text>
+    <text x="28" y="174" class="b">BLEURT 在论文比较中最好，但仍低于 GPT-judge；</text><text x="28" y="207" class="b">“所有答案都判 false”也是必须报告的类别不平衡基线。</text>
+    <rect x="28" y="232" width="572" height="34" rx="12" fill="#482137"/><text x="314" y="255" text-anchor="middle" class="small">识别参考措辞 ≠ 识别开放世界事实</text>
+
+    <rect x="672" width="628" height="288" rx="26" class="panel"/>
+    <text x="700" y="48" class="h">裁判容易失效的回答</text>
+    <text x="704" y="92" class="b">• 很长、包含多个真假混合主张</text><text x="704" y="128" class="b">• 带复杂限定、间接表达或语境依赖</text>
+    <text x="704" y="164" class="b">• 过度详细：info 裁判偏爱长度</text><text x="704" y="200" class="b">• 超出 TruthfulQA 题型的新问题</text>
+    <rect x="700" y="226" width="572" height="40" rx="12" fill="#30223d" stroke="#f59e0b"/><text x="986" y="252" text-anchor="middle" class="small">今天无法仅凭公开仓库重建原始微调裁判权重</text>
+  </g>
+  <text x="720" y="868" text-anchor="middle" class="zh sub">实践原则：把自动裁判当成经校准的测量仪器；换模型、换领域、换答案长度后，都要重新抽样做人类审计</text>
+</svg>

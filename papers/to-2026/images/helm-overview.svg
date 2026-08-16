@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">HELM 的整体评测思想</title>
+  <desc id="desc">覆盖、多指标、标准化三根支柱共同构成评测运行，并保留未覆盖空间。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#141027"/></linearGradient>
+    <linearGradient id="core" x2="1"><stop stop-color="#42d7ff"/><stop offset=".5" stop-color="#9b8cff"/><stop offset="1" stop-color="#ffb45e"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0l10 5-10 5z" fill="#70d8ff"/></marker>
+  </defs>
+  <rect width="1440" height="900" rx="32" fill="url(#bg)"/>
+  <g opacity=".18" stroke="#6cbad7"><path d="M70 165h1300M70 735h1300"/><circle cx="720" cy="450" r="350" fill="none"/><circle cx="720" cy="450" r="285" fill="none"/></g>
+  <text x="72" y="85" fill="#f5f7ff" font-size="38" font-weight="700" font-family="Inter, PingFang SC, sans-serif">HELM：把“哪个模型最好”改写成“在哪些条件、哪些维度更合适”</text>
+  <text x="72" y="128" fill="#94a9c5" font-size="21" font-family="Inter, PingFang SC, sans-serif">Holistic ≠ complete：先承认评测空间无限，再公开本次具体覆盖边界</text>
+  <g font-family="Inter, PingFang SC, sans-serif">
+    <g transform="translate(92 225)">
+      <rect width="350" height="220" rx="26" fill="#0d2635" stroke="#32d4ff" stroke-width="2"/>
+      <circle cx="70" cy="67" r="35" fill="#173b4d" stroke="#42d7ff" stroke-width="3"/><path d="M47 67h46M70 44v46" stroke="#42d7ff" stroke-width="5"/>
+      <text x="125" y="62" fill="#eafaff" font-size="28" font-weight="700">广覆盖 Coverage</text>
+      <text x="34" y="124" fill="#abc4d5" font-size="19">场景 × 模型 × 适配方式</text>
+      <text x="34" y="160" fill="#7edcf5" font-size="18">自上而下 taxonomy</text>
+      <text x="34" y="193" fill="#ffca82" font-size="18">明确标注“未测什么”</text>
+    </g>
+    <g transform="translate(545 225)">
+      <rect width="350" height="220" rx="26" fill="#211b3d" stroke="#aa8cff" stroke-width="2"/>
+      <circle cx="70" cy="67" r="35" fill="#30255d" stroke="#b59cff" stroke-width="3"/><path d="M50 80l13-24 14 14 15-28" fill="none" stroke="#c6b6ff" stroke-width="5"/>
+      <text x="125" y="62" fill="#f5f0ff" font-size="28" font-weight="700">多指标 Metrics</text>
+      <text x="34" y="124" fill="#c9bce7" font-size="19">能力、风险、成本并列</text>
+      <text x="34" y="160" fill="#c6b6ff" font-size="18">7 类通用指标</text>
+      <text x="34" y="193" fill="#ffca82" font-size="18">拒绝只看 Accuracy</text>
+    </g>
+    <g transform="translate(998 225)">
+      <rect width="350" height="220" rx="26" fill="#342313" stroke="#ffb45e" stroke-width="2"/>
+      <circle cx="70" cy="67" r="35" fill="#4b321b" stroke="#ffc277" stroke-width="3"/><path d="M51 55h38M51 68h38M51 81h38" stroke="#ffd39a" stroke-width="5"/>
+      <text x="125" y="62" fill="#fff5e8" font-size="28" font-weight="700">标准化 Standardize</text>
+      <text x="34" y="124" fill="#e1cbb0" font-size="19">统一 prompt / decoding / seeds</text>
+      <text x="34" y="160" fill="#ffd39a" font-size="18">保存请求、输出与统计量</text>
+      <text x="34" y="193" fill="#ffca82" font-size="18">保证可比较与可审计</text>
+    </g>
+    <path d="M442 335h90M895 335h90" stroke="#70d8ff" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(250 540)">
+      <rect width="940" height="170" rx="34" fill="#0b1728" stroke="url(#core)" stroke-width="4" filter="url(#glow)"/>
+      <text x="470" y="55" text-anchor="middle" fill="#f5f7ff" font-size="25" font-weight="650">一次可复现的 Run</text>
+      <text x="470" y="112" text-anchor="middle" fill="#dff8ff" font-size="38" font-weight="750">Scenario × Adaptation × Model → Requests → Metrics</text>
+      <text x="470" y="148" text-anchor="middle" fill="#8ea4c1" font-size="18">实例与参考答案　→　提示构造与推理参数　→　原始完成与概率　→　Stat</text>
+    </g>
+    <rect x="310" y="775" width="820" height="62" rx="18" fill="#171526" stroke="#51486f" stroke-dasharray="10 8"/>
+    <text x="720" y="814" text-anchor="middle" fill="#baaccf" font-size="20">边界之外仍有：新任务、新语言、新人群、新风险、新部署条件……</text>
+  </g>
+</svg>

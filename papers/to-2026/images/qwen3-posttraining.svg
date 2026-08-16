@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Qwen3 旗舰模型的四阶段后训练与轻量模型蒸馏分支</title>
+  <desc id="desc">展示 Long-CoT cold start、Reasoning RL、Thinking Mode Fusion、General RL，以及轻量模型不完整重复四阶段而使用 strong-to-weak distillation。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#18123d"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:23px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:28px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}.stage{font-size:14px;font-weight:800;fill:#071426}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">旗舰先学“深思考”，再把“快答与通用行为”融合回来</text>
+  <text x="70" y="108" class="zh sub">四阶段不是纯 RL：SFT → Reasoning RL → continual SFT → General RL；每一步优化的能力不同</text>
+
+  <g class="zh">
+    <rect x="70" y="158" width="290" height="310" rx="24" fill="#123a4b" stroke="#22d3ee" stroke-width="2"/>
+    <rect x="94" y="180" width="86" height="28" rx="14" fill="#67e8f9"/><text x="137" y="200" text-anchor="middle" class="stage">STAGE 1</text>
+    <text x="94" y="248" class="h">Long-CoT Cold Start</text>
+    <text x="94" y="292" class="b">数学 · 代码 · 逻辑 · STEM</text><text x="94" y="326" class="b">可验证答案 / 测试用例</text>
+    <text x="94" y="360" class="b">QwQ-32B 生成 N 个候选</text><text x="94" y="394" class="b">过滤错答、重复、猜测、风格漂移</text>
+    <text x="94" y="438" class="small">刻意少样本、少 steps，只负责点火</text>
+    <line x1="360" y1="313" x2="390" y2="313" stroke="#67e8f9" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="410" y="158" width="290" height="310" rx="24" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="434" y="180" width="86" height="28" rx="14" fill="#a78bfa"/><text x="477" y="200" text-anchor="middle" class="stage">STAGE 2</text>
+    <text x="434" y="248" class="h">Reasoning RL</text><text x="434" y="294" class="num">3,995 query-verifier</text>
+    <text x="434" y="330" class="b">GRPO · 大 batch · 多 rollouts</text><text x="434" y="364" class="b">含 off-policy 提高样本效率</text>
+    <text x="434" y="398" class="b">控制 entropy 稳定探索</text><text x="434" y="438" class="small">235B-A22B：AIME 70.1 → 85.1 / 170 steps</text>
+    <line x1="700" y1="313" x2="730" y2="313" stroke="#67e8f9" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="750" y="158" width="290" height="310" rx="24" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="774" y="180" width="86" height="28" rx="14" fill="#fbbf24"/><text x="817" y="200" text-anchor="middle" class="stage">STAGE 3</text>
+    <text x="774" y="248" class="h">Thinking Mode Fusion</text>
+    <text x="774" y="292" class="b">continual SFT：thinking + non-thinking</text><text x="774" y="326" class="b">/think · /no_think · 最后指令生效</text>
+    <text x="774" y="360" class="b">非思考样本保留空 think block</text><text x="774" y="394" class="b">由此涌现不完整思考后的作答能力</text>
+    <text x="774" y="438" class="small">为显式 thinking budget 奠定格式基础</text>
+    <line x1="1040" y1="313" x2="1070" y2="313" stroke="#67e8f9" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <rect x="1090" y="158" width="280" height="310" rx="24" fill="#103d3a" stroke="#2dd4bf" stroke-width="2"/>
+    <rect x="1114" y="180" width="86" height="28" rx="14" fill="#2dd4bf"/><text x="1157" y="200" text-anchor="middle" class="stage">STAGE 4</text>
+    <text x="1114" y="248" class="h">General RL</text><text x="1114" y="294" class="num">20+ tasks</text>
+    <text x="1114" y="330" class="b">指令 / 格式 / 偏好 / Agent / RAG</text><text x="1114" y="364" class="b">规则、带参考模型、无参考 RM</text>
+    <text x="1114" y="398" class="b">工具 rollout 接真实环境反馈</text><text x="1114" y="438" class="small">换取通用性，但部分专项推理会下降</text>
+  </g>
+
+  <rect x="70" y="520" width="1300" height="230" rx="26" class="box"/>
+  <text x="100" y="566" class="zh h">两条产品化路线</text>
+  <g class="zh">
+    <rect x="100" y="605" width="515" height="108" rx="20" fill="#2d245b" stroke="#a78bfa"/>
+    <text x="128" y="644" class="h">旗舰：32B / 235B-A22B</text><text x="128" y="680" class="b">完整跑四阶段 → 兼顾 reasoning、快答、通用对齐与 Agent</text>
+    <line x1="615" y1="659" x2="685" y2="659" stroke="#67e8f9" stroke-width="4" marker-end="url(#arrow)"/>
+    <rect x="705" y="589" width="635" height="140" rx="20" fill="#103d3a" stroke="#2dd4bf"/>
+    <text x="733" y="628" class="h">轻量：0.6B / 1.7B / 4B / 8B / 14B / 30B-A3B</text>
+    <text x="733" y="664" class="b">教师双模式输出的 off-policy 蒸馏</text><text x="733" y="696" class="b">→ 学生 on-policy rollout 上匹配 32B / 235B teacher logits</text>
+  </g>
+  <rect x="70" y="792" width="1300" height="66" rx="20" fill="#30223d" stroke="#f59e0b"/>
+  <text x="720" y="833" text-anchor="middle" class="zh b">报告没有披露 cold-start 样本数、完整 RL 超参数、总训练 FLOPs 或全部 reward 权重；流程开放不等于训练全透明</text>
+</svg>

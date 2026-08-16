@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeekMath 数学网页语料迭代筛选流程</title>
+  <desc id="desc">从 OpenWebMath 种子、fastText 分类、域名与路径回收、四轮迭代，到 35.5M 网页和 120B token，再执行 benchmark 去污染。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071328"/>
+      <stop offset="1" stop-color="#12103a"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#c084fc"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#5eead4"/>
+    </marker>
+    <style>
+      .zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}
+      .title{font-size:40px;font-weight:700;fill:#f8fafc}
+      .sub{font-size:20px;fill:#a5b4fc}
+      .card{fill:#0f2341;stroke:#334d75;stroke-width:2}
+      .head{font-size:24px;font-weight:700;fill:#f8fafc}
+      .body{font-size:18px;fill:#cbd5e1}
+      .num{font-size:30px;font-weight:800;fill:#67e8f9}
+      .tag{font-size:16px;font-weight:700;fill:#071328}
+    </style>
+  </defs>
+  <rect width="1440" height="860" rx="30" fill="url(#bg)"/>
+  <text x="70" y="76" class="zh title">数学网页不是一次检索出来的：它是一个迭代的数据飞轮</text>
+  <text x="70" y="112" class="zh sub">seed → page classifier → domain / path recall → new positives → retrain，连续四轮后停止</text>
+
+  <rect x="70" y="176" width="260" height="172" rx="22" class="card"/>
+  <rect x="92" y="196" width="124" height="30" rx="15" fill="url(#cyan)"/>
+  <text x="154" y="218" text-anchor="middle" class="zh tag">初始种子</text>
+  <text x="92" y="267" class="zh head">OpenWebMath</text>
+  <text x="92" y="301" class="zh body">正例 500K</text>
+  <text x="92" y="329" class="zh body">CC 随机负例 500K</text>
+
+  <path d="M330 262 H400" stroke="#5eead4" stroke-width="4" marker-end="url(#arrow)"/>
+  <rect x="410" y="176" width="280" height="172" rx="22" class="card"/>
+  <rect x="432" y="196" width="110" height="30" rx="15" fill="url(#violet)"/>
+  <text x="487" y="218" text-anchor="middle" class="zh tag">分类器</text>
+  <text x="432" y="267" class="zh head">fastText 网页评分</text>
+  <text x="432" y="301" class="zh body">字符 / 词 n-gram 特征</text>
+  <text x="432" y="329" class="zh body">按数学相关性排序</text>
+
+  <path d="M690 262 H760" stroke="#5eead4" stroke-width="4" marker-end="url(#arrow)"/>
+  <rect x="770" y="176" width="280" height="172" rx="22" class="card"/>
+  <rect x="792" y="196" width="142" height="30" rx="15" fill="#fbbf24"/>
+  <text x="863" y="218" text-anchor="middle" class="zh tag">扩大召回</text>
+  <text x="792" y="267" class="zh head">域名 + URL 路径</text>
+  <text x="792" y="301" class="zh body">高数学密度域名回收</text>
+  <text x="792" y="329" class="zh body">人工标注数学路径</text>
+
+  <path d="M1050 262 H1120" stroke="#5eead4" stroke-width="4" marker-end="url(#arrow)"/>
+  <rect x="1130" y="176" width="240" height="172" rx="22" class="card"/>
+  <text x="1152" y="237" class="zh head">加入新正例</text>
+  <text x="1152" y="278" class="zh body">补回漏检页面</text>
+  <text x="1152" y="308" class="zh body">重新训练分类器</text>
+  <text x="1152" y="338" class="zh body">进入下一轮</text>
+
+  <path d="M1250 348 V403 Q1250 442 1210 442 H562 Q522 442 522 402 V354" fill="none" stroke="#a78bfa" stroke-width="4" stroke-dasharray="10 9" marker-end="url(#arrow)"/>
+  <rect x="599" y="410" width="244" height="54" rx="27" fill="#261b58" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="721" y="445" text-anchor="middle" class="zh head" font-size="21">共迭代 4 轮</text>
+
+  <rect x="70" y="520" width="410" height="245" rx="24" class="card"/>
+  <text x="98" y="567" class="zh head">先压缩搜索空间</text>
+  <text x="98" y="615" class="zh num">40B HTML 页面</text>
+  <text x="98" y="650" class="zh body">URL 去重 + near-dedup 后的 Common Crawl</text>
+  <text x="98" y="686" class="zh body">首轮按分类器分数保留 top 40B token</text>
+  <text x="98" y="722" class="zh body">不是盲目下载全部网页再训练</text>
+
+  <path d="M480 642 H535" stroke="#5eead4" stroke-width="4" marker-end="url(#arrow)"/>
+  <rect x="545" y="520" width="350" height="245" rx="24" fill="#112d47" stroke="#2dd4bf" stroke-width="3" filter="url(#glow)"/>
+  <text x="573" y="567" class="zh head">最终 DeepSeekMath Corpus</text>
+  <text x="573" y="623" class="zh num">35.5M pages</text>
+  <text x="573" y="675" class="zh num">120B tokens</text>
+  <text x="573" y="720" class="zh body">第 4 轮新增候选约 98% 已在第 3 轮中</text>
+  <text x="573" y="748" class="zh body">边际召回趋于饱和，停止迭代</text>
+
+  <path d="M895 642 H950" stroke="#5eead4" stroke-width="4" marker-end="url(#arrow)"/>
+  <rect x="960" y="520" width="410" height="245" rx="24" class="card"/>
+  <text x="988" y="567" class="zh head">最后做 benchmark 去污染</text>
+  <text x="988" y="616" class="zh num">exact 10-gram</text>
+  <text x="988" y="652" class="zh body">匹配 GSM8K / MATH / CMATH / AGIEval</text>
+  <text x="988" y="688" class="zh body">命中的文本段整体删除</text>
+  <text x="988" y="724" class="zh body">短于 10、但不少于 3 token：完整匹配</text>
+  <text x="988" y="752" class="zh body">降低泄漏风险，但不等于证明零污染</text>
+
+  <text x="720" y="820" text-anchor="middle" class="zh sub">关键思想：用模型发现数据，再用数据改进模型；同时让终止条件和污染规则可审计</text>
+</svg>

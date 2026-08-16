@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="930" viewBox="0 0 1440 930" role="img" aria-labelledby="title desc">
+  <title id="title">s1-32B 的结果、样本效率与评测边界</title>
+  <desc id="desc">对比 Qwen2.5-32B-Instruct、s1 无 budget forcing 和 s1 带 budget forcing 在 AIME24、MATH500、GPQA Diamond 上的成绩，并展示训练成本。</desc>
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#17113c"/></linearGradient>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:22px;font-weight:750;fill:#f8fafc}.b{font-size:16px;fill:#cbd5e1}.small{font-size:14px;fill:#94a3b8}.num{font-size:27px;font-weight:800;fill:#f8fafc}.box{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="930" rx="30" fill="url(#bg5)"/>
+  <text x="70" y="72" class="zh title">1,000 条不是“1,000 条从零造出推理”：强底座被短程 SFT 激活</text>
+  <text x="70" y="108" class="zh sub">论文 v3 Table 1；默认 greedy / pass@1，但长轨迹数值误差会让同 seed 的 vLLM 运行产生差异</text>
+
+  <g class="zh">
+    <rect x="70" y="162" width="400" height="280" rx="24" class="box"/>
+    <text x="98" y="205" class="h">AIME 2024 · 30 题</text>
+    <text x="98" y="252" class="b">Qwen2.5-32B-Instruct</text><rect x="288" y="235" width="142" height="18" rx="9" fill="#1e4963"/><rect x="288" y="235" width="38" height="18" rx="9" fill="#64748b"/><text x="375" y="252" class="b">26.7</text>
+    <text x="98" y="306" class="b">s1 · 无 BF</text><rect x="288" y="289" width="142" height="18" rx="9" fill="#1e4963"/><rect x="288" y="289" width="71" height="18" rx="9" fill="#22d3ee"/><text x="375" y="306" class="b">50.0</text>
+    <text x="98" y="360" class="b">s1 · 带 BF</text><rect x="288" y="343" width="142" height="18" rx="9" fill="#1e4963"/><rect x="288" y="343" width="81" height="18" rx="9" fill="#a78bfa"/><text x="375" y="360" class="num">56.7</text>
+    <text x="98" y="408" class="small">相对 o1-preview 44.6：+27.1% 相对值</text>
+
+    <rect x="520" y="162" width="400" height="280" rx="24" class="box"/>
+    <text x="548" y="205" class="h">MATH-500 · EM</text>
+    <text x="548" y="252" class="b">Qwen2.5-32B-Instruct</text><rect x="738" y="235" width="142" height="18" rx="9" fill="#1e4963"/><rect x="738" y="235" width="119" height="18" rx="9" fill="#64748b"/><text x="826" y="252" class="b">84.0</text>
+    <text x="548" y="306" class="b">s1 · 无 BF</text><rect x="738" y="289" width="142" height="18" rx="9" fill="#1e4963"/><rect x="738" y="289" width="132" height="18" rx="9" fill="#22d3ee"/><text x="826" y="306" class="b">92.6</text>
+    <text x="548" y="360" class="b">s1 · 带 BF</text><rect x="738" y="343" width="142" height="18" rx="9" fill="#1e4963"/><rect x="738" y="343" width="132" height="18" rx="9" fill="#a78bfa"/><text x="826" y="360" class="num">93.0</text>
+    <text x="548" y="408" class="small">BF 增益很小；主要跃升来自 SFT</text>
+
+    <rect x="970" y="162" width="400" height="280" rx="24" class="box"/>
+    <text x="998" y="205" class="h">GPQA Diamond · 198 题</text>
+    <text x="998" y="252" class="b">Qwen2.5-32B-Instruct</text><rect x="1188" y="235" width="142" height="18" rx="9" fill="#1e4963"/><rect x="1188" y="235" width="70" height="18" rx="9" fill="#64748b"/><text x="1278" y="252" class="b">49.0</text>
+    <text x="998" y="306" class="b">s1 · 无 BF</text><rect x="1188" y="289" width="142" height="18" rx="9" fill="#1e4963"/><rect x="1188" y="289" width="80" height="18" rx="9" fill="#22d3ee"/><text x="1278" y="306" class="b">56.6</text>
+    <text x="998" y="360" class="b">s1 · 带 BF</text><rect x="1188" y="343" width="142" height="18" rx="9" fill="#1e4963"/><rect x="1188" y="343" width="85" height="18" rx="9" fill="#a78bfa"/><text x="1278" y="360" class="num">59.6</text>
+    <text x="998" y="408" class="small">不同 BF 次数会得到不同 operating point</text>
+  </g>
+
+  <rect x="70" y="492" width="620" height="190" rx="24" fill="#123a3c" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="535" class="zh h">训练资源：精选 1K 与全量 59K</text>
+  <text x="98" y="580" class="zh b">s1K：16 H100 × 26 min ≈</text><text x="420" y="580" class="zh num">7 GPU-hours</text>
+  <text x="98" y="625" class="zh b">59K-full：</text><text x="250" y="625" class="zh num">394 GPU-hours</text>
+  <text x="98" y="658" class="zh small">约 56× 训练计算；59K 的置信区间未显示显著胜过 s1K</text>
+
+  <rect x="750" y="492" width="620" height="190" rx="24" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+  <text x="778" y="535" class="zh h">训练长度消融：截断会破坏终止学习</text>
+  <text x="778" y="580" class="zh b">4,096：74% 样本被截断；AIME 30.0 / 平均 20,721 thought tokens</text>
+  <text x="778" y="625" class="zh b">32,768：0% 截断；AIME 50.0 / 平均 6,984 thought tokens</text>
+  <text x="778" y="658" class="zh small">长训练序列反而让测试输出更短：模型更常见到完整 answer transition</text>
+
+  <rect x="70" y="730" width="1300" height="120" rx="24" class="box"/>
+  <text x="98" y="772" class="zh h">读分数前的三条协议注释</text>
+  <text x="98" y="807" class="zh b">① AIME 只有 30 题，每答对 1 题就是 3.3pp　② 论文一般用 full precision 缓解 vLLM 非确定性　③ “+27%”是 56.7 相对 44.6 的相对提升</text>
+  <text x="720" y="892" text-anchor="middle" class="zh sub">结果支持“高信息密度 SFT 很有效”，但不能证明 1,000 条可替代底座预训练、教师模型或所有领域数据</text>
+</svg>

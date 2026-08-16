@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title desc">
+  <title id="title">s1K 的质量、难度与多样性筛选</title>
+  <desc id="desc">从五万九千条问题与 Gemini 推理轨迹开始，依次做质量过滤、双模型难度过滤、领域均衡和长轨迹偏置，得到一千条 s1K。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#17113b"/></linearGradient>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:16px;fill:#cffafe}.num{font-size:28px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="920" rx="30" fill="url(#bg2)"/>
+  <text x="70" y="72" class="zh title">s1K 不是“最长的一千条”：三个信号必须联合使用</text>
+  <text x="70" y="108" class="zh sub">先删坏数据与容易题，再均衡领域、域内偏向更长轨迹；长度只是相对难度 proxy</text>
+
+  <g class="zh">
+    <rect x="70" y="158" width="400" height="246" rx="24" class="box"/>
+    <text x="98" y="202" class="h">① Quality · 能否可靠训练</text>
+    <text x="98" y="246" class="b">59,029 → 54,116</text><text x="290" y="246" class="small">删除 API 失败</text>
+    <text x="98" y="284" class="b">54,116 → 51,581</text><text x="290" y="284" class="small">删除格式异常</text>
+    <text x="98" y="326" class="small">ASCII 图、缺失图片、编号矛盾等</text>
+    <text x="98" y="365" class="mono">quality ≠ teacher answer correct</text>
+
+    <rect x="520" y="158" width="400" height="246" rx="24" fill="#2d245b" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="548" y="202" class="h">② Difficulty · 对当前底座够难</text>
+    <text x="548" y="246" class="b">Qwen2.5-7B-Instruct 尝试</text>
+    <text x="548" y="282" class="b">Qwen2.5-32B-Instruct 尝试</text>
+    <text x="548" y="320" class="small">Claude 对照 reference 判断正确性</text>
+    <text x="548" y="360" class="mono">keep = ¬correct₇ᴮ ∧ ¬correct₃₂ᴮ</text>
+    <text x="548" y="390" class="num">24,496</text>
+
+    <rect x="970" y="158" width="400" height="246" rx="24" fill="#123a3c" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="998" y="202" class="h">③ Diversity · 不让大域吞掉预算</text>
+    <text x="998" y="246" class="b">Claude → MSC 领域分类</text>
+    <text x="998" y="282" class="b">先均匀抽领域，再在域内抽题</text>
+    <text x="998" y="322" class="mono">p(q | domain) ∝ 2⁻ʳᵃⁿᵏ</text>
+    <text x="998" y="360" class="small">rank 0 为该域最长轨迹</text>
+    <text x="998" y="390" class="num">1,000</text>
+  </g>
+
+  <rect x="70" y="454" width="1300" height="214" rx="24" class="box"/>
+  <text x="98" y="498" class="zh h">选择逻辑的两个重要限定</text>
+  <g class="zh">
+    <rect x="98" y="528" width="585" height="104" rx="18" fill="#102f49"/>
+    <text x="122" y="566" class="b">预选：正确的 AIME / GPQA 轨迹，以及</text>
+    <text x="122" y="599" class="b">Gemini 正确且 thinking length &gt; 5,600 的 MATH 轨迹</text>
+    <rect x="735" y="528" width="607" height="104" rx="18" fill="#312443"/>
+    <text x="760" y="566" class="b">去污染：对 MATH500、GPQA Diamond、AIME24</text>
+    <text x="760" y="599" class="b">检查 word-level 8-gram overlap，并做去重</text>
+  </g>
+
+  <rect x="70" y="710" width="620" height="128" rx="22" fill="#3b2b1c" stroke="#f59e0b" stroke-width="2"/>
+  <text x="98" y="752" class="zh h">“精选”不等于“全对”</text>
+  <text x="98" y="791" class="zh num">53.6%</text><text x="205" y="791" class="zh b">s1K 轨迹被 grader 判为正确</text>
+  <text x="98" y="820" class="zh small">训练目标包含 reasoning process；错误教师轨迹并未全部移除</text>
+
+  <rect x="750" y="710" width="620" height="128" rx="22" fill="#102e47" stroke="#22d3ee" stroke-width="2"/>
+  <text x="778" y="752" class="zh h">版本 / 披露细节</text>
+  <text x="778" y="789" class="zh b">正文称覆盖 50 个域；附录汇总表列出 51 个域</text>
+  <text x="778" y="820" class="zh small">当前官方 filter notebook 还含后段 benchmark-domain 调度，复现需固定 commit</text>
+  <text x="720" y="882" text-anchor="middle" class="zh sub">消融结论：random、only-diverse、only-longest 都落后；59K 全量并未显著压倒 s1K</text>
+</svg>

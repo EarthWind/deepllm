@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title desc">
+  <title id="title">Llama 3 数据治理与 scaling law 决策</title>
+  <desc id="desc">展示预训练数据从网页提取、三层去重、启发式与模型分类到最终数据混合，并比较 scaling law 对 402B 和 16.55T 的预测与 405B 和 15.6T 的实际选择。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#19113d"/></linearGradient>
+    <marker id="a2" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0 0L10 5 0 10Z" fill="#5eead4"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:17px;fill:#e0f2fe}.num{font-size:28px;font-weight:800;fill:#67e8f9}.box{fill:#0d2542;stroke:#355170;stroke-width:2}.tag{font-size:14px;font-weight:800;fill:#071326}</style>
+  </defs>
+  <rect width="1440" height="920" rx="30" fill="url(#bg2)"/>
+  <text x="70" y="72" class="zh title">15.6T token 的关键不只是“多”，而是可度量的数据治理</text>
+  <text x="70" y="108" class="zh sub">网页规模下先去重和分域，再用小模型 scaling law 选择 mix；高质量 annealing 用于验证小数据源价值</text>
+
+  <text x="70" y="160" class="zh h">网页数据漏斗</text>
+  <g class="zh">
+    <rect x="70" y="188" width="222" height="96" rx="20" class="box"/><text x="94" y="226" class="h">HTML 提取</text><text x="94" y="259" class="b">保留代码 / 数学 / alt text</text>
+    <rect x="326" y="188" width="222" height="96" rx="20" class="box"/><text x="350" y="226" class="h">三层去重</text><text x="350" y="259" class="b">URL · document · line</text>
+    <rect x="582" y="188" width="222" height="96" rx="20" class="box"/><text x="606" y="226" class="h">启发式过滤</text><text x="606" y="259" class="b">重复 · 脏词 · token KL</text>
+    <rect x="838" y="188" width="222" height="96" rx="20" class="box"/><text x="862" y="226" class="h">模型打分</text><text x="862" y="259" class="b">FastText / DistilRoBERTa</text>
+    <rect x="1094" y="188" width="276" height="96" rx="20" fill="#102f4d" stroke="#2dd4bf" stroke-width="2"/><text x="1118" y="226" class="h">领域与安全分流</text><text x="1118" y="259" class="b">知识 · 数学 · 代码 · 176 种语言</text>
+  </g>
+  <g stroke="#5eead4" stroke-width="3" marker-end="url(#a2)"><line x1="292" y1="236" x2="315" y2="236"/><line x1="548" y1="236" x2="571" y2="236"/><line x1="804" y1="236" x2="827" y2="236"/><line x1="1060" y1="236" x2="1083" y2="236"/></g>
+
+  <rect x="70" y="336" width="790" height="292" rx="24" class="box"/>
+  <text x="98" y="380" class="zh h">最终预训练 data mix（论文披露的近似比例）</text>
+  <g class="zh">
+    <rect x="98" y="422" width="354" height="78" rx="14" fill="#155e75"/><text x="275" y="455" text-anchor="middle" class="h">通用知识 · 50%</text><text x="275" y="484" text-anchor="middle" class="small">下采样网页中过度代表的类别</text>
+    <rect x="452" y="422" width="177" height="78" rx="0" fill="#4338ca"/><text x="540" y="455" text-anchor="middle" class="h">数学推理</text><text x="540" y="484" text-anchor="middle" class="small">25%</text>
+    <rect x="629" y="422" width="120" height="78" rx="0" fill="#7e22ce"/><text x="689" y="455" text-anchor="middle" class="h">代码</text><text x="689" y="484" text-anchor="middle" class="small">17%</text>
+    <rect x="749" y="422" width="83" height="78" rx="14" fill="#b45309"/><text x="790" y="455" text-anchor="middle" class="h">多语</text><text x="790" y="484" text-anchor="middle" class="small">8%</text>
+    <text x="98" y="545" class="b">知识分类器调节类别比例；小模型实验预测不同 mix 在大模型上的表现</text>
+    <text x="98" y="581" class="b">最终阶段提高高质量代码/数学数据；不把常见 benchmark train set 放入正式 annealing mix</text>
+    <text x="98" y="607" class="small">注：论文用 GSM8K / MATH 训练集做 annealing 效果研究，但明确与正式 annealing 数据区分</text>
+  </g>
+
+  <rect x="910" y="336" width="460" height="292" rx="24" class="box"/>
+  <text x="938" y="380" class="zh h">Scaling law：从小实验外推旗舰配置</text>
+  <text x="938" y="426" class="zh mono">N*(C) = A · C^α</text>
+  <text x="938" y="462" class="zh b">40M–16B 参数模型 · 6×10¹⁸–10²² FLOPs</text>
+  <rect x="938" y="493" width="184" height="102" rx="16" fill="#1d3157"/><text x="1030" y="527" text-anchor="middle" class="zh small">预测最优</text><text x="1030" y="561" text-anchor="middle" class="zh num">402B</text><text x="1030" y="584" text-anchor="middle" class="zh small">16.55T token</text>
+  <rect x="1140" y="493" width="202" height="102" rx="16" fill="#30265b" stroke="#a78bfa" stroke-width="2"/><text x="1241" y="527" text-anchor="middle" class="zh small">实际选择</text><text x="1241" y="561" text-anchor="middle" class="zh num">405B</text><text x="1241" y="584" text-anchor="middle" class="zh small">15.6T token</text>
+
+  <rect x="70" y="676" width="1300" height="150" rx="24" fill="#102f4d" stroke="#2dd4bf" stroke-width="2"/>
+  <g class="zh">
+    <text x="98" y="718" class="h">两个常被忽略的结果</text>
+    <text x="98" y="759" class="b">① 128K 词表使英文压缩率从 3.17 → 3.94 chars/token：同字符数约少 19.5% token</text>
+    <text x="98" y="795" class="b">② 旗舰模型接近 compute-optimal；8B / 70B 则被刻意训练得更久，以换取更好的固定推理成本</text>
+    <text x="1020" y="754" class="mono">6 × 405B × 15.6T</text><text x="1020" y="790" class="num">≈ 3.79 × 10²⁵ FLOPs</text>
+  </g>
+  <text x="720" y="882" text-anchor="middle" class="zh sub">Scaling law 给出决策区间，不替代数据质量实验；大规模 IsoFLOPs 最优点附近的曲线本身较平坦</text>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">GPT-4 的可预测扩展方法</title>
+  <desc id="desc">左侧展示用最高少一万倍计算量的小模型拟合带不可约项的损失幂律，右侧展示在 HumanEval 可估计子集上用最高少一千倍计算量预测平均对数通过率，并强调外推边界。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#111a31"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 10 5 0 10z" fill="#67e8f9"/></marker>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:750;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.h{font-size:22px;font-weight:700;fill:#f8fafc}.body{font-size:16px;fill:#d5e1ef}.small{font-size:14px;fill:#9fb2cc}.axis{fill:none;stroke:#526b8b;stroke-width:1.5}.grid{fill:none;stroke:#20344d;stroke-width:1}.fit{fill:none;stroke:#38bdf8;stroke-width:4}.dash{fill:none;stroke:#a78bfa;stroke-width:3;stroke-dasharray:10 8}.card{fill:#101f34;stroke:#2d4664;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">可预测扩展：先让小实验可外推，再押注一次大训练</text>
+  <text x="64" y="106" class="sub">论文预测了“部分指标”，不是宣称所有能力都随规模平滑可知</text>
+
+  <g transform="translate(64 154)">
+    <rect width="626" height="550" rx="22" class="card"/>
+    <text x="28" y="45" class="h">① 训练损失：更稳定的工程健康指标</text>
+    <text x="28" y="75" class="small">内部代码集不在训练集 · 计算量以 GPT-4 = 1 归一化</text>
+    <g transform="translate(74 120)">
+      <path d="M0 0v330h490" class="axis"/><path d="M0 66h490M0 132h490M0 198h490M0 264h490" class="grid"/>
+      <path d="M25 44 C93 92 155 139 220 183 S347 256 474 290" class="fit"/>
+      <path d="M25 44 C94 93 156 139 220 183 S347 256 474 290" class="dash"/>
+      <g fill="#67e8f9" stroke="#082f49" stroke-width="3"><circle cx="25" cy="47" r="7"/><circle cx="87" cy="91" r="7"/><circle cx="151" cy="139" r="7"/><circle cx="219" cy="180" r="7"/><circle cx="288" cy="224" r="7"/><circle cx="352" cy="253" r="7"/></g>
+      <circle cx="474" cy="290" r="12" fill="#fbbf24" stroke="#78350f" stroke-width="4"/>
+      <text x="474" y="320" text-anchor="middle" class="small">GPT-4</text><text x="16" y="355" class="small">10⁻⁴</text><text x="220" y="355" class="small">10⁻²</text><text x="467" y="355" class="small">1</text>
+      <text transform="translate(-43 230) rotate(-90)" class="small">最终 loss（越低越好）</text>
+    </g>
+    <rect x="28" y="495" width="570" height="34" rx="10" fill="#082f49"/><text x="313" y="518" text-anchor="middle" class="body">L(C) = aCᵇ + c　·　小模型最高少 10,000× compute</text>
+  </g>
+
+  <g transform="translate(750 154)">
+    <rect width="626" height="550" rx="22" class="card"/>
+    <text x="28" y="45" class="h">② HumanEval：能力指标更难预测</text>
+    <text x="28" y="75" class="small">对问题集合 P 聚合 mean log pass rate</text>
+    <g transform="translate(74 120)">
+      <path d="M0 330V0M0 330h490" class="axis"/><path d="M0 66h490M0 132h490M0 198h490M0 264h490" class="grid"/>
+      <path d="M25 300 C103 266 164 230 230 185 S365 104 474 50" class="dash"/>
+      <g fill="#c4b5fd" stroke="#312e81" stroke-width="3"><circle cx="25" cy="304" r="7"/><circle cx="95" cy="266" r="7"/><circle cx="164" cy="229" r="7"/><circle cx="230" cy="187" r="7"/><circle cx="298" cy="143" r="7"/><circle cx="363" cy="106" r="7"/></g>
+      <circle cx="474" cy="53" r="12" fill="#fbbf24" stroke="#78350f" stroke-width="4"/>
+      <text x="474" y="82" text-anchor="middle" class="small">GPT-4</text><text x="16" y="355" class="small">10⁻³</text><text x="220" y="355" class="small">10⁻¹·⁵</text><text x="467" y="355" class="small">1</text>
+      <text transform="translate(-44 260) rotate(-90)" class="small">mean log pass rate（越高越好）</text>
+    </g>
+    <rect x="28" y="495" width="570" height="34" rx="10" fill="#2e1065"/><text x="313" y="518" text-anchor="middle" class="body">小模型最高少 1,000× compute · 只在可估计难度桶验证</text>
+  </g>
+
+  <g transform="translate(64 747)">
+    <rect width="1312" height="92" rx="18" fill="#241b18" stroke="#f59e0b"/>
+    <text x="24" y="35" class="body" fill="#fde68a">外推边界：最难的 15 题被排除；零通过率无法稳定取 log；最容易桶出现低于预测；Hindsight Neglect 还发生趋势反转。</text>
+    <text x="24" y="66" class="small">图为方法示意，不重绘论文未公开的原始点值。实线/虚线只表达“观测/拟合”的关系。</text>
+  </g>
+</svg>

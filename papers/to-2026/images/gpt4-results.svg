@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">GPT-4 与 GPT-3.5 的选定基准结果</title>
+  <desc id="desc">比较 MMLU、HellaSwag、ARC、WinoGrande、HumanEval、DROP 和 GSM-8K 中 GPT-4 与 GPT-3.5 的论文报告成绩，并注明不同基准的 shot、指标和污染边界不同。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#10192f"/></linearGradient>
+    <style>text{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:750;fill:#f8fafc}.sub{font-size:17px;fill:#9fb2cc}.h{font-size:20px;font-weight:700;fill:#f8fafc}.body{font-size:16px;fill:#d5e1ef}.small{font-size:14px;fill:#9fb2cc}.value{font-size:15px;font-weight:700;fill:#f8fafc}.grid{stroke:#24384f;stroke-width:1}.card{fill:#101f34;stroke:#2d4664;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text x="64" y="72" class="title">基准提升很大，但每一行都有自己的评测合同</text>
+  <text x="64" y="106" class="sub">同一行可比较 GPT-4 与 GPT-3.5；跨行的指标、shot 与数据边界不同</text>
+
+  <g transform="translate(64 152)">
+    <rect width="952" height="640" rx="22" class="card"/>
+    <g transform="translate(205 65)">
+      <path d="M0 0v505M0 505h690" class="grid"/><path d="M138 0v505M276 0v505M414 0v505M552 0v505M690 0v505" class="grid"/>
+      <text x="0" y="532" class="small">0</text><text x="130" y="532" class="small">20</text><text x="268" y="532" class="small">40</text><text x="406" y="532" class="small">60</text><text x="544" y="532" class="small">80</text><text x="676" y="532" class="small">100</text>
+    </g>
+    <g transform="translate(26 77)">
+      <text x="0" y="19" class="h">MMLU</text><text x="0" y="42" class="small">5-shot accuracy</text>
+      <rect x="179" y="0" width="596" height="18" rx="9" fill="#38bdf8"/><rect x="179" y="26" width="483" height="18" rx="9" fill="#4f46e5"/><text x="785" y="15" class="value">86.4</text><text x="670" y="41" class="value">70.0</text>
+      <g transform="translate(0 71)"><text y="19" class="h">HellaSwag</text><text y="42" class="small">10-shot accuracy</text><rect x="179" width="658" height="18" rx="9" fill="#38bdf8"/><rect x="179" y="26" width="590" height="18" rx="9" fill="#4f46e5"/><text x="847" y="15" class="value">95.3</text><text x="777" y="41" class="value">85.5</text></g>
+      <g transform="translate(0 142)"><text y="19" class="h">ARC Challenge</text><text y="42" class="small">25-shot accuracy</text><rect x="179" width="664" height="18" rx="9" fill="#38bdf8"/><rect x="179" y="26" width="588" height="18" rx="9" fill="#4f46e5"/><text x="853" y="15" class="value">96.3</text><text x="775" y="41" class="value">85.2</text></g>
+      <g transform="translate(0 213)"><text y="19" class="h">WinoGrande</text><text y="42" class="small">5-shot accuracy</text><rect x="179" width="604" height="18" rx="9" fill="#38bdf8"/><rect x="179" y="26" width="563" height="18" rx="9" fill="#4f46e5"/><text x="793" y="15" class="value">87.5</text><text x="750" y="41" class="value">81.6</text></g>
+      <g transform="translate(0 284)"><text y="19" class="h">HumanEval</text><text y="42" class="small">0-shot pass@1</text><rect x="179" width="462" height="18" rx="9" fill="#38bdf8"/><rect x="179" y="26" width="332" height="18" rx="9" fill="#4f46e5"/><text x="651" y="15" class="value">67.0</text><text x="519" y="41" class="value">48.1</text></g>
+      <g transform="translate(0 355)"><text y="19" class="h">DROP</text><text y="42" class="small">3-shot F1</text><rect x="179" width="558" height="18" rx="9" fill="#38bdf8"/><rect x="179" y="26" width="442" height="18" rx="9" fill="#4f46e5"/><text x="747" y="15" class="value">80.9</text><text x="629" y="41" class="value">64.1</text></g>
+      <g transform="translate(0 426)"><text y="19" class="h">GSM-8K *</text><text y="42" class="small">5-shot CoT accuracy</text><rect x="179" width="635" height="18" rx="9" fill="#38bdf8"/><rect x="179" y="26" width="394" height="18" rx="9" fill="#4f46e5"/><text x="824" y="15" class="value">92.0</text><text x="581" y="41" class="value">57.1</text></g>
+    </g>
+    <g transform="translate(285 594)"><rect width="18" height="18" rx="5" fill="#38bdf8"/><text x="27" y="15" class="small">GPT-4</text><rect x="112" width="18" height="18" rx="5" fill="#4f46e5"/><text x="139" y="15" class="small">GPT-3.5</text></g>
+  </g>
+
+  <g transform="translate(1040 152)">
+    <rect width="336" height="640" rx="22" class="card"/>
+    <text x="24" y="45" class="h">怎样正确引用</text>
+    <g transform="translate(24 78)"><circle cx="11" cy="11" r="11" fill="#0ea5e9"/><text x="11" y="17" text-anchor="middle" class="value">1</text><text x="38" y="15" class="body">写明 shot 与指标</text><text x="38" y="43" class="small">accuracy、F1、pass@1 不同</text></g>
+    <g transform="translate(24 164)"><circle cx="11" cy="11" r="11" fill="#6366f1"/><text x="11" y="17" text-anchor="middle" class="value">2</text><text x="38" y="15" class="body">考试 ≠ benchmark</text><text x="38" y="43" class="small">考试用 post-RLHF 模型</text></g>
+    <g transform="translate(24 250)"><circle cx="11" cy="11" r="11" fill="#8b5cf6"/><text x="11" y="17" text-anchor="middle" class="value">3</text><text x="38" y="15" class="body">多语言是机器翻译版</text><text x="38" y="43" class="small">3-shot；翻译有损与助益</text></g>
+    <g transform="translate(24 336)"><circle cx="11" cy="11" r="11" fill="#f59e0b"/><text x="11" y="17" text-anchor="middle" class="value">4</text><text x="38" y="15" class="body">GSM-8K 不是纯迁移</text><text x="38" y="43" class="small">训练集数据进入预训练混合</text></g>
+    <g transform="translate(24 422)"><circle cx="11" cy="11" r="11" fill="#f97316"/><text x="11" y="17" text-anchor="middle" class="value">5</text><text x="38" y="15" class="body">污染检查不是证明</text><text x="38" y="43" class="small">substring 会漏报与误报</text></g>
+    <rect x="24" y="522" width="288" height="88" rx="14" fill="#241b18" stroke="#f59e0b"/><text x="42" y="552" class="body" fill="#fde68a">* GSM-8K 应读作介于</text><text x="42" y="578" class="body" fill="#fde68a">few-shot transfer 与专项</text><text x="42" y="604" class="body" fill="#fde68a">训练之间的结果。</text>
+  </g>
+  <text x="64" y="838" class="small">数据：GPT-4 Technical Report Table 2。图只比较论文同表中的 GPT-4 与 GPT-3.5；不代表今天的服务版本。</text>
+</svg>

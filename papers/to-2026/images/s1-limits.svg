@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">s1 顺序扩展的上限与并行扩展补充</title>
+  <desc id="desc">展示 budget forcing 延长到一定程度后因重复循环和上下文窗口趋平，并可通过 majority voting 或带过程奖励模型的 REBASE 并行扩展继续提升。</desc>
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#17113c"/></linearGradient>
+    <marker id="a6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:27px;font-weight:800;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg6)"/>
+  <text x="70" y="72" class="zh title">顺序扩展先吃“同一条轨迹的复用”，再撞上循环与上下文墙</text>
+  <text x="70" y="108" class="zh sub">Budget forcing 证明了有限区间的 test-time scaling；论文没有声称单条 CoT 可以无限延长</text>
+
+  <rect x="70" y="158" width="820" height="292" rx="24" class="box"/>
+  <text x="98" y="202" class="zh h">AIME24：延长思考的经验曲线</text>
+  <line x1="145" y1="380" x2="825" y2="380" stroke="#64748b" stroke-width="2"/>
+  <line x1="145" y1="380" x2="145" y2="238" stroke="#64748b" stroke-width="2"/>
+  <path d="M170 350 C280 325 360 294 450 275 S620 235 720 238 S785 251 820 258" fill="none" stroke="#67e8f9" stroke-width="7"/>
+  <circle cx="170" cy="350" r="9" fill="#22d3ee"/><circle cx="450" cy="275" r="9" fill="#22d3ee"/><circle cx="720" cy="238" r="9" fill="#a78bfa"/><circle cx="820" cy="258" r="9" fill="#f59e0b"/>
+  <text x="155" y="418" class="zh small">较少 token</text><text x="730" y="418" class="zh small">Wait ×6 附近</text>
+  <text x="170" y="334" class="zh b">scale down 可预测</text><text x="560" y="224" class="zh b">50.0 → 56.7 后趋平</text>
+
+  <rect x="940" y="158" width="430" height="292" rx="24" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+  <text x="968" y="202" class="zh h">两堵墙</text>
+  <text x="968" y="252" class="zh num">① repetition loop</text>
+  <text x="968" y="287" class="zh b">反复检查不再产生新信息</text>
+  <text x="968" y="341" class="zh num">② context window</text>
+  <text x="968" y="376" class="zh b">旧轨迹 + 新续写最终塞满 32K</text>
+  <text x="968" y="416" class="zh small">512-step 实验中 12 / 30 题越窗</text>
+
+  <rect x="70" y="500" width="1300" height="250" rx="24" class="box"/>
+  <text x="98" y="544" class="zh h">论文的下一步：把顺序与并行扩展组合</text>
+  <g class="zh">
+    <rect x="98" y="584" width="300" height="112" rx="20" fill="#155e75"/>
+    <text x="248" y="622" text-anchor="middle" class="h">Sequential</text><text x="248" y="659" text-anchor="middle" class="b">一条轨迹继续反思</text>
+    <line x1="398" y1="640" x2="490" y2="640" stroke="#67e8f9" stroke-width="5" marker-end="url(#a6)"/>
+    <rect x="510" y="572" width="350" height="136" rx="20" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="685" y="612" text-anchor="middle" class="h">Parallel candidates</text><text x="685" y="650" text-anchor="middle" class="b">16 条独立轨迹</text><text x="685" y="681" text-anchor="middle" class="small">majority vote 或 tree expansion</text>
+    <line x1="860" y1="640" x2="952" y2="640" stroke="#67e8f9" stroke-width="5" marker-end="url(#a6)"/>
+    <rect x="972" y="572" width="370" height="136" rx="20" fill="#123a3c" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="1157" y="612" text-anchor="middle" class="h">Aggregate</text><text x="1157" y="650" text-anchor="middle" class="b">REBASE 在该设置优于 majority</text><text x="1157" y="681" text-anchor="middle" class="small">但需要额外 PRM forward</text>
+  </g>
+
+  <rect x="70" y="792" width="1300" height="68" rx="20" fill="#123a4b" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="98" y="834" class="zh b">公平计算提醒：论文 Figure 7 的平均 thinking tokens 没计入 REBASE reward model 的额外计算，因此横轴不是完整 FLOPs 对齐。</text>
+  <text x="720" y="892" text-anchor="middle" class="zh sub">最合理的结论是“顺序与并行互补”，不是 budget forcing 永远胜过搜索或 majority voting</text>
+</svg>

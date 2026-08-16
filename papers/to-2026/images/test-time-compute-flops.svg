@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">预训练与测试时计算的 FLOPs 交换</title>
+  <desc id="desc">展示预训练与推理 FLOPs 近似、14 倍参数模型的等 FLOPs 推理倍率，以及不同推理/预训练 token 比 R 下应选择预训练或测试时计算的条件。</desc>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#18113a"/></linearGradient>
+    <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#14b8a6"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <style>
+      .zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:40px;font-weight:750;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:750;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.mono{font-family:"JetBrains Mono",Consolas,monospace;font-size:18px;fill:#e0f2fe}.num{font-size:30px;font-weight:800;fill:#67e8f9}.box{fill:#0d2542;stroke:#355170;stroke-width:2}.tag{font-size:15px;font-weight:800;fill:#071326}
+    </style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg4)"/>
+  <text x="70" y="72" class="zh title">“小模型多想”能否替代“大模型一次答”？先写清总 FLOPs 账本</text>
+  <text x="70" y="108" class="zh sub">论文固定训练 token，比较参数扩大 M 倍与小模型增加测试时生成；结论取决于部署负载 R</text>
+
+  <rect x="70" y="158" width="608" height="231" rx="24" class="box"/>
+  <text x="98" y="203" class="zh h">论文采用的近似</text>
+  <text x="98" y="252" class="zh mono">pretraining: X = 6 · Nparam · Dpre</text>
+  <text x="98" y="294" class="zh mono">inference:   Y = 2 · Nparam · Dinf</text>
+  <text x="98" y="343" class="zh b">忽略 KV cache、批处理、硬件利用率、通信和 verifier 成本等系统细节</text>
+
+  <rect x="728" y="158" width="642" height="231" rx="24" class="box"/>
+  <text x="756" y="203" class="zh h">与 M 倍参数模型 FLOPs 相等时，小模型可用的推理倍率</text>
+  <text x="756" y="263" class="zh mono">T = M + 3(M − 1) / R</text>
+  <text x="756" y="309" class="zh mono">R = Dinf / Dpre</text>
+  <text x="756" y="353" class="zh b">R 越小，预训练是一次性大账，小模型可换取的单次推理预算越多</text>
+
+  <text x="70" y="452" class="zh h">论文取 M ≈ 14，并考察三种推理负载</text>
+  <rect x="70" y="486" width="390" height="224" rx="22" fill="#113952"/>
+  <text x="96" y="529" class="zh sub">R = 0.16 · inference ≪ pretraining</text>
+  <text x="96" y="584" class="zh num">T ≈ 257.75×</text>
+  <text x="96" y="625" class="zh b">自改进 / 低调用量场景</text>
+  <text x="96" y="659" class="zh b">容易、中等题更可能值得花测试时计算</text>
+  <text x="96" y="689" class="zh b">但不是保证每题都优于大模型</text>
+
+  <rect x="525" y="486" width="390" height="224" rx="22" fill="#24275a"/>
+  <text x="551" y="529" class="zh sub">R = 0.79 · inference ≈ pretraining</text>
+  <text x="551" y="584" class="zh num">T ≈ 63.37×</text>
+  <text x="551" y="625" class="zh b">交换空间明显缩小</text>
+  <text x="551" y="659" class="zh b">选择取决于问题难度与搜索收益</text>
+  <text x="551" y="689" class="zh b">需要结合实际题目分布</text>
+
+  <rect x="980" y="486" width="390" height="224" rx="22" fill="#39243b"/>
+  <text x="1006" y="529" class="zh sub">R = 22 · inference ≫ pretraining</text>
+  <text x="1006" y="584" class="zh num">T ≈ 15.77×</text>
+  <text x="1006" y="625" class="zh b">高调用量生产服务</text>
+  <text x="1006" y="659" class="zh b">推理成本会在请求间反复支付</text>
+  <text x="1006" y="689" class="zh b">较难题更倾向投资预训练</text>
+
+  <rect x="70" y="758" width="1300" height="74" rx="22" fill="#102f4d" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="720" y="790" text-anchor="middle" class="zh h">判断条件 = 问题难度分布 × 生命周期调用量 R × 实际系统成本 × verifier 可靠性</text>
+  <text x="720" y="817" text-anchor="middle" class="zh b">论文证明的是若干受控条件下的交换，不是“小模型永远胜过 14× 大模型”</text>
+  <text x="720" y="872" text-anchor="middle" class="zh sub">训练计算一次支付，推理计算按调用重复支付；同样的 FLOPs 不等于同样的延迟、内存或服务成本</text>
+</svg>

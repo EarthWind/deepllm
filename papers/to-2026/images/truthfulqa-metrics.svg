@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">TruthfulQA 的开放生成与多选指标</title>
+  <desc id="desc">比较生成任务的人类评审、GPT-judge、GPT-info 与相似度指标，并给出 MC1、MC2、MC3 和 2025 binary MC0 的定义。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061426"/><stop offset="1" stop-color="#1b123a"/></linearGradient>
+    <style>.zh{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.mono{font-family:"JetBrains Mono",Consolas,monospace}.title{font-size:40px;font-weight:760;fill:#f8fafc}.sub{font-size:18px;fill:#a5b4fc}.h{font-size:24px;font-weight:760;fill:#f8fafc}.b{font-size:17px;fill:#cbd5e1}.small{font-size:15px;fill:#94a3b8}.num{font-size:27px;font-weight:820;fill:#67e8f9}.box{fill:#0d2944;stroke:#345674;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="900" rx="30" fill="url(#bg)"/>
+  <text x="70" y="70" class="zh title">“TruthfulQA 分数”至少有五种：先写清任务，再写指标</text>
+  <text x="70" y="108" class="zh sub">开放生成测模型会说什么；多选测模型在给定候选之间分配多少似然——二者不能互换</text>
+
+  <rect x="70" y="150" width="600" height="600" rx="26" class="box"/>
+  <text x="100" y="198" class="zh h">A. Generation · 论文主任务</text>
+  <g class="zh">
+    <rect x="100" y="235" width="540" height="100" rx="18" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="126" y="274" class="h">question → greedy 1–2 sentence answer</text><text x="126" y="308" class="b">true zero-shot · temperature 0 · 论文代码最多 50 tokens</text>
+    <rect x="100" y="370" width="250" height="146" rx="18" fill="#103d3a" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="126" y="410" class="h">Human evaluation</text><text x="126" y="448" class="b">13 truth labels</text><text x="126" y="480" class="b">12 information labels</text><text x="126" y="506" class="small">模型 / prompt 盲评</text>
+    <rect x="390" y="370" width="250" height="146" rx="18" fill="#3a2a18" stroke="#f59e0b" stroke-width="2"/>
+    <text x="416" y="410" class="h">Learned judges</text><text x="416" y="448" class="b">GPT-judge · truth</text><text x="416" y="480" class="b">GPT-info · information</text><text x="416" y="506" class="small">只建议用于本 benchmark</text>
+    <rect x="100" y="550" width="540" height="155" rx="18" fill="#402037" stroke="#fb7185" stroke-width="2"/>
+    <text x="126" y="590" class="h">Similarity proxies</text>
+    <text x="126" y="630" class="mono b">max sim(answer, true refs) − max sim(answer, false refs)</text>
+    <text x="126" y="666" class="b">BLEURT / ROUGE / BLEU 较便宜，但远弱于人评与 GPT-judge</text><text x="126" y="694" class="small">长回答、真假混合、限定语和未覆盖同义答案都很难</text>
+  </g>
+
+  <rect x="710" y="150" width="660" height="600" rx="26" class="box"/>
+  <text x="740" y="198" class="zh h">B. Likelihood multiple choice · 候选识别任务</text>
+  <text x="740" y="238" class="mono b">ℓ(a) = Σₜ log p(aₜ | question, a&lt;t)</text>
+  <text x="740" y="270" class="zh small">官方旧代码用 sequence log-prob 总和，不按 token 长度归一化</text>
+  <g class="zh">
+    <rect x="740" y="310" width="290" height="142" rx="18" fill="#2d245b" stroke="#a78bfa" stroke-width="2"/>
+    <text x="766" y="350" class="h">MC1 · Best true</text><text x="766" y="390" class="num">0 / 1 accuracy</text>
+    <text x="766" y="422" class="small">指定最佳真答案是否胜过全部假答案</text>
+    <rect x="1050" y="310" width="290" height="142" rx="18" fill="#103d3a" stroke="#2dd4bf" stroke-width="2"/>
+    <text x="1076" y="350" class="h">MC2 · Set probability</text><text x="1076" y="390" class="num">Σ P(true) / Σ P(all)</text>
+    <text x="1076" y="422" class="small">连续值；论文描述的多选 truth score</text>
+    <rect x="740" y="482" width="290" height="142" rx="18" fill="#123a4b" stroke="#67e8f9" stroke-width="2"/>
+    <text x="766" y="522" class="h">MC3 · Every true</text><text x="766" y="562" class="num">mean 1[ℓ(t)&gt;max ℓ(f)]</text>
+    <text x="766" y="594" class="small">官方代码保留；论文与 README 非主口径</text>
+    <rect x="1050" y="482" width="290" height="142" rx="18" fill="#3a2a18" stroke="#f59e0b" stroke-width="2"/>
+    <text x="1076" y="522" class="h">Binary / MC0 · 2025</text><text x="1076" y="562" class="num">Best true vs best false</text>
+    <text x="1076" y="594" class="small">选项顺序随机；减少 odd-one-out 线索</text>
+  </g>
+  <rect x="740" y="658" width="600" height="60" rx="16" fill="#30223d" stroke="#f59e0b" stroke-width="2"/>
+  <text x="770" y="696" class="zh b">例：同一题可同时 MC1=1、MC2=0.556、MC3=0.5；指标名不可省略</text>
+
+  <rect x="70" y="790" width="1300" height="64" rx="18" fill="#123a4b" stroke="#2dd4bf" stroke-width="2"/>
+  <text x="720" y="832" text-anchor="middle" class="zh h">高 MC 分只证明“在给定候选中偏好真陈述”，不证明开放生成时不会自行说出新谬误</text>
+</svg>
