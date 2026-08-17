@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">Reflexion 跨两次尝试的状态变化</title>
+  <desc id="desc">第一次尝试因重复开门失败，评估器给出失败信号，反思器形成先取钥匙的语言经验；环境重置但长期记忆保留，第二次尝试读取经验后成功。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#f0fdf4"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity=".12"/></filter>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0 11 5.5 0 11Z" fill="#64748b"/></marker>
+    <marker id="greenArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0 11 5.5 0 11Z" fill="#059669"/></marker>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 20px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.mono{font:600 15px "JetBrains Mono",Consolas,monospace;fill:#1e293b}.white{fill:#fff}.red{fill:#b91c1c}.green{fill:#047857}.violet{fill:#7c3aed}</style>
+  </defs>
+  <rect width="1400" height="780" fill="url(#bg)"/>
+  <text x="55" y="54" class="title">一次 Reflexion 更新：环境重置，记忆不重置</text>
+  <text x="55" y="84" class="subtitle">这里用“锁门—钥匙”教学环境展示信息流；论文中的 ALFWorld、HotPotQA 与代码任务遵循同一外层 trial 结构。</text>
+
+  <g transform="translate(55 124)" filter="url(#shadow)">
+    <rect width="1290" height="568" rx="28" fill="#fff" stroke="#cbd5e1"/>
+    <line x1="645" y1="36" x2="645" y2="532" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 8"/>
+
+    <g transform="translate(32 34)">
+      <rect width="581" height="500" rx="22" fill="#fff7ed" stroke="#fdba74"/>
+      <rect width="581" height="60" rx="22" fill="#ea580c"/><rect y="36" width="581" height="24" fill="#ea580c"/>
+      <text x="24" y="39" class="h white">Trial 0 · 无经验</text>
+
+      <g transform="translate(28 92)">
+        <rect width="138" height="84" rx="15" fill="#eff6ff" stroke="#60a5fa"/>
+        <text x="69" y="29" text-anchor="middle" class="h">Actor</text>
+        <text x="69" y="57" text-anchor="middle" class="mono">open_door</text>
+        <text x="69" y="76" text-anchor="middle" class="small">mem = []</text>
+        <path d="M138 42H200" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+        <rect x="207" width="165" height="84" rx="15" fill="#fef2f2" stroke="#f87171"/>
+        <text x="289" y="30" text-anchor="middle" class="h red">Environment</text>
+        <text x="289" y="58" text-anchor="middle" class="body">门锁着；没有钥匙</text>
+        <path d="M372 42H434" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+        <rect x="441" width="84" height="84" rx="42" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+        <text x="483" y="36" text-anchor="middle" class="h red">FAIL</text>
+        <text x="483" y="61" text-anchor="middle" class="mono red">r=0</text>
+      </g>
+
+      <g transform="translate(28 205)">
+        <rect width="525" height="90" rx="16" fill="#f8fafc" stroke="#94a3b8"/>
+        <text x="18" y="29" class="h">短期轨迹 τ<tspan baseline-shift="sub" font-size="13">0</tspan></text>
+        <text x="18" y="58" class="mono">open_door → “locked” → open_door → “locked”</text>
+        <text x="18" y="79" class="small">轨迹详尽但冗长；直接原样塞回去未必能提炼真正教训</text>
+      </g>
+
+      <path d="M290 302V334" stroke="#8b5cf6" stroke-width="3" marker-end="url(#arrow)"/>
+      <g transform="translate(28 342)">
+        <rect width="525" height="124" rx="17" fill="#faf5ff" stroke="#c084fc" stroke-width="2"/>
+        <text x="18" y="31" class="h violet">Self-Reflection</text>
+        <text x="18" y="61" class="body">“我在门锁着以后重复了同一动作。下一次应先拿起房间里的钥匙，</text>
+        <text x="18" y="86" class="body">再去开门；若观察没有变化，不要盲目重复。”</text>
+        <text x="18" y="111" class="small">失败信号被“放大”为带 credit assignment 的语言策略</text>
+      </g>
+    </g>
+
+    <g transform="translate(677 34)">
+      <rect width="581" height="500" rx="22" fill="#ecfdf5" stroke="#6ee7b7"/>
+      <rect width="581" height="60" rx="22" fill="#059669"/><rect y="36" width="581" height="24" fill="#059669"/>
+      <text x="24" y="39" class="h white">Trial 1 · 读取上一轮反思</text>
+
+      <g transform="translate(28 92)">
+        <rect width="525" height="92" rx="16" fill="#d1fae5" stroke="#34d399"/>
+        <text x="18" y="29" class="h green">长期记忆 mem<tspan baseline-shift="sub" font-size="13">1</tspan></text>
+        <text x="18" y="58" class="body">先取钥匙再开门；无效动作不要连续重复。</text>
+        <text x="18" y="80" class="small">环境已经 reset，但这段文字仍在 Actor 的 prompt 中</text>
+      </g>
+
+      <g transform="translate(28 219)">
+        <rect width="138" height="84" rx="15" fill="#eff6ff" stroke="#60a5fa"/>
+        <text x="69" y="29" text-anchor="middle" class="h">Actor</text>
+        <text x="69" y="57" text-anchor="middle" class="mono">take_key</text>
+        <path d="M138 42H194" stroke="#059669" stroke-width="3" marker-end="url(#greenArrow)"/>
+        <rect x="201" width="124" height="84" rx="15" fill="#f0fdf4" stroke="#4ade80"/>
+        <text x="263" y="30" text-anchor="middle" class="h green">Obs</text>
+        <text x="263" y="58" text-anchor="middle" class="body">已拿到钥匙</text>
+        <path d="M325 42H381" stroke="#059669" stroke-width="3" marker-end="url(#greenArrow)"/>
+        <rect x="388" width="137" height="84" rx="15" fill="#eff6ff" stroke="#60a5fa"/>
+        <text x="456" y="29" text-anchor="middle" class="h">Actor</text>
+        <text x="456" y="57" text-anchor="middle" class="mono">open_door</text>
+      </g>
+
+      <path d="M291 316V348" stroke="#059669" stroke-width="3" marker-end="url(#greenArrow)"/>
+      <g transform="translate(28 356)">
+        <rect width="525" height="110" rx="17" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+        <circle cx="48" cy="55" r="29" fill="#059669"/>
+        <path d="m34 55 10 10 20-25" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="91" y="46" class="h green">Environment：门打开，任务完成</text>
+        <text x="91" y="75" class="mono green">Evaluator → pass · r = 1</text>
+        <text x="91" y="97" class="small">成功后可立即终止，不必为了“反思”而继续修改</text>
+      </g>
+    </g>
+
+    <path d="M614 504C646 544 664 544 696 504" fill="none" stroke="#059669" stroke-width="3.5" marker-end="url(#greenArrow)"/>
+    <text x="655" y="559" text-anchor="middle" class="small green">仅 mem 跨越 trial 边界</text>
+  </g>
+</svg>

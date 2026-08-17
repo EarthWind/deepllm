@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">标量反馈与 Reflexion 语言反馈的差异</title>
+  <desc id="desc">标量奖励只表示失败，Reflexion 结合轨迹把它转换为错误位置、失败原因和下一步策略，但并没有计算神经网络梯度或更新模型权重。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#faf5ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity=".12"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#8b5cf6"/></marker>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 21px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.mono{font:600 16px "JetBrains Mono",Consolas,monospace;fill:#1e293b}.white{fill:#fff}.red{fill:#b91c1c}.violet{fill:#7c3aed}.green{fill:#047857}</style>
+  </defs>
+  <rect width="1400" height="760" fill="url(#bg)"/>
+  <text x="55" y="54" class="title">“Semantic gradient” 是比喻：方向进入上下文，不进入参数</text>
+  <text x="55" y="84" class="subtitle">真正的梯度回答“每个参数该改多少”；语言反思回答“下一次行为该怎样不同”。两者都能影响后续策略，但机制完全不同。</text>
+
+  <g transform="translate(55 126)" filter="url(#shadow)">
+    <rect width="1290" height="548" rx="28" fill="#fff" stroke="#cbd5e1"/>
+
+    <g transform="translate(42 42)">
+      <rect width="318" height="204" rx="22" fill="#fef2f2" stroke="#f87171"/>
+      <text x="24" y="42" class="h red">稀疏反馈</text>
+      <circle cx="82" cy="110" r="42" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+      <text x="82" y="117" text-anchor="middle" class="mono red">r = 0</text>
+      <text x="145" y="95" class="body">知道“失败了”</text>
+      <text x="145" y="125" class="body">不知道错在哪里</text>
+      <text x="145" y="155" class="body">不知道下一步怎么改</text>
+      <text x="24" y="186" class="small">环境、Exact Match、编译器或测试均可给信号</text>
+    </g>
+
+    <path d="M360 144H454" stroke="#8b5cf6" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <text x="407" y="124" text-anchor="middle" class="small violet">结合 τ<tspan baseline-shift="sub" font-size="10">t</tspan> 分析</text>
+
+    <g transform="translate(459 42)">
+      <rect width="365" height="204" rx="22" fill="#faf5ff" stroke="#c084fc" stroke-width="2"/>
+      <text x="24" y="42" class="h violet">语言反思 sr<tspan baseline-shift="sub" font-size="13">t</tspan></text>
+      <g transform="translate(24 67)">
+        <rect width="317" height="34" rx="9" fill="#ede9fe"/><text x="14" y="23" class="body">错误位置：第二步重复了无效动作</text>
+        <rect y="45" width="317" height="34" rx="9" fill="#ede9fe"/><text x="14" y="68" class="body">失败原因：忽略了“门锁着”的观察</text>
+        <rect y="90" width="317" height="34" rx="9" fill="#ede9fe"/><text x="14" y="113" class="body">改进策略：先取钥匙，再尝试开门</text>
+      </g>
+      <text x="24" y="191" class="small">把 credit assignment 和 next-step hint 写成 token</text>
+    </g>
+
+    <path d="M824 144H918" stroke="#8b5cf6" stroke-width="3.5" marker-end="url(#arrow)"/>
+    <text x="871" y="124" text-anchor="middle" class="small violet">写入 mem</text>
+
+    <g transform="translate(923 42)">
+      <rect width="325" height="204" rx="22" fill="#ecfdf5" stroke="#34d399" stroke-width="2"/>
+      <text x="24" y="42" class="h green">下一轮策略改变</text>
+      <text x="24" y="80" class="mono green">π(a | s; θ<tspan baseline-shift="sub" font-size="11">LLM</tspan>, mem<tspan baseline-shift="sub" font-size="11">t+1</tspan>)</text>
+      <text x="24" y="119" class="body">同一状态下更可能选到新动作</text>
+      <text x="24" y="151" class="body">变化来源：上下文中的经验文本</text>
+      <text x="24" y="183" class="small">只要删除 mem，改进可能随之消失</text>
+    </g>
+
+    <g transform="translate(42 286)">
+      <rect width="576" height="213" rx="22" fill="#eff6ff" stroke="#60a5fa"/>
+      <text x="24" y="42" class="h">梯度式 RL / 微调</text>
+      <text x="24" y="82" class="mono">θ<tspan baseline-shift="sub" font-size="11">t+1</tspan> = θ<tspan baseline-shift="sub" font-size="11">t</tspan> + α · update(∇<tspan baseline-shift="sub" font-size="11">θ</tspan>J)</text>
+      <text x="24" y="121" class="body">• 更新神经网络参数，能力可脱离 prompt 保留</text>
+      <text x="24" y="151" class="body">• 通常需要训练样本、反向传播、优化器与算力</text>
+      <text x="24" y="181" class="small">更接近传统 policy/value learning 的“学习”含义</text>
+    </g>
+    <g transform="translate(672 286)">
+      <rect width="576" height="213" rx="22" fill="#faf5ff" stroke="#c084fc"/>
+      <text x="24" y="42" class="h violet">Reflexion / 语言强化</text>
+      <text x="24" y="82" class="mono violet">θ<tspan baseline-shift="sub" font-size="11">LLM</tspan> 不变；mem<tspan baseline-shift="sub" font-size="11">t+1</tspan> = mem<tspan baseline-shift="sub" font-size="11">t</tspan> ⊕ sr<tspan baseline-shift="sub" font-size="11">t</tspan></text>
+      <text x="24" y="121" class="body">• 更新可读写的文本状态，几次 trial 内就能生效</text>
+      <text x="24" y="151" class="body">• 需要额外推理调用，并受上下文长度和模型能力约束</text>
+      <text x="24" y="181" class="small">更准确地说，是 inference-time policy adaptation</text>
+    </g>
+  </g>
+</svg>

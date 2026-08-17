@@ -536,7 +536,7 @@
 |---:|---|---|---|
 | 63 | [TruthfulQA (2021)](https://arxiv.org/abs/2109.07958) · [中文详解](63_TruthfulQA_2021_原理.md) | 专门测试模型是否模仿人类常见谬误，提醒“更大”不自动等于“更真实”。 | imitation falsehood、真实性与信息量、评测者偏差。 |
 | 64 | [HELM (2022)](https://arxiv.org/abs/2211.09110) — `Holistic Evaluation of Language Models` · [中文详解](64_HELM_2022_原理.md) | 把准确率之外的校准、鲁棒性、公平、偏见、毒性和效率纳入统一评测。 | 场景覆盖、多指标权衡、透明可复现评测。 |
-| 65 | [Reflexion (2023)](https://arxiv.org/abs/2303.11366) — `Language Agents with Verbal Reinforcement Learning` | 用语言化反馈和记忆改进下一轮尝试，影响了大量自反思 Agent 设计。 | 轨迹反馈、episodic memory、无需更新权重的改进。 |
+| 65 | [Reflexion (2023)](https://arxiv.org/abs/2303.11366) — `Language Agents with Verbal Reinforcement Learning` · [中文详解](65_Reflexion_2023_原理.md) | 用语言化反馈和记忆改进下一轮尝试，影响了大量自反思 Agent 设计。 | 轨迹反馈、episodic memory、无需更新权重的改进。 |
 | 66 | [Generative Agents (2023)](https://arxiv.org/abs/2304.03442) — `Generative Agents: Interactive Simulacra of Human Behavior` | 展示记忆、反思与计划如何组成持续运行的社会型 Agent。 | memory stream、重要性/时近性/相关性检索、反思与规划。 |
 | 67 | [Voyager (2023)](https://arxiv.org/abs/2305.16291) — `An Open-Ended Embodied Agent with Large Language Models` | 把自动课程、技能库和迭代提示结合到开放世界具身学习。 | skill library、automatic curriculum、环境反馈与代码执行。 |
 | 68 | [MT-Bench & Chatbot Arena (2023)](https://arxiv.org/abs/2306.05685) — `Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena` | 奠定多轮对话、LLM-as-a-judge 与众包两两比较的评测范式。 | position/verbosity/self-enhancement bias、人类一致性、Elo 局限。 |
@@ -627,7 +627,7 @@
 - [WebGPT (2021)](https://arxiv.org/abs/2112.09332) · [中文详解](54_WebGPT_2021_原理.md)：浏览、引用与人类反馈。
 - [ReAct (2022/2023)](https://arxiv.org/abs/2210.03629)：推理与行动交替。
 - [Toolformer (2023)](https://arxiv.org/abs/2302.04761)：自监督学习何时调用工具。
-- [Reflexion (2023)](https://arxiv.org/abs/2303.11366)：用语言反馈和记忆改进下一轮轨迹。
+- [Reflexion (2023)](https://arxiv.org/abs/2303.11366) · [中文详解](65_Reflexion_2023_原理.md)：用语言反馈和记忆改进下一轮轨迹。
 - [Tree of Thoughts (2023)](https://arxiv.org/abs/2305.10601)：显式搜索多条推理路径。
 - [Voyager (2023)](https://arxiv.org/abs/2305.16291)：开放世界中的自动课程与技能库。
 - [WebArena (2023)](https://arxiv.org/abs/2307.13854)：在可复现网站环境中评测真实网页任务。
