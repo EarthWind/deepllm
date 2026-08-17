@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+  <title id="title">Reflexion 论文的主要实验结果与边界</title>
+  <desc id="desc">左侧展示 ALFWorld 和 HotPotQA 的改进，右侧展示 HumanEval、MBPP 与 Leetcode Hard 的基线和 Reflexion pass@1，突出 HumanEval 91%、MBPP Python 回退以及 WebShop 未显著改进。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#eef2ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity=".11"/></filter>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.h{font:700 20px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.label{font:500 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.value{font:700 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.note{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.big{font:800 34px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif}</style>
+  </defs>
+  <rect width="1400" height="850" fill="url(#bg)"/>
+  <text x="55" y="54" class="title">论文结果：有可靠反馈时快速改进；反馈失真或探索不足时会停在局部最优</text>
+  <text x="55" y="84" class="subtitle">数字来自论文主文 Table 1–3 与实验描述；不同数据集、语言和样本规模不能用柱长直接横向排名模型能力。</text>
+
+  <g transform="translate(55 119)" filter="url(#shadow)">
+    <g>
+      <rect width="610" height="282" rx="22" fill="#fff" stroke="#cbd5e1"/>
+      <text x="24" y="38" class="h">决策与推理</text>
+      <g transform="translate(25 72)">
+        <rect width="260" height="170" rx="18" fill="#ecfdf5" stroke="#6ee7b7"/>
+        <text x="20" y="34" class="h">ALFWorld · 134 tasks</text>
+        <text x="20" y="82" class="big" fill="#059669">130 / 134</text>
+        <text x="20" y="112" class="label">ReAct + Reflexion 完成</text>
+        <text x="20" y="139" class="label">相对强基线约 +22 个百分点</text>
+        <text x="20" y="160" class="note">最多 12 个迭代学习步骤；mem ≤ 3</text>
+        <rect x="154" y="72" width="82" height="10" rx="5" fill="#d1fae5"/><rect x="154" y="72" width="79" height="10" rx="5" fill="#059669"/>
+      </g>
+      <g transform="translate(305 72)">
+        <rect width="280" height="170" rx="18" fill="#eff6ff" stroke="#93c5fd"/>
+        <text x="20" y="34" class="h">HotPotQA · 100 questions</text>
+        <text x="20" y="82" class="big" fill="#2563eb">+20 pp</text>
+        <text x="20" y="112" class="label">论文主实验所报提升</text>
+        <text x="20" y="139" class="label">CoT (GT) + Reflexion：+14 pp</text>
+        <text x="20" y="160" class="note">反思比仅保留最近轨迹再额外 +8 pp</text>
+      </g>
+    </g>
+
+    <g transform="translate(638)">
+      <rect width="650" height="282" rx="22" fill="#fff" stroke="#cbd5e1"/>
+      <text x="24" y="38" class="h">代码生成 · pass@1（%）</text>
+      <g transform="translate(24 68)">
+        <text x="155" y="19" text-anchor="end" class="label">HumanEval Python</text><rect x="170" y="4" width="320" height="18" rx="5" fill="#bfdbfe"/><rect x="170" y="29" width="364" height="18" rx="5" fill="#059669"/><text x="500" y="19" class="value">80.1</text><text x="544" y="44" class="value">91.0</text>
+        <g transform="translate(0 52)"><text x="155" y="19" text-anchor="end" class="label">HumanEval Rust</text><rect x="170" y="4" width="240" height="18" rx="5" fill="#bfdbfe"/><rect x="170" y="29" width="272" height="18" rx="5" fill="#059669"/><text x="420" y="19" class="value">60.0</text><text x="452" y="44" class="value">68.0</text></g>
+        <g transform="translate(0 104)"><text x="155" y="19" text-anchor="end" class="label">MBPP Python</text><rect x="170" y="4" width="320" height="18" rx="5" fill="#bfdbfe"/><rect x="170" y="29" width="308" height="18" rx="5" fill="#ef4444"/><text x="500" y="19" class="value">80.1</text><text x="488" y="44" class="value">77.1</text></g>
+        <g transform="translate(0 156)"><text x="155" y="19" text-anchor="end" class="label">MBPP Rust</text><rect x="170" y="4" width="284" height="18" rx="5" fill="#bfdbfe"/><rect x="170" y="29" width="302" height="18" rx="5" fill="#059669"/><text x="464" y="19" class="value">70.9</text><text x="482" y="44" class="value">75.4</text></g>
+      </g>
+      <g transform="translate(496 13)"><rect width="16" height="12" rx="3" fill="#bfdbfe"/><text x="22" y="11" class="note">Base GPT-4</text><rect y="22" width="16" height="12" rx="3" fill="#059669"/><text x="22" y="33" class="note">Reflexion</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(55 433)" filter="url(#shadow)">
+    <g>
+      <rect width="610" height="286" rx="22" fill="#fff" stroke="#cbd5e1"/>
+      <text x="24" y="38" class="h">为什么 MBPP Python 反而下降？</text>
+      <text x="24" y="71" class="note">内部测试执行条件分布；TP/FN/FP/TN 为论文 Table 2</text>
+      <g transform="translate(24 97)">
+        <rect width="562" height="46" rx="12" fill="#f8fafc"/>
+        <text x="18" y="29" class="label">HumanEval PY</text><text x="182" y="29" class="value">TP 0.99</text><text x="277" y="29" class="value">FN 0.40</text><text x="372" y="29" class="value">FP 0.01</text><text x="467" y="29" class="value">TN 0.60</text>
+        <rect y="56" width="562" height="46" rx="12" fill="#fef2f2"/>
+        <text x="18" y="85" class="label">MBPP PY</text><text x="182" y="85" class="value">TP 0.84</text><text x="277" y="85" class="value">FN 0.59</text><text x="372" y="85" class="value" fill="#b91c1c">FP 0.16</text><text x="467" y="85" class="value">TN 0.41</text>
+      </g>
+      <text x="24" y="224" class="label">错误实现更容易骗过 MBPP 的自生成测试，导致提前停止。</text>
+      <text x="24" y="253" class="note">论文正文进一步报告：MBPP PY false-positive 约 16.3%，HumanEval PY 约 1.4%。</text>
+    </g>
+
+    <g transform="translate(638)">
+      <rect width="650" height="286" rx="22" fill="#fff" stroke="#cbd5e1"/>
+      <text x="24" y="38" class="h">消融与负结果同样重要</text>
+      <g transform="translate(24 64)">
+        <rect width="602" height="48" rx="13" fill="#eff6ff"/><text x="18" y="22" class="label">HumanEval Rust hardest 50：Base</text><text x="555" y="36" text-anchor="end" class="big" fill="#2563eb">60%</text>
+        <rect y="54" width="602" height="48" rx="13" fill="#fef2f2"/><text x="18" y="76" class="label">无测试、只反思</text><text x="555" y="90" text-anchor="end" class="big" fill="#dc2626">52%</text>
+        <rect y="108" width="602" height="48" rx="13" fill="#f8fafc"/><text x="18" y="130" class="label">有测试、无语言反思</text><text x="555" y="144" text-anchor="end" class="big" fill="#64748b">60%</text>
+        <rect y="162" width="602" height="48" rx="13" fill="#ecfdf5"/><text x="18" y="184" class="label">完整 Reflexion</text><text x="555" y="198" text-anchor="end" class="big" fill="#059669">68%</text>
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(55 747)">
+    <rect width="1290" height="52" rx="16" fill="#fff7ed" stroke="#fdba74"/>
+    <text x="22" y="22" class="label">负结果：WebShop 的 ReAct + Reflexion 在 100 个购物请求、4 个 trial 内没有显著超过 ReAct。</text>
+    <text x="22" y="42" class="note">作者归因于精确搜索所需的探索多样性不足与反思质量差；“能解释失败”并不保证能跳出局部最优。</text>
+  </g>
+</svg>
