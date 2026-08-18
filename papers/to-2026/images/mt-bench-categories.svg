@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="840" viewBox="0 0 1440 840" role="img" aria-labelledby="title desc">
+  <title id="title">MT-Bench 八类两轮问题</title>
+  <desc id="desc">展示写作、角色扮演、抽取、推理、数学、代码、STEM 知识和人文社科知识八类，每类十题，每题两轮。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#121b31"/></linearGradient>
+    <marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#67e8f9"/></marker>
+    <style>.f{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.h{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#94a3b8}.t{font-size:21px;font-weight:700;fill:#e2e8f0}.s{font-size:16px;fill:#a8b6cb}.small{font-size:14px;fill:#cbd5e1}.card{fill:#111e34;stroke:#334155;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="840" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="f h">MT-Bench：80 道题不难记，难的是第二轮</text>
+  <text x="70" y="106" class="f sub">8 类 × 10 题；第二轮显式测试上下文引用、约束修改与连续指令遵循</text>
+
+  <g class="f">
+    <rect x="70" y="155" width="285" height="120" rx="18" class="card"/><circle cx="108" cy="194" r="18" fill="#0e7490"/><text x="140" y="202" class="t">写作 Writing</text><text x="105" y="239" class="s">改写、风格与形式约束</text>
+    <rect x="390" y="155" width="285" height="120" rx="18" class="card"/><circle cx="428" cy="194" r="18" fill="#7c3aed"/><text x="460" y="202" class="t">角色扮演 Roleplay</text><text x="425" y="239" class="s">身份、语气与情境一致性</text>
+    <rect x="710" y="155" width="285" height="120" rx="18" class="card"/><circle cx="748" cy="194" r="18" fill="#059669"/><text x="780" y="202" class="t">信息抽取 Extraction</text><text x="745" y="239" class="s">结构化提取与条件过滤</text>
+    <rect x="1030" y="155" width="340" height="120" rx="18" class="card"/><circle cx="1068" cy="194" r="18" fill="#dc2626"/><text x="1100" y="202" class="t">推理 Reasoning</text><text x="1065" y="239" class="s">逻辑链、反事实与约束变化</text>
+    <rect x="70" y="305" width="285" height="120" rx="18" class="card"/><circle cx="108" cy="344" r="18" fill="#d97706"/><text x="140" y="352" class="t">数学 Math</text><text x="105" y="389" class="s">计算、证明与后续求解</text>
+    <rect x="390" y="305" width="285" height="120" rx="18" class="card"/><circle cx="428" cy="344" r="18" fill="#2563eb"/><text x="460" y="352" class="t">代码 Coding</text><text x="425" y="389" class="s">实现、解释、修改与调试</text>
+    <rect x="710" y="305" width="285" height="120" rx="18" class="card"/><circle cx="748" cy="344" r="18" fill="#0891b2"/><text x="780" y="352" class="t">知识 I：STEM</text><text x="745" y="389" class="s">科学技术知识与解释</text>
+    <rect x="1030" y="305" width="340" height="120" rx="18" class="card"/><circle cx="1068" cy="344" r="18" fill="#9333ea"/><text x="1100" y="352" class="t">知识 II：人文社科</text><text x="1065" y="389" class="s">历史、经济、文化与社会</text>
+  </g>
+
+  <rect x="70" y="485" width="600" height="270" rx="24" fill="#0b1729" stroke="#22d3ee" stroke-width="2"/>
+  <text x="105" y="532" class="f t" fill="#a5f3fc">示例：第二轮不是另一道独立题</text>
+  <rect x="105" y="562" width="530" height="66" rx="14" fill="#083344"/>
+  <text x="130" y="589" class="f small" fill="#67e8f9">Turn 1</text><text x="205" y="589" class="f s">写一篇夏威夷旅行博客。</text><text x="205" y="613" class="f s">模型先生成完整文章。</text>
+  <path d="M370 628V650" stroke="#67e8f9" stroke-width="3" marker-end="url(#a)"/>
+  <rect x="105" y="660" width="530" height="66" rx="14" fill="#172554"/>
+  <text x="130" y="687" class="f small" fill="#93c5fd">Turn 2</text><text x="205" y="687" class="f s">重写刚才的回答，要求每句以 A 开头。</text><text x="205" y="711" class="f s">必须定位并修改自己的上一轮内容。</text>
+
+  <rect x="740" y="485" width="630" height="270" rx="24" fill="#0b1729" stroke="#a78bfa" stroke-width="2"/>
+  <text x="775" y="532" class="f t" fill="#ddd6fe">多轮裁判 Prompt 的正确上下文</text>
+  <rect x="775" y="562" width="250" height="155" rx="16" fill="#3f0f12"/>
+  <text x="900" y="593" text-anchor="middle" class="f small" fill="#fecdd3">容易出错</text><text x="900" y="624" text-anchor="middle" class="f s">拆成两个独立 Prompt</text><text x="900" y="652" text-anchor="middle" class="f s">第二轮指代可能串到</text><text x="900" y="678" text-anchor="middle" class="f s">另一个模型的第一轮</text>
+  <rect x="1080" y="562" width="255" height="155" rx="16" fill="#052e27"/>
+  <text x="1207" y="593" text-anchor="middle" class="f small" fill="#a7f3d0">论文采用</text><text x="1207" y="624" text-anchor="middle" class="f s">同时展示 A/B 完整对话</text><text x="1207" y="652" text-anchor="middle" class="f s">明确要求重点评判</text><text x="1207" y="678" text-anchor="middle" class="f s">第二个用户问题</text>
+  <text x="70" y="808" class="f small">MT-Bench 衡量的是开放问答中的偏好与指令遵循；它不替代 MMLU、TruthfulQA、HumanEval 等可验证能力基准。</text>
+</svg>

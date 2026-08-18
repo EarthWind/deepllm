@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="920" viewBox="0 0 1440 920" role="img" aria-labelledby="title desc">
+  <title id="title">SWE-bench 2023 原始基线结果与上下文检索反常</title>
+  <desc id="desc">原始论文中所有模型解决率都很低；Claude 2 的 BM25 解决率是 1.96%，Oracle 是 4.80%。增加 BM25 上下文预算提高文件召回，却降低解决率。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071521"/><stop offset="1" stop-color="#13283c"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity="0.45"/></filter>
+  </defs>
+  <rect width="1440" height="920" rx="28" fill="url(#bg)"/>
+  <text x="62" y="66" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="700">原始 2023 基线：找到文件、写出 diff、真正修好是三道不同的坎</text>
+  <text x="62" y="103" fill="#94a3b8" font-family="Inter,Arial,sans-serif" font-size="18">以下数字来自 arXiv v1 / ICLR 原始实验口径；不与后来 Lite、Verified 或当前 Agent 榜单混用</text>
+
+  <g filter="url(#shadow)">
+    <rect x="62" y="142" width="846" height="435" rx="22" fill="#0d2132" stroke="#334155"/>
+    <rect x="938" y="142" width="440" height="435" rx="22" fill="#0d2132" stroke="#334155"/>
+    <rect x="62" y="609" width="1316" height="242" rx="22" fill="#0d2132" stroke="#334155"/>
+  </g>
+
+  <text x="94" y="184" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700">% Resolved：BM25 与 Oracle 文件上下文</text>
+  <g font-family="Inter,Arial,sans-serif" font-size="14">
+    <text x="250" y="225" text-anchor="end" fill="#94a3b8">模型</text>
+    <text x="424" y="225" text-anchor="middle" fill="#7dd3fc">BM25</text>
+    <text x="680" y="225" text-anchor="middle" fill="#6ee7b7">Oracle</text>
+    <text x="250" y="277" text-anchor="end" fill="#e2e8f0">ChatGPT-3.5</text>
+    <text x="250" y="337" text-anchor="end" fill="#e2e8f0">Claude 2</text>
+    <text x="250" y="397" text-anchor="end" fill="#e2e8f0">GPT-4*</text>
+    <text x="250" y="457" text-anchor="end" fill="#e2e8f0">SWE-Llama 7B</text>
+    <text x="250" y="517" text-anchor="end" fill="#e2e8f0">SWE-Llama 13B</text>
+  </g>
+  <g>
+    <line x1="286" y1="244" x2="286" y2="536" stroke="#334155"/>
+    <line x1="286" y1="536" x2="838" y2="536" stroke="#334155"/>
+    <g fill="#173a50" stroke="#38bdf8">
+      <rect x="286" y="257" width="22" height="27" rx="4"/><rect x="286" y="317" width="216" height="27" rx="4"/>
+      <rect x="286" y="377" width="1" height="27" rx="1"/><rect x="286" y="437" width="77" height="27" rx="4"/>
+      <rect x="286" y="497" width="77" height="27" rx="4"/>
+    </g>
+    <g fill="#0c493b" stroke="#34d399">
+      <rect x="558" y="257" width="57" height="27" rx="4"/><rect x="558" y="317" width="264" height="27" rx="4"/>
+      <rect x="558" y="377" width="96" height="27" rx="4"/><rect x="558" y="437" width="165" height="27" rx="4"/>
+      <rect x="558" y="497" width="220" height="27" rx="4"/>
+    </g>
+    <g font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700">
+      <text x="318" y="276" fill="#7dd3fc">0.20</text><text x="625" y="276" fill="#6ee7b7">0.52</text>
+      <text x="512" y="336" fill="#7dd3fc">1.96</text><text x="832" y="336" fill="#6ee7b7">4.80</text>
+      <text x="296" y="396" fill="#7dd3fc">0.00</text><text x="664" y="396" fill="#6ee7b7">1.74</text>
+      <text x="373" y="456" fill="#7dd3fc">0.70</text><text x="733" y="456" fill="#6ee7b7">3.00</text>
+      <text x="373" y="516" fill="#7dd3fc">0.70</text><text x="788" y="516" fill="#6ee7b7">4.00</text>
+    </g>
+  </g>
+  <text x="94" y="560" fill="#64748b" font-family="Inter,Arial,sans-serif" font-size="12">* GPT-4 因预算只在 25% 随机子集上评测，且 BM25 仅用 27K 设置；不能与全量模型做严格等样本比较。</text>
+
+  <text x="970" y="184" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700">Apply 与 Resolved 的巨大落差</text>
+  <text x="970" y="217" fill="#94a3b8" font-family="Inter,Arial,sans-serif" font-size="14">Claude 2 · BM25 原始口径</text>
+  <g font-family="Inter,Arial,sans-serif">
+    <circle cx="1158" cy="354" r="117" fill="none" stroke="#1e3548" stroke-width="34"/>
+    <circle cx="1158" cy="354" r="117" fill="none" stroke="#facc15" stroke-width="34" stroke-dasharray="219 516" transform="rotate(-90 1158 354)"/>
+    <circle cx="1158" cy="354" r="79" fill="none" stroke="#1e3548" stroke-width="24"/>
+    <circle cx="1158" cy="354" r="79" fill="none" stroke="#34d399" stroke-width="24" stroke-dasharray="10 486" transform="rotate(-90 1158 354)"/>
+    <text x="1158" y="340" text-anchor="middle" fill="#fde68a" font-size="29" font-weight="800">29.86%</text>
+    <text x="1158" y="369" text-anchor="middle" fill="#fef3c7" font-size="14">补丁可应用</text>
+    <text x="1158" y="405" text-anchor="middle" fill="#6ee7b7" font-size="24" font-weight="800">1.96%</text>
+    <text x="1158" y="431" text-anchor="middle" fill="#d1fae5" font-size="13">严格解决</text>
+    <rect x="988" y="506" width="340" height="44" rx="12" fill="#3b171b" stroke="#fb7185"/>
+    <text x="1158" y="534" text-anchor="middle" fill="#fecdd3" font-size="14" font-weight="700">语法成功只是必要条件，不是正确性证明</text>
+  </g>
+
+  <text x="94" y="651" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700">上下文预算反常：BM25 Oracle-file recall 上升，Claude 2 解决率反而下降</text>
+  <g font-family="Inter,Arial,sans-serif">
+    <line x1="158" y1="795" x2="728" y2="795" stroke="#475569"/>
+    <line x1="158" y1="690" x2="158" y2="795" stroke="#475569"/>
+    <polyline points="210,757 440,725 670,707" fill="none" stroke="#38bdf8" stroke-width="5"/>
+    <circle cx="210" cy="757" r="8" fill="#38bdf8"/><circle cx="440" cy="725" r="8" fill="#38bdf8"/><circle cx="670" cy="707" r="8" fill="#38bdf8"/>
+    <text x="210" y="738" text-anchor="middle" fill="#7dd3fc" font-size="14" font-weight="700">29.58</text>
+    <text x="440" y="706" text-anchor="middle" fill="#7dd3fc" font-size="14" font-weight="700">44.41</text>
+    <text x="670" y="688" text-anchor="middle" fill="#7dd3fc" font-size="14" font-weight="700">51.06</text>
+    <text x="210" y="821" text-anchor="middle" fill="#94a3b8" font-size="13">13K</text>
+    <text x="440" y="821" text-anchor="middle" fill="#94a3b8" font-size="13">27K</text>
+    <text x="670" y="821" text-anchor="middle" fill="#94a3b8" font-size="13">50K</text>
+    <text x="88" y="703" fill="#7dd3fc" font-size="13">Avg recall (%)</text>
+
+    <line x1="812" y1="795" x2="1294" y2="795" stroke="#475569"/>
+    <line x1="812" y1="690" x2="812" y2="795" stroke="#475569"/>
+    <polyline points="864,705 1053,710 1242,749" fill="none" stroke="#fb7185" stroke-width="5"/>
+    <circle cx="864" cy="705" r="8" fill="#fb7185"/><circle cx="1053" cy="710" r="8" fill="#fb7185"/><circle cx="1242" cy="749" r="8" fill="#fb7185"/>
+    <text x="864" y="686" text-anchor="middle" fill="#fda4af" font-size="14" font-weight="700">1.96</text>
+    <text x="1053" y="691" text-anchor="middle" fill="#fda4af" font-size="14" font-weight="700">1.87</text>
+    <text x="1242" y="730" text-anchor="middle" fill="#fda4af" font-size="14" font-weight="700">1.22</text>
+    <text x="864" y="821" text-anchor="middle" fill="#94a3b8" font-size="13">13K</text>
+    <text x="1053" y="821" text-anchor="middle" fill="#94a3b8" font-size="13">27K</text>
+    <text x="1242" y="821" text-anchor="middle" fill="#94a3b8" font-size="13">50K</text>
+    <text x="785" y="703" fill="#fda4af" font-size="13">Resolved (%)</text>
+    <text x="720" y="752" text-anchor="middle" fill="#64748b" font-size="30">≠</text>
+  </g>
+  <text x="720" y="887" text-anchor="middle" fill="#94a3b8" font-family="Inter,Arial,sans-serif" font-size="14">更多上下文提高“包含相关文件”的概率，却也增加干扰；检索召回与模型能否正确定位、修改不是同一个指标。</text>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Voyager 系统闭环</title>
+  <desc id="desc">自动课程提出任务，技能库检索代码，动作模型生成程序，环境执行并返回三类反馈，验证成功后写入技能库。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#101b31"/></linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#34d399"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#67e8f9"/></marker>
+    <style>
+      .sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.h{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#94a3b8}.box{fill:#111e34;stroke:#334155;stroke-width:2}.t{font-size:22px;font-weight:700;fill:#e2e8f0}.s{font-size:16px;fill:#a9b8cf}.tag{font-size:14px;font-weight:700}.line{fill:none;stroke:#67e8f9;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <circle cx="720" cy="455" r="242" fill="#0e7490" opacity=".08" filter="url(#glow)"/>
+  <text x="72" y="72" class="sans h">Voyager：两个时间尺度、一个持续增长闭环</text>
+  <text x="72" y="108" class="sans sub">外环选择“接下来学什么”；内环解决“这段程序为什么没完成”</text>
+
+  <rect x="70" y="188" width="280" height="164" rx="20" class="box"/>
+  <rect x="70" y="188" width="8" height="164" rx="4" fill="#f59e0b"/>
+  <text x="104" y="234" class="sans t">① 自动课程</text>
+  <text x="104" y="271" class="sans s">状态 + 探索进度</text>
+  <text x="104" y="299" class="sans s">已完成 / 失败任务</text>
+  <rect x="103" y="316" width="177" height="25" rx="12" fill="#422006"/>
+  <text x="191" y="334" text-anchor="middle" class="sans tag" fill="#fbbf24">提出适中且新颖的目标</text>
+
+  <rect x="425" y="188" width="280" height="164" rx="20" class="box"/>
+  <rect x="425" y="188" width="8" height="164" rx="4" fill="#8b5cf6"/>
+  <text x="459" y="234" class="sans t">② 技能检索</text>
+  <text x="459" y="271" class="sans s">任务计划 + 环境反馈</text>
+  <text x="459" y="299" class="sans s">描述向量 → top-5</text>
+  <rect x="458" y="316" width="176" height="25" rx="12" fill="#2e1065"/>
+  <text x="546" y="334" text-anchor="middle" class="sans tag" fill="#c4b5fd">把旧程序放入上下文</text>
+
+  <rect x="780" y="188" width="280" height="164" rx="20" class="box"/>
+  <rect x="780" y="188" width="8" height="164" rx="4" fill="#22d3ee"/>
+  <text x="814" y="234" class="sans t">③ 生成动作程序</text>
+  <text x="814" y="271" class="sans s">GPT-4 + 控制 API</text>
+  <text x="814" y="299" class="sans s">代码表示长时、可组合动作</text>
+  <rect x="813" y="316" width="175" height="25" rx="12" fill="#083344"/>
+  <text x="900" y="334" text-anchor="middle" class="sans tag" fill="#67e8f9">不是逐帧键鼠控制</text>
+
+  <rect x="1135" y="188" width="235" height="164" rx="20" class="box"/>
+  <rect x="1135" y="188" width="8" height="164" rx="4" fill="#34d399"/>
+  <text x="1169" y="234" class="sans t">④ 环境执行</text>
+  <text x="1169" y="271" class="sans s">MineDojo 状态</text>
+  <text x="1169" y="299" class="sans s">Mineflayer 高层 API</text>
+  <rect x="1168" y="316" width="166" height="25" rx="12" fill="#052e27"/>
+  <text x="1251" y="334" text-anchor="middle" class="sans tag" fill="#6ee7b7">世界状态发生变化</text>
+
+  <path d="M350 270H413" class="line"/><path d="M705 270H768" class="line"/><path d="M1060 270H1123" class="line"/>
+
+  <rect x="420" y="480" width="600" height="205" rx="26" fill="#0b1729" stroke="#475569" stroke-width="2"/>
+  <text x="720" y="526" text-anchor="middle" class="sans t">⑤ 迭代提示：失败不是一句“再想想”</text>
+  <rect x="458" y="555" width="160" height="82" rx="16" fill="#172554" stroke="#3b82f6"/>
+  <text x="538" y="586" text-anchor="middle" class="sans tag" fill="#93c5fd">环境反馈</text>
+  <text x="538" y="613" text-anchor="middle" class="sans s">缺材料 / 中间进度</text>
+  <rect x="640" y="555" width="160" height="82" rx="16" fill="#431407" stroke="#f97316"/>
+  <text x="720" y="586" text-anchor="middle" class="sans tag" fill="#fdba74">执行错误</text>
+  <text x="720" y="613" text-anchor="middle" class="sans s">语法 / API / 异常栈</text>
+  <rect x="822" y="555" width="160" height="82" rx="16" fill="#3b0764" stroke="#a855f7"/>
+  <text x="902" y="586" text-anchor="middle" class="sans tag" fill="#d8b4fe">自验证与批评</text>
+  <text x="902" y="613" text-anchor="middle" class="sans s">是否完成 / 如何修复</text>
+  <text x="720" y="666" text-anchor="middle" class="sans sub">反馈回到下一轮代码生成；最多 4 轮</text>
+
+  <path d="M1252 352V410Q1252 450 1212 450H1040Q1020 450 1008 469" class="line"/>
+  <path d="M420 583H366Q330 583 330 547V408Q330 372 366 372H900Q920 372 920 364" class="line"/>
+
+  <rect x="440" y="752" width="250" height="92" rx="18" fill="#3f0f12" stroke="#fb7185" stroke-width="2"/>
+  <text x="565" y="787" text-anchor="middle" class="sans t" fill="#fecdd3">验证失败</text>
+  <text x="565" y="817" text-anchor="middle" class="sans s">带反馈改写；4 轮后记为失败</text>
+  <rect x="750" y="752" width="250" height="92" rx="18" fill="#052e27" stroke="#34d399" stroke-width="2"/>
+  <text x="875" y="787" text-anchor="middle" class="sans t" fill="#a7f3d0">验证成功</text>
+  <text x="875" y="817" text-anchor="middle" class="sans s">程序写入技能库，再选新目标</text>
+  <path d="M620 685L575 740" class="line"/><path d="M820 685L865 740" class="line"/>
+  <path d="M1000 798H1080Q1110 798 1110 768V420Q1110 390 1080 390H580Q560 390 560 364" class="line"/>
+</svg>

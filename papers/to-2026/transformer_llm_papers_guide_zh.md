@@ -537,11 +537,11 @@
 | 63 | [TruthfulQA (2021)](https://arxiv.org/abs/2109.07958) · [中文详解](63_TruthfulQA_2021_原理.md) | 专门测试模型是否模仿人类常见谬误，提醒“更大”不自动等于“更真实”。 | imitation falsehood、真实性与信息量、评测者偏差。 |
 | 64 | [HELM (2022)](https://arxiv.org/abs/2211.09110) — `Holistic Evaluation of Language Models` · [中文详解](64_HELM_2022_原理.md) | 把准确率之外的校准、鲁棒性、公平、偏见、毒性和效率纳入统一评测。 | 场景覆盖、多指标权衡、透明可复现评测。 |
 | 65 | [Reflexion (2023)](https://arxiv.org/abs/2303.11366) — `Language Agents with Verbal Reinforcement Learning` · [中文详解](65_Reflexion_2023_原理.md) | 用语言化反馈和记忆改进下一轮尝试，影响了大量自反思 Agent 设计。 | 轨迹反馈、episodic memory、无需更新权重的改进。 |
-| 66 | [Generative Agents (2023)](https://arxiv.org/abs/2304.03442) — `Generative Agents: Interactive Simulacra of Human Behavior` | 展示记忆、反思与计划如何组成持续运行的社会型 Agent。 | memory stream、重要性/时近性/相关性检索、反思与规划。 |
-| 67 | [Voyager (2023)](https://arxiv.org/abs/2305.16291) — `An Open-Ended Embodied Agent with Large Language Models` | 把自动课程、技能库和迭代提示结合到开放世界具身学习。 | skill library、automatic curriculum、环境反馈与代码执行。 |
-| 68 | [MT-Bench & Chatbot Arena (2023)](https://arxiv.org/abs/2306.05685) — `Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena` | 奠定多轮对话、LLM-as-a-judge 与众包两两比较的评测范式。 | position/verbosity/self-enhancement bias、人类一致性、Elo 局限。 |
-| 69 | [Lost in the Middle (2023)](https://arxiv.org/abs/2307.03172) | 证明“上下文窗口很长”不等于“模型能可靠使用全部上下文”。 | U 形位置效应、多文档 QA、key-value retrieval。 |
-| 70 | [SWE-bench (2023)](https://arxiv.org/abs/2310.06770) | 把代码评测从单函数生成推进到真实仓库 issue 修复，成为 coding agent 的关键基准。 | repository-level context、执行环境、测试驱动判定、污染风险。 |
+| 66 | [Generative Agents (2023)](https://arxiv.org/abs/2304.03442) — `Generative Agents: Interactive Simulacra of Human Behavior` · [中文详解](66_Generative_Agents_2023_原理.md) | 展示记忆、反思与计划如何组成持续运行的社会型 Agent。 | memory stream、重要性/时近性/相关性检索、反思与规划。 |
+| 67 | [Voyager (2023)](https://arxiv.org/abs/2305.16291) — `An Open-Ended Embodied Agent with Large Language Models` · [中文详解](67_Voyager_2023_原理.md) | 把自动课程、技能库和迭代提示结合到开放世界具身学习。 | skill library、automatic curriculum、环境反馈与代码执行。 |
+| 68 | [MT-Bench & Chatbot Arena (2023)](https://arxiv.org/abs/2306.05685) — `Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena` · [中文详解](68_MT_Bench_Chatbot_Arena_2023_原理.md) | 奠定多轮对话、LLM-as-a-judge 与众包两两比较的评测范式。 | position/verbosity/self-enhancement bias、人类一致性、Elo 局限。 |
+| 69 | [Lost in the Middle (2023)](https://arxiv.org/abs/2307.03172) · [中文详解](69_Lost_in_the_Middle_2023_原理.md) | 证明“上下文窗口很长”不等于“模型能可靠使用全部上下文”。 | U 形位置效应、多文档 QA、key-value retrieval。 |
+| 70 | [SWE-bench (2023)](https://arxiv.org/abs/2310.06770) · [中文详解](70_SWE_bench_2023_原理.md) | 把代码评测从单函数生成推进到真实仓库 issue 修复，成为 coding agent 的关键基准。 | repository-level context、执行环境、F2P/P2P 测试驱动判定、污染风险。 |
 | 71 | [Self-RAG (2023/2024)](https://arxiv.org/abs/2310.11511) — `Learning to Retrieve, Generate, and Critique through Self-Reflection` | 让模型学习何时检索、如何判断证据和如何自评，而不是固定塞入若干文档。 | reflection tokens、按需检索、事实性与引用质量。 |
 
 ### 3.5 多模态、生成模型、强化学习、科学 AI 与反思
@@ -615,7 +615,7 @@
 - [FlashAttention (2022)](https://arxiv.org/abs/2205.14135)：长上下文工程效率核心。
 - [YaRN (2023)](https://arxiv.org/abs/2309.00071)：低成本扩展 RoPE 上下文窗口的实用方法。
 - [Ring Attention (2023)](https://arxiv.org/abs/2310.01889)：把 blockwise attention 与设备环形通信结合，突破单设备上下文限制。
-- [Lost in the Middle (2023)](https://arxiv.org/abs/2307.03172)：检验模型是否真正使用了长上下文，而不只看窗口标称长度。
+- [Lost in the Middle (2023)](https://arxiv.org/abs/2307.03172) · [中文详解](69_Lost_in_the_Middle_2023_原理.md)：检验模型是否真正使用了长上下文，而不只看窗口标称长度。
 
 **导读建议**
 
@@ -628,10 +628,11 @@
 - [ReAct (2022/2023)](https://arxiv.org/abs/2210.03629)：推理与行动交替。
 - [Toolformer (2023)](https://arxiv.org/abs/2302.04761)：自监督学习何时调用工具。
 - [Reflexion (2023)](https://arxiv.org/abs/2303.11366) · [中文详解](65_Reflexion_2023_原理.md)：用语言反馈和记忆改进下一轮轨迹。
+- [Generative Agents (2023)](https://arxiv.org/abs/2304.03442) · [中文详解](66_Generative_Agents_2023_原理.md)：用记忆流、反思与层级计划维持长期角色和社会互动。
 - [Tree of Thoughts (2023)](https://arxiv.org/abs/2305.10601)：显式搜索多条推理路径。
-- [Voyager (2023)](https://arxiv.org/abs/2305.16291)：开放世界中的自动课程与技能库。
+- [Voyager (2023)](https://arxiv.org/abs/2305.16291) · [中文详解](67_Voyager_2023_原理.md)：开放世界中的自动课程、可执行技能库与环境反馈闭环。
 - [WebArena (2023)](https://arxiv.org/abs/2307.13854)：在可复现网站环境中评测真实网页任务。
-- [SWE-bench (2023)](https://arxiv.org/abs/2310.06770)：用真实 GitHub issue 评测代码 Agent。
+- [SWE-bench (2023)](https://arxiv.org/abs/2310.06770) · [中文详解](70_SWE_bench_2023_原理.md)：用真实 GitHub issue、历史仓库快照和隐藏测试评测代码 Agent。
 
 **导读建议**
 
@@ -686,8 +687,8 @@
 - [TruthfulQA (2021)](https://arxiv.org/abs/2109.07958) · [中文详解](63_TruthfulQA_2021_原理.md)：模型是否复述常见谬误。
 - [BIG-bench (2022)](https://arxiv.org/abs/2206.04615)：大规模协作式任务集合与能力边界。
 - [HELM (2022)](https://arxiv.org/abs/2211.09110) · [中文详解](64_HELM_2022_原理.md)：多场景、多指标、透明评测。
-- [MT-Bench / Chatbot Arena (2023)](https://arxiv.org/abs/2306.05685)：LLM judge 与人类两两偏好。
-- [SWE-bench (2023)](https://arxiv.org/abs/2310.06770)：真实软件工程任务。
+- [MT-Bench / Chatbot Arena (2023)](https://arxiv.org/abs/2306.05685) · [中文详解](68_MT_Bench_Chatbot_Arena_2023_原理.md)：多轮开放题、LLM judge、人类两两偏好与系统性偏差。
+- [SWE-bench (2023)](https://arxiv.org/abs/2310.06770) · [中文详解](70_SWE_bench_2023_原理.md)：真实软件工程任务、仓库级补丁与执行式判定。
 
 **导读建议**
 
@@ -847,11 +848,12 @@
 3. `ReAct`
 4. `Toolformer`
 5. `Reflexion`
-6. `Voyager`
-7. `MT-Bench / Chatbot Arena`
-8. `Lost in the Middle`
-9. `SWE-bench`
-10. `Self-RAG`
+6. `Generative Agents`
+7. `Voyager`
+8. `MT-Bench / Chatbot Arena`
+9. `Lost in the Middle`
+10. `SWE-bench`
+11. `Self-RAG`
 
 ### 路线 8：如果你想建立广义 AI 视野
 

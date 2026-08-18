@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">Generative Agents 的受控消融与端到端结果</title>
+  <desc id="desc">上方展示完整架构和三种消融及众包作者条件的 TrueSkill 可信度评分，下方展示两日 Smallville 模拟中的信息传播、关系密度与派对出席结果。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#eef2ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity=".11"/></filter>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.head{font:700 20px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.label{font:500 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.value{font:800 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif}.num{font:700 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}</style>
+  </defs>
+  <rect width="1400" height="860" fill="url(#bg)"/>
+  <text x="55" y="54" class="title">实验回答了两个不同问题：单个回答是否可信？一群 Agent 是否出现社会现象？</text>
+  <text x="55" y="84" class="subtitle">上图是 100 名参与者的排序经 TrueSkill 转换后的 μ±σ；下图是一次 25-Agent、两游戏日部署的描述性结果。</text>
+
+  <g transform="translate(55 120)" filter="url(#shadow)">
+    <rect width="1290" height="344" rx="26" fill="#fff" stroke="#cbd5e1"/>
+    <text x="28" y="42" class="head">受控访谈：完整架构的行为可信度最高</text>
+    <text x="28" y="68" class="small">五类问题：自我认知、记忆、计划、反应、反思；每位评审比较同一 Agent 的 5 个条件。</text>
+    <g transform="translate(265 95)">
+      <line x1="0" y1="0" x2="0" y2="210" stroke="#cbd5e1"/><line x1="220" y1="0" x2="220" y2="210" stroke="#e2e8f0"/><line x1="440" y1="0" x2="440" y2="210" stroke="#e2e8f0"/><line x1="660" y1="0" x2="660" y2="210" stroke="#e2e8f0"/>
+      <text x="0" y="230" text-anchor="middle" class="small">20</text><text x="220" y="230" text-anchor="middle" class="small">24</text><text x="440" y="230" text-anchor="middle" class="small">28</text><text x="660" y="230" text-anchor="middle" class="small">32 TrueSkill μ</text>
+      <g transform="translate(0 8)"><text x="-20" y="20" text-anchor="end" class="label">完整：观察 + 计划 + 反思</text><rect width="544" height="30" rx="7" fill="#4f46e5"/><text x="554" y="21" class="num">29.89 ± 0.72</text></g>
+      <g transform="translate(0 50)"><text x="-20" y="20" text-anchor="end" class="label">无反思：观察 + 计划</text><rect width="378" height="30" rx="7" fill="#8b5cf6"/><text x="388" y="21" class="num">26.88 ± 0.69</text></g>
+      <g transform="translate(0 92)"><text x="-20" y="20" text-anchor="end" class="label">仅观察</text><rect width="310" height="30" rx="7" fill="#60a5fa"/><text x="320" y="21" class="num">25.64 ± 0.68</text></g>
+      <g transform="translate(0 134)"><text x="-20" y="20" text-anchor="end" class="label">人类众包角色扮演</text><rect width="162" height="30" rx="7" fill="#f59e0b"/><text x="172" y="21" class="num">22.95 ± 0.69</text></g>
+      <g transform="translate(0 176)"><text x="-20" y="20" text-anchor="end" class="label">无记忆、计划、反思</text><rect width="66" height="30" rx="7" fill="#94a3b8"/><text x="76" y="21" class="num">21.21 ± 0.70</text></g>
+    </g>
+  </g>
+
+  <g transform="translate(55 494)" filter="url(#shadow)">
+    <rect width="1290" height="284" rx="26" fill="#fff" stroke="#cbd5e1"/>
+    <text x="28" y="42" class="head">端到端两日模拟：传播、关系形成与协调都出现了，但远非“全员成功”</text>
+    <g transform="translate(28 72)">
+      <rect width="286" height="166" rx="20" fill="#eff6ff" stroke="#93c5fd"/>
+      <text x="20" y="32" class="label">村长候选人信息</text><text x="20" y="79" class="value" fill="#2563eb">1 → 8</text><text x="20" y="107" class="label">4% → 32%</text><text x="20" y="136" class="small">由 Sam 单点发起，无用户继续干预</text>
+    </g>
+    <g transform="translate(330 72)">
+      <rect width="286" height="166" rx="20" fill="#faf5ff" stroke="#c4b5fd"/>
+      <text x="20" y="32" class="label">派对信息</text><text x="20" y="79" class="value" fill="#7c3aed">1 → 13</text><text x="20" y="107" class="label">4% → 52%</text><text x="20" y="136" class="small">除 Isabella 外，12 名 Agent 听说派对</text>
+    </g>
+    <g transform="translate(632 72)">
+      <rect width="286" height="166" rx="20" fill="#ecfdf5" stroke="#6ee7b7"/>
+      <text x="20" y="32" class="label">互相认识的关系网络密度</text><text x="20" y="79" class="value" fill="#059669">0.167 → 0.74</text><text x="20" y="107" class="label">453 个“是否认识”回答</text><text x="20" y="136" class="small">其中 6 个（1.3%）被判为幻觉</text>
+    </g>
+    <g transform="translate(934 72)">
+      <rect width="328" height="166" rx="20" fill="#fff7ed" stroke="#fdba74"/>
+      <text x="20" y="32" class="label">派对协调</text><text x="20" y="79" class="value" fill="#ea580c">5 / 12</text><text x="20" y="107" class="label">收到邀请者实际到场</text><text x="20" y="136" class="small">3 人有冲突；另 4 人想去却没排进计划</text>
+    </g>
+  </g>
+
+  <g transform="translate(55 807)"><rect width="1290" height="36" rx="14" fill="#fef2f2" stroke="#fca5a5"/><text x="645" y="24" text-anchor="middle" class="small">不要把 TrueSkill μ 当准确率，也不要把一次两日部署当作因果证明：端到端数字是描述性证据，不是独立重复实验。</text></g>
+</svg>

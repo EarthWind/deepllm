@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
+  <title id="title">Voyager 核心实验结果与边界</title>
+  <desc id="desc">展示探索、地图、科技树、零样本迁移和消融实验的论文数字，同时列出每个数字的实验边界。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#121c32"/></linearGradient>
+    <linearGradient id="g1" x2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#34d399"/></linearGradient>
+    <style>.f{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.h{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#94a3b8}.big{font-size:42px;font-weight:800;fill:#f8fafc}.t{font-size:20px;font-weight:700;fill:#e2e8f0}.s{font-size:15px;fill:#a8b6cb}.small{font-size:13px;fill:#cbd5e1}.card{fill:#111e34;stroke:#334155;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="860" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="f h">实验结果：优势明显，但必须连同协议一起读</text>
+  <text x="70" y="106" class="f sub">比较对象均被重新实现到 MineDojo / Mineflayer；指标单位多为“提示迭代”，不是游戏帧或真实时间</text>
+
+  <rect x="70" y="155" width="300" height="170" rx="22" class="card"/>
+  <text x="105" y="200" class="f big" fill="#67e8f9">63</text><text x="178" y="198" class="f t">种独特物品</text>
+  <text x="105" y="235" class="f s">160 次提示迭代内发现</text><text x="105" y="264" class="f t" fill="#a7f3d0">3.3×</text><text x="170" y="264" class="f s">基线的新品数量</text>
+  <text x="105" y="296" class="f small">开放探索；3 次独立试验</text>
+
+  <rect x="405" y="155" width="300" height="170" rx="22" class="card"/>
+  <text x="440" y="205" class="f big" fill="#67e8f9">2.3×</text>
+  <text x="440" y="239" class="f t">更长地图行进距离</text><text x="440" y="269" class="f s">跨越更多地形，而非困在出生点附近</text><text x="440" y="296" class="f small">高层导航 API；不评估视觉运动控制</text>
+
+  <rect x="740" y="155" width="300" height="170" rx="22" class="card"/>
+  <text x="775" y="205" class="f big" fill="#fbbf24">15.3×</text>
+  <text x="775" y="239" class="f t">木制工具解锁更快</text><text x="775" y="269" class="f s">石制 8.5×；铁制 6.4×</text><text x="775" y="296" class="f small">“最多 15.3×”不是所有阶段都如此</text>
+
+  <rect x="1075" y="155" width="295" height="170" rx="22" class="card"/>
+  <text x="1110" y="200" class="f big" fill="#c4b5fd">4 / 4</text>
+  <text x="1110" y="236" class="f t">新世界未见任务</text><text x="1110" y="266" class="f s">钻石镐 / 金剑 / 岩浆桶 / 指南针</text><text x="1110" y="296" class="f small">清空背包；每题上限 50 次迭代</text>
+
+  <text x="70" y="389" class="f t">科技树：平均提示迭代数（越少越好；括号为 3 次试验成功数）</text>
+  <rect x="70" y="420" width="1300" height="180" rx="20" class="card"/>
+  <text x="105" y="458" class="f small">方法</text><text x="455" y="458" class="f small">木制</text><text x="680" y="458" class="f small">石制</text><text x="905" y="458" class="f small">铁制</text><text x="1130" y="458" class="f small">钻石</text>
+  <line x1="100" y1="475" x2="1340" y2="475" stroke="#334155"/>
+  <text x="105" y="510" class="f s">AutoGPT</text><text x="455" y="510" class="f s">92 ± 72 (3/3)</text><text x="680" y="510" class="f s">94 ± 72 (3/3)</text><text x="905" y="510" class="f s">135 ± 103 (3/3)</text><text x="1130" y="510" class="f s">未解锁 (0/3)</text>
+  <text x="105" y="551" class="f s">Voyager 无技能库</text><text x="455" y="551" class="f s">7 ± 2 (3/3)</text><text x="680" y="551" class="f s">9 ± 4 (3/3)</text><text x="905" y="551" class="f s">29 ± 11 (3/3)</text><text x="1130" y="551" class="f s">未解锁 (0/3)</text>
+  <rect x="95" y="565" width="1250" height="27" rx="12" fill="#052e27"/>
+  <text x="105" y="585" class="f small" fill="#a7f3d0">Voyager</text><text x="455" y="585" class="f small" fill="#a7f3d0">6 ± 2 (3/3)</text><text x="680" y="585" class="f small" fill="#a7f3d0">11 ± 2 (3/3)</text><text x="905" y="585" class="f small" fill="#a7f3d0">21 ± 7 (3/3)</text><text x="1130" y="585" class="f small" fill="#a7f3d0">102 (1/3)</text>
+
+  <text x="70" y="658" class="f t">消融给出的因果线索</text>
+  <rect x="70" y="690" width="395" height="112" rx="18" fill="#422006" stroke="#f59e0b"/>
+  <text x="100" y="732" class="f big" fill="#fbbf24">−93%</text><text x="230" y="728" class="f s">发现物品数</text><text x="100" y="770" class="f s">自动课程换成随机课程</text>
+  <rect x="522" y="690" width="395" height="112" rx="18" fill="#3b0764" stroke="#a855f7"/>
+  <text x="552" y="732" class="f big" fill="#d8b4fe">−73%</text><text x="682" y="728" class="f s">发现物品数</text><text x="552" y="770" class="f s">移除自验证（反馈中影响最大）</text>
+  <rect x="975" y="690" width="395" height="112" rx="18" fill="#172554" stroke="#3b82f6"/>
+  <text x="1005" y="732" class="f big" fill="#93c5fd">5.7×</text><text x="1118" y="728" class="f s">更多独特物品</text><text x="1005" y="770" class="f s">代码生成用 GPT-4 对比 GPT-3.5</text>
+  <text x="70" y="836" class="f small">注意：ReAct、Reflexion、AutoGPT 原本不是 Minecraft Agent；论文做了适配。结果证明该系统配置在此协议下更强，不等于对所有具身控制方法的普遍排序。</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="880" viewBox="0 0 1440 880" role="img" aria-labelledby="title desc">
+  <title id="title">LLM 裁判与人类一致率及 MT-Bench 分数</title>
+  <desc id="desc">展示 MT-Bench 和 Chatbot Arena 中含平局和排除平局的一致率，以及论文中若干模型的 MT-Bench 单答案评分。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#121b31"/></linearGradient>
+    <style>.f{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.h{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#94a3b8}.t{font-size:21px;font-weight:700;fill:#e2e8f0}.s{font-size:15px;fill:#a8b6cb}.small{font-size:13px;fill:#cbd5e1}.big{font-size:44px;font-weight:800}.card{fill:#111e34;stroke:#334155;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="880" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="f h">“超过 80% 一致”成立，但只在明确的统计口径下成立</text>
+  <text x="70" y="106" class="f sub">S1 包含胜 / 负 / 平局并把交换不一致计为平局；S2 只保留双方都做出非平局判决的样本</text>
+
+  <rect x="70" y="155" width="625" height="280" rx="24" class="card"/>
+  <text x="105" y="200" class="f t" fill="#67e8f9">MT-Bench：专家受控投票</text>
+  <rect x="105" y="235" width="170" height="135" rx="18" fill="#172554"/>
+  <text x="190" y="282" text-anchor="middle" class="f big" fill="#93c5fd">66%</text><text x="190" y="317" text-anchor="middle" class="f s">GPT-4 Pair ↔ 人类</text><text x="190" y="345" text-anchor="middle" class="f small">S1，含平局</text>
+  <rect x="297" y="235" width="170" height="135" rx="18" fill="#052e27"/>
+  <text x="382" y="282" text-anchor="middle" class="f big" fill="#6ee7b7">85%</text><text x="382" y="317" text-anchor="middle" class="f s">GPT-4 Pair ↔ 人类</text><text x="382" y="345" text-anchor="middle" class="f small">S2，排除平局</text>
+  <rect x="489" y="235" width="170" height="135" rx="18" fill="#422006"/>
+  <text x="574" y="282" text-anchor="middle" class="f big" fill="#fbbf24">81%</text><text x="574" y="317" text-anchor="middle" class="f s">人类 ↔ 人类</text><text x="574" y="345" text-anchor="middle" class="f small">S2，第一轮</text>
+  <text x="105" y="406" class="f small">第二轮：GPT-4 Pair ↔ 人类仍为 85%；人类 ↔ 人类为 82%。</text>
+
+  <rect x="745" y="155" width="625" height="280" rx="24" class="card"/>
+  <text x="780" y="200" class="f t" fill="#c4b5fd">Chatbot Arena：真实用户投票样本</text>
+  <rect x="780" y="235" width="170" height="135" rx="18" fill="#3b0764"/>
+  <text x="865" y="282" text-anchor="middle" class="f big" fill="#d8b4fe">64%</text><text x="865" y="317" text-anchor="middle" class="f s">GPT-4 Pair ↔ 人类</text><text x="865" y="345" text-anchor="middle" class="f small">S1，3066 票</text>
+  <rect x="972" y="235" width="170" height="135" rx="18" fill="#052e27"/>
+  <text x="1057" y="282" text-anchor="middle" class="f big" fill="#6ee7b7">87%</text><text x="1057" y="317" text-anchor="middle" class="f s">GPT-4 Pair ↔ 人类</text><text x="1057" y="345" text-anchor="middle" class="f small">S2，1944 票</text>
+  <rect x="1164" y="235" width="170" height="135" rx="18" fill="#172554"/>
+  <text x="1249" y="282" text-anchor="middle" class="f big" fill="#93c5fd">85%</text><text x="1249" y="317" text-anchor="middle" class="f s">GPT-4 Single ↔ 人类</text><text x="1249" y="345" text-anchor="middle" class="f small">S2，1761 票</text>
+  <text x="780" y="406" class="f small">非平局时 GPT-3.5 / Claude 也可达 83% / 84%，但它们给出非平局判决更少。</text>
+
+  <text x="70" y="500" class="f t">GPT-4 单答案评分：80 题 × 2 轮的平均 1–10 分</text>
+  <rect x="70" y="530" width="1300" height="205" rx="22" class="card"/>
+  <text x="105" y="572" class="f small">模型</text><text x="485" y="572" class="f small">MT-Bench</text><text x="105" y="615" class="f s">GPT-4</text><rect x="485" y="597" width="760" height="24" rx="12" fill="#083344"/><rect x="485" y="597" width="683" height="24" rx="12" fill="#22d3ee"/><text x="1270" y="615" class="f small">8.99</text>
+  <text x="105" y="655" class="f s">GPT-3.5</text><rect x="485" y="637" width="760" height="24" rx="12" fill="#083344"/><rect x="485" y="637" width="603" height="24" rx="12" fill="#38bdf8"/><text x="1270" y="655" class="f small">7.94</text>
+  <text x="105" y="695" class="f s">Vicuna-13B (all)</text><rect x="485" y="677" width="760" height="24" rx="12" fill="#2e1065"/><rect x="485" y="677" width="486" height="24" rx="12" fill="#a78bfa"/><text x="1270" y="695" class="f small">6.39</text>
+  <text x="105" y="725" class="f s">LLaMA-13B</text><rect x="485" y="707" width="760" height="24" rx="12" fill="#431407"/><rect x="485" y="707" width="198" height="24" rx="12" fill="#f97316"/><text x="1270" y="725" class="f small">2.61</text>
+
+  <rect x="70" y="770" width="1300" height="70" rx="18" fill="#0b1729" stroke="#334155"/>
+  <text x="95" y="800" class="f small" fill="#67e8f9">最重要的限定</text>
+  <text x="95" y="825" class="f small">S2 会丢弃最模糊、最容易受位置偏差影响的平局样本，因此 85% 不能单独代表全量判断准确率；S1 的 66% 更严格，也更接近真实全部样本。</text>
+  <text x="70" y="864" class="f small">模型差距越大，GPT-4 与人类的非平局一致率由约 70% 上升到接近 100%；强弱接近时，评测最需要更多投票与置信区间。</text>
+</svg>

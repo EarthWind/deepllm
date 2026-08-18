@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">SWE-bench 从真实 Issue 到可执行测试的任务闭环</title>
+  <desc id="desc">模型根据问题陈述和基准提交时的仓库快照定位文件，生成补丁，再在隔离环境里用 fail-to-pass 与 pass-to-pass 测试判断是否解决。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071522"/>
+      <stop offset="1" stop-color="#10243a"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#020617" flood-opacity="0.45"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#60a5fa"/>
+    </marker>
+  </defs>
+
+  <rect width="1440" height="820" rx="28" fill="url(#bg)"/>
+  <circle cx="1310" cy="80" r="220" fill="#1d4ed8" opacity="0.08"/>
+  <circle cx="100" cy="760" r="240" fill="#14b8a6" opacity="0.06"/>
+
+  <text x="72" y="72" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="700">SWE-bench：从真实 Issue 到可执行验证</text>
+  <text x="72" y="108" fill="#94a3b8" font-family="Inter,Arial,sans-serif" font-size="18">输入不是函数签名，输出不是自由文本；任务是给历史仓库快照提交一个能通过真实测试的补丁</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="180" width="230" height="330" rx="22" fill="#10283b" stroke="#fb923c" stroke-width="2"/>
+    <rect x="328" y="180" width="230" height="330" rx="22" fill="#10283b" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="596" y="180" width="230" height="330" rx="22" fill="#10283b" stroke="#a78bfa" stroke-width="2"/>
+    <rect x="864" y="180" width="230" height="330" rx="22" fill="#10283b" stroke="#facc15" stroke-width="2"/>
+    <rect x="1132" y="180" width="248" height="330" rx="22" fill="#10283b" stroke="#34d399" stroke-width="2"/>
+  </g>
+
+  <g font-family="Inter,Arial,sans-serif">
+    <circle cx="100" cy="220" r="22" fill="#fb923c"/><text x="100" y="227" text-anchor="middle" fill="#071522" font-size="18" font-weight="800">1</text>
+    <text x="130" y="227" fill="#fdba74" font-size="21" font-weight="700">问题陈述 P</text>
+    <path d="M96 280h156M96 310h132M96 340h145M96 370h110" stroke="#64748b" stroke-width="10" stroke-linecap="round"/>
+    <rect x="92" y="405" width="166" height="58" rx="12" fill="#431407" stroke="#fb923c"/>
+    <text x="175" y="429" text-anchor="middle" fill="#fed7aa" font-size="15">真实用户 Bug / Feature</text>
+    <text x="175" y="451" text-anchor="middle" fill="#fdba74" font-size="13">PR 初始提交前的 Issue 文本</text>
+
+    <circle cx="368" cy="220" r="22" fill="#38bdf8"/><text x="368" y="227" text-anchor="middle" fill="#071522" font-size="18" font-weight="800">2</text>
+    <text x="398" y="227" fill="#7dd3fc" font-size="21" font-weight="700">代码库 C</text>
+    <g fill="#17364c" stroke="#38bdf8">
+      <rect x="368" y="276" width="60" height="45" rx="8"/><rect x="452" y="276" width="60" height="45" rx="8"/>
+      <rect x="368" y="345" width="60" height="45" rx="8"/><rect x="452" y="345" width="60" height="45" rx="8"/>
+    </g>
+    <path d="M428 298h24M398 321v24M482 321v24M428 367h24" stroke="#38bdf8" stroke-width="3"/>
+    <text x="443" y="425" text-anchor="middle" fill="#bae6fd" font-size="15">repo + base_commit</text>
+    <text x="443" y="451" text-anchor="middle" fill="#94a3b8" font-size="13">平均 3,010 个非测试文件</text>
+    <text x="443" y="474" text-anchor="middle" fill="#94a3b8" font-size="13">平均 43.8 万行非测试代码</text>
+
+    <circle cx="636" cy="220" r="22" fill="#a78bfa"/><text x="636" y="227" text-anchor="middle" fill="#071522" font-size="18" font-weight="800">3</text>
+    <text x="666" y="227" fill="#c4b5fd" font-size="21" font-weight="700">定位上下文</text>
+    <path d="M646 294c35-37 98-22 108 20 10 40-31 73-71 55-41-19-40-54-37-75Z" fill="none" stroke="#a78bfa" stroke-width="5"/>
+    <path d="M746 361l34 38" stroke="#a78bfa" stroke-width="12" stroke-linecap="round"/>
+    <g fill="#a78bfa"><circle cx="671" cy="316" r="8"/><circle cx="704" cy="292" r="8"/><circle cx="724" cy="337" r="8"/></g>
+    <text x="711" y="425" text-anchor="middle" fill="#ddd6fe" font-size="15">BM25 文件检索</text>
+    <text x="711" y="451" text-anchor="middle" fill="#94a3b8" font-size="13">或不现实的 Oracle 文件定位</text>
+    <text x="711" y="474" text-anchor="middle" fill="#94a3b8" font-size="13">上下文预算决定能看见什么</text>
+
+    <circle cx="904" cy="220" r="22" fill="#facc15"/><text x="904" y="227" text-anchor="middle" fill="#071522" font-size="18" font-weight="800">4</text>
+    <text x="934" y="227" fill="#fde68a" font-size="21" font-weight="700">生成 δ̂</text>
+    <rect x="901" y="276" width="156" height="126" rx="14" fill="#172033" stroke="#facc15"/>
+    <text x="920" y="305" fill="#f87171" font-size="18" font-family="ui-monospace,monospace">− old</text>
+    <text x="920" y="338" fill="#4ade80" font-size="18" font-family="ui-monospace,monospace">+ new</text>
+    <text x="920" y="371" fill="#cbd5e1" font-size="15" font-family="ui-monospace,monospace">@@ hunk @@</text>
+    <text x="979" y="435" text-anchor="middle" fill="#fef3c7" font-size="15">统一 diff / .patch</text>
+    <text x="979" y="461" text-anchor="middle" fill="#94a3b8" font-size="13">可不同于原 PR 的 gold patch</text>
+
+    <circle cx="1172" cy="220" r="22" fill="#34d399"/><text x="1172" y="227" text-anchor="middle" fill="#071522" font-size="18" font-weight="800">5</text>
+    <text x="1202" y="227" fill="#6ee7b7" font-size="21" font-weight="700">隔离执行</text>
+    <rect x="1172" y="272" width="168" height="137" rx="16" fill="#0b201b" stroke="#34d399" stroke-width="2"/>
+    <circle cx="1214" cy="318" r="20" fill="#7f1d1d" stroke="#fb7185"/><path d="M1205 318h18" stroke="#fecdd3" stroke-width="4"/>
+    <path d="M1243 318h25" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/>
+    <circle cx="1303" cy="318" r="20" fill="#064e3b" stroke="#34d399"/><path d="m1293 318 7 8 14-17" fill="none" stroke="#a7f3d0" stroke-width="4"/>
+    <circle cx="1214" cy="368" r="20" fill="#064e3b" stroke="#34d399"/><path d="m1204 368 7 8 14-17" fill="none" stroke="#a7f3d0" stroke-width="4"/>
+    <path d="M1243 368h25" stroke="#64748b" stroke-width="4" marker-end="url(#arrow)"/>
+    <circle cx="1303" cy="368" r="20" fill="#064e3b" stroke="#34d399"/><path d="m1293 368 7 8 14-17" fill="none" stroke="#a7f3d0" stroke-width="4"/>
+    <text x="1256" y="440" text-anchor="middle" fill="#d1fae5" font-size="15">F2P 全部由失败变通过</text>
+    <text x="1256" y="464" text-anchor="middle" fill="#d1fae5" font-size="15">P2P 全部保持通过</text>
+    <text x="1256" y="489" text-anchor="middle" fill="#34d399" font-size="14" font-weight="700">两者同时满足才 Resolved</text>
+  </g>
+
+  <g stroke="#60a5fa" stroke-width="4" fill="none" marker-end="url(#arrow)">
+    <path d="M290 345h32"/><path d="M558 345h32"/><path d="M826 345h32"/><path d="M1094 345h32"/>
+  </g>
+
+  <rect x="60" y="574" width="1320" height="176" rx="22" fill="#0b1d2d" stroke="#334155"/>
+  <text x="88" y="615" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700">为什么它不只是“更难的 HumanEval”</text>
+  <g font-family="Inter,Arial,sans-serif" font-size="16">
+    <text x="90" y="655" fill="#94a3b8">函数级生成</text><text x="255" y="655" fill="#e2e8f0">题目通常直接给接口与局部上下文</text>
+    <text x="90" y="692" fill="#94a3b8">仓库级修复</text><text x="255" y="692" fill="#f8fafc">先定位文件与依赖，再编辑多处，最后在历史依赖环境中回归验证</text>
+    <text x="90" y="729" fill="#94a3b8">主指标</text><text x="255" y="729" fill="#34d399" font-weight="700">% Resolved = 严格通过所有目标测试与维护测试的实例占比</text>
+  </g>
+  <rect x="1006" y="619" width="334" height="91" rx="16" fill="#132a3c" stroke="url(#cyan)" stroke-width="2"/>
+  <text x="1173" y="653" text-anchor="middle" fill="#7dd3fc" font-family="Inter,Arial,sans-serif" font-size="16">Issue 理解 × 代码定位 × 补丁质量</text>
+  <text x="1173" y="681" text-anchor="middle" fill="#6ee7b7" font-family="Inter,Arial,sans-serif" font-size="16">× 环境复现 × 测试不回归</text>
+</svg>

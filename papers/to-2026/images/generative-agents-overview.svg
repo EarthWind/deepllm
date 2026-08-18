@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840" role="img" aria-labelledby="title desc">
+  <title id="title">Generative Agents 的记忆、反思、规划与环境闭环</title>
+  <desc id="desc">环境观察进入记忆流；检索以时近性、重要性和相关性选择记忆；反思和计划也写回记忆流；当前观察、相关记忆和计划共同决定行动并更新环境。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#eef2ff"/></linearGradient>
+    <linearGradient id="mem" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#4f46e5"/></linearGradient>
+    <linearGradient id="ref" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c026d3"/></linearGradient>
+    <linearGradient id="plan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#059669"/><stop offset="1" stop-color="#0d9488"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity=".12"/></filter>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#2563eb"/></marker>
+    <marker id="arrowViolet" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#8b5cf6"/></marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#059669"/></marker>
+    <marker id="arrowOrange" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#ea580c"/></marker>
+    <style>
+      .title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.section{font:700 22px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#fff}.head{font:700 19px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 14px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.mono{font:600 14px "JetBrains Mono",Consolas,monospace;fill:#1e3a8a}.white{fill:#fff}
+    </style>
+  </defs>
+  <rect width="1400" height="840" fill="url(#bg)"/>
+  <text x="55" y="54" class="title">Generative Agents：把不断增长的经历变成可持续的行为闭环</text>
+  <text x="55" y="84" class="subtitle">LLM 负责语言推断；记忆数据库、检索器、计划表、环境树与路径算法共同负责长期一致性和世界落地。</text>
+
+  <g transform="translate(55 120)" filter="url(#shadow)">
+    <rect width="1290" height="640" rx="28" fill="#fff" stroke="#cbd5e1"/>
+
+    <g transform="translate(42 68)">
+      <rect width="244" height="188" rx="22" fill="#fff7ed" stroke="#fb923c" stroke-width="2"/>
+      <rect width="244" height="58" rx="22" fill="#ea580c"/><rect y="36" width="244" height="22" fill="#ea580c"/>
+      <text x="22" y="38" class="section">① 环境与感知</text>
+      <text x="22" y="91" class="body">可视范围内的人、物、状态</text>
+      <text x="22" y="122" class="body">玩家“内心声音”与对话</text>
+      <rect x="20" y="142" width="204" height="30" rx="10" fill="#ffedd5"/>
+      <text x="122" y="163" text-anchor="middle" class="small">每个时间步产生 Observation</text>
+    </g>
+
+    <path d="M286 161H372" stroke="#ea580c" stroke-width="3.5" marker-end="url(#arrowOrange)"/>
+    <text x="329" y="144" text-anchor="middle" class="small">写入</text>
+
+    <g transform="translate(377 38)">
+      <rect width="342" height="248" rx="22" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+      <rect width="342" height="58" rx="22" fill="url(#mem)"/><rect y="36" width="342" height="22" fill="url(#mem)"/>
+      <text x="22" y="38" class="section">② Memory Stream</text>
+      <text x="22" y="89" class="body">Observation · 直接经历</text>
+      <text x="22" y="120" class="body">Reflection · 高层抽象</text>
+      <text x="22" y="151" class="body">Plan · 未来行动承诺</text>
+      <rect x="20" y="171" width="302" height="55" rx="12" fill="#dbeafe"/>
+      <text x="171" y="194" text-anchor="middle" class="mono">text · created · last_access</text>
+      <text x="171" y="215" text-anchor="middle" class="mono">importance · embedding · evidence</text>
+    </g>
+
+    <path d="M719 161H805" stroke="#2563eb" stroke-width="3.5" marker-end="url(#arrowBlue)"/>
+    <text x="762" y="144" text-anchor="middle" class="small">查询</text>
+
+    <g transform="translate(810 68)">
+      <rect width="438" height="188" rx="22" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+      <text x="22" y="40" class="head">③ 动态检索：只把相关子集交给 LLM</text>
+      <rect x="22" y="62" width="394" height="48" rx="12" fill="#eef2ff"/>
+      <text x="219" y="92" text-anchor="middle" class="mono">score = recency + importance + relevance</text>
+      <text x="22" y="138" class="body">三项分别 min–max 到 [0, 1]</text>
+      <text x="22" y="166" class="small">取上下文窗口能容纳的最高分记录，并刷新 last_access</text>
+    </g>
+
+    <path d="M540 286V358" stroke="#8b5cf6" stroke-width="3.5" marker-end="url(#arrowViolet)"/>
+    <text x="555" y="331" class="small">重要性累计触发</text>
+
+    <g transform="translate(330 364)">
+      <rect width="420" height="184" rx="22" fill="#faf5ff" stroke="#c084fc" stroke-width="2"/>
+      <rect width="420" height="58" rx="22" fill="url(#ref)"/><rect y="36" width="420" height="22" fill="url(#ref)"/>
+      <text x="22" y="38" class="section">④ Reflection · 抽象经历</text>
+      <text x="22" y="91" class="body">最近 100 条 → 3 个高层问题</text>
+      <text x="22" y="122" class="body">按问题检索 → 5 条带证据洞见</text>
+      <text x="22" y="153" class="small">洞见也能成为下一轮反思的输入，形成反思树</text>
+    </g>
+
+    <path d="M750 456H834" stroke="#059669" stroke-width="3.5" marker-end="url(#arrowGreen)"/>
+    <text x="792" y="439" text-anchor="middle" class="small">提供长期倾向</text>
+
+    <g transform="translate(839 334)">
+      <rect width="409" height="244" rx="22" fill="#ecfdf5" stroke="#34d399" stroke-width="2"/>
+      <rect width="409" height="58" rx="22" fill="url(#plan)"/><rect y="36" width="409" height="22" fill="url(#plan)"/>
+      <text x="22" y="38" class="section">⑤ Planning + Reacting</text>
+      <text x="22" y="91" class="body">日计划：5–8 个宽粒度片段</text>
+      <text x="22" y="122" class="body">递归展开：小时 → 5–15 分钟</text>
+      <text x="22" y="153" class="body">新观察：继续当前计划，或重排余下日程</text>
+      <rect x="20" y="173" width="369" height="49" rx="12" fill="#d1fae5"/>
+      <text x="204" y="195" text-anchor="middle" class="small">动作文本 → 环境树定位 → 确定性寻路</text>
+      <text x="204" y="214" text-anchor="middle" class="small">会话：双方相关记忆 + 对话历史</text>
+    </g>
+
+    <path d="M1044 578V604H164V262" fill="none" stroke="#059669" stroke-width="3.5" marker-end="url(#arrowGreen)"/>
+    <text x="598" y="625" text-anchor="middle" class="small">执行 Action，更新对象状态与位置；下一时间步再次感知</text>
+
+    <path d="M903 334V297H660" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#arrowBlue)"/>
+    <text x="802" y="316" text-anchor="middle" class="small">计划写回 memory stream</text>
+    <path d="M420 364V322H480" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#arrowViolet)"/>
+    <text x="359" y="320" class="small">反思写回</text>
+  </g>
+
+  <g transform="translate(55 784)">
+    <rect width="1290" height="36" rx="14" fill="#fff7ed" stroke="#fdba74"/>
+    <text x="645" y="24" text-anchor="middle" class="small">关键边界：这套架构优化的是观察者感到“可信”的连续行为，不证明角色拥有意识，也不证明它能准确预测真实人类。</text>
+  </g>
+</svg>
