@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="840" viewBox="0 0 1440 840" role="img" aria-labelledby="title desc">
+  <title id="title">Voyager 技能库的写入、检索与组合</title>
+  <desc id="desc">任务成功后，程序描述的向量作为键、可执行程序作为值写入库；新任务检索 top-5，并通过函数调用组合成更复杂技能。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#111b31"/></linearGradient>
+    <marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#67e8f9"/></marker>
+    <style>.f{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.h{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#94a3b8}.t{font-size:21px;font-weight:700;fill:#e2e8f0}.s{font-size:16px;fill:#a8b6cb}.code{font-family:"JetBrains Mono",Consolas,monospace;font-size:14px;fill:#cbd5e1}.box{fill:#111e34;stroke:#334155;stroke-width:2}.line{fill:none;stroke:#67e8f9;stroke-width:3;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1440" height="840" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="f h">技能库：把一次成功变成下一次 Prompt 里的可执行积木</text>
+  <text x="70" y="106" class="f sub">它不是参数更新，也不只是聊天摘要；存进去的是带语义索引的 JavaScript 函数</text>
+
+  <rect x="70" y="165" width="360" height="245" rx="22" class="box"/>
+  <text x="105" y="210" class="f t">写入路径：只收成功程序</text>
+  <rect x="105" y="243" width="290" height="50" rx="13" fill="#172554"/><text x="250" y="274" text-anchor="middle" class="f s">任务 + 最终状态 → 自验证</text>
+  <path d="M250 294V325" class="line"/>
+  <rect x="105" y="326" width="135" height="50" rx="13" fill="#3f0f12"/><text x="172" y="357" text-anchor="middle" class="f s" fill="#fecdd3">失败：不写入</text>
+  <rect x="260" y="326" width="135" height="50" rx="13" fill="#052e27"/><text x="327" y="357" text-anchor="middle" class="f s" fill="#a7f3d0">成功：描述程序</text>
+
+  <rect x="500" y="165" width="390" height="245" rx="22" class="box"/>
+  <text x="535" y="210" class="f t">向量数据库中的一条记录</text>
+  <text x="535" y="251" class="f s" fill="#c4b5fd">Key</text>
+  <text x="590" y="251" class="f s">embed("mine three raw iron safely")</text>
+  <text x="535" y="290" class="f s" fill="#67e8f9">Value</text>
+  <rect x="535" y="307" width="320" height="72" rx="12" fill="#07111f"/>
+  <text x="553" y="334" class="code">async function mineRawIron(bot) {</text>
+  <text x="553" y="358" class="code">  await mineBlock(bot, "iron_ore", 3); }</text>
+  <path d="M430 286H487" class="line"/>
+
+  <rect x="960" y="165" width="410" height="245" rx="22" class="box"/>
+  <text x="995" y="210" class="f t">检索路径：任务相关，而非名字相等</text>
+  <text x="995" y="248" class="f s">query = 任务计划 + 当前环境反馈</text>
+  <rect x="995" y="275" width="340" height="52" rx="13" fill="#3b0764"/>
+  <text x="1165" y="307" text-anchor="middle" class="f s" fill="#d8b4fe">向量相似度排序 → top-5 程序</text>
+  <text x="995" y="361" class="f s">检索结果进入 GPT-4 上下文，充当示例与 API</text>
+  <path d="M890 286H947" class="line"/>
+
+  <text x="70" y="479" class="f t">组合为何会“复利”：新技能可以直接调用已学函数</text>
+  <rect x="70" y="520" width="275" height="205" rx="20" fill="#172554" stroke="#3b82f6"/>
+  <text x="207" y="560" text-anchor="middle" class="f t" fill="#bfdbfe">基础控制 API</text>
+  <text x="105" y="604" class="code">exploreUntil(...)</text><text x="105" y="634" class="code">mineBlock(...)</text><text x="105" y="664" class="code">craftItem(...)</text><text x="105" y="694" class="code">equip(...)</text>
+  <rect x="445" y="520" width="310" height="205" rx="20" fill="#052e27" stroke="#34d399"/>
+  <text x="600" y="560" text-anchor="middle" class="f t" fill="#a7f3d0">已学中层技能</text>
+  <text x="480" y="604" class="code">craftStonePickaxe(bot)</text><text x="480" y="634" class="code">findIronOre(bot)</text><text x="480" y="664" class="code">mineRawIron(bot)</text><text x="480" y="694" class="code">smeltIron(bot)</text>
+  <rect x="855" y="520" width="515" height="205" rx="20" fill="#422006" stroke="#f59e0b"/>
+  <text x="1112" y="560" text-anchor="middle" class="f t" fill="#fde68a">新长时技能：制作铁镐</text>
+  <text x="890" y="604" class="code">async function craftIronPickaxe(bot) {</text><text x="890" y="634" class="code">  await mineRawIron(bot);</text><text x="890" y="664" class="code">  await smeltIron(bot);</text><text x="890" y="694" class="code">  await craftItem(bot, "iron_pickaxe", 1); }</text>
+  <path d="M345 623H432" class="line"/><path d="M755 623H842" class="line"/>
+  <rect x="190" y="765" width="1060" height="42" rx="20" fill="#0b1729" stroke="#334155"/>
+  <text x="720" y="792" text-anchor="middle" class="f s">能力增长来自“成功程序可重用 + 复杂程序调用简单程序”，而不是模型权重在游戏过程中变了</text>
+</svg>

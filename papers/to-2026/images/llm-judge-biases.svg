@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">LLM 裁判的四类偏差与缓解方法</title>
+  <desc id="desc">位置偏差、冗长偏差、自增强迹象和数学推理能力不足，以及交换位置、少样本、独立求解和参考答案等缓解方法。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#121b31"/></linearGradient>
+    <style>.f{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.h{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#94a3b8}.t{font-size:21px;font-weight:700;fill:#e2e8f0}.s{font-size:15px;fill:#a8b6cb}.big{font-size:38px;font-weight:800;fill:#f8fafc}.small{font-size:13px;fill:#cbd5e1}.card{fill:#111e34;stroke:#334155;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="f h">LLM-as-a-Judge 不是“便宜的人类”，它有自己的系统性偏差</text>
+  <text x="70" y="106" class="f sub">论文价值恰恰在于：不仅报告高一致率，也主动设计攻击与交换实验寻找裁判失效点</text>
+
+  <rect x="70" y="155" width="625" height="290" rx="24" class="card"/>
+  <text x="105" y="200" class="f t" fill="#93c5fd">① 位置偏差：交换 A/B 后判决翻转</text>
+  <text x="105" y="234" class="f s">相似的两份 GPT-3.5 回答；默认 pairwise prompt</text>
+  <rect x="105" y="260" width="165" height="105" rx="16" fill="#172554"/><text x="187" y="294" text-anchor="middle" class="f big" fill="#93c5fd">65.0%</text><text x="187" y="330" text-anchor="middle" class="f s">GPT-4 一致</text><text x="187" y="352" text-anchor="middle" class="f small">首位偏好 30%</text>
+  <rect x="290" y="260" width="165" height="105" rx="16" fill="#3b0764"/><text x="372" y="294" text-anchor="middle" class="f big" fill="#d8b4fe">46.2%</text><text x="372" y="330" text-anchor="middle" class="f s">GPT-3.5 一致</text><text x="372" y="352" text-anchor="middle" class="f small">首位偏好 50%</text>
+  <rect x="475" y="260" width="185" height="105" rx="16" fill="#422006"/><text x="567" y="294" text-anchor="middle" class="f big" fill="#fbbf24">23.8%</text><text x="567" y="330" text-anchor="middle" class="f s">Claude-v1 一致</text><text x="567" y="352" text-anchor="middle" class="f small">首位偏好 75%</text>
+  <text x="105" y="400" class="f small" fill="#67e8f9">缓解：交换位置调用两次；只有同一模型两次都赢才判胜，否则保守记平局。</text>
+  <text x="105" y="425" class="f small">few-shot 可把 GPT-4 一致性提到 77.5%，但 Prompt 成本约增至 4×，且高一致不等于高准确。</text>
+
+  <rect x="745" y="155" width="625" height="290" rx="24" class="card"/>
+  <text x="780" y="200" class="f t" fill="#fbbf24">② 冗长偏差：重复一遍就显得“更完整”</text>
+  <text x="780" y="234" class="f s">23 个列表回答；加长版只改写并重复原信息，没有新增内容</text>
+  <text x="780" y="282" class="f small">Claude-v1</text><rect x="890" y="265" width="413" height="24" rx="12" fill="#431407"/><rect x="890" y="265" width="377" height="24" rx="12" fill="#f97316"/><text x="1315" y="283" class="f small">91.3%</text>
+  <text x="780" y="328" class="f small">GPT-3.5</text><rect x="890" y="311" width="413" height="24" rx="12" fill="#431407"/><rect x="890" y="311" width="377" height="24" rx="12" fill="#f97316"/><text x="1315" y="329" class="f small">91.3%</text>
+  <text x="780" y="374" class="f small">GPT-4</text><rect x="890" y="357" width="413" height="24" rx="12" fill="#431407"/><rect x="890" y="357" width="36" height="24" rx="12" fill="#34d399"/><text x="1315" y="375" class="f small">8.7%</text>
+  <text x="780" y="416" class="f small" fill="#67e8f9">缓解：Prompt 明确“长度不应影响判断”，并加入重复、套话和信息密度检查。</text>
+
+  <rect x="70" y="485" width="625" height="300" rx="24" class="card"/>
+  <text x="105" y="530" class="f t" fill="#fda4af">③ 自增强迹象：裁判可能偏好自己的风格</text>
+  <text x="105" y="568" class="f s">相对人类胜率曲线，论文观察到：</text>
+  <rect x="105" y="598" width="250" height="98" rx="16" fill="#3f0f12"/><text x="230" y="636" text-anchor="middle" class="f big" fill="#fda4af">+10%</text><text x="230" y="671" text-anchor="middle" class="f s">GPT-4 对自身回答</text>
+  <rect x="380" y="598" width="250" height="98" rx="16" fill="#3b0764"/><text x="505" y="636" text-anchor="middle" class="f big" fill="#d8b4fe">+25%</text><text x="505" y="671" text-anchor="middle" class="f s">Claude-v1 对自身回答</text>
+  <rect x="105" y="717" width="525" height="42" rx="18" fill="#422006"/><text x="367" y="744" text-anchor="middle" class="f small" fill="#fde68a">论文明确：样本与控制不足，不能据此确认因果性自增强偏差</text>
+
+  <rect x="745" y="485" width="625" height="300" rx="24" class="card"/>
+  <text x="780" y="530" class="f t" fill="#a7f3d0">④ 数学 / 推理裁判能力不足</text>
+  <text x="780" y="568" class="f s">10 道数学题 × 交换位置 = 20 次判断；失败指把错误答案判正确</text>
+  <rect x="780" y="601" width="170" height="105" rx="16" fill="#431407"/><text x="865" y="638" text-anchor="middle" class="f big" fill="#fb7185">14/20</text><text x="865" y="676" text-anchor="middle" class="f s">默认 Prompt</text>
+  <rect x="972" y="601" width="170" height="105" rx="16" fill="#422006"/><text x="1057" y="638" text-anchor="middle" class="f big" fill="#fbbf24">6/20</text><text x="1057" y="676" text-anchor="middle" class="f s">先独立 CoT</text>
+  <rect x="1164" y="601" width="170" height="105" rx="16" fill="#052e27"/><text x="1249" y="638" text-anchor="middle" class="f big" fill="#6ee7b7">3/20</text><text x="1249" y="676" text-anchor="middle" class="f s">参考答案引导</text>
+  <text x="780" y="744" class="f small" fill="#67e8f9">结论：CoT 仍会抄错候选答案；先独立生成参考解，再展示给裁判更稳。</text>
+  <text x="70" y="845" class="f small">偏差会相互作用：当模型能力接近、题目开放、答案更长时，位置与风格线索更容易替代真正的正确性判断。</text>
+</svg>

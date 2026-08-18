@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="880" viewBox="0 0 1440 880" role="img" aria-labelledby="title desc">
+  <title id="title">MT-Bench 与 Chatbot Arena 的双轨评测框架</title>
+  <desc id="desc">MT-Bench 以固定的八十道两轮问题进行可复现实验，Chatbot Arena 以匿名双模型对战收集真实用户偏好，两者共同验证 LLM 裁判。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#121b31"/></linearGradient>
+    <linearGradient id="mix" x2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#67e8f9"/></marker>
+    <style>.f{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.h{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#94a3b8}.t{font-size:22px;font-weight:700;fill:#e2e8f0}.s{font-size:16px;fill:#a8b6cb}.small{font-size:14px;fill:#cbd5e1}.card{fill:#111e34;stroke:#334155;stroke-width:2}.line{fill:none;stroke:#67e8f9;stroke-width:3;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1440" height="880" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="f h">双轨评测：固定题集负责可控，匿名竞技场负责真实</text>
+  <text x="70" y="106" class="f sub">论文不是只发布一个榜单，而是用两类人类偏好数据检验 LLM-as-a-Judge 是否可信</text>
+
+  <rect x="70" y="155" width="575" height="550" rx="26" class="card"/>
+  <rect x="70" y="155" width="10" height="550" rx="5" fill="#22d3ee"/>
+  <text x="110" y="205" class="f t" fill="#a5f3fc">MT-Bench：受控实验室</text>
+  <text x="110" y="240" class="f s">80 道人工设计题 = 8 类 × 每类 10 题</text>
+  <rect x="110" y="275" width="495" height="120" rx="18" fill="#0b1729" stroke="#164e63"/>
+  <text x="140" y="310" class="f small" fill="#67e8f9">第 1 轮：开放问题</text>
+  <text x="140" y="340" class="f s">模型回答写作、数学、代码、知识等任务</text>
+  <path d="M358 355V372" class="line"/>
+  <text x="140" y="380" class="f small" fill="#67e8f9">第 2 轮：依赖上一轮的跟进指令</text>
+  <rect x="110" y="425" width="235" height="98" rx="16" fill="#172554"/>
+  <text x="227" y="460" text-anchor="middle" class="f small" fill="#93c5fd">Pairwise</text><text x="227" y="489" text-anchor="middle" class="f s">A 胜 / B 胜 / 平局</text>
+  <rect x="370" y="425" width="235" height="98" rx="16" fill="#052e27"/>
+  <text x="487" y="460" text-anchor="middle" class="f small" fill="#6ee7b7">Single grading</text><text x="487" y="489" text-anchor="middle" class="f s">每轮 1–10 分</text>
+  <rect x="110" y="555" width="495" height="108" rx="16" fill="#083344"/>
+  <text x="140" y="592" class="f small" fill="#a5f3fc">人类对照</text><text x="140" y="620" class="f s">58 名专家级标注者，约 3K 受控投票</text><text x="140" y="646" class="f s">问题、回答、参考解和评分条件可复查</text>
+
+  <rect x="795" y="155" width="575" height="550" rx="26" class="card"/>
+  <rect x="1360" y="155" width="10" height="550" rx="5" fill="#a78bfa"/>
+  <text x="835" y="205" class="f t" fill="#ddd6fe">Chatbot Arena：真实世界现场</text>
+  <text x="835" y="240" class="f s">没有固定题目；用户自由输入真实需求</text>
+  <rect x="835" y="275" width="210" height="120" rx="18" fill="#172554" stroke="#3b82f6"/>
+  <text x="940" y="312" text-anchor="middle" class="f small" fill="#93c5fd">匿名模型 A</text><text x="940" y="343" text-anchor="middle" class="f s">同一用户问题</text><text x="940" y="370" text-anchor="middle" class="f s">生成回答</text>
+  <rect x="1120" y="275" width="210" height="120" rx="18" fill="#3b0764" stroke="#a855f7"/>
+  <text x="1225" y="312" text-anchor="middle" class="f small" fill="#d8b4fe">匿名模型 B</text><text x="1225" y="343" text-anchor="middle" class="f s">同一用户问题</text><text x="1225" y="370" text-anchor="middle" class="f s">生成回答</text>
+  <path d="M1045 335H1108" class="line"/>
+  <rect x="835" y="425" width="495" height="98" rx="16" fill="#422006" stroke="#f59e0b"/>
+  <text x="1082" y="460" text-anchor="middle" class="f small" fill="#fbbf24">用户先投票，模型身份后揭晓</text><text x="1082" y="489" text-anchor="middle" class="f s">A 更好 / B 更好 / 平局 / 两者都差</text>
+  <rect x="835" y="555" width="495" height="108" rx="16" fill="#2e1065"/>
+  <text x="865" y="592" class="f small" fill="#d8b4fe">论文快照</text><text x="865" y="620" class="f s">上线约一个月收集约 30K 投票</text><text x="865" y="646" class="f s">抽取约 3K 单轮票，来自 2114 个独立 IP</text>
+
+  <path d="M357 705V755Q357 780 382 780H690" class="line"/>
+  <path d="M1082 705V755Q1082 780 1057 780H750" class="line"/>
+  <rect x="555" y="744" width="330" height="82" rx="20" fill="#0b1729" stroke="url(#mix)" stroke-width="3"/>
+  <text x="720" y="778" text-anchor="middle" class="f t">LLM Judge ↔ Human</text>
+  <text x="720" y="806" text-anchor="middle" class="f s">比较一致率、胜率曲线与失败模式</text>
+  <text x="70" y="850" class="f small">互补关系：MT-Bench 可重复但覆盖有限；Arena 贴近真实使用，却受用户构成、流量分配、投票噪声与时间漂移影响。</text>
+</svg>

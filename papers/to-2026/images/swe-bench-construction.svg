@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">SWE-bench 数据集构建与执行过滤</title>
+  <desc id="desc">从十二个 Python 仓库抓取九万三千余个 PR，按关联 Issue、修改测试文件和执行验证逐步筛选为两千二百九十四个任务。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081521"/><stop offset="1" stop-color="#13273b"/></linearGradient>
+    <linearGradient id="funnel" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fb923c"/><stop offset="0.5" stop-color="#facc15"/><stop offset="1" stop-color="#34d399"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity="0.45"/></filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#94a3b8"/></marker>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text x="64" y="66" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="700">从 93,139 个 PR 到 2,294 个可执行任务</text>
+  <text x="64" y="103" fill="#94a3b8" font-family="Inter,Arial,sans-serif" font-size="18">关键不是“抓到一个修复提交”，而是证明测试在修复前失败、在修复后通过，并且历史环境可以复现</text>
+
+  <g filter="url(#shadow)">
+    <path d="M76 160H560L506 270H130Z" fill="#48200d" stroke="#fb923c" stroke-width="2"/>
+    <path d="M130 286H506L458 396H178Z" fill="#3d3108" stroke="#facc15" stroke-width="2"/>
+    <path d="M178 412H458L418 522H218Z" fill="#073d32" stroke="#34d399" stroke-width="2"/>
+  </g>
+  <g font-family="Inter,Arial,sans-serif" text-anchor="middle">
+    <text x="318" y="202" fill="#fed7aa" font-size="21" font-weight="700">Stage I · 仓库选择与抓取</text>
+    <text x="318" y="241" fill="#fff7ed" font-size="34" font-weight="800">93,139 PRs</text>
+    <text x="318" y="326" fill="#fef3c7" font-size="21" font-weight="700">Stage II · 属性过滤</text>
+    <text x="318" y="365" fill="#fefce8" font-size="34" font-weight="800">11,407 候选</text>
+    <text x="318" y="452" fill="#d1fae5" font-size="21" font-weight="700">Stage III · 执行过滤</text>
+    <text x="318" y="491" fill="#ecfdf5" font-size="34" font-weight="800">2,294 最终任务</text>
+  </g>
+  <g font-family="Inter,Arial,sans-serif" font-size="15">
+    <text x="594" y="188" fill="#fdba74" font-size="19" font-weight="700">12 个流行 Python 仓库</text>
+    <text x="594" y="219" fill="#cbd5e1">维护活跃、贡献规范清晰、测试覆盖较好</text>
+    <text x="594" y="314" fill="#fde68a" font-size="19" font-weight="700">必须同时满足</text>
+    <text x="594" y="345" fill="#cbd5e1">① PR 已合并且明确解决关联 Issue</text>
+    <text x="594" y="375" fill="#cbd5e1">② PR 修改至少一个测试相关文件</text>
+    <text x="594" y="440" fill="#6ee7b7" font-size="19" font-weight="700">必须能执行证明</text>
+    <text x="594" y="471" fill="#cbd5e1">安装成功，测试补丁和解法补丁都可应用</text>
+    <text x="594" y="501" fill="#cbd5e1">至少一个测试在应用解法后从 Fail 变 Pass</text>
+  </g>
+
+  <rect x="904" y="151" width="470" height="376" rx="22" fill="#0d2132" stroke="#38bdf8" stroke-width="2"/>
+  <text x="938" y="193" fill="#7dd3fc" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700">一个 PR 如何拆成一个实例</text>
+  <g font-family="Inter,Arial,sans-serif">
+    <rect x="938" y="224" width="174" height="76" rx="14" fill="#2f1b13" stroke="#fb923c"/>
+    <text x="1025" y="254" text-anchor="middle" fill="#fed7aa" font-size="16" font-weight="700">Issue → P</text>
+    <text x="1025" y="278" text-anchor="middle" fill="#94a3b8" font-size="12">标题、正文、截止时间前评论</text>
+    <rect x="1168" y="224" width="170" height="76" rx="14" fill="#102b3e" stroke="#38bdf8"/>
+    <text x="1253" y="254" text-anchor="middle" fill="#bae6fd" font-size="16" font-weight="700">base_commit → C</text>
+    <text x="1253" y="278" text-anchor="middle" fill="#94a3b8" font-size="12">PR 之前的仓库快照</text>
+    <path d="M1134 327v28" stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="1134" y="329" text-anchor="middle" fill="#cbd5e1" font-size="16" font-weight="700">PR diff</text>
+    <rect x="938" y="374" width="174" height="93" rx="14" fill="#321536" stroke="#c084fc"/>
+    <text x="1025" y="407" text-anchor="middle" fill="#e9d5ff" font-size="16" font-weight="700">测试文件块 → T</text>
+    <text x="1025" y="434" text-anchor="middle" fill="#c4b5fd" font-size="13">test_patch</text>
+    <text x="1025" y="454" text-anchor="middle" fill="#94a3b8" font-size="12">评测时对模型不可见</text>
+    <rect x="1168" y="374" width="170" height="93" rx="14" fill="#2d2a0b" stroke="#facc15"/>
+    <text x="1253" y="407" text-anchor="middle" fill="#fef3c7" font-size="16" font-weight="700">其余代码块 → δ</text>
+    <text x="1253" y="434" text-anchor="middle" fill="#fde68a" font-size="13">gold patch</text>
+    <text x="1253" y="454" text-anchor="middle" fill="#94a3b8" font-size="12">只用于构造与分析</text>
+  </g>
+
+  <rect x="64" y="577" width="1310" height="218" rx="22" fill="#0b1d2d" stroke="#334155"/>
+  <text x="94" y="618" fill="#f8fafc" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700">执行验证：先制造失败，再证明原 PR 能修好</text>
+  <g font-family="Inter,Arial,sans-serif">
+    <rect x="94" y="654" width="160" height="85" rx="14" fill="#132a3c" stroke="#38bdf8"/>
+    <text x="174" y="687" text-anchor="middle" fill="#bae6fd" font-size="16" font-weight="700">checkout C</text>
+    <text x="174" y="714" text-anchor="middle" fill="#94a3b8" font-size="13">按版本创建环境并安装</text>
+    <rect x="302" y="654" width="160" height="85" rx="14" fill="#281b35" stroke="#c084fc"/>
+    <text x="382" y="687" text-anchor="middle" fill="#e9d5ff" font-size="16" font-weight="700">应用 T</text>
+    <text x="382" y="714" text-anchor="middle" fill="#94a3b8" font-size="13">加入 PR 的测试内容</text>
+    <rect x="510" y="654" width="180" height="85" rx="14" fill="#3f171b" stroke="#fb7185"/>
+    <text x="600" y="687" text-anchor="middle" fill="#fecdd3" font-size="16" font-weight="700">运行 log_pre</text>
+    <text x="600" y="714" text-anchor="middle" fill="#fda4af" font-size="13">至少一个目标测试 Fail</text>
+    <rect x="738" y="654" width="160" height="85" rx="14" fill="#332c0b" stroke="#facc15"/>
+    <text x="818" y="687" text-anchor="middle" fill="#fef3c7" font-size="16" font-weight="700">应用 δ</text>
+    <text x="818" y="714" text-anchor="middle" fill="#94a3b8" font-size="13">原始 PR 的解法部分</text>
+    <rect x="946" y="654" width="180" height="85" rx="14" fill="#093c31" stroke="#34d399"/>
+    <text x="1036" y="687" text-anchor="middle" fill="#d1fae5" font-size="16" font-weight="700">运行 log_post</text>
+    <text x="1036" y="714" text-anchor="middle" fill="#6ee7b7" font-size="13">目标测试转为 Pass</text>
+    <rect x="1174" y="654" width="160" height="85" rx="14" fill="#0c3340" stroke="#22d3ee"/>
+    <text x="1254" y="687" text-anchor="middle" fill="#cffafe" font-size="16" font-weight="700">保留实例</text>
+    <text x="1254" y="714" text-anchor="middle" fill="#67e8f9" font-size="13">缓存 F2P / P2P 列表</text>
+  </g>
+  <g stroke="#94a3b8" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M254 696h40"/><path d="M462 696h40"/><path d="M690 696h40"/><path d="M898 696h40"/><path d="M1126 696h40"/>
+  </g>
+
+  <g font-family="Inter,Arial,sans-serif" font-size="13">
+    <text x="70" y="842" fill="#64748b">最终仓库分布：</text>
+    <text x="180" y="842" fill="#cbd5e1">Django 850 · SymPy 386 · scikit-learn 229 · Sphinx 187 · Matplotlib 184 · pytest 119 · xarray 110 · 其余 229</text>
+    <text x="70" y="870" fill="#64748b">注意：</text>
+    <text x="120" y="870" fill="#94a3b8">原论文按 release version 维护 conda 执行环境；当前官方 harness 已发展为容器化实现，不能把两者写成同一时期的机制。</text>
+  </g>
+</svg>

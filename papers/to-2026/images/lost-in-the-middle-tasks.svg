@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Lost in the Middle 的两个受控任务</title>
+  <desc id="desc">左侧是多文档问答，右侧是随机 UUID 键值检索，二者都控制上下文长度和相关信息位置。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#15142b"/></linearGradient>
+    <linearGradient id="qa" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+    <linearGradient id="kv" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8b5cf6"/><stop offset="1" stop-color="#c026d3"/></linearGradient>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf3ff}.muted{fill:#98a9c7}.body{font-size:21px}.small{font-size:17px}.label{font-size:23px;font-weight:750}.card{fill:#101c32;stroke:#2d4061;stroke-width:2}.inner{fill:#16253e;stroke:#3c5276;stroke-width:1.5}.line{stroke:#607495;stroke-width:2}.arrow{stroke:#7dd3fc;stroke-width:3;fill:none;marker-end:url(#a)}
+    </style>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7dd3fc"/></marker>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text class="t" x="70" y="72" font-size="38" font-weight="800">两把探针：语义问答 + 最小化精确检索</text>
+  <text class="t muted body" x="70" y="110">共同原则：改变位置与长度，其余内容尽量保持不变</text>
+
+  <g transform="translate(70 150)">
+    <rect class="card" width="625" height="545" rx="24"/>
+    <rect x="0" y="0" width="625" height="82" rx="24" fill="url(#qa)" opacity=".92"/>
+    <text class="t" x="32" y="51" font-size="28" font-weight="800">A. Multi-document QA</text>
+    <text class="t label" x="32" y="124">NaturalQuestions-Open</text>
+    <text class="t muted body" x="32" y="159">2,655 个长答案为段落的问题</text>
+    <g transform="translate(32 190)">
+      <rect class="inner" width="561" height="98" rx="16"/>
+      <text class="t small" x="20" y="31">输入：问题 q + k 篇 Wikipedia passage</text>
+      <text class="t small" x="20" y="61">1 篇金文档包含答案；k−1 篇为 Contriever hard negatives</text>
+      <text class="t small" x="20" y="86">每篇 passage 最多约 100 tokens</text>
+    </g>
+    <g transform="translate(32 309)">
+      <rect x="0" width="165" height="96" rx="15" fill="#102b45" stroke="#38bdf8" stroke-width="2"/><text class="t" x="82" y="38" text-anchor="middle" font-size="28" font-weight="800">10</text><text class="t muted small" x="82" y="69" text-anchor="middle">documents</text>
+      <rect x="198" width="165" height="96" rx="15" fill="#102b45" stroke="#38bdf8" stroke-width="2"/><text class="t" x="280" y="38" text-anchor="middle" font-size="28" font-weight="800">20</text><text class="t muted small" x="280" y="69" text-anchor="middle">documents</text>
+      <rect x="396" width="165" height="96" rx="15" fill="#102b45" stroke="#38bdf8" stroke-width="2"/><text class="t" x="478" y="38" text-anchor="middle" font-size="28" font-weight="800">30</text><text class="t muted small" x="478" y="69" text-anchor="middle">documents</text>
+    </g>
+    <text class="t body" x="32" y="450">目标：先定位相关段落，再理解并回答</text>
+    <text class="t muted small" x="32" y="486">指标：任一标准答案是否出现在模型输出中</text>
+    <text class="t muted small" x="32" y="518">混杂因素：语义理解、干扰文档、参数记忆、检索排序</text>
+  </g>
+
+  <g transform="translate(745 150)">
+    <rect class="card" width="625" height="545" rx="24"/>
+    <rect x="0" y="0" width="625" height="82" rx="24" fill="url(#kv)" opacity=".92"/>
+    <text class="t" x="32" y="51" font-size="28" font-weight="800">B. Key-value retrieval</text>
+    <text class="t label" x="32" y="124">随机 128-bit UUID → UUID</text>
+    <text class="t muted body" x="32" y="159">每个长度与位置设置各 500 个样本</text>
+    <g transform="translate(32 190)">
+      <rect class="inner" width="561" height="98" rx="16"/>
+      <text class="t small" x="20" y="31">输入：JSON 对象 + 指定 key</text>
+      <text class="t small" x="20" y="61">1 个目标 pair；其余全部是随机且唯一的 distractors</text>
+      <text class="t small" x="20" y="86">输出：与 key 精确对应的 value</text>
+    </g>
+    <g transform="translate(32 309)">
+      <rect x="0" width="165" height="96" rx="15" fill="#251b47" stroke="#a78bfa" stroke-width="2"/><text class="t" x="82" y="38" text-anchor="middle" font-size="28" font-weight="800">75</text><text class="t muted small" x="82" y="69" text-anchor="middle">KV pairs</text>
+      <rect x="198" width="165" height="96" rx="15" fill="#251b47" stroke="#a78bfa" stroke-width="2"/><text class="t" x="280" y="38" text-anchor="middle" font-size="28" font-weight="800">140</text><text class="t muted small" x="280" y="69" text-anchor="middle">KV pairs</text>
+      <rect x="396" width="165" height="96" rx="15" fill="#251b47" stroke="#a78bfa" stroke-width="2"/><text class="t" x="478" y="38" text-anchor="middle" font-size="28" font-weight="800">300</text><text class="t muted small" x="478" y="69" text-anchor="middle">KV pairs</text>
+    </g>
+    <text class="t body" x="32" y="450">目标：消除自然语言语义，隔离“能否找到”</text>
+    <text class="t muted small" x="32" y="486">指标：目标 UUID value 是否出现在输出中</text>
+    <text class="t muted small" x="32" y="518">仍失败时，不能把问题全归咎于复杂推理</text>
+  </g>
+
+  <g transform="translate(70 730)">
+    <rect class="card" width="1300" height="118" rx="20"/>
+    <text class="t label" x="28" y="38">三个参照系</text>
+    <line class="line" x1="198" y1="22" x2="198" y2="96"/>
+    <text class="t body" x="230" y="43">Closed-book</text><text class="t muted small" x="230" y="75">不给文档，测参数记忆下限</text>
+    <line class="line" x1="558" y1="22" x2="558" y2="96"/>
+    <text class="t body" x="590" y="43">Oracle</text><text class="t muted small" x="590" y="75">只给金文档，测理想 reader 上限</text>
+    <line class="line" x1="922" y1="22" x2="922" y2="96"/>
+    <text class="t body" x="954" y="43">Position sweep</text><text class="t muted small" x="954" y="75">给完整上下文，逐位置测有效利用</text>
+  </g>
+  <text class="t muted small" x="720" y="883" text-anchor="middle">QA 测“找到 + 理解 + 生成”；KV 尽可能只测“精确找到 + 复制”</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">Voyager 自动课程的能力前沿</title>
+  <desc id="desc">课程根据状态、历史任务和附加知识，在太简单、适中、太困难的候选目标之间选择能力前沿。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#121c32"/></linearGradient>
+    <marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 12 6 0 12Z" fill="#fbbf24"/></marker>
+    <style>.f{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.h{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:17px;fill:#94a3b8}.t{font-size:21px;font-weight:700;fill:#e2e8f0}.s{font-size:16px;fill:#a8b6cb}.small{font-size:14px;fill:#cbd5e1}.node{fill:#111e34;stroke:#334155;stroke-width:2}</style>
+  </defs>
+  <rect width="1440" height="820" rx="28" fill="url(#bg)"/>
+  <text x="70" y="70" class="f h">自动课程不是固定任务表，而是在线估计“能力前沿”</text>
+  <text x="70" y="106" class="f sub">总目标：尽可能发现多样事物；每轮只给一个具体、可验证、不过难的下一步</text>
+
+  <rect x="70" y="165" width="340" height="485" rx="24" class="node"/>
+  <text x="105" y="211" class="f t">课程 Prompt 的四类输入</text>
+  <rect x="105" y="245" width="270" height="74" rx="15" fill="#172554"/>
+  <text x="125" y="275" class="f small" fill="#93c5fd">① 当前状态</text><text x="125" y="301" class="f s">物品、装备、方块、生物、位置…</text>
+  <rect x="105" y="337" width="270" height="74" rx="15" fill="#052e27"/>
+  <text x="125" y="367" class="f small" fill="#6ee7b7">② 探索进度</text><text x="125" y="393" class="f s">已完成任务 + 失败任务</text>
+  <rect x="105" y="429" width="270" height="74" rx="15" fill="#3b0764"/>
+  <text x="125" y="459" class="f small" fill="#d8b4fe">③ 附加上下文</text><text x="125" y="485" class="f s">GPT-3.5 自问自答的常识建议</text>
+  <rect x="105" y="521" width="270" height="94" rx="15" fill="#422006"/>
+  <text x="125" y="551" class="f small" fill="#fbbf24">④ 课程约束</text><text x="125" y="577" class="f s">新颖、具体、可执行、可验证</text><text x="125" y="600" class="f s">不要重复，也不要一步登天</text>
+
+  <path d="M410 407H505" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#a)"/>
+  <rect x="510" y="250" width="350" height="315" rx="24" fill="#0b1729" stroke="#f59e0b" stroke-width="2"/>
+  <text x="685" y="298" text-anchor="middle" class="f t" fill="#fde68a">GPT-4 课程 Agent</text>
+  <text x="685" y="336" text-anchor="middle" class="f s">不是预测“最优动作”</text>
+  <text x="685" y="362" text-anchor="middle" class="f s">而是在候选任务中找学习价值</text>
+  <path d="M555 407H815" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="590" cy="407" r="15" fill="#64748b"/><circle cx="685" cy="407" r="22" fill="#f59e0b"/><circle cx="780" cy="407" r="15" fill="#ef4444"/>
+  <text x="590" y="453" text-anchor="middle" class="f small">太简单</text><text x="685" y="453" text-anchor="middle" class="f small" fill="#fde68a">能力前沿</text><text x="780" y="453" text-anchor="middle" class="f small">太困难</text>
+  <rect x="570" y="491" width="230" height="42" rx="21" fill="#422006"/>
+  <text x="685" y="518" text-anchor="middle" class="f small" fill="#fbbf24">输出：下一项具体任务</text>
+
+  <path d="M860 407H944" fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#a)"/>
+  <rect x="950" y="165" width="420" height="485" rx="24" class="node"/>
+  <text x="985" y="211" class="f t">同一世界状态下的候选目标</text>
+  <text x="985" y="246" class="f s">已有：木板、木棍、工作台；附近有石头</text>
+  <rect x="985" y="280" width="350" height="75" rx="15" fill="#1e293b" stroke="#64748b"/>
+  <text x="1007" y="311" class="f small">重复砍 1 根木头</text><text x="1007" y="337" class="f s">可做，但新颖性很低</text>
+  <rect x="985" y="374" width="350" height="90" rx="15" fill="#422006" stroke="#f59e0b" stroke-width="2"/>
+  <text x="1007" y="408" class="f small" fill="#fbbf24">✓ 合成一把木镐</text><text x="1007" y="436" class="f s">材料齐全，能打开石器阶段</text>
+  <rect x="985" y="483" width="350" height="75" rx="15" fill="#3f0f12" stroke="#ef4444"/>
+  <text x="1007" y="514" class="f small">挖到钻石并制作钻石镐</text><text x="1007" y="540" class="f s">缺铁镐与洞穴探索能力</text>
+  <text x="985" y="604" class="f s">成功 → 加入 completed；失败 4 轮 → failed</text>
+
+  <rect x="70" y="695" width="1300" height="78" rx="18" fill="#0b1729" stroke="#334155"/>
+  <text x="95" y="727" class="f small" fill="#67e8f9">论文中的 warm-up 细节</text>
+  <text x="95" y="754" class="f s">起初只暴露核心物品、装备、方块和位置；完成 5/7/10/15 个任务后，逐步加入生物、完整背包、生态域、健康、饥饿、时间与附加上下文。</text>
+</svg>

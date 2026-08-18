@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="940" viewBox="0 0 1440 940" role="img" aria-labelledby="title desc">
+  <title id="title">Lost in the Middle 的机制消融与 RAG 启示</title>
+  <desc id="desc">总结编码器解码器、查询感知上下文化、指令微调和增加检索文档数量的实验结论。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#15142c"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#edf3ff}.muted{fill:#97a9c8}.body{font-size:20px}.small{font-size:17px}.label{font-size:23px;font-weight:760}.card{fill:#101c32;stroke:#2d4061;stroke-width:2}.inner{fill:#16243b}.line{stroke:#526886;stroke-width:2}.arrow{fill:none;stroke:#7dd3fc;stroke-width:3;marker-end:url(#a)}
+    </style>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7dd3fc"/></marker>
+  </defs>
+  <rect width="1440" height="940" rx="28" fill="url(#bg)"/>
+  <text class="t" x="70" y="70" font-size="38" font-weight="800">消融实验没有给出单一病因，却给出四条工程边界</text>
+  <text class="t muted body" x="70" y="108">不要把 U 形曲线简单归因于某一种位置编码、指令微调或检索器</text>
+
+  <g transform="translate(70 145)">
+    <rect class="card" width="625" height="285" rx="23"/>
+    <rect x="0" width="10" height="285" rx="5" fill="url(#cyan)"/>
+    <text class="t label" x="34" y="46">① Encoder-decoder：训练长度是边界</text>
+    <text class="t body" x="34" y="84">Flan-UL2 在 ≤ 2,048-token 训练长度内：</text>
+    <text class="t" x="34" y="132" font-size="32" font-weight="850" fill="#38bdf8">best–worst 仅 1.9 个点</text>
+    <text class="t body" x="34" y="176">超过训练期长度后，U 形位置效应重新出现。</text>
+    <text class="t muted small" x="34" y="215">相对位置编码允许“输入进去”，</text>
+    <text class="t muted small" x="34" y="244">却不自动保证训练分布外的均匀利用。</text>
+  </g>
+
+  <g transform="translate(745 145)">
+    <rect class="card" width="625" height="285" rx="23"/>
+    <rect x="0" width="10" height="285" rx="5" fill="url(#violet)"/>
+    <text class="t label" x="34" y="46">② Query-aware：对 KV 有效，不是通用解</text>
+    <g transform="translate(34 78)">
+      <rect class="inner" width="215" height="92" rx="15"/><text class="t small" x="18" y="31">普通 KV Prompt</text><text class="t" x="18" y="67" font-size="29" font-weight="850" fill="#f59e0b">worst 45.6%</text>
+      <path class="arrow" d="M235 46H335"/>
+      <rect class="inner" x="355" width="202" height="92" rx="15"/><text class="t small" x="373" y="31">查询前后重复</text><text class="t" x="373" y="67" font-size="29" font-weight="850" fill="#a78bfa">near-perfect</text>
+    </g>
+    <text class="t body" x="34" y="207">GPT-3.5-Turbo 16K 在 300 pairs 上达到 100%。</text>
+    <text class="t muted small" x="34" y="241">但多文档 QA 的总体曲线几乎没有改善，</text>
+    <text class="t muted small" x="34" y="267">说明“复制匹配值”与“理解证据”不是同一难度。</text>
+  </g>
+
+  <g transform="translate(70 465)">
+    <rect class="card" width="625" height="285" rx="23"/>
+    <rect x="0" width="10" height="285" rx="5" fill="#f59e0b"/>
+    <text class="t label" x="34" y="46">③ Instruction tuning：改善水平，不消除形状</text>
+    <g transform="translate(40 88)">
+      <path d="M0 18 C90 22 110 108 235 108 C360 108 380 22 470 18" fill="none" stroke="#64748b" stroke-width="6"/>
+      <path d="M0 0 C90 6 110 72 235 72 C360 72 380 6 470 0" fill="none" stroke="#f59e0b" stroke-width="6"/>
+      <text class="t small" x="490" y="6">Instruct：更高</text><text class="t muted small" x="490" y="111">Base：更低</text>
+    </g>
+    <text class="t body" x="34" y="229">MPT-30B 与 MPT-30B-Instruct 都呈 U 形。</text>
+    <text class="t muted small" x="34" y="260">“指令通常在开头”不是论文能够确认的唯一病因。</text>
+  </g>
+
+  <g transform="translate(745 465)">
+    <rect class="card" width="625" height="285" rx="23"/>
+    <rect x="0" width="10" height="285" rx="5" fill="#22c55e"/>
+    <text class="t label" x="34" y="46">④ RAG：Recall 继续涨，Reader 已饱和</text>
+    <g transform="translate(42 82)">
+      <line class="line" x1="0" y1="120" x2="515" y2="120"/><line class="line" x1="0" y1="0" x2="0" y2="120"/>
+      <path d="M0 106 C120 65 240 32 515 7" fill="none" stroke="#22c55e" stroke-width="6"/><text class="t small" x="403" y="24" fill="#22c55e">retriever recall</text>
+      <path d="M0 105 C95 46 180 37 515 34" fill="none" stroke="#38bdf8" stroke-width="6"/><text class="t small" x="370" y="59" fill="#38bdf8">reader accuracy</text>
+      <text class="t muted small" x="0" y="151">少量 documents</text><text class="t muted small" x="515" y="151" text-anchor="end">更多 documents</text>
+    </g>
+    <text class="t body" x="34" y="256">20 → 50 docs：GPT-3.5 约 +1.5%，Claude 约 +1%。</text>
+  </g>
+
+  <g transform="translate(70 790)">
+    <rect class="card" width="1300" height="105" rx="20"/>
+    <text class="t label" x="28" y="38">落到生产：先提升上下文质量，再购买上下文长度</text>
+    <text class="t body" x="28" y="75">去重 → rerank → 截断低价值 chunk → 将高置信证据靠前 → 重复关键查询/约束 → 按位置切片监控最坏值</text>
+  </g>
+  <text class="t muted small" x="720" y="925" text-anchor="middle">论文支持 reranking 与 ranked-list truncation；任何“固定 sandwich 排序必然最优”的说法都超出了原实验</text>
+</svg>

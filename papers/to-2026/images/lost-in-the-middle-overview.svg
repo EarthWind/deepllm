@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Lost in the Middle 位置控制实验总览</title>
+  <desc id="desc">固定问题与干扰文档，只移动包含答案的文档，分别测量上下文开始、中间和结尾位置的正确率。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#11152b"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd166"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+    <linearGradient id="curve" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#38bdf8"/><stop offset="0.5" stop-color="#f59e0b"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <style>
+      .t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e8eefc}.muted{fill:#91a4c4}.small{font-size:18px}.body{font-size:22px}.label{font-size:20px;font-weight:700}.card{fill:#101b31;stroke:#2b3d5e;stroke-width:2}.doc{fill:#17243d;stroke:#405273;stroke-width:1.5}.axis{stroke:#5a6d8f;stroke-width:2}.dash{stroke:#526786;stroke-width:2;stroke-dasharray:8 8}
+    </style>
+  </defs>
+  <rect width="1440" height="900" rx="28" fill="url(#bg)"/>
+  <text class="t" x="70" y="72" font-size="38" font-weight="800">位置控制：窗口能装下，不等于模型处处都能用</text>
+  <text class="t muted body" x="70" y="110">同一问题、同一组干扰项、同一解码协议；唯一关键变化是相关信息的位置</text>
+
+  <g transform="translate(70 145)">
+    <rect class="card" width="400" height="112" rx="18"/>
+    <circle cx="48" cy="43" r="19" fill="#38bdf8" opacity=".9"/>
+    <text class="t label" x="82" y="48">固定变量</text>
+    <text class="t muted small" x="28" y="84">问题、金文档、干扰文档、Prompt、解码</text>
+  </g>
+  <g transform="translate(520 145)">
+    <rect class="card" width="400" height="112" rx="18"/>
+    <circle cx="48" cy="43" r="19" fill="#f59e0b" opacity=".95"/>
+    <text class="t label" x="82" y="48">自变量</text>
+    <text class="t muted small" x="28" y="84">金文档位置 p；总文档数 k</text>
+  </g>
+  <g transform="translate(970 145)">
+    <rect class="card" width="400" height="112" rx="18"/>
+    <circle cx="48" cy="43" r="19" fill="#a78bfa" opacity=".95"/>
+    <text class="t label" x="82" y="48">因变量</text>
+    <text class="t muted small" x="28" y="84">答案子串命中率 Accuracy(p, k)</text>
+  </g>
+
+  <text class="t label" x="70" y="318">① 将同一条金文档依次插入不同位置</text>
+  <g transform="translate(70 345)">
+    <text class="t small" x="0" y="35">开头</text>
+    <g transform="translate(88 0)">
+      <rect x="0" y="0" width="70" height="72" rx="10" fill="url(#gold)" filter="url(#glow)"/><text class="t" x="35" y="44" text-anchor="middle" font-size="17" font-weight="800" fill="#1b1609">GOLD</text>
+      <rect class="doc" x="82" width="70" height="72" rx="10"/><rect class="doc" x="164" width="70" height="72" rx="10"/><rect class="doc" x="246" width="70" height="72" rx="10"/><rect class="doc" x="328" width="70" height="72" rx="10"/><rect class="doc" x="410" width="70" height="72" rx="10"/>
+      <text class="t muted" x="518" y="45" font-size="28">…</text>
+      <rect class="doc" x="560" width="70" height="72" rx="10"/><rect class="doc" x="642" width="70" height="72" rx="10"/><rect class="doc" x="724" width="70" height="72" rx="10"/><rect class="doc" x="806" width="70" height="72" rx="10"/><rect class="doc" x="888" width="70" height="72" rx="10"/><rect class="doc" x="970" width="70" height="72" rx="10"/>
+    </g>
+  </g>
+  <g transform="translate(70 439)">
+    <text class="t small" x="0" y="35">中间</text>
+    <g transform="translate(88 0)">
+      <rect class="doc" x="0" width="70" height="72" rx="10"/><rect class="doc" x="82" width="70" height="72" rx="10"/><rect class="doc" x="164" width="70" height="72" rx="10"/><rect class="doc" x="246" width="70" height="72" rx="10"/><rect class="doc" x="328" width="70" height="72" rx="10"/>
+      <text class="t muted" x="432" y="45" font-size="28">…</text>
+      <rect x="478" y="0" width="70" height="72" rx="10" fill="url(#gold)" filter="url(#glow)"/><text class="t" x="513" y="44" text-anchor="middle" font-size="17" font-weight="800" fill="#1b1609">GOLD</text>
+      <text class="t muted" x="584" y="45" font-size="28">…</text>
+      <rect class="doc" x="642" width="70" height="72" rx="10"/><rect class="doc" x="724" width="70" height="72" rx="10"/><rect class="doc" x="806" width="70" height="72" rx="10"/><rect class="doc" x="888" width="70" height="72" rx="10"/><rect class="doc" x="970" width="70" height="72" rx="10"/>
+    </g>
+  </g>
+  <g transform="translate(70 533)">
+    <text class="t small" x="0" y="35">结尾</text>
+    <g transform="translate(88 0)">
+      <rect class="doc" x="0" width="70" height="72" rx="10"/><rect class="doc" x="82" width="70" height="72" rx="10"/><rect class="doc" x="164" width="70" height="72" rx="10"/><rect class="doc" x="246" width="70" height="72" rx="10"/><rect class="doc" x="328" width="70" height="72" rx="10"/>
+      <text class="t muted" x="518" y="45" font-size="28">…</text>
+      <rect class="doc" x="560" width="70" height="72" rx="10"/><rect class="doc" x="642" width="70" height="72" rx="10"/><rect class="doc" x="724" width="70" height="72" rx="10"/><rect class="doc" x="806" width="70" height="72" rx="10"/><rect class="doc" x="888" width="70" height="72" rx="10"/>
+      <rect x="970" y="0" width="70" height="72" rx="10" fill="url(#gold)" filter="url(#glow)"/><text class="t" x="1005" y="44" text-anchor="middle" font-size="17" font-weight="800" fill="#1b1609">GOLD</text>
+    </g>
+  </g>
+
+  <text class="t label" x="70" y="670">② 对每个位置独立测分，不能只报一个平均数</text>
+  <g transform="translate(110 700)">
+    <line class="axis" x1="0" y1="115" x2="1160" y2="115"/><line class="axis" x1="0" y1="0" x2="0" y2="115"/>
+    <line class="dash" x1="580" y1="0" x2="580" y2="115"/>
+    <path d="M0,16 C175,24 280,99 580,99 C880,99 985,24 1160,16" fill="none" stroke="url(#curve)" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="0" cy="16" r="9" fill="#38bdf8"/><circle cx="580" cy="99" r="9" fill="#f59e0b"/><circle cx="1160" cy="16" r="9" fill="#a78bfa"/>
+    <text class="t small" x="0" y="148" text-anchor="start">位置 0：primacy</text><text class="t small" x="580" y="148" text-anchor="middle">中部：性能谷底</text><text class="t small" x="1160" y="148" text-anchor="end">位置 k−1：recency</text>
+    <text class="t muted small" x="-22" y="18" text-anchor="end">高</text><text class="t muted small" x="-22" y="112" text-anchor="end">低</text>
+  </g>
+  <text class="t muted small" x="720" y="878" text-anchor="middle">诊断目标：最小化 maxₚ Accuracy(p,k) − minₚ Accuracy(p,k)，而不只是扩大最大窗口</text>
+</svg>

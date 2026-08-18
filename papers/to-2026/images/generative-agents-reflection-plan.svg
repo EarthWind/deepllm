@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840" role="img" aria-labelledby="title desc">
+  <title id="title">Generative Agents 的反思树与层级计划</title>
+  <desc id="desc">左侧说明观察如何经高层问题与证据引用形成可递归的反思树，右侧说明一天的粗计划如何展开为小时和五到十五分钟动作，并在新观察出现时重排余下计划。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8fafc"/><stop offset="1" stop-color="#f5f3ff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity=".11"/></filter>
+    <style>.title{font:700 31px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.subtitle{font:400 16px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#475569}.head{font:700 20px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#0f172a}.body{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#334155}.small{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#64748b}.mono{font:600 14px "JetBrains Mono",Consolas,monospace;fill:#4c1d95}.whiteBody{font:400 15px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#fff}.whiteSmall{font:400 13px Inter,"Noto Sans CJK SC","Microsoft YaHei",sans-serif;fill:#ede9fe}</style>
+  </defs>
+  <rect width="1400" height="840" fill="url(#bg)"/>
+  <text x="55" y="54" class="title">Reflection 负责“抽象”，Planning 负责“让时间连续”</text>
+  <text x="55" y="84" class="subtitle">本论文的 reflection 按经历重要性周期触发；它不是等一次任务失败后再写“下轮教训”。</text>
+
+  <g transform="translate(55 122)" filter="url(#shadow)">
+    <rect width="620" height="632" rx="26" fill="#fff" stroke="#cbd5e1"/>
+    <text x="28" y="42" class="head">A. 反思树：从事件到关于自己与他人的高层推断</text>
+    <rect x="28" y="64" width="564" height="48" rx="13" fill="#faf5ff"/>
+    <text x="310" y="86" text-anchor="middle" class="body">最近观察的重要性总和 &gt; 150 → 触发</text>
+    <text x="310" y="105" text-anchor="middle" class="small">论文中每个 Agent 约每天反思 2–3 次</text>
+
+    <path d="M120 448L258 336M310 448V336M500 448L362 336M258 336L310 218M362 336L310 218" fill="none" stroke="#a78bfa" stroke-width="3"/>
+    <g>
+      <rect x="48" y="438" width="144" height="78" rx="14" fill="#f8fafc" stroke="#94a3b8"/><text x="120" y="466" text-anchor="middle" class="small">观察 #1</text><text x="120" y="488" text-anchor="middle" class="body">持续写论文</text><text x="120" y="507" text-anchor="middle" class="small">importance 6</text>
+      <rect x="238" y="438" width="144" height="78" rx="14" fill="#f8fafc" stroke="#94a3b8"/><text x="310" y="466" text-anchor="middle" class="small">观察 #2</text><text x="310" y="488" text-anchor="middle" class="body">读城市研究</text><text x="310" y="507" text-anchor="middle" class="small">importance 5</text>
+      <rect x="428" y="438" width="144" height="78" rx="14" fill="#f8fafc" stroke="#94a3b8"/><text x="500" y="466" text-anchor="middle" class="small">观察 #3</text><text x="500" y="488" text-anchor="middle" class="body">讨论研究计划</text><text x="500" y="507" text-anchor="middle" class="small">importance 7</text>
+    </g>
+    <g>
+      <rect x="178" y="302" width="264" height="76" rx="16" fill="#ede9fe" stroke="#a78bfa"/><text x="310" y="328" text-anchor="middle" class="small">第一层 reflection</text><text x="310" y="351" text-anchor="middle" class="body">Klaus 对研究投入且有明确目标</text><text x="310" y="370" text-anchor="middle" class="small">evidence: #1, #2, #3</text>
+      <rect x="158" y="178" width="304" height="78" rx="16" fill="#7c3aed"/><text x="310" y="205" text-anchor="middle" class="whiteSmall">更高层 reflection</text><text x="310" y="229" text-anchor="middle" class="whiteBody">Maria 与 Klaus 可能因共同研究兴趣亲近</text><text x="310" y="248" text-anchor="middle" class="whiteSmall">证据可包含旧 reflection</text>
+    </g>
+    <rect x="28" y="544" width="564" height="60" rx="14" fill="#fff7ed" stroke="#fdba74"/>
+    <text x="48" y="570" class="body">生成链：100 条最近记录 → 3 个问题 → 按问题检索</text>
+    <text x="48" y="592" class="small">每个问题再生成 5 个洞见，并保留对证据记录的指针。</text>
+  </g>
+
+  <g transform="translate(725 122)" filter="url(#shadow)">
+    <rect width="620" height="632" rx="26" fill="#fff" stroke="#cbd5e1"/>
+    <text x="28" y="42" class="head">B. 层级计划：先决定一天，再决定这一刻</text>
+    <g transform="translate(28 67)">
+      <rect width="564" height="72" rx="16" fill="#ecfdf5" stroke="#6ee7b7"/>
+      <text x="18" y="28" class="body">日级：8:00 起床 · 10:00 上课 · 13:00 创作 · 17:30 晚餐</text>
+      <text x="18" y="53" class="small">基于人物摘要、近期经历与前一天摘要，通常生成 5–8 个片段</text>
+    </g>
+    <path d="M310 139V172" stroke="#059669" stroke-width="3"/>
+    <g transform="translate(28 172)">
+      <rect width="564" height="100" rx="16" fill="#f0fdfa" stroke="#5eead4"/>
+      <text x="18" y="28" class="body">小时级：13:00 构思 · 14:00 写作 · 15:00 修改 · 16:00 休息</text>
+      <rect x="18" y="48" width="528" height="32" rx="10" fill="#ccfbf1"/>
+      <text x="282" y="69" text-anchor="middle" class="small">每条计划都有 location、start time、duration，并写回 memory stream</text>
+    </g>
+    <path d="M310 272V305" stroke="#059669" stroke-width="3"/>
+    <g transform="translate(28 305)">
+      <rect width="564" height="112" rx="16" fill="#f8fafc" stroke="#94a3b8"/>
+      <text x="18" y="29" class="body">5–15 分钟级：16:00 吃零食 · 16:05 散步 · 16:20 复查</text>
+      <text x="18" y="58" class="small">动作位置不是让 LLM 猜坐标：环境 containment tree 逐层选择区域，</text>
+      <text x="18" y="80" class="small">到叶节点后交给传统寻路算法移动角色。</text>
+      <text x="18" y="101" class="mono">world → area → room → object</text>
+    </g>
+    <path d="M310 417V450" stroke="#ea580c" stroke-width="3"/>
+    <g transform="translate(28 450)">
+      <rect width="564" height="126" rx="16" fill="#fff7ed" stroke="#fdba74"/>
+      <text x="18" y="30" class="head">新观察到来：继续，还是反应？</text>
+      <text x="18" y="62" class="body">普通对象仍在原位 → 继续当前计划</text>
+      <text x="18" y="88" class="body">父亲遇到正在散步的儿子 → 发起与作曲相关的对话</text>
+      <text x="18" y="112" class="small">若反应，系统从当前时刻开始重新生成余下计划，而非整天推倒重来。</text>
+    </g>
+    <rect x="28" y="596" width="564" height="24" rx="12" fill="#fef2f2"/>
+    <text x="310" y="613" text-anchor="middle" class="small">没有计划时，局部合理会变成长期荒谬：12:00、12:30、13:00 连吃三顿午饭。</text>
+  </g>
+</svg>
