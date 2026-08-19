@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">AlphaZero 神经网络引导的蒙特卡洛树搜索</title>
+  <desc id="desc">一次模拟依次经过选择、扩展与评估、回传，根节点访问次数归一化后成为改进策略。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071225"/><stop offset="1" stop-color="#14203c"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#000" flood-opacity=".3"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3 0 6Z" fill="#7dd3fc"/></marker>
+    <style>.t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e8f1ff}.h{font-size:30px;font-weight:700}.m{font-size:21px;font-weight:650}.s{font-size:17px}.xs{font-size:15px;fill:#aebfd9}.card{fill:#132440;stroke:#31517a;stroke-width:2}.line{fill:none;stroke:#7dd3fc;stroke-width:3;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1200" height="720" rx="28" fill="url(#bg)"/>
+  <text class="t h" x="60" y="62">一次 MCTS 模拟：把“广搜”压缩成有先验、有价值的选择性搜索</text>
+  <text class="t xs" x="60" y="93">边保存 N、W、Q、P；每次模拟只扩展一个叶节点，再沿路径反向更新</text>
+
+  <g filter="url(#shadow)"><rect class="card" x="55" y="142" width="250" height="390" rx="22"/><circle cx="180" cy="207" r="22" fill="#125477" stroke="#67d7f3" stroke-width="3"/><g fill="#183c58" stroke="#67d7f3" stroke-width="2"><circle cx="107" cy="296" r="15"/><circle cx="180" cy="296" r="15"/><circle cx="253" cy="296" r="15"/><circle cx="81" cy="388" r="12"/><circle cx="133" cy="388" r="12"/><circle cx="228" cy="388" r="12"/></g><g stroke="#67d7f3" stroke-width="3"><path d="M165 224l-48 58M180 229v52M195 224l48 58M101 311l-16 64M113 311l16 64M247 311l-16 64"/></g><path d="M180 229v52M180 311l45 65" stroke="#fbbf24" stroke-width="7" fill="none" opacity=".9"/><text class="t m" x="80" y="455">① 选择 Select</text><text class="t xs" x="80" y="486">逐层取 argmax [Q(s,a)+U(s,a)]</text><text class="t xs" x="80" y="511">兼顾已知价值与低访问先验分支</text></g>
+
+  <path class="line" d="M305 337H350"/>
+  <g filter="url(#shadow)"><rect class="card" x="355" y="142" width="235" height="390" rx="22"/><circle cx="472" cy="217" r="19" fill="#3c326f" stroke="#a78bfa" stroke-width="3"/><path d="M472 236v80M472 275l-58 59M472 275l58 59" stroke="#a78bfa" stroke-width="3"/><circle cx="414" cy="345" r="13" fill="#332f60" stroke="#a78bfa" stroke-width="2"/><circle cx="530" cy="345" r="13" fill="#332f60" stroke="#a78bfa" stroke-width="2"/><rect x="393" y="380" width="158" height="48" rx="12" fill="#252b58" stroke="#a78bfa"/><text class="t s" text-anchor="middle" x="472" y="410">fθ(sᴸ) → (p, v)</text><text class="t m" x="383" y="455">② 扩展与评估</text><text class="t xs" x="383" y="486">用 p 初始化新边先验 P</text><text class="t xs" x="383" y="511">用 v 代替随机 rollout</text></g>
+
+  <path class="line" d="M590 337H635"/>
+  <g filter="url(#shadow)"><rect class="card" x="640" y="142" width="235" height="390" rx="22"/><g stroke="#34d399" stroke-width="4" fill="#14443f"><circle cx="758" cy="214" r="16"/><circle cx="758" cy="294" r="16"/><circle cx="758" cy="374" r="16"/><path d="M758 358V312M758 278V232" marker-end="url(#arrow)"/></g><g class="t xs"><text x="788" y="380">N ← N + 1</text><text x="788" y="300">W ← W + v</text><text x="788" y="220">Q ← W / N</text></g><text class="t m" x="674" y="455">③ 回传 Backup</text><text class="t xs" x="674" y="486">零和博弈每换一方，v 翻转符号</text><text class="t xs" x="674" y="511">同一路径的统计量随模拟累积</text></g>
+
+  <path class="line" d="M875 337H920"/>
+  <g filter="url(#shadow)"><rect x="925" y="142" width="220" height="390" rx="22" fill="#103239" stroke="#34d399" stroke-width="2"/><text class="t m" x="955" y="184">④ 根访问次数</text><g transform="translate(958 218)"><rect width="155" height="30" rx="8" fill="#176c67"/><rect y="48" width="104" height="30" rx="8" fill="#21607b"/><rect y="96" width="62" height="30" rx="8" fill="#34486a"/><rect y="144" width="31" height="30" rx="8" fill="#423b65"/><g class="t xs"><text x="10" y="21">a₁  N=53</text><text x="10" y="69">a₂  N=35</text><text x="10" y="117">a₃  N=21</text><text x="10" y="165">a₄  N=10</text></g></g><text class="t s" x="955" y="430">π(a|s) ∝ N(s,a)¹/τ</text><text class="t xs" x="955" y="465">训练前期采样，后期趋于贪心</text><text class="t xs" x="955" y="490">评测直接选访问次数最多者</text></g>
+
+  <g transform="translate(74 574)"><rect width="1070" height="92" rx="18" fill="#0b1930" stroke="#29496e"/><text class="t m" x="28" y="37">探索项（Science 扩展版给出的精确形式）</text><text class="t s" x="28" y="68">U(s,a) = C(s) · P(s,a) · √N(s) / [1 + N(s,a)]　　C(s) 随父节点访问量缓慢增长</text></g>
+</svg>

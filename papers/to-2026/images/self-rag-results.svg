@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" role="img" aria-labelledby="title desc">
+  <title id="title">Self-RAG 关键结果与消融</title>
+  <desc id="desc">对比无检索、固定检索和 Self-RAG 7B、13B 在 PopQA、PubHealth 与 ASQA 引用指标上的代表性结果，并展示 5 万数据版本的消融。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#111b35"/></linearGradient>
+    <linearGradient id="bar"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <linearGradient id="best"><stop stop-color="#059669"/><stop offset="1" stop-color="#34d399"/></linearGradient>
+    <style>.t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e9f2ff}.h{font-size:29px;font-weight:700}.s{font-size:18px;font-weight:650}.xs{font-size:15px;fill:#adc1dc}.axis{stroke:#38516f;stroke-width:1}.num{font-size:15px;font-weight:700}</style>
+  </defs>
+  <rect width="1200" height="690" rx="28" fill="url(#bg)"/>
+  <text class="t h" x="55" y="60">论文结果：训练“如何用证据”比推理时直接拼文档更有效</text>
+  <text class="t xs" x="55" y="90">数值来自论文 Table 2 / Figure 3a；不同列指标不同，不能横向比较柱长</text>
+
+  <g transform="translate(55 128)">
+    <rect width="526" height="470" rx="22" fill="#0c1b33" stroke="#2e4c70"/>
+    <text class="t s" x="28" y="40">PopQA accuracy（长尾实体）</text>
+    <g class="axis"><path d="M165 69V333M165 333H485"/><path d="M272 69V333M379 69V333M485 69V333" opacity=".35"/></g>
+    <g class="t xs" text-anchor="middle"><text x="165" y="358">0</text><text x="272" y="358">20</text><text x="379" y="358">40</text><text x="485" y="358">60</text></g>
+    <g class="t xs" text-anchor="end"><text x="152" y="103">Llama 2 7B</text><text x="152" y="160">+ 固定检索</text><text x="152" y="217">Alpaca 7B + 检索</text><text x="152" y="274">Self-RAG 7B</text><text x="152" y="331">Self-RAG 13B</text></g>
+    <rect x="165" y="84" width="79" height="24" rx="6" fill="#52647b"/><rect x="165" y="141" width="204" height="24" rx="6" fill="#65758a"/><rect x="165" y="198" width="250" height="24" rx="6" fill="url(#bar)"/><rect x="165" y="255" width="294" height="24" rx="6" fill="url(#best)"/><rect x="165" y="312" width="299" height="24" rx="6" fill="url(#best)"/>
+    <g class="t num"><text x="252" y="102">14.7</text><text x="377" y="159">38.2</text><text x="423" y="216">46.7</text><text x="467" y="273">54.9</text><text x="472" y="330">55.8</text></g>
+    <rect x="28" y="386" width="470" height="58" rx="12" fill="#112943"/><text class="t xs" x="48" y="411">固定文档能显著帮 QA，但 Self-RAG 7B 仍比</text><text class="t xs" x="48" y="433">同尺寸 Alpaca + retrieval 高 8.2 个点。</text>
+  </g>
+
+  <g transform="translate(610 128)">
+    <rect width="535" height="470" rx="22" fill="#0c1b33" stroke="#2e4c70"/>
+    <text class="t s" x="28" y="40">ASQA：citation precision / recall</text>
+    <g class="axis"><path d="M180 70V277M180 277H500"/><path d="M260 70V277M340 70V277M420 70V277M500 70V277" opacity=".35"/></g>
+    <g class="t xs" text-anchor="end"><text x="166" y="110">Alpaca 7B + 检索</text><text x="166" y="167">Self-RAG 7B</text><text x="166" y="224">Self-RAG 13B</text></g>
+    <rect x="180" y="91" width="22" height="18" rx="5" fill="#57708c"/><rect x="180" y="114" width="29" height="18" rx="5" fill="#7b65db"/>
+    <rect x="180" y="148" width="268" height="18" rx="5" fill="url(#best)"/><rect x="180" y="171" width="271" height="18" rx="5" fill="#8067e7"/>
+    <rect x="180" y="205" width="281" height="18" rx="5" fill="url(#best)"/><rect x="180" y="228" width="285" height="18" rx="5" fill="#8067e7"/>
+    <g class="t num"><text x="210" y="106">5.5</text><text x="217" y="129">7.2</text><text x="456" y="163">66.9</text><text x="459" y="186">67.8</text><text x="469" y="220">70.3</text><text x="473" y="243">71.3</text></g>
+    <g class="t xs"><rect x="196" y="296" width="18" height="8" fill="url(#best)"/><text x="222" y="305">precision</text><rect x="331" y="296" width="18" height="8" fill="#8067e7"/><text x="357" y="305">recall</text></g>
+
+    <text class="t s" x="28" y="356">50k 训练样本的消融</text>
+    <rect x="28" y="378" width="479" height="66" rx="12" fill="#112943"/>
+    <text class="t xs" x="48" y="402">PopQA：完整 45.5 → 无 Critic 42.6 → 不检索 24.7</text>
+    <text class="t xs" x="48" y="427">ASQA EM：完整 32.1 → 固定 top-1 28.6 → 去 ISSUP 30.6</text>
+  </g>
+  <g transform="translate(80 626)"><circle cx="8" cy="-4" r="7" fill="#fbbf24"/><text class="t xs" x="24">结论不应读成“13B 全面超过 ChatGPT”：例如 TriviaQA 69.3 仍低于 ChatGPT 74.3，指标与基线披露范围也不完全相同。</text></g>
+</svg>

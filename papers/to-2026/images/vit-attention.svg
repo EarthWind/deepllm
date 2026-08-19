@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="700" viewBox="0 0 1280 700" role="img" aria-labelledby="title desc">
+  <title id="title">Vision Transformer 学到的位置结构和局部全局注意力</title>
+  <desc id="desc">展示学习到的位置编码、低层混合局部与全局注意力、高层更偏全局，以及分类 token 聚合语义区域。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06111e"/><stop offset="1" stop-color="#14152f"/></linearGradient>
+    <radialGradient id="heat"><stop stop-color="#fbbf24"/><stop offset=".35" stop-color="#fb7185"/><stop offset="1" stop-color="#172554"/></radialGradient>
+    <style>.s{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:32px;font-weight:700;fill:#f8fafc}.h{font-size:20px;font-weight:650;fill:#e2e8f0}.m{font-size:16px;fill:#cbd5e1}.n{font-size:13px;fill:#94a3b8}.card{fill:#0c1d31;stroke:#29445f;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1280" height="700" rx="26" fill="url(#bg)"/>
+  <text x="52" y="60" class="s t">ViT 没被写入二维规则，但能从数据中重新发现图像结构</text>
+  <text x="52" y="91" class="s n">以下是论文第 4.5 节观察的概念重绘：不是单张样例的原始 attention map</text>
+
+  <g transform="translate(50 128)">
+    <rect width="360" height="500" rx="20" class="card"/>
+    <text x="180" y="40" text-anchor="middle" class="s h">① 位置编码恢复网格拓扑</text>
+    <text x="180" y="66" text-anchor="middle" class="s n">选中一个位置，看它与其他位置的余弦相似度</text>
+    <g transform="translate(66 96)">
+      <rect width="228" height="228" rx="9" fill="#111b35" stroke="#475569"/>
+      <g fill="url(#heat)" stroke="#07111f" stroke-width="2">
+        <rect x="0" y="0" width="38" height="38"/><rect x="38" y="0" width="38" height="38"/><rect x="76" y="0" width="38" height="38"/><rect x="114" y="0" width="38" height="38"/><rect x="152" y="0" width="38" height="38"/><rect x="190" y="0" width="38" height="38"/>
+        <rect x="0" y="38" width="38" height="38"/><rect x="38" y="38" width="38" height="38"/><rect x="76" y="38" width="38" height="38"/><rect x="114" y="38" width="38" height="38"/><rect x="152" y="38" width="38" height="38"/><rect x="190" y="38" width="38" height="38"/>
+        <rect x="0" y="76" width="38" height="38"/><rect x="38" y="76" width="38" height="38"/><rect x="76" y="76" width="38" height="38"/><rect x="114" y="76" width="38" height="38" fill="#fef3c7"/><rect x="152" y="76" width="38" height="38"/><rect x="190" y="76" width="38" height="38"/>
+        <rect x="0" y="114" width="38" height="38"/><rect x="38" y="114" width="38" height="38"/><rect x="76" y="114" width="38" height="38"/><rect x="114" y="114" width="38" height="38"/><rect x="152" y="114" width="38" height="38"/><rect x="190" y="114" width="38" height="38"/>
+        <rect x="0" y="152" width="38" height="38"/><rect x="38" y="152" width="38" height="38"/><rect x="76" y="152" width="38" height="38"/><rect x="114" y="152" width="38" height="38"/><rect x="152" y="152" width="38" height="38"/><rect x="190" y="152" width="38" height="38"/>
+        <rect x="0" y="190" width="38" height="38"/><rect x="38" y="190" width="38" height="38"/><rect x="76" y="190" width="38" height="38"/><rect x="114" y="190" width="38" height="38"/><rect x="152" y="190" width="38" height="38"/><rect x="190" y="190" width="38" height="38"/>
+      </g>
+      <path d="M133 0V228M0 95H228" stroke="#fef3c7" stroke-width="2" stroke-dasharray="5 4" opacity=".75"/>
+    </g>
+    <text x="180" y="361" text-anchor="middle" class="s m" fill="#fda4af">近邻、同行、同列更相似</text>
+    <text x="26" y="399" class="s n">默认位置向量只是可学习的 1D 表；</text>
+    <text x="26" y="423" class="s n">训练后却出现距离和行列结构。</text>
+    <text x="26" y="461" class="s n">因此手工 2D、相对位置方案在该消融</text>
+    <text x="26" y="485" class="s n">中没有显著胜过默认 1D 方案。</text>
+  </g>
+
+  <g transform="translate(435 128)">
+    <rect width="390" height="500" rx="20" class="card"/>
+    <text x="195" y="40" text-anchor="middle" class="s h">② 低层同时有局部头与全局头</text>
+    <g transform="translate(30 83)">
+      <text x="0" y="16" class="s n">平均注意力距离</text>
+      <path d="M34 314H338M34 314V30" stroke="#49637d" stroke-width="2"/>
+      <g fill="#22d3ee" opacity=".85"><circle cx="45" cy="277" r="7"/><circle cx="45" cy="114" r="7"/><circle cx="65" cy="255" r="7"/><circle cx="65" cy="87" r="7"/><circle cx="88" cy="232" r="7"/><circle cx="88" cy="67" r="7"/><circle cx="110" cy="196" r="7"/><circle cx="110" cy="90" r="7"/><circle cx="140" cy="173" r="7"/><circle cx="140" cy="77" r="7"/><circle cx="168" cy="133" r="7"/><circle cx="168" cy="72" r="7"/><circle cx="198" cy="110" r="7"/><circle cx="198" cy="62" r="7"/><circle cx="228" cy="83" r="7"/><circle cx="228" cy="54" r="7"/><circle cx="258" cy="68" r="7"/><circle cx="258" cy="49" r="7"/><circle cx="288" cy="54" r="7"/><circle cx="288" cy="42" r="7"/><circle cx="322" cy="45" r="7"/><circle cx="322" cy="35" r="7"/></g>
+      <path d="M45 280C107 230 176 130 322 43" fill="none" stroke="#a78bfa" stroke-width="3" stroke-dasharray="7 6"/>
+      <g class="s n" text-anchor="middle"><text x="45" y="339">浅层</text><text x="185" y="339">中层</text><text x="322" y="339">深层</text></g>
+      <text x="56" y="301" class="s n" fill="#67e8f9">局部头</text><text x="68" y="71" class="s n" fill="#67e8f9">全局头</text><text x="245" y="104" class="s n" fill="#c4b5fd">总体距离上升</text>
+    </g>
+    <text x="26" y="461" class="s n">CNN 的浅层感受野天然局部；ViT 的浅层</text>
+    <text x="26" y="485" class="s n">从一开始就可以混合近处纹理与远处形状。</text>
+  </g>
+
+  <g transform="translate(850 128)">
+    <rect width="380" height="500" rx="20" class="card"/>
+    <text x="190" y="40" text-anchor="middle" class="s h">③ [CLS] 汇聚任务相关区域</text>
+    <g transform="translate(61 81)">
+      <rect width="258" height="258" rx="13" fill="#0e7490"/>
+      <circle cx="133" cy="115" r="64" fill="#f43f5e"/><path d="M174 103l65 23-67 14z" fill="#fbbf24"/><circle cx="151" cy="94" r="9" fill="#07111f"/>
+      <path d="M5 232C82 175 179 221 254 167" fill="none" stroke="#064e3b" stroke-width="22"/>
+      <g fill="none" stroke="#fef3c7" stroke-width="2.5" opacity=".8"><circle cx="133" cy="115" r="78"/><circle cx="133" cy="115" r="93" stroke-dasharray="6 6"/></g>
+      <g stroke="#67e8f9" stroke-width="2" opacity=".65"><path d="M35 229L112 164M35 229L151 94M35 229L195 125M35 229L126 58"/></g>
+      <rect x="8" y="211" width="55" height="37" rx="9" fill="#fb7185"/><text x="35" y="235" text-anchor="middle" class="s n" fill="#fff">[CLS]</text>
+    </g>
+    <text x="26" y="393" class="s n">最后层的分类 token 会把注意力集中到</text>
+    <text x="26" y="417" class="s n">与标签相关的主体区域，而不是均匀平均。</text>
+    <rect x="26" y="449" width="328" height="30" rx="15" fill="#172554"/><text x="190" y="470" text-anchor="middle" class="s n">注意力图是诊断线索，不等于因果解释</text>
+  </g>
+  <text x="640" y="672" text-anchor="middle" class="s n">论文的解释性证据支持“ViT 学到了局部性和二维拓扑”，但并不证明每个 attention weight 都是可靠解释。</text>
+</svg>

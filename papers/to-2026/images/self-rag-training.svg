@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" role="img" aria-labelledby="title desc">
+  <title id="title">Self-RAG 两阶段训练数据管线</title>
+  <desc id="desc">GPT-4 先产生 reflection token 标签训练 Critic，Critic 和 Retriever 再离线增强 14.6 万条数据，最后用标准语言模型损失训练 Generator。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071329"/><stop offset="1" stop-color="#121a34"/></linearGradient>
+    <linearGradient id="gold"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#fcd34d"/></linearGradient>
+    <linearGradient id="blue"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <linearGradient id="green"><stop stop-color="#059669"/><stop offset="1" stop-color="#34d399"/></linearGradient>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3 0 6Z" fill="#78cffa"/></marker>
+    <filter id="sh"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-opacity=".28"/></filter>
+    <style>.t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e8f1ff}.h{font-size:29px;font-weight:700}.s{font-size:18px;font-weight:650}.xs{font-size:15px;fill:#afc2dc}.card{fill:#122540;stroke:#31537d;stroke-width:2}.line{fill:none;stroke:#78cffa;stroke-width:3;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1200" height="690" rx="28" fill="url(#bg)"/>
+  <text class="t h" x="55" y="62">训练时有两个模型；推理时只保留 Generator + Retriever</text>
+  <text class="t xs" x="55" y="91">Reflection tokens 先由强教师产生，再蒸馏为普通 next-token prediction</text>
+
+  <rect x="47" y="126" width="1106" height="205" rx="24" fill="#0c1b34" stroke="#2b4b73"/>
+  <rect x="47" y="360" width="1106" height="272" rx="24" fill="#0c1b34" stroke="#2b4b73"/>
+  <rect x="68" y="108" width="170" height="36" rx="18" fill="#332411" stroke="#fbbf24"/><text class="t s" x="153" y="133" text-anchor="middle">阶段 A · 训练 Critic</text>
+  <rect x="68" y="342" width="210" height="36" rx="18" fill="#0e3237" stroke="#34d399"/><text class="t s" x="173" y="367" text-anchor="middle">阶段 B · 训练 Generator</text>
+
+  <g filter="url(#sh)">
+    <rect class="card" x="83" y="180" width="205" height="103" rx="18"/><text class="t s" x="108" y="217">抽样 (x, y)</text><text class="t xs" x="108" y="247">多种指令 / 知识任务</text>
+    <rect x="365" y="165" width="210" height="133" rx="18" fill="#352713" stroke="#f6b93b" stroke-width="2"/><circle cx="410" cy="221" r="24" fill="url(#gold)"/><text x="410" y="228" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#2a1d06">T</text><text class="t s" x="450" y="209">GPT-4 教师</text><text class="t xs" x="450" y="237">少样本分类</text><text class="t xs" x="450" y="261">约 4k–20k / 类型</text>
+    <rect class="card" x="655" y="165" width="205" height="133" rx="18"/><text class="t s" x="682" y="205">Dcritic</text><text class="t xs" x="682" y="235">Retrieve · ISREL</text><text class="t xs" x="682" y="260">ISSUP · ISUSE 标签</text>
+    <rect x="938" y="165" width="178" height="133" rx="18" fill="#152653" stroke="#6f8df5" stroke-width="2"/><text class="t s" x="1027" y="211" text-anchor="middle">Critic C</text><text class="t xs" x="1027" y="240" text-anchor="middle">Llama 2 7B</text><text class="t xs" x="1027" y="265" text-anchor="middle">条件 LM loss</text>
+  </g>
+  <path class="line" d="M288 231H365"/><path class="line" d="M575 231H655"/><path class="line" d="M860 231H938"/>
+
+  <g filter="url(#sh)">
+    <rect class="card" x="82" y="423" width="205" height="142" rx="18"/><text class="t s" x="108" y="462">145,619 对 (x, y)</text><text class="t xs" x="108" y="491">Open-Instruct</text><text class="t xs" x="108" y="516">+ NQ / FEVER / ASQA…</text><text class="t xs" x="108" y="541">约 150k</text>
+    <rect x="361" y="403" width="222" height="181" rx="18" fill="#102941" stroke="#2fbcd6" stroke-width="2"/><text class="t s" x="472" y="442" text-anchor="middle">离线标注与检索</text><text class="t xs" x="390" y="477">C：何时查 / 是否相关</text><text class="t xs" x="390" y="505">R：最多取 10 篇 passage</text><text class="t xs" x="390" y="533">C：支持度 / 效用</text><rect x="397" y="550" width="150" height="8" rx="4" fill="url(#blue)"/>
+    <rect class="card" x="657" y="403" width="213" height="181" rx="18"/><text class="t s" x="683" y="442">Dgen token 流</text><text class="t xs" x="683" y="477">[Retrieve] &lt;p&gt; passage</text><text class="t xs" x="683" y="505">[Relevant] answer</text><text class="t xs" x="683" y="533">[Supported] [Utility]</text><text class="t xs" x="683" y="560">passage 不计 loss</text>
+    <rect x="940" y="403" width="176" height="181" rx="18" fill="#103833" stroke="#34d399" stroke-width="2"/><circle cx="1028" cy="453" r="28" fill="url(#green)"/><path d="M1016 453l9 9 17-21" fill="none" stroke="white" stroke-width="4"/><text class="t s" x="1028" y="510" text-anchor="middle">Generator M</text><text class="t xs" x="1028" y="538" text-anchor="middle">Llama 2 7B / 13B</text><text class="t xs" x="1028" y="562" text-anchor="middle">标准 next-token loss</text>
+  </g>
+  <path class="line" d="M287 494H361"/><path class="line" d="M583 494H657"/><path class="line" d="M870 494H940"/>
+  <path d="M1027 298V350H472V403" fill="none" stroke="#a78bfa" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#a)"/>
+  <text class="t xs" x="735" y="347" text-anchor="middle">训练好的 Critic 只用于离线造 Dgen</text>
+  <text class="t xs" x="600" y="664" text-anchor="middle">部署：Generator 自己输出 reflection tokens；无需 GPT-4，也无需单独运行 Critic</text>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Vision Transformer 的 Pre-LN Encoder 与多头自注意力</title>
+  <desc id="desc">两个 Pre-LN 残差子层以及查询键值注意力计算流程。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06101d"/><stop offset="1" stop-color="#111a38"/></linearGradient>
+    <linearGradient id="card" x1="0" x2="1"><stop stop-color="#0f2940"/><stop offset="1" stop-color="#1e1b4b"/></linearGradient>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#67e8f9"/></marker>
+    <style>.s{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:32px;font-weight:700;fill:#f8fafc}.l{font-size:20px;font-weight:650;fill:#e2e8f0}.m{font-size:16px;fill:#cbd5e1}.n{font-size:13px;fill:#94a3b8}.f{font-family:"Times New Roman",serif;font-size:21px;fill:#a5f3fc}.box{fill:url(#card);stroke:#334d70;stroke-width:1.5}.line{fill:none;stroke:#67e8f9;stroke-width:2.5;marker-end:url(#arr)}</style>
+  </defs>
+  <rect width="1280" height="720" rx="26" fill="url(#bg)"/>
+  <text x="52" y="59" class="s t">Encoder Block：先归一化，再做子层，再走残差</text>
+  <text x="52" y="90" class="s n">ViT 采用 Pre-LN；不要画成原始 Transformer 论文里的 Post-LN</text>
+
+  <g transform="translate(52 132)">
+    <rect width="405" height="500" rx="20" class="box"/>
+    <text x="203" y="38" text-anchor="middle" class="s l">一个 ViT Encoder Block</text>
+    <rect x="142" y="62" width="122" height="52" rx="11" fill="#164e63"/><text x="203" y="94" text-anchor="middle" class="s m">输入 zₗ₋₁</text>
+    <path d="M203 114V143" class="line"/>
+    <rect x="153" y="150" width="100" height="48" rx="10" fill="#0e7490"/><text x="203" y="180" text-anchor="middle" class="s m">LayerNorm</text>
+    <path d="M203 198V218" class="line"/>
+    <rect x="115" y="225" width="176" height="55" rx="11" fill="#0369a1"/><text x="203" y="258" text-anchor="middle" class="s m">Multi-Head Attention</text>
+    <path d="M203 280V302" class="line"/>
+    <circle cx="203" cy="320" r="17" fill="#fb7185"/><text x="203" y="327" text-anchor="middle" class="s l">+</text>
+    <path d="M142 88H75V320H184" fill="none" stroke="#fb7185" stroke-width="2.5" marker-end="url(#arr)"/>
+    <path d="M203 337V348" class="line"/>
+    <rect x="153" y="355" width="100" height="48" rx="10" fill="#6d28d9"/><text x="203" y="385" text-anchor="middle" class="s m">LayerNorm</text>
+    <path d="M203 403V413" class="line"/>
+    <rect x="115" y="420" width="176" height="55" rx="11" fill="#7c3aed"/><text x="203" y="443" text-anchor="middle" class="s m">Linear → GELU</text><text x="203" y="464" text-anchor="middle" class="s n">→ Linear</text>
+    <path d="M291 447H324" class="line"/>
+    <circle cx="343" cy="447" r="17" fill="#fb7185"/><text x="343" y="454" text-anchor="middle" class="s l">+</text>
+    <path d="M203 337H343V428" fill="none" stroke="#fb7185" stroke-width="2.5" marker-end="url(#arr)"/>
+    <path d="M343 464V482" class="line"/>
+    <text x="203" y="492" text-anchor="middle" class="s n">MSA 混合 token；MLP 独立变换每个 token</text>
+  </g>
+
+  <g transform="translate(490 132)">
+    <rect width="738" height="500" rx="20" class="box"/>
+    <text x="369" y="38" text-anchor="middle" class="s l">一颗注意力头如何让任意 patch 交换信息</text>
+    <rect x="32" y="82" width="105" height="56" rx="11" fill="#164e63"/><text x="84" y="116" text-anchor="middle" class="s m">LN(z)</text>
+    <path d="M137 110H183" class="line"/>
+    <g transform="translate(198 65)">
+      <rect width="90" height="55" rx="10" fill="#0e7490"/><text x="45" y="34" text-anchor="middle" class="s m">WQ → Q</text>
+      <rect y="72" width="90" height="55" rx="10" fill="#2563eb"/><text x="45" y="106" text-anchor="middle" class="s m">WK → K</text>
+      <rect y="144" width="90" height="55" rx="10" fill="#7c3aed"/><text x="45" y="178" text-anchor="middle" class="s m">WV → V</text>
+    </g>
+    <path d="M288 92H343M288 164H343M288 236H478" class="line"/>
+    <rect x="358" y="82" width="167" height="106" rx="14" fill="#172554" stroke="#60a5fa"/>
+    <text x="442" y="118" text-anchor="middle" class="f">QKᵀ / √dₕ</text>
+    <text x="442" y="149" text-anchor="middle" class="s n">全部 token 两两相似度</text>
+    <text x="442" y="173" text-anchor="middle" class="s n">形状 T × T</text>
+    <path d="M442 188V226" class="line"/>
+    <rect x="360" y="235" width="164" height="55" rx="11" fill="#0369a1"/><text x="442" y="269" text-anchor="middle" class="s m">row-wise softmax</text>
+    <path d="M442 290V324" class="line"/>
+    <rect x="360" y="332" width="164" height="70" rx="12" fill="#0f766e"/><text x="442" y="362" text-anchor="middle" class="f">A V</text><text x="442" y="386" text-anchor="middle" class="s n">对 value 加权求和</text>
+    <path d="M478 236V315H524V353" fill="none" stroke="#a78bfa" stroke-width="2.5" marker-end="url(#arr)"/>
+    <path d="M524 367H575" class="line"/>
+    <rect x="589" y="319" width="116" height="96" rx="12" fill="#7c3aed"/><text x="647" y="351" text-anchor="middle" class="s m">拼接多头</text><text x="647" y="378" text-anchor="middle" class="s m">再乘 Wᴼ</text><text x="647" y="399" text-anchor="middle" class="s n">回到 D 维</text>
+
+    <rect x="32" y="326" width="260" height="105" rx="14" fill="#0b2035" stroke="#294765"/>
+    <text x="52" y="357" class="s m" fill="#67e8f9">为什么要多头？</text>
+    <text x="52" y="385" class="s n">不同 head 可学习不同关系：</text>
+    <text x="52" y="408" class="s n">局部纹理、长程形状、前景与背景。</text>
+    <text x="369" y="471" text-anchor="middle" class="f">A = softmax(QKᵀ / √dₕ),　SA(z) = AV</text>
+  </g>
+  <text x="640" y="685" text-anchor="middle" class="s n">残差路径让信息和梯度保持通畅；Pre-LN 是 ViT 可稳定扩深的重要实现细节。</text>
+</svg>
