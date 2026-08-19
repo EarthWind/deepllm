@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="700" viewBox="0 0 1280 700" role="img" aria-labelledby="title desc">
+  <title id="title">Patch 大小、token 数量与注意力计算量</title>
+  <desc id="desc">比较 224 分辨率下 P32、P16、P14 以及 384 分辨率 P16 的 token 数和相对注意力矩阵大小。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06111e"/><stop offset="1" stop-color="#12152e"/></linearGradient>
+    <style>.s{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:32px;font-weight:700;fill:#f8fafc}.h{font-size:21px;font-weight:650;fill:#e2e8f0}.m{font-size:16px;fill:#cbd5e1}.n{font-size:13px;fill:#94a3b8}.num{font-size:34px;font-weight:760;fill:#67e8f9}.card{fill:#0d1d31;stroke:#29435f;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1280" height="700" rx="26" fill="url(#bg)"/>
+  <text x="52" y="60" class="s t">Patch 越小，看得越细；代价按 token 数的平方增长</text>
+  <text x="52" y="91" class="s n">以下 N 只计图像 patch；实际序列还要加 1 个 [CLS] token</text>
+
+  <g transform="translate(50 130)">
+    <g>
+      <rect width="270" height="355" rx="20" class="card"/>
+      <text x="135" y="39" text-anchor="middle" class="s h">ViT-*/32 @ 224</text>
+      <g transform="translate(58 63)" stroke="#67e8f9" stroke-width="1.5" fill="#0e7490" fill-opacity=".35"><rect width="154" height="154" rx="5"/><path d="M22 0v154M44 0v154M66 0v154M88 0v154M110 0v154M132 0v154M0 22h154M0 44h154M0 66h154M0 88h154M0 110h154M0 132h154"/></g>
+      <text x="135" y="258" text-anchor="middle" class="s num">7×7 = 49</text>
+      <text x="135" y="286" text-anchor="middle" class="s m">注意力矩阵 49²</text>
+      <rect x="35" y="312" width="200" height="25" rx="12" fill="#164e63"/><text x="135" y="330" text-anchor="middle" class="s n">相对计算量 1×</text>
+    </g>
+    <g transform="translate(300)">
+      <rect width="270" height="355" rx="20" class="card" stroke="#22d3ee"/>
+      <text x="135" y="39" text-anchor="middle" class="s h">ViT-*/16 @ 224</text>
+      <g transform="translate(58 63)" stroke="#67e8f9" stroke-width=".9" fill="#0891b2" fill-opacity=".32"><rect width="154" height="154" rx="5"/>
+        <path d="M11 0v154M22 0v154M33 0v154M44 0v154M55 0v154M66 0v154M77 0v154M88 0v154M99 0v154M110 0v154M121 0v154M132 0v154M143 0v154M0 11h154M0 22h154M0 33h154M0 44h154M0 55h154M0 66h154M0 77h154M0 88h154M0 99h154M0 110h154M0 121h154M0 132h154M0 143h154"/>
+      </g>
+      <text x="135" y="258" text-anchor="middle" class="s num">14×14 = 196</text>
+      <text x="135" y="286" text-anchor="middle" class="s m">注意力矩阵 196²</text>
+      <rect x="35" y="312" width="200" height="25" rx="12" fill="#0e7490"/><text x="135" y="330" text-anchor="middle" class="s n" fill="#fff">相对 P32：16×</text>
+    </g>
+    <g transform="translate(600)">
+      <rect width="270" height="355" rx="20" class="card"/>
+      <text x="135" y="39" text-anchor="middle" class="s h">ViT-H/14 @ 224</text>
+      <g transform="translate(58 63)" stroke="#a78bfa" stroke-width=".85" fill="#6d28d9" fill-opacity=".3"><rect width="154" height="154" rx="5"/><path d="M9.625 0v154M19.25 0v154M28.875 0v154M38.5 0v154M48.125 0v154M57.75 0v154M67.375 0v154M77 0v154M86.625 0v154M96.25 0v154M105.875 0v154M115.5 0v154M125.125 0v154M134.75 0v154M144.375 0v154M0 9.625h154M0 19.25h154M0 28.875h154M0 38.5h154M0 48.125h154M0 57.75h154M0 67.375h154M0 77h154M0 86.625h154M0 96.25h154M0 105.875h154M0 115.5h154M0 125.125h154M0 134.75h154M0 144.375h154"/></g>
+      <text x="135" y="258" text-anchor="middle" class="s num" fill="#c4b5fd">16×16 = 256</text>
+      <text x="135" y="286" text-anchor="middle" class="s m">注意力矩阵 256²</text>
+      <rect x="35" y="312" width="200" height="25" rx="12" fill="#5b21b6"/><text x="135" y="330" text-anchor="middle" class="s n" fill="#fff">相对 P32：27.3×</text>
+    </g>
+    <g transform="translate(900)">
+      <rect width="270" height="355" rx="20" class="card" stroke="#fb7185"/>
+      <text x="135" y="39" text-anchor="middle" class="s h">P16 @ 384 微调</text>
+      <g transform="translate(58 63)" stroke="#fb7185" stroke-width=".55" fill="#be123c" fill-opacity=".27"><rect width="154" height="154" rx="5"/>
+        <path d="M6.416 0v154M12.833 0v154M19.25 0v154M25.666 0v154M32.083 0v154M38.5 0v154M44.916 0v154M51.333 0v154M57.75 0v154M64.166 0v154M70.583 0v154M77 0v154M83.416 0v154M89.833 0v154M96.25 0v154M102.666 0v154M109.083 0v154M115.5 0v154M121.916 0v154M128.333 0v154M134.75 0v154M141.166 0v154M147.583 0v154M0 6.416h154M0 12.833h154M0 19.25h154M0 25.666h154M0 32.083h154M0 38.5h154M0 44.916h154M0 51.333h154M0 57.75h154M0 64.166h154M0 70.583h154M0 77h154M0 83.416h154M0 89.833h154M0 96.25h154M0 102.666h154M0 109.083h154M0 115.5h154M0 121.916h154M0 128.333h154M0 134.75h154M0 141.166h154M0 147.583h154"/>
+      </g>
+      <text x="135" y="258" text-anchor="middle" class="s num" fill="#fda4af">24×24 = 576</text>
+      <text x="135" y="286" text-anchor="middle" class="s m">注意力矩阵 576²</text>
+      <rect x="35" y="312" width="200" height="25" rx="12" fill="#9f1239"/><text x="135" y="330" text-anchor="middle" class="s n" fill="#fff">相对 224/P16：8.64×</text>
+    </g>
+  </g>
+
+  <g transform="translate(50 524)">
+    <rect width="1170" height="122" rx="18" fill="#0b2035" stroke="#294765"/>
+    <text x="26" y="36" class="s h" fill="#67e8f9">两条计算规律</text>
+    <text x="260" y="37" class="s m">N = HW / P²</text>
+    <text x="489" y="37" class="s m">全局注意力主项 ≈ O(N²D)</text>
+    <text x="26" y="75" class="s n">① patch 边长减半 → token 数变 4 倍 → 注意力矩阵变 16 倍。</text>
+    <text x="26" y="101" class="s n">② 提高微调分辨率时 patch 大小不变，token 序列变长；预训练位置编码需按二维网格插值。</text>
+  </g>
+</svg>

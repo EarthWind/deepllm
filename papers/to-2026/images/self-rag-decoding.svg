@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Self-RAG 的 segment-level tree decoding</title>
+  <desc id="desc">检索后的三个文档分支分别生成一段和 critique token，按模型分数、相关性、支持度、效用加权排序，beam search 保留两个候选。</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071226"/><stop offset="1" stop-color="#121b35"/></linearGradient>
+    <linearGradient id="g"><stop stop-color="#059669"/><stop offset="1" stop-color="#34d399"/></linearGradient>
+    <linearGradient id="b"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#38bdf8"/></linearGradient>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3 0 6Z" fill="#79cdf4"/></marker>
+    <filter id="sh"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-opacity=".3"/></filter>
+    <style>.t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#ebf4ff}.h{font-size:29px;font-weight:700}.s{font-size:18px;font-weight:650}.xs{font-size:15px;fill:#aec1dc}.card{fill:#122541;stroke:#31527b;stroke-width:2}.line{fill:none;stroke:#79cdf4;stroke-width:3;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1200" height="720" rx="28" fill="url(#bg)"/>
+  <text class="t h" x="56" y="62">Segment-level tree decoding：文档不只被召回，还要竞争</text>
+  <text class="t xs" x="56" y="91">示例分数来自本文教学代码；公式与论文一致，数值仅用于解释排序</text>
+
+  <g filter="url(#sh)"><rect class="card" x="55" y="270" width="175" height="120" rx="20"/><text class="t s" x="142" y="314" text-anchor="middle">当前 beam</text><text class="t xs" x="142" y="345" text-anchor="middle">x + y&lt;t</text><rect x="92" y="365" width="100" height="6" rx="3" fill="url(#b)"/></g>
+  <path class="line" d="M230 330H292"/>
+  <g filter="url(#sh)"><rect class="card" x="298" y="253" width="180" height="154" rx="20"/><text class="t s" x="388" y="292" text-anchor="middle">Retrieve = Yes</text><g fill="#203b5e" stroke="#5dbde9"><rect x="330" y="318" width="116" height="21" rx="5"/><rect x="330" y="348" width="116" height="21" rx="5"/></g><text class="t xs" x="388" y="392" text-anchor="middle">K = 3</text></g>
+
+  <path d="M478 330C520 330 510 181 555 181M478 330H555M478 330C520 330 510 479 555 479" fill="none" stroke="#79cdf4" stroke-width="3"/>
+  <g filter="url(#sh)">
+    <rect x="560" y="118" width="350" height="126" rx="18" fill="#10342f" stroke="#34d399" stroke-width="2"/>
+    <rect x="560" y="267" width="350" height="126" rx="18" fill="#3a1d25" stroke="#ef6461" stroke-width="2"/>
+    <rect x="560" y="416" width="350" height="126" rx="18" fill="#252344" stroke="#9b8afb" stroke-width="2"/>
+    <text class="t s" x="590" y="153">d₁：人物命名 → y₁</text><text class="t xs" x="590" y="181">LM .72 · Rel .96 · Sup .94 · Use .83</text><text class="t s" x="590" y="216">总分 3.033</text>
+    <text class="t s" x="590" y="302">d₂：热门名字 → y₂</text><text class="t xs" x="590" y="330">LM .81 · Rel .10 · Sup .09 · Use −.03</text><text class="t s" x="590" y="365">总分 0.988</text>
+    <text class="t s" x="590" y="451">d₃：小说岛屿 → y₃</text><text class="t xs" x="590" y="479">LM .68 · Rel .88 · Sup .66 · Use .54</text><text class="t s" x="590" y="514">总分 2.490</text>
+  </g>
+
+  <g transform="translate(82 488)"><rect width="396" height="134" rx="18" fill="#0c1b34" stroke="#31527b"/><text class="t s" x="24" y="38">软约束</text><text class="t xs" x="24" y="69">f = LM + wᵣ·Rel + wₛ·Sup + wᵤ·Use</text><text class="t xs" x="24" y="98">默认 w = (1.0, 1.0, 0.5)</text><text class="t xs" x="24" y="121">可调高 wₛ，换取更高 citation precision</text></g>
+
+  <path class="line" d="M910 181C958 181 948 269 982 269"/><path class="line" d="M910 330H982"/><path class="line" d="M910 479C958 479 948 391 982 391"/>
+  <g filter="url(#sh)"><rect x="988" y="224" width="160" height="212" rx="22" fill="#102e39" stroke="#34d399" stroke-width="2"/><text class="t s" x="1068" y="264" text-anchor="middle">Beam width = 2</text><circle cx="1030" cy="311" r="22" fill="url(#g)"/><text x="1030" y="318" fill="white" font-family="sans-serif" font-size="18" font-weight="700" text-anchor="middle">1</text><text class="t xs" x="1061" y="317">保留 d₁</text><circle cx="1030" cy="369" r="22" fill="#7765dc"/><text x="1030" y="376" fill="white" font-family="sans-serif" font-size="18" font-weight="700" text-anchor="middle">2</text><text class="t xs" x="1061" y="375">保留 d₃</text><text class="t xs" x="1068" y="414" text-anchor="middle">d₂ 被剪枝</text></g>
+  <path d="M1068 436V590H824" fill="none" stroke="#34d399" stroke-width="3" marker-end="url(#a)"/>
+  <g transform="translate(604 574)"><rect width="420" height="92" rx="18" fill="#0e3433" stroke="#34d399"/><text class="t s" x="210" y="37" text-anchor="middle">进入下一句：每条 beam 再决定是否检索</text><text class="t xs" x="210" y="65" text-anchor="middle">不是一次性 rerank，而是逐段搜索整条答案路径</text></g>
+  <text class="t xs" x="58" y="688">硬约束版本还可直接丢弃 [No support] 分支；论文主结果使用可调的 soft score。</text>
+</svg>

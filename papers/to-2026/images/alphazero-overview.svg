@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">AlphaZero 自我对弈训练闭环</title>
+  <desc id="desc">策略价值网络引导蒙特卡洛树搜索，搜索访问次数形成策略目标，自我对弈得到最终胜负，三者共同训练下一版网络。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061326"/><stop offset="1" stop-color="#101d38"/></linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6d5dfc"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#059669"/><stop offset="1" stop-color="#34d399"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#000" flood-opacity=".32"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3 0 6Z" fill="#7dd3fc"/></marker>
+    <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3 0 6Z" fill="#34d399"/></marker>
+    <style>.t{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif;fill:#e8f1ff}.h{font-size:30px;font-weight:700}.m{font-size:21px;font-weight:650}.s{font-size:17px}.xs{font-size:15px;fill:#aebfd9}.card{fill:#132440;stroke:#31517a;stroke-width:2}.line{fill:none;stroke:#7dd3fc;stroke-width:3;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1200" height="720" rx="28" fill="url(#bg)"/>
+  <g opacity=".08" stroke="#8bb9e8"><path d="M0 120H1200M0 240H1200M0 360H1200M0 480H1200M0 600H1200"/><path d="M120 0V720M240 0V720M360 0V720M480 0V720M600 0V720M720 0V720M840 0V720M960 0V720M1080 0V720"/></g>
+  <text class="t h" x="60" y="62">AlphaZero：搜索改进策略，策略反过来改进搜索</text>
+  <text class="t xs" x="60" y="93">每种游戏单独训练一个实例；共享的是算法，而不是一套跨游戏权重</text>
+
+  <g filter="url(#shadow)">
+    <rect class="card" x="65" y="235" width="235" height="176" rx="22"/>
+    <circle cx="116" cy="286" r="27" fill="url(#violet)"/><path d="M102 286h28M116 272v28" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+    <text class="t m" x="157" y="279">策略–价值网络</text><text class="t s" x="157" y="307">fθ(s) = (p, v)</text>
+    <rect x="92" y="338" width="84" height="42" rx="10" fill="#252b58" stroke="#8b7cf6"/><text class="t s" x="134" y="365" text-anchor="middle">先验 p</text>
+    <rect x="190" y="338" width="84" height="42" rx="10" fill="#252b58" stroke="#8b7cf6"/><text class="t s" x="232" y="365" text-anchor="middle">价值 v</text>
+  </g>
+  <path class="line" d="M300 323H385"/>
+
+  <g filter="url(#shadow)">
+    <rect class="card" x="390" y="195" width="275" height="256" rx="22"/>
+    <text class="t m" x="425" y="238">MCTS：800 次模拟 / 步</text>
+    <g stroke="#72d2ef" stroke-width="3" fill="#173653"><circle cx="505" cy="287" r="13"/><circle cx="451" cy="340" r="11"/><circle cx="527" cy="345" r="11"/><circle cx="605" cy="340" r="11"/><circle cx="422" cy="399" r="9"/><circle cx="478" cy="399" r="9"/><circle cx="561" cy="399" r="9"/></g>
+    <g stroke="#72d2ef" stroke-width="3"><path d="M496 297l-37 34M510 299l13 34M515 297l80 34M448 351l-22 38M458 351l16 38M534 355l22 34"/></g>
+    <text class="t xs" x="425" y="430">Q + U 选择 · 网络评估 · 价值回传</text>
+  </g>
+  <path class="line" d="M665 323H750"/>
+
+  <g filter="url(#shadow)">
+    <rect class="card" x="755" y="235" width="375" height="176" rx="22"/>
+    <text class="t m" x="790" y="278">自我对弈环境</text><text class="t s" x="790" y="309">aₜ ∼ πₜ，按真实规则推进 sₜ₊₁</text>
+    <g transform="translate(950 260)"><rect width="135" height="105" rx="8" fill="#e8d6ac" stroke="#d8b76a" stroke-width="3"/><path d="M0 35h135M0 70h135M45 0v105M90 0v105" stroke="#8a6735" stroke-width="2"/><circle cx="22" cy="17" r="10" fill="#17243b"/><circle cx="112" cy="87" r="10" fill="#f8fafc" stroke="#17243b"/></g>
+    <text class="t xs" x="790" y="370">终局得到 z ∈ {−1, 0, +1}</text>
+  </g>
+
+  <path d="M1040 411v118H570" fill="none" stroke="#34d399" stroke-width="3" marker-end="url(#greenArrow)"/>
+  <g filter="url(#shadow)">
+    <rect x="326" y="505" width="488" height="145" rx="22" fill="#103239" stroke="#34d399" stroke-width="2"/>
+    <text class="t m" text-anchor="middle" x="570" y="548">训练样本：(sₜ, πₜ, z)</text>
+    <text class="t s" text-anchor="middle" x="570" y="585">l = (z − v)² − πᵀ log p + c‖θ‖²</text>
+    <text class="t xs" text-anchor="middle" x="570" y="620">价值拟合终局 · 策略模仿搜索 · 权重正则化</text>
+  </g>
+  <path d="M326 577H180C120 577 115 500 115 420" fill="none" stroke="#34d399" stroke-width="3" stroke-dasharray="10 7" marker-end="url(#greenArrow)"/>
+  <rect x="116" y="526" width="148" height="32" rx="16" fill="#174a46" stroke="#34d399"/><text class="t xs" x="190" y="548" text-anchor="middle">更新同一网络</text>
+  <g transform="translate(864 520)"><rect width="266" height="102" rx="18" fill="#0c1a31" stroke="#29496e"/><text class="t s" x="22" y="34">πₜ 不是网络原始策略 p</text><text class="t xs" x="22" y="63">它来自根节点访问次数 N(s,a)</text><text class="t xs" x="22" y="86">因此搜索充当 policy improvement</text></g>
+</svg>

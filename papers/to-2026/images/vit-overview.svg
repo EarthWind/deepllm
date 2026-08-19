@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Vision Transformer 从图像到分类的完整数据流</title>
+  <desc id="desc">图像被切成固定大小的 patch，线性投影后与分类 token 和位置编码相加，再进入 Transformer Encoder，最后用分类 token 输出类别。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#0b1730"/></linearGradient>
+    <linearGradient id="image" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#0e7490"/><stop offset=".52" stop-color="#34d399"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+    <linearGradient id="token" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>
+    <linearGradient id="encoder" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#172554"/><stop offset="1" stop-color="#312e81"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".32"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>
+      .sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.label{font-size:20px;font-weight:650;fill:#e2e8f0}.small{font-size:15px;fill:#cbd5e1}.tiny{font-size:13px;fill:#94a3b8}.formula{font-family:"Times New Roman",serif;font-size:19px;fill:#a5f3fc}.panel{fill:#0f1e34;stroke:#29415f;stroke-width:1.5}.flow{fill:none;stroke:#67e8f9;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1400" height="760" rx="28" fill="url(#bg)"/>
+  <text x="60" y="66" class="sans title">一张图如何变成 Transformer 的“句子”</text>
+  <text x="60" y="96" class="sans sub">以 224×224、P=16 为例：196 个 patch token + 1 个 [CLS] token</text>
+
+  <g transform="translate(58 165)" filter="url(#shadow)">
+    <rect width="250" height="250" rx="18" fill="url(#image)"/>
+    <circle cx="83" cy="104" r="49" fill="#f43f5e" opacity=".88"/><path d="M118 101l55 18-58 11z" fill="#fbbf24"/><circle cx="100" cy="89" r="8" fill="#07111f"/>
+    <path d="M15 220C80 165 134 188 238 126" fill="none" stroke="#064e3b" stroke-width="20" opacity=".7"/>
+    <g stroke="#f8fafc" stroke-opacity=".62" stroke-width="1.5">
+      <path d="M62.5 0v250M125 0v250M187.5 0v250M0 62.5h250M0 125h250M0 187.5h250"/>
+    </g>
+    <text x="125" y="292" text-anchor="middle" class="sans label">输入图像 x</text>
+    <text x="125" y="319" text-anchor="middle" class="sans tiny">H × W × C</text>
+  </g>
+
+  <path d="M330 290H407" class="flow"/>
+  <text x="370" y="271" text-anchor="middle" class="sans tiny">切块 / 展平</text>
+
+  <g transform="translate(430 158)">
+    <rect width="230" height="346" rx="20" class="panel"/>
+    <text x="115" y="38" text-anchor="middle" class="sans label">Patch Embedding</text>
+    <g transform="translate(28 65)">
+      <g fill="url(#token)" stroke="#a5f3fc"><rect width="72" height="72" rx="9"/><rect x="88" width="72" height="72" rx="9"/><rect y="88" width="72" height="72" rx="9"/><rect x="88" y="88" width="72" height="72" rx="9"/></g>
+      <g fill="#081426" opacity=".34"><path d="M36 0v72M0 36h72M124 0v72M88 36h72M36 88v72M0 124h72M124 88v72M88 124h72" stroke="#fff"/></g>
+    </g>
+    <text x="115" y="248" text-anchor="middle" class="sans small">flatten + 共享线性层 E</text>
+    <path d="M40 263H190" stroke="#67e8f9" stroke-width="2" marker-end="url(#arrow)"/>
+    <g transform="translate(34 278)"><rect width="29" height="48" rx="6" fill="#22d3ee"/><rect x="43" width="29" height="48" rx="6" fill="#38bdf8"/><rect x="86" width="29" height="48" rx="6" fill="#818cf8"/><rect x="129" width="29" height="48" rx="6" fill="#a78bfa"/></g>
+    <text x="115" y="338" text-anchor="middle" class="sans tiny">N × D，其中 N = HW / P²</text>
+  </g>
+
+  <path d="M680 330H746" class="flow"/>
+  <g transform="translate(760 146)">
+    <rect width="230" height="375" rx="20" class="panel"/>
+    <text x="115" y="39" text-anchor="middle" class="sans label">组成 token 序列</text>
+    <g transform="translate(33 67)">
+      <rect width="164" height="49" rx="10" fill="#fb7185"/><text x="82" y="31" text-anchor="middle" class="sans small">可学习 [CLS]</text>
+      <text x="82" y="139" text-anchor="middle" class="sans label">+</text>
+      <g transform="translate(0 77)"><rect width="29" height="49" rx="6" fill="#22d3ee"/><rect x="45" width="29" height="49" rx="6" fill="#38bdf8"/><rect x="90" width="29" height="49" rx="6" fill="#818cf8"/><rect x="135" width="29" height="49" rx="6" fill="#a78bfa"/></g>
+      <text x="82" y="194" text-anchor="middle" class="sans label">+</text>
+      <g transform="translate(0 213)" fill="none" stroke="#fbbf24" stroke-width="2"><rect width="29" height="49" rx="6"/><rect x="34" width="29" height="49" rx="6"/><rect x="68" width="29" height="49" rx="6"/><rect x="102" width="29" height="49" rx="6"/><rect x="136" width="29" height="49" rx="6"/></g>
+      <text x="82" y="285" text-anchor="middle" class="sans small">可学习 1D 位置编码</text>
+    </g>
+  </g>
+
+  <path d="M1006 330H1060" class="flow"/>
+  <g transform="translate(1080 136)" filter="url(#shadow)">
+    <rect x="50" y="38" width="182" height="310" rx="19" fill="#1e1b4b" stroke="#818cf8" opacity=".5"/>
+    <rect x="32" y="22" width="182" height="310" rx="19" fill="#25235d" stroke="#818cf8" opacity=".72"/>
+    <rect width="182" height="310" rx="19" fill="url(#encoder)" stroke="#a5b4fc" stroke-width="2"/>
+    <text x="91" y="42" text-anchor="middle" class="sans label">Encoder × L</text>
+    <rect x="21" y="69" width="140" height="67" rx="12" fill="#0e7490" opacity=".82"/><text x="91" y="98" text-anchor="middle" class="sans small">LN → MSA</text><text x="91" y="121" text-anchor="middle" class="sans tiny">+ residual</text>
+    <rect x="21" y="158" width="140" height="67" rx="12" fill="#6d28d9" opacity=".73"/><text x="91" y="187" text-anchor="middle" class="sans small">LN → MLP</text><text x="91" y="210" text-anchor="middle" class="sans tiny">GELU + residual</text>
+    <path d="M39 255H143" stroke="#fb7185" stroke-width="5" stroke-linecap="round"/><circle cx="91" cy="255" r="11" fill="#fb7185"/>
+    <text x="91" y="290" text-anchor="middle" class="sans tiny">读取最终 [CLS]</text>
+    <path d="M91 320V382" class="flow"/>
+    <rect x="25" y="394" width="132" height="65" rx="13" fill="#f97316"/><text x="91" y="421" text-anchor="middle" class="sans small">Linear Head</text><text x="91" y="444" text-anchor="middle" class="sans tiny" fill="#fff">K 类 logits</text>
+  </g>
+
+  <g transform="translate(58 600)">
+    <rect width="1284" height="105" rx="18" fill="#081a2d" stroke="#1e3a5f"/>
+    <text x="28" y="33" class="sans small" fill="#67e8f9">关键不是“每个像素都是 token”</text>
+    <text x="28" y="64" class="sans sub">224² 个像素级 token 会产生约 2.5×10⁹ 个注意力分数；P=16 后只有 196 个 patch，只需约 3.8×10⁴ 个分数。</text>
+    <text x="28" y="88" class="sans tiny">Patch 是可扩展性的关键接口；Transformer 主干本身几乎沿用 NLP 编码器。</text>
+  </g>
+</svg>
