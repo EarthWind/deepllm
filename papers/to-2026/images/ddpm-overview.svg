@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">DDPM 的前向加噪与反向生成过程</title>
+  <desc id="desc">前向过程从真实图像逐步添加高斯噪声，反向过程从标准高斯噪声开始，由共享的噪声预测网络逐步生成图像。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06111f"/><stop offset="1" stop-color="#15132d"/></linearGradient>
+    <linearGradient id="clean" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#0e7490"/><stop offset=".52" stop-color="#22c55e"/><stop offset="1" stop-color="#fb923c"/></linearGradient>
+    <linearGradient id="noise" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#64748b"/><stop offset=".5" stop-color="#c4b5fd"/><stop offset="1" stop-color="#334155"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="9" stdDeviation="13" flood-color="#000" flood-opacity=".35"/></filter>
+    <marker id="cyanArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#22d3ee"/></marker>
+    <marker id="pinkArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#fb7185"/></marker>
+    <style>
+      .s{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.h{font-size:21px;font-weight:650;fill:#e2e8f0}.m{font-size:16px;fill:#cbd5e1}.n{font-size:13px;fill:#94a3b8}.f{font-family:"Times New Roman",serif;font-size:18px;fill:#dbeafe}.panel{fill:#0c1c31;stroke:#29425f;stroke-width:1.5}.forward{fill:none;stroke:#fb7185;stroke-width:3;marker-end:url(#pinkArrow)}.reverse{fill:none;stroke:#22d3ee;stroke-width:3;marker-end:url(#cyanArrow)}
+    </style>
+    <pattern id="dots1" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="2.2" fill="#fff" opacity=".24"/><circle cx="12" cy="11" r="1.6" fill="#f0abfc" opacity=".3"/></pattern>
+    <pattern id="dots2" width="11" height="11" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="2.1" fill="#fff" opacity=".5"/><circle cx="8" cy="8" r="1.7" fill="#67e8f9" opacity=".5"/></pattern>
+  </defs>
+  <rect width="1400" height="760" rx="28" fill="url(#bg)"/>
+  <text x="60" y="66" class="s title">DDPM：训练时学会去噪，生成时把去噪重复 1,000 次</text>
+  <text x="60" y="97" class="s sub">红色 q 是固定的前向过程；蓝色 pθ 是学习到的反向过程。网络参数跨所有时间步共享。</text>
+
+  <g transform="translate(62 165)" filter="url(#shadow)">
+    <g>
+      <rect width="205" height="205" rx="19" fill="url(#clean)" stroke="#86efac" stroke-width="2"/>
+      <circle cx="70" cy="74" r="35" fill="#fde68a"/><path d="M0 169L58 109l44 38 41-70 62 92v36H0z" fill="#164e63"/><path d="M0 173c65-30 126-20 205-49v81H0z" fill="#0f766e"/>
+      <text x="102" y="244" text-anchor="middle" class="s h">真实数据 x₀</text><text x="102" y="270" text-anchor="middle" class="s n">x₀ ~ q(x₀)</text>
+    </g>
+    <g transform="translate(300)">
+      <rect width="205" height="205" rx="19" fill="url(#clean)" stroke="#f9a8d4" stroke-width="2"/><rect width="205" height="205" rx="19" fill="url(#dots1)"/>
+      <circle cx="70" cy="74" r="35" fill="#fde68a" opacity=".75"/><path d="M0 169L58 109l44 38 41-70 62 92v36H0z" fill="#164e63" opacity=".72"/><path d="M0 173c65-30 126-20 205-49v81H0z" fill="#0f766e" opacity=".72"/>
+      <text x="102" y="244" text-anchor="middle" class="s h">轻度噪声 x₁</text><text x="102" y="270" text-anchor="middle" class="s n">局部细节先受损</text>
+    </g>
+    <g transform="translate(600)">
+      <rect width="205" height="205" rx="19" fill="#334155" stroke="#c4b5fd" stroke-width="2"/><rect width="205" height="205" rx="19" fill="url(#dots2)" opacity=".7"/>
+      <circle cx="70" cy="74" r="35" fill="#fde68a" opacity=".3"/><path d="M0 169L58 109l44 38 41-70 62 92v36H0z" fill="#164e63" opacity=".3"/><path d="M0 173c65-30 126-20 205-49v81H0z" fill="#0f766e" opacity=".3"/>
+      <text x="102" y="244" text-anchor="middle" class="s h">中间状态 xₜ</text><text x="102" y="270" text-anchor="middle" class="s n">信号与噪声混合</text>
+    </g>
+    <g transform="translate(900)">
+      <rect width="205" height="205" rx="19" fill="url(#noise)" stroke="#a5b4fc" stroke-width="2"/><rect width="205" height="205" rx="19" fill="url(#dots2)"/>
+      <text x="102" y="244" text-anchor="middle" class="s h">近纯噪声 xT</text><text x="102" y="270" text-anchor="middle" class="s n">xT ≈ N(0, I)</text>
+    </g>
+    <text x="702" y="-25" text-anchor="middle" class="s m" fill="#fda4af">前向扩散 q：无需学习，只按 βₜ 添加高斯噪声</text>
+    <path d="M215 78H282" class="forward"/><path d="M515 78H582" class="forward"/><path d="M815 78H882" class="forward"/>
+    <text x="248" y="62" text-anchor="middle" class="s n">q(x₁|x₀)</text><text x="548" y="62" text-anchor="middle" class="s n">…</text><text x="848" y="62" text-anchor="middle" class="s n">…</text>
+    <path d="M290 138H223" class="reverse"/><path d="M590 138H523" class="reverse"/><path d="M890 138H823" class="reverse"/>
+    <text x="248" y="168" text-anchor="middle" class="s n" fill="#67e8f9">pθ(x₀|x₁)</text><text x="548" y="168" text-anchor="middle" class="s n" fill="#67e8f9">…</text><text x="848" y="168" text-anchor="middle" class="s n" fill="#67e8f9">…</text>
+    <text x="702" y="318" text-anchor="middle" class="s m" fill="#67e8f9">反向生成 pθ：U-Net 预测每一步中应移除的噪声 εθ(xₜ,t)</text>
+  </g>
+
+  <g transform="translate(62 548)">
+    <rect width="610" height="150" rx="19" class="panel"/>
+    <text x="24" y="35" class="s h" fill="#fda4af">训练：随机只看一个时间步</text>
+    <text x="24" y="69" class="f">t ~ Uniform{1,…,T},  ε ~ N(0,I)</text>
+    <text x="24" y="101" class="f">xₜ = √ᾱₜ x₀ + √(1−ᾱₜ) ε</text>
+    <text x="24" y="132" class="f">Lsimple = ‖ε − εθ(xₜ,t)‖²</text>
+  </g>
+  <g transform="translate(700 548)">
+    <rect width="638" height="150" rx="19" class="panel"/>
+    <text x="24" y="35" class="s h" fill="#67e8f9">采样：完整运行反向链</text>
+    <text x="24" y="69" class="f">xT ~ N(0,I)</text>
+    <text x="24" y="101" class="f">xₜ₋₁ = 1/√αₜ (xₜ − βₜ/√(1−ᾱₜ) εθ) + σₜz</text>
+    <text x="24" y="132" class="s n">从 t=T 到 1；最后一步令 z=0。原论文通常需要 1,000 次网络前向。</text>
+  </g>
+</svg>

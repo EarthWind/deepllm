@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">DDPM 的真实后验、变分下界与噪声预测目标</title>
+  <desc id="desc">从可计算的条件后验 q(x_{t-1}|x_t,x_0) 到反向模型 p_theta，再到 epsilon 预测的简化均方误差目标。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06111f"/><stop offset="1" stop-color="#17132c"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.s{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:32px;font-weight:700;fill:#f8fafc}.h{font-size:21px;font-weight:650;fill:#e2e8f0}.m{font-size:16px;fill:#cbd5e1}.n{font-size:13px;fill:#94a3b8}.f{font-family:"Times New Roman",serif;font-size:20px;fill:#dbeafe}.card{fill:#0c1d31;stroke:#2a4563;stroke-width:1.5}.flow{fill:none;stroke:#67e8f9;stroke-width:3;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1400" height="780" rx="27" fill="url(#bg)"/>
+  <text x="52" y="61" class="s t">一条公式链：真实后验 → 反向高斯 → 预测噪声</text>
+  <text x="52" y="92" class="s n">关键条件 x₀ 只在训练时可见；生成时网络必须仅从 xₜ 和 t 推断应移除的噪声。</text>
+
+  <g transform="translate(52 130)">
+    <rect width="405" height="240" rx="20" class="card"/>
+    <text x="24" y="40" class="s h">① 可计算的前向真实后验</text>
+    <text x="24" y="82" class="f">q(xₜ₋₁|xₜ,x₀)=N(μ̃ₜ, β̃ₜI)</text>
+    <text x="24" y="122" class="f">μ̃ₜ = c₁x₀ + c₂xₜ</text>
+    <text x="24" y="160" class="f">β̃ₜ = (1−ᾱₜ₋₁)/(1−ᾱₜ) · βₜ</text>
+    <text x="24" y="200" class="s n">两个高斯相乘仍是高斯，所以均值、方差都有闭式解。</text>
+    <text x="24" y="222" class="s n" fill="#fda4af">没有 x₀ 时，q(xₜ₋₁|xₜ) 通常是复杂混合分布。</text>
+  </g>
+  <path d="M471 250H505" class="flow"/>
+  <g transform="translate(520 130)">
+    <rect width="360" height="240" rx="20" class="card"/>
+    <text x="24" y="40" class="s h">② 学习反向条件分布</text>
+    <text x="24" y="82" class="f">pθ(xₜ₋₁|xₜ)=N(μθ, σₜ²I)</text>
+    <text x="24" y="122" class="s m">固定 σₜ²，只学习均值</text>
+    <text x="24" y="154" class="f">Lt−1 = Eq[‖μ̃ₜ−μθ‖²/(2σₜ²)] + C</text>
+    <text x="24" y="194" class="s n">原论文比较 σₜ²=βₜ 与 σₜ²=β̃ₜ，二者结果相近。</text>
+    <text x="24" y="220" class="s n">学习对角方差在当时的实验中不稳定且样本更差。</text>
+  </g>
+  <path d="M894 250H928" class="flow"/>
+  <g transform="translate(944 130)">
+    <rect width="404" height="240" rx="20" class="card"/>
+    <text x="24" y="40" class="s h">③ 用 ε 参数化均值</text>
+    <text x="24" y="82" class="f">μθ = 1/√αₜ (xₜ − βₜ/√(1−ᾱₜ) εθ)</text>
+    <rect x="24" y="108" width="356" height="59" rx="12" fill="#102943"/>
+    <text x="202" y="146" text-anchor="middle" class="f">Lsimple = E‖ε−εθ(xₜ,t)‖²</text>
+    <text x="24" y="196" class="s n" fill="#67e8f9">网络输出与图像同形状，目标就是构造 xₜ 时用过的 ε。</text>
+    <text x="24" y="220" class="s n">这是一种参数化与重加权，不是凭空换了另一个模型。</text>
+  </g>
+
+  <g transform="translate(52 410)">
+    <rect width="1296" height="304" rx="20" class="card"/>
+    <text x="24" y="40" class="s h">负对数似然上界怎样拆开</text>
+    <text x="24" y="76" class="f">E[−log pθ(x₀)] ≤ LT + ∑ₜ₌₂ᵀ Lt−1 + L0</text>
+    <g transform="translate(24 104)">
+      <rect width="262" height="132" rx="15" fill="#132a42" stroke="#38bdf8"/>
+      <text x="131" y="35" text-anchor="middle" class="s h" fill="#67e8f9">LT：先验匹配</text>
+      <text x="131" y="69" text-anchor="middle" class="f">DKL(q(xT|x₀) ‖ p(xT))</text>
+      <text x="131" y="102" text-anchor="middle" class="s n">β 固定后与 θ 无关</text><text x="131" y="121" text-anchor="middle" class="s n">目标是让 xT 接近标准高斯</text>
+      <rect x="294" width="624" height="132" rx="15" fill="#251e46" stroke="#a78bfa"/>
+      <text x="606" y="35" text-anchor="middle" class="s h" fill="#c4b5fd">L1 … LT−1：每一步反向拟合</text>
+      <text x="606" y="69" text-anchor="middle" class="f">DKL(q(xₜ₋₁|xₜ,x₀) ‖ pθ(xₜ₋₁|xₜ))</text>
+      <text x="606" y="102" text-anchor="middle" class="s n">同方差时化成带权 MSE；ε 参数化后权重依赖 t</text>
+      <text x="606" y="121" text-anchor="middle" class="s n">Lsimple 丢掉该权重，强化高噪声、较困难的去噪任务</text>
+      <rect x="950" width="298" height="132" rx="15" fill="#402036" stroke="#fb7185"/>
+      <text x="1099" y="35" text-anchor="middle" class="s h" fill="#fda4af">L0：离散解码</text>
+      <text x="1099" y="69" text-anchor="middle" class="f">−log pθ(x₀|x₁)</text>
+      <text x="1099" y="102" text-anchor="middle" class="s n">把 [−1,1] 像素值的概率</text><text x="1099" y="121" text-anchor="middle" class="s n">积分回 256 个离散桶</text>
+    </g>
+    <text x="24" y="278" class="s n">论文实验显示：严格优化 L 得到更好的 bits/dim；优化重加权后的 Lsimple 得到更好的 FID。似然与感知质量并不自动同向。</text>
+  </g>
+</svg>
