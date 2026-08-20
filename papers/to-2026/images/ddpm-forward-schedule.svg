@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="740" viewBox="0 0 1320 740" role="img" aria-labelledby="title desc">
+  <title id="title">DDPM 线性噪声日程与任意时间步直接采样</title>
+  <desc id="desc">展示 1000 步线性 beta 日程下信号系数与噪声系数的变化，以及闭式 q(x_t|x_0) 如何跳过整条前向链。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06111e"/><stop offset="1" stop-color="#18142c"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>.s{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:32px;font-weight:700;fill:#f8fafc}.h{font-size:21px;font-weight:650;fill:#e2e8f0}.m{font-size:16px;fill:#cbd5e1}.n{font-size:13px;fill:#94a3b8}.f{font-family:"Times New Roman",serif;font-size:21px;fill:#dbeafe}.big{font-size:29px;font-weight:730;fill:#67e8f9}.card{fill:#0c1d31;stroke:#2a4563;stroke-width:1.5}.grid{stroke:#334155;stroke-width:1}</style>
+  </defs>
+  <rect width="1320" height="740" rx="26" fill="url(#bg)"/>
+  <text x="52" y="61" class="s t">前向过程最重要的工程性质：任意 xₜ 都能一步构造</text>
+  <text x="52" y="92" class="s n">论文设置 T=1000，βₜ 从 10⁻⁴ 线性增加到 0.02；αₜ=1−βₜ，ᾱₜ=∏ₛ₌₁ᵗαₛ。</text>
+
+  <g transform="translate(50 130)">
+    <rect width="735" height="530" rx="20" class="card"/>
+    <text x="28" y="42" class="s h">信号与噪声的混合权重</text>
+    <text x="28" y="68" class="s n">精确系数来自论文线性 schedule；连线用于解释趋势。</text>
+    <g transform="translate(76 102)">
+      <path d="M0 0V340H610" fill="none" stroke="#64748b" stroke-width="2"/>
+      <g class="grid"><path d="M0 68H610M0 136H610M0 204H610M0 272H610"/><path d="M152 0V340M305 0V340M457 0V340M610 0V340"/></g>
+      <g class="s n" fill="#94a3b8"><text x="-14" y="5" text-anchor="end">1.0</text><text x="-14" y="73" text-anchor="end">0.8</text><text x="-14" y="141" text-anchor="end">0.6</text><text x="-14" y="209" text-anchor="end">0.4</text><text x="-14" y="277" text-anchor="end">0.2</text><text x="-14" y="345" text-anchor="end">0.0</text><text x="0" y="368">0</text><text x="152" y="368" text-anchor="middle">250</text><text x="305" y="368" text-anchor="middle">500</text><text x="457" y="368" text-anchor="middle">750</text><text x="610" y="368" text-anchor="end">1000</text></g>
+      <path d="M0 0C95 24 150 95 205 180C270 278 360 327 457 337C520 339 570 338 610 338" fill="none" stroke="#22d3ee" stroke-width="5" stroke-linecap="round"/>
+      <path d="M0 337C55 330 109 286 170 215C230 145 300 70 366 31C445 5 530 1 610 1" fill="none" stroke="#fb7185" stroke-width="5" stroke-linecap="round"/>
+      <text x="315" y="293" class="s m" fill="#67e8f9">信号系数 √ᾱₜ</text><text x="333" y="52" class="s m" fill="#fda4af">噪声系数 √(1−ᾱₜ)</text>
+      <circle cx="305" cy="245" r="8" fill="#22d3ee"/><circle cx="305" cy="14" r="8" fill="#fb7185"/>
+    </g>
+    <text x="76" y="502" class="s n">t=500：ᾱₜ≈0.0786，信号幅度≈0.280，噪声幅度≈0.960，SNR≈0.0853。</text>
+  </g>
+
+  <g transform="translate(815 130)">
+    <rect width="455" height="245" rx="20" class="card"/>
+    <text x="25" y="42" class="s h">闭式边缘分布</text>
+    <text x="25" y="82" class="f">q(xₜ|x₀) = N(√ᾱₜx₀, (1−ᾱₜ)I)</text>
+    <rect x="25" y="108" width="405" height="55" rx="12" fill="#102943"/><text x="227" y="143" text-anchor="middle" class="f">xₜ = √ᾱₜx₀ + √(1−ᾱₜ)ε</text>
+    <text x="25" y="192" class="s m" fill="#67e8f9">训练成本与 t 无关</text>
+    <text x="25" y="218" class="s n">抽一个 t、抽一份 ε，就直接得到监督样本；不必先算 x₁…xₜ₋₁。</text>
+  </g>
+  <g transform="translate(815 402)">
+    <rect width="455" height="258" rx="20" class="card"/>
+    <text x="25" y="42" class="s h">到第 1000 步还剩多少信号</text>
+    <text x="25" y="91" class="s big">ᾱ₁₀₀₀ ≈ 4.04 × 10⁻⁵</text>
+    <text x="25" y="128" class="s m">√ᾱ₁₀₀₀ ≈ 0.00635</text>
+    <text x="25" y="157" class="s m">SNR₁₀₀₀ ≈ 4.04 × 10⁻⁵</text>
+    <path d="M25 181H430" stroke="#334155"/>
+    <text x="25" y="210" class="s n">因此 q(xT|x₀) 非常接近 N(0,I)，可用简单先验启动生成。</text>
+    <text x="25" y="235" class="s n">“接近”不是严格相等；论文报告 LT≈10⁻⁵ bits/dim。</text>
+  </g>
+</svg>

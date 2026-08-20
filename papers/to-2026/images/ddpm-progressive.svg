@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1380" height="750" viewBox="0 0 1380 750" role="img" aria-labelledby="title desc">
+  <title id="title">DDPM 的渐进生成与有损压缩解释</title>
+  <desc id="desc">反向过程先恢复大尺度结构再恢复细节，并展示论文 CIFAR10 率失真分析中多数比特用于视觉上不明显的细节。</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06111f"/><stop offset="1" stop-color="#17132c"/></linearGradient><linearGradient id="scene" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#0e7490"/><stop offset=".55" stop-color="#38bdf8"/><stop offset="1" stop-color="#fbbf24"/></linearGradient><pattern id="noise" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="2" fill="#fff" opacity=".45"/><circle cx="9" cy="7" r="2.5" fill="#c4b5fd" opacity=".55"/></pattern><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker><style>.s{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.t{font-size:32px;font-weight:700;fill:#f8fafc}.h{font-size:21px;font-weight:650;fill:#e2e8f0}.m{font-size:16px;fill:#cbd5e1}.n{font-size:13px;fill:#94a3b8}.big{font-size:29px;font-weight:740;fill:#67e8f9}.card{fill:#0c1d31;stroke:#2a4563;stroke-width:1.5}.flow{fill:none;stroke:#67e8f9;stroke-width:3;marker-end:url(#arrow)}</style></defs>
+  <rect width="1380" height="750" rx="27" fill="url(#bg)"/>
+  <text x="52" y="61" class="s t">反向过程不是“一次擦净”：大轮廓先出现，细节最后到达</text>
+  <text x="52" y="92" class="s n">每个时刻都可用 x̂₀=(xₜ−√(1−ᾱₜ)εθ(xₜ,t))/√ᾱₜ 预测最终图像；论文据此分析渐进生成与率失真。</text>
+  <g transform="translate(52 140)">
+    <rect width="1276" height="286" rx="20" class="card"/>
+    <text x="24" y="39" class="s h">对同一条采样链观察 x̂₀</text>
+    <g transform="translate(28 68)">
+      <g><rect width="170" height="150" rx="15" fill="#475569"/><rect width="170" height="150" rx="15" fill="url(#noise)"/><text x="85" y="178" text-anchor="middle" class="s n">t=1000 · 无结构</text></g>
+      <path d="M181 75H216" class="flow"/>
+      <g transform="translate(230)"><rect width="170" height="150" rx="15" fill="#334155"/><circle cx="58" cy="54" r="29" fill="#fde68a" opacity=".22"/><path d="M0 132l50-42 34 28 42-63 44 68v27H0z" fill="#155e75" opacity=".35"/><rect width="170" height="150" rx="15" fill="url(#noise)" opacity=".72"/><text x="85" y="178" text-anchor="middle" class="s n">t=750 · 全局布局</text></g>
+      <path d="M411 75H446" class="flow"/>
+      <g transform="translate(460)"><rect width="170" height="150" rx="15" fill="#25445a"/><circle cx="58" cy="54" r="29" fill="#fde68a" opacity=".52"/><path d="M0 132l50-42 34 28 42-63 44 68v27H0z" fill="#155e75" opacity=".65"/><rect width="170" height="150" rx="15" fill="url(#noise)" opacity=".45"/><text x="85" y="178" text-anchor="middle" class="s n">t=500 · 形状与颜色</text></g>
+      <path d="M641 75H676" class="flow"/>
+      <g transform="translate(690)"><rect width="170" height="150" rx="15" fill="url(#scene)"/><circle cx="58" cy="54" r="29" fill="#fde68a" opacity=".82"/><path d="M0 132l50-42 34 28 42-63 44 68v27H0z" fill="#164e63"/><path d="M0 127c45-16 88-11 170-34v57H0z" fill="#0f766e"/><rect width="170" height="150" rx="15" fill="url(#noise)" opacity=".2"/><text x="85" y="178" text-anchor="middle" class="s n">t=250 · 语义明确</text></g>
+      <path d="M871 75H906" class="flow"/>
+      <g transform="translate(920)"><rect width="170" height="150" rx="15" fill="url(#scene)"/><circle cx="58" cy="54" r="29" fill="#fde68a"/><path d="M0 132l50-42 34 28 42-63 44 68v27H0z" fill="#164e63"/><path d="M0 127c45-16 88-11 170-34v57H0z" fill="#0f766e"/><path d="M20 122l25-16M84 116l18-11M131 93l16-10" stroke="#a7f3d0" stroke-width="3"/><text x="85" y="178" text-anchor="middle" class="s n">t=1 · 纹理与边缘</text></g>
+      <text x="1157" y="53" class="s m" fill="#67e8f9">coarse</text><text x="1157" y="81" class="s m">→ fine</text><text x="1157" y="112" class="s n">不是严格频率</text><text x="1157" y="133" class="s n">分解定理，</text><text x="1157" y="154" class="s n">而是论文观察。</text>
+    </g>
+  </g>
+  <g transform="translate(52 458)">
+    <rect width="626" height="226" rx="20" class="card"/>
+    <text x="24" y="40" class="s h">CIFAR10 最高质量模型的无损码长</text>
+    <g transform="translate(24 68)"><rect width="430" height="52" rx="12" fill="#1e293b"/><rect width="204" height="52" rx="12" fill="#7c3aed"/><text x="102" y="33" text-anchor="middle" class="s m">rate 1.78</text><text x="317" y="33" text-anchor="middle" class="s m">distortion 1.97</text></g>
+    <text x="24" y="148" class="s big">总计约 3.75 bits/dim</text>
+    <text x="24" y="180" class="s n">把 L₁…LT 当作 rate、L₀ 当作 distortion；对应 RMSE 仅 0.95/255。</text>
+    <text x="24" y="204" class="s n" fill="#fda4af">超过一半无损码长花在几乎不可见的像素误差上。</text>
+  </g>
+  <g transform="translate(704 458)">
+    <rect width="624" height="226" rx="20" class="card"/>
+    <text x="24" y="40" class="s h">怎样解读“渐进压缩”</text>
+    <text x="24" y="78" class="s m">早期少量信息：决定类别、姿态、布局与大色块</text>
+    <text x="24" y="109" class="s m">后期大量信息：修正边缘、纹理和不可见的小误差</text>
+    <path d="M24 132H600" stroke="#334155"/>
+    <text x="24" y="163" class="s n">论文算法依赖 minimal random coding 一类高维不可 tractable 的过程，</text>
+    <text x="24" y="187" class="s n">因此这是对变分下界的解释和 proof of concept，</text>
+    <text x="24" y="209" class="s n" fill="#fbbf24">不是一套已经可直接部署的图像压缩器。</text>
+  </g>
+  <text x="690" y="724" text-anchor="middle" class="s n">同一中间 latent 在低噪声时只允许细节变化，在高噪声时连高层属性也会变化；这揭示了扩散链中的多尺度随机性。</text>
+</svg>
