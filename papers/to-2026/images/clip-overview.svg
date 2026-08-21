@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">CLIP 从图文对比预训练到零样本分类</title>
+  <desc id="desc">上半部分展示成对图像和文本通过双编码器进入共享嵌入空间，并以批内对比损失训练。下半部分展示文本编码器把类别描述变成零样本分类器权重。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#111638"/></linearGradient>
+    <linearGradient id="vision" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="textg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <linearGradient id="shared" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0e7490"/><stop offset=".55" stop-color="#4f46e5"/><stop offset="1" stop-color="#be185d"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity=".3"/></filter>
+    <marker id="arrowC" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <marker id="arrowP" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#c4b5fd"/></marker>
+    <style>
+      .sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.label{font-size:20px;font-weight:650;fill:#e2e8f0}.small{font-size:15px;fill:#cbd5e1}.tiny{font-size:13px;fill:#94a3b8}.panel{fill:#0d1c31;stroke:#29415f;stroke-width:1.5}.flowC{fill:none;stroke:#67e8f9;stroke-width:3;marker-end:url(#arrowC)}.flowP{fill:none;stroke:#c4b5fd;stroke-width:3;marker-end:url(#arrowP)}
+    </style>
+  </defs>
+  <rect width="1400" height="780" rx="28" fill="url(#bg)"/>
+  <text x="58" y="62" class="sans title">CLIP：训练时对齐图文，推理时让语言生成分类器</text>
+  <text x="58" y="92" class="sans sub">同一套双编码器完成两件事：学习共享语义空间；用自然语言定义任意候选类别</text>
+
+  <rect x="48" y="122" width="1304" height="356" rx="22" class="panel"/>
+  <rect x="68" y="140" width="102" height="30" rx="15" fill="#164e63"/><text x="119" y="161" text-anchor="middle" class="sans tiny" fill="#a5f3fc">预训练</text>
+
+  <g transform="translate(86 194)" filter="url(#shadow)">
+    <rect width="170" height="205" rx="17" fill="#0f2d40" stroke="#22d3ee"/>
+    <rect x="19" y="22" width="56" height="56" rx="8" fill="#0ea5e9"/><circle cx="47" cy="50" r="15" fill="#fde68a"/>
+    <rect x="94" y="22" width="56" height="56" rx="8" fill="#115e59"/><path d="M99 69l24-34 22 34z" fill="#6ee7b7"/>
+    <rect x="19" y="94" width="56" height="56" rx="8" fill="#312e81"/><path d="M27 141l18-36 22 36z" fill="#c4b5fd"/>
+    <rect x="94" y="94" width="56" height="56" rx="8" fill="#7c2d12"/><circle cx="122" cy="122" r="17" fill="#fb923c"/>
+    <text x="85" y="182" text-anchor="middle" class="sans small">N 张图像</text>
+  </g>
+
+  <g transform="translate(86 408)">
+    <rect width="170" height="40" rx="11" fill="#25133f" stroke="#a78bfa"/>
+    <text x="85" y="26" text-anchor="middle" class="sans small">N 条配对文本</text>
+  </g>
+
+  <path d="M270 285H355" class="flowC"/><path d="M270 428C320 428 318 367 355 367" class="flowP"/>
+  <g transform="translate(370 192)">
+    <rect width="205" height="128" rx="18" fill="url(#vision)" opacity=".88"/><text x="102" y="53" text-anchor="middle" class="sans label">图像编码器</text><text x="102" y="82" text-anchor="middle" class="sans small">Modified ResNet / ViT</text>
+    <rect y="151" width="205" height="128" rx="18" fill="url(#textg)" opacity=".88"/><text x="102" y="204" text-anchor="middle" class="sans label">文本编码器</text><text x="102" y="233" text-anchor="middle" class="sans small">Causal Transformer</text>
+  </g>
+
+  <path d="M590 256H678" class="flowC"/><path d="M590 407H678" class="flowP"/>
+  <g transform="translate(690 187)">
+    <rect width="230" height="284" rx="20" fill="#0b2741" stroke="#6366f1" stroke-width="2"/>
+    <text x="115" y="36" text-anchor="middle" class="sans label">共享嵌入空间</text>
+    <text x="115" y="62" text-anchor="middle" class="sans tiny">L2 归一化后的单位球面</text>
+    <g stroke-width="2">
+      <circle cx="66" cy="112" r="11" fill="#22d3ee"/><circle cx="84" cy="124" r="8" fill="#c084fc"/><path d="M66 112L84 124" stroke="#fbbf24"/>
+      <circle cx="164" cy="137" r="11" fill="#22d3ee"/><circle cx="151" cy="154" r="8" fill="#c084fc"/><path d="M164 137L151 154" stroke="#fbbf24"/>
+      <circle cx="88" cy="211" r="11" fill="#22d3ee"/><circle cx="105" cy="205" r="8" fill="#c084fc"/><path d="M88 211L105 205" stroke="#fbbf24"/>
+      <circle cx="177" cy="233" r="11" fill="#22d3ee"/><circle cx="164" cy="220" r="8" fill="#c084fc"/><path d="M177 233L164 220" stroke="#fbbf24"/>
+    </g>
+    <text x="115" y="267" text-anchor="middle" class="sans tiny" fill="#fde68a">真配对靠近 · 错配对远离</text>
+  </g>
+
+  <path d="M935 329H1010" class="flowC"/>
+  <g transform="translate(1025 192)">
+    <rect width="285" height="264" rx="20" fill="url(#shared)" opacity=".78"/>
+    <text x="142" y="40" text-anchor="middle" class="sans label">N × N 相似度矩阵</text>
+    <g transform="translate(57 64)">
+      <g fill="#14304d" stroke="#64748b"><rect width="42" height="42"/><rect x="46" width="42" height="42"/><rect x="92" width="42" height="42"/><rect x="138" width="42" height="42"/><rect y="46" width="42" height="42"/><rect x="46" y="46" width="42" height="42"/><rect x="92" y="46" width="42" height="42"/><rect x="138" y="46" width="42" height="42"/><rect y="92" width="42" height="42"/><rect x="46" y="92" width="42" height="42"/><rect x="92" y="92" width="42" height="42"/><rect x="138" y="92" width="42" height="42"/><rect y="138" width="42" height="42"/><rect x="46" y="138" width="42" height="42"/><rect x="92" y="138" width="42" height="42"/><rect x="138" y="138" width="42" height="42"/></g>
+      <g fill="#fbbf24"><rect x="3" y="3" width="36" height="36" rx="5"/><rect x="49" y="49" width="36" height="36" rx="5"/><rect x="95" y="95" width="36" height="36" rx="5"/><rect x="141" y="141" width="36" height="36" rx="5"/></g>
+    </g>
+    <text x="142" y="240" text-anchor="middle" class="sans small">对称交叉熵：行 + 列</text>
+  </g>
+
+  <rect x="48" y="500" width="1304" height="230" rx="22" class="panel"/>
+  <rect x="68" y="518" width="102" height="30" rx="15" fill="#3b1d68"/><text x="119" y="539" text-anchor="middle" class="sans tiny" fill="#ddd6fe">零样本推理</text>
+  <g transform="translate(85 574)">
+    <rect width="236" height="94" rx="16" fill="#25133f" stroke="#a78bfa"/><text x="118" y="36" text-anchor="middle" class="sans small">类别描述 / prompts</text><text x="118" y="64" text-anchor="middle" class="sans tiny">“a photo of a {label}”</text>
+  </g>
+  <path d="M336 621H424" class="flowP"/>
+  <rect x="440" y="574" width="190" height="94" rx="16" fill="url(#textg)" opacity=".85"/><text x="535" y="611" text-anchor="middle" class="sans label">文本编码器</text><text x="535" y="638" text-anchor="middle" class="sans tiny">生成 K 个类别向量</text>
+  <path d="M646 621H726" class="flowP"/>
+  <rect x="741" y="574" width="225" height="94" rx="16" fill="#1e1b4b" stroke="#818cf8"/><text x="853" y="611" text-anchor="middle" class="sans label">零样本线性分类器</text><text x="853" y="638" text-anchor="middle" class="sans tiny">权重 W = [t₁,…,tₖ]</text>
+  <path d="M980 621H1055" class="flowC"/>
+  <rect x="1070" y="558" width="250" height="126" rx="18" fill="#0f3a4a" stroke="#22d3ee"/><text x="1195" y="597" text-anchor="middle" class="sans label">新图像 × 类别向量</text><text x="1195" y="626" text-anchor="middle" class="sans small">cosine → scale → softmax</text><text x="1195" y="655" text-anchor="middle" class="sans tiny" fill="#a5f3fc">无需该数据集的训练样本</text>
+</svg>

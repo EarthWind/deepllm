@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="790" viewBox="0 0 1400 790" role="img" aria-labelledby="title desc">
+  <title id="title">CLIP 的能力来源、适用范围与失败边界</title>
+  <desc id="desc">左侧列出自然语言监督和互联网规模带来的能力，中间展示共享嵌入空间，右侧列出闭集输出、真正分布外泛化、组合推理、数据偏差和部署风险等限制。</desc>
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset="1" stop-color="#111638"/></linearGradient>
+    <radialGradient id="core5"><stop stop-color="#8b5cf6"/><stop offset=".58" stop-color="#0e7490"/><stop offset="1" stop-color="#0b1930"/></radialGradient>
+    <marker id="arr5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <style>
+      .sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.label{font-size:20px;font-weight:650;fill:#e2e8f0}.small{font-size:15px;fill:#cbd5e1}.tiny{font-size:13px;fill:#94a3b8}.panel{fill:#0d1c31;stroke:#29415f;stroke-width:1.5}.good{fill:#0f3b42;stroke:#0d9488}.risk{fill:#3a1b2c;stroke:#be185d}
+    </style>
+  </defs>
+  <rect width="1400" height="790" rx="28" fill="url(#bg5)"/>
+  <text x="58" y="62" class="sans title">“开放词汇”不等于“开放输出”，覆盖面广也不等于可靠</text>
+  <text x="58" y="92" class="sans sub">CLIP 把任务定义权交给语言，但预测仍受候选类、prompt、预训练分布和社会语境约束</text>
+
+  <g transform="translate(55 138)">
+    <rect width="410" height="495" rx="22" class="panel"/>
+    <text x="205" y="42" text-anchor="middle" class="sans label" fill="#99f6e4">能力从哪里来</text>
+    <g transform="translate(28 72)">
+      <rect width="354" height="70" rx="15" class="good"/><text x="20" y="29" class="sans small">自然语言监督</text><text x="20" y="52" class="sans tiny">比固定 one-hot 类别表达更多视觉概念与关系</text>
+      <rect y="86" width="354" height="70" rx="15" class="good"/><text x="20" y="115" class="sans small">4 亿互联网图文对</text><text x="20" y="138" class="sans tiny">广泛但噪声大；以 50 万查询近似平衡采样</text>
+      <rect y="172" width="354" height="70" rx="15" class="good"/><text x="20" y="201" class="sans small">对比目标的训练效率</text><text x="20" y="224" class="sans tiny">只判断整段文本是否配对，不逐 token 生成 caption</text>
+      <rect y="258" width="354" height="70" rx="15" class="good"/><text x="20" y="287" class="sans small">双塔可预计算</text><text x="20" y="310" class="sans tiny">图像、文本分别编码；分类权重和检索库可缓存</text>
+      <rect y="344" width="354" height="70" rx="15" class="good"/><text x="20" y="373" class="sans small">任务由 prompt 指定</text><text x="20" y="396" class="sans tiny">改文本即可重组分类器，无需更换输出头</text>
+    </g>
+  </g>
+
+  <g transform="translate(500 216)">
+    <circle cx="200" cy="190" r="182" fill="url(#core5)" stroke="#6366f1" stroke-width="2"/>
+    <text x="200" y="164" text-anchor="middle" class="sans label">共享语义嵌入空间</text>
+    <text x="200" y="196" text-anchor="middle" class="sans small">图像 ↔ 文本</text>
+    <text x="200" y="226" text-anchor="middle" class="sans tiny">分类 · 检索 · 线性探针</text>
+    <circle cx="105" cy="105" r="12" fill="#22d3ee"/><circle cx="122" cy="119" r="9" fill="#c084fc"/><path d="M105 105l17 14" stroke="#fde68a" stroke-width="3"/>
+    <circle cx="283" cy="118" r="12" fill="#22d3ee"/><circle cx="267" cy="137" r="9" fill="#c084fc"/><path d="M283 118l-16 19" stroke="#fde68a" stroke-width="3"/>
+    <circle cx="116" cy="286" r="12" fill="#22d3ee"/><circle cx="137" cy="278" r="9" fill="#c084fc"/><path d="M116 286l21-8" stroke="#fde68a" stroke-width="3"/>
+    <circle cx="283" cy="287" r="12" fill="#22d3ee"/><circle cx="266" cy="272" r="9" fill="#c084fc"/><path d="M283 287l-17-15" stroke="#fde68a" stroke-width="3"/>
+  </g>
+
+  <g transform="translate(935 138)">
+    <rect width="410" height="495" rx="22" class="panel"/>
+    <text x="205" y="42" text-anchor="middle" class="sans label" fill="#fda4af">边界与风险</text>
+    <g transform="translate(28 72)">
+      <rect width="354" height="70" rx="15" class="risk"/><text x="20" y="29" class="sans small">仍是候选集内选择</text><text x="20" y="52" class="sans tiny">不会像 caption 模型一样自由生成未列出的答案</text>
+      <rect y="86" width="354" height="70" rx="15" class="risk"/><text x="20" y="115" class="sans small">真正 OOD 仍脆弱</text><text x="20" y="138" class="sans tiny">MNIST 仅约 88%；原像素逻辑回归即可超过它</text>
+      <rect y="172" width="354" height="70" rx="15" class="risk"/><text x="20" y="201" class="sans small">系统性推理不足</text><text x="20" y="224" class="sans tiny">计数、距离、细粒度类别和小目标容易失败</text>
+      <rect y="258" width="354" height="70" rx="15" class="risk"/><text x="20" y="287" class="sans small">数据与分类设计携带偏差</text><text x="20" y="310" class="sans tiny">加入、删除或改写候选类即可显著改变伤害分布</text>
+      <rect y="344" width="354" height="70" rx="15" class="risk"/><text x="20" y="373" class="sans small">监控与身份识别风险</text><text x="20" y="396" class="sans tiny">技术可用性不代表具体场景中的使用正当性</text>
+    </g>
+  </g>
+
+  <g transform="translate(55 665)">
+    <rect width="1290" height="76" rx="17" fill="#2b1b18" stroke="#9a3412"/>
+    <text x="24" y="30" class="sans small" fill="#fed7aa">部署前要问的不是只有“top-1 多高”：</text>
+    <text x="24" y="55" class="sans tiny">候选类是谁定义的？模板对不同群体是否等价？训练数据是否覆盖目标域？错误发生时谁受影响？是否有任务本身就不应由自动分类系统执行？</text>
+  </g>
+</svg>
