@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">DAPO 在 AIME 2024 上的累计实验结果</title>
+  <desc id="desc">论文表 1 的逐步配方结果，从 Naive GRPO 的 30 分提升到完整 DAPO 的 50 分，并对比 DeepSeek-R1-Zero-Qwen-32B 的 47 分。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061527"/><stop offset="1" stop-color="#171731"/></linearGradient>
+    <linearGradient id="bars" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#2ed7df"/><stop offset="1" stop-color="#8f7bff"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-30%" width="140%" height="160%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#000" flood-opacity=".35"/></filter>
+    <style>
+      .title{font:700 30px Inter,"Noto Sans SC",sans-serif;fill:#f7f9ff}.sub{font:400 15px Inter,"Noto Sans SC",sans-serif;fill:#9ba9c7}
+      .label{font:600 15px Inter,"Noto Sans SC",sans-serif;fill:#dfe5f4}.value{font:800 18px Inter,sans-serif;fill:#f8fbff}
+      .axis{font:400 12px Inter,"Noto Sans SC",sans-serif;fill:#7f8ca8}.note{font:400 13px Inter,"Noto Sans SC",sans-serif;fill:#aeb9d1}
+    </style>
+  </defs>
+  <rect width="1280" height="760" rx="24" fill="url(#bg)"/>
+  <text x="64" y="66" class="title">AIME 2024 avg@32：配方逐步叠加后的结果</text>
+  <text x="64" y="96" class="sub">Qwen2.5-32B Base · temperature 1.0 · top-p 0.7 · 32 次重复评测</text>
+
+  <g transform="translate(302 142)">
+    <line x1="0" y1="0" x2="0" y2="476" stroke="#43506b"/>
+    <line x1="156" y1="0" x2="156" y2="476" stroke="#26344d" stroke-dasharray="4 6"/>
+    <line x1="312" y1="0" x2="312" y2="476" stroke="#26344d" stroke-dasharray="4 6"/>
+    <line x1="468" y1="0" x2="468" y2="476" stroke="#26344d" stroke-dasharray="4 6"/>
+    <line x1="624" y1="0" x2="624" y2="476" stroke="#26344d" stroke-dasharray="4 6"/>
+    <line x1="780" y1="0" x2="780" y2="476" stroke="#26344d" stroke-dasharray="4 6"/>
+    <text x="0" y="502" text-anchor="middle" class="axis">0</text><text x="156" y="502" text-anchor="middle" class="axis">10</text>
+    <text x="312" y="502" text-anchor="middle" class="axis">20</text><text x="468" y="502" text-anchor="middle" class="axis">30</text>
+    <text x="624" y="502" text-anchor="middle" class="axis">40</text><text x="780" y="502" text-anchor="middle" class="axis">50</text>
+
+    <rect y="16" width="468" height="48" rx="10" fill="url(#bars)" opacity=".72" filter="url(#shadow)"/>
+    <rect y="84" width="562" height="48" rx="10" fill="url(#bars)" opacity=".78" filter="url(#shadow)"/>
+    <rect y="152" width="593" height="48" rx="10" fill="url(#bars)" opacity=".82" filter="url(#shadow)"/>
+    <rect y="220" width="640" height="48" rx="10" fill="url(#bars)" opacity=".86" filter="url(#shadow)"/>
+    <rect y="288" width="655" height="48" rx="10" fill="url(#bars)" opacity=".90" filter="url(#shadow)"/>
+    <rect y="356" width="780" height="48" rx="10" fill="url(#bars)" filter="url(#shadow)"/>
+    <rect y="424" width="733" height="34" rx="8" fill="none" stroke="#f0bd55" stroke-width="3" stroke-dasharray="8 5"/>
+
+    <text x="480" y="47" class="value">30</text><text x="574" y="115" class="value">36</text><text x="605" y="183" class="value">38</text>
+    <text x="652" y="251" class="value">41</text><text x="667" y="319" class="value">42</text><text x="792" y="387" class="value">50</text>
+    <text x="745" y="447" class="value" fill="#f0bd55">47</text>
+  </g>
+
+  <g text-anchor="end">
+    <text x="278" y="189" class="label">Naive GRPO</text>
+    <text x="278" y="257" class="label">+ Overlong Filtering</text>
+    <text x="278" y="325" class="label">+ Clip-Higher</text>
+    <text x="278" y="393" class="label">+ Soft Overlong Punishment</text>
+    <text x="278" y="461" class="label">+ Token-Level Loss</text>
+    <text x="278" y="529" class="label">+ Dynamic Sampling（DAPO）</text>
+    <text x="278" y="593" class="label" fill="#f0bd55">DeepSeek-R1-Zero-Qwen-32B</text>
+  </g>
+
+  <rect x="64" y="674" width="1152" height="52" rx="14" fill="#141f39" stroke="#374662"/>
+  <text x="88" y="697" class="note">读图边界：前六行是逐步配方记录，不是同一起点上的独立单变量消融；维护版 FAQ 还说明最佳运行通常未开启 Overlong Filtering。</text>
+  <text x="88" y="717" class="axis">因此不能把相邻的 6、2、3、1、8 分直接解释为各技术的普适因果增益。来源：DAPO arXiv v2，Table 1。</text>
+</svg>

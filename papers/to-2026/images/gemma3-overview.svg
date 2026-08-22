@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840" role="img" aria-labelledby="title desc">
+  <title id="title">Gemma 3 模型族与端到端流程</title>
+  <desc id="desc">展示文本和图像输入、SigLIP 视觉编码、局部全局注意力、知识蒸馏、后训练、量化及四种模型尺寸。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071326"/><stop offset="1" stop-color="#18152f"/></linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#36d9df"/><stop offset=".55" stop-color="#6f9dff"/><stop offset="1" stop-color="#a47cff"/></linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#6edfe7"/></marker>
+    <style>
+      .title{font:700 31px Inter,"Noto Sans SC",sans-serif;fill:#f7f9ff}.sub{font:400 15px Inter,"Noto Sans SC",sans-serif;fill:#9ba8c6}
+      .head{font:700 20px Inter,"Noto Sans SC",sans-serif;fill:#f5f8ff}.body{font:400 14px Inter,"Noto Sans SC",sans-serif;fill:#bac5dd}
+      .tag{font:700 12px Inter,"Noto Sans SC",sans-serif;fill:#69e2e8;letter-spacing:.5px}.small{font:400 12px Inter,"Noto Sans SC",sans-serif;fill:#8291ae}
+      .value{font:800 25px Inter,"Noto Sans SC",sans-serif;fill:#fff}.card{fill:#111f3a;stroke:#344966;stroke-width:1.5}.line{fill:none;stroke:#6edfe7;stroke-width:2.2;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1400" height="840" rx="24" fill="url(#bg)"/>
+  <text x="60" y="64" class="title">Gemma 3：在消费级部署约束下同时扩展四种能力</text>
+  <text x="60" y="94" class="sub">视觉理解 · 128K 长上下文 · 140+ 语言 · 教师蒸馏；输出仍是自回归文本</text>
+
+  <rect x="56" y="144" width="250" height="174" rx="20" class="card"/>
+  <rect x="56" y="144" width="250" height="7" rx="4" fill="#37d6dc"/>
+  <text x="80" y="185" class="tag">TEXT PATH</text>
+  <text x="80" y="219" class="head">多语言文本</text>
+  <text x="80" y="248" class="body">Gemini 2.0 SentencePiece</text>
+  <text x="80" y="272" class="body">262,144 词表 · 数字拆分</text>
+  <text x="80" y="296" class="small">保留空白 + byte fallback</text>
+
+  <rect x="56" y="348" width="250" height="238" rx="20" class="card"/>
+  <rect x="56" y="348" width="250" height="7" rx="4" fill="#ef8ba3"/>
+  <text x="80" y="390" class="tag">VISION PATH · 4B+</text>
+  <text x="80" y="424" class="head">图像 / Pan &amp; Scan crops</text>
+  <g transform="translate(80 446)">
+    <rect width="42" height="42" rx="7" fill="#264a67" stroke="#63d8e6"/><rect x="51" width="42" height="42" rx="7" fill="#493f75" stroke="#9c82ef"/><rect x="102" width="42" height="42" rx="7" fill="#64405a" stroke="#ef8ba3"/>
+    <path d="M10 32l9-10 7 7 7-13" fill="none" stroke="#8fe9ef"/><circle cx="68" cy="14" r="6" fill="#c6a8ff"/><path d="M110 33l10-16 15 16" fill="none" stroke="#ffb1bf"/>
+  </g>
+  <text x="80" y="519" class="body">896×896 · frozen SigLIP 400M</text>
+  <text x="80" y="543" class="body">4×4 average pooling</text>
+  <text x="80" y="567" class="small">每次 encoder pass → 256 soft tokens</text>
+
+  <path d="M306 232H361" class="line"/>
+  <path d="M306 470H335Q361 470 361 444V320" class="line"/>
+
+  <rect x="370" y="144" width="560" height="442" rx="24" fill="#101e38" stroke="url(#flow)" stroke-width="2"/>
+  <text x="400" y="185" class="tag">DECODER-ONLY TRANSFORMER</text>
+  <text x="400" y="219" class="head">GQA + 前后 RMSNorm + QK-Norm + GeGLU</text>
+  <text x="400" y="248" class="body">Gemma 2 的 attention logit soft-cap 被 QK-Norm 取代</text>
+
+  <g transform="translate(400 286)">
+    <rect width="66" height="88" rx="13" fill="#183450" stroke="#35d6dc"/><rect x="78" width="66" height="88" rx="13" fill="#183450" stroke="#35d6dc"/>
+    <rect x="156" width="66" height="88" rx="13" fill="#183450" stroke="#35d6dc"/><rect x="234" width="66" height="88" rx="13" fill="#183450" stroke="#35d6dc"/>
+    <rect x="312" width="66" height="88" rx="13" fill="#183450" stroke="#35d6dc"/><rect x="390" width="116" height="88" rx="13" fill="#332c61" stroke="#a682ff" stroke-width="2"/>
+    <text x="33" y="37" text-anchor="middle" class="value">L</text><text x="111" y="37" text-anchor="middle" class="value">L</text><text x="189" y="37" text-anchor="middle" class="value">L</text>
+    <text x="267" y="37" text-anchor="middle" class="value">L</text><text x="345" y="37" text-anchor="middle" class="value">L</text><text x="448" y="37" text-anchor="middle" class="value">G</text>
+    <text x="33" y="65" text-anchor="middle" class="small">1K</text><text x="111" y="65" text-anchor="middle" class="small">1K</text><text x="189" y="65" text-anchor="middle" class="small">1K</text>
+    <text x="267" y="65" text-anchor="middle" class="small">1K</text><text x="345" y="65" text-anchor="middle" class="small">1K</text><text x="448" y="65" text-anchor="middle" class="small">full</text>
+  </g>
+  <text x="400" y="404" class="body">五个局部滑窗层后放一个全局层；1B 的局部窗在发布实现中是 512。</text>
+
+  <rect x="400" y="439" width="238" height="112" rx="16" fill="#162943" stroke="#4d6280"/>
+  <text x="421" y="471" class="tag">POSITION</text>
+  <text x="421" y="498" class="body">Global RoPE base = 1M</text>
+  <text x="421" y="522" class="body">Local RoPE base = 10K</text>
+  <text x="421" y="543" class="small">32K 末段扩到 128K</text>
+  <rect x="658" y="439" width="242" height="112" rx="16" fill="#162943" stroke="#4d6280"/>
+  <text x="679" y="471" class="tag">CONTEXT</text>
+  <text x="679" y="501" class="value">32K / 128K</text>
+  <text x="679" y="528" class="small">1B / 4B、12B、27B</text>
+
+  <path d="M930 363H982" class="line"/>
+  <rect x="990" y="144" width="354" height="442" rx="24" class="card"/>
+  <rect x="990" y="144" width="354" height="7" rx="4" fill="#a17cff"/>
+  <text x="1018" y="187" class="tag">TRAINING &amp; RELEASE</text>
+  <text x="1018" y="220" class="head">能力来自配方叠加</text>
+  <g transform="translate(1018 250)">
+    <circle cx="16" cy="16" r="16" fill="#244967"/><text x="16" y="21" text-anchor="middle" class="tag">1</text>
+    <text x="45" y="13" class="body">多模态 / 多语言预训练</text><text x="45" y="35" class="small">2T · 4T · 12T · 14T tokens</text>
+    <circle cx="16" cy="82" r="16" fill="#3d376a"/><text x="16" y="87" text-anchor="middle" class="tag">2</text>
+    <text x="45" y="79" class="body">稀疏 logit 蒸馏</text><text x="45" y="101" class="small">每 token 采样 256 个 teacher logits</text>
+    <circle cx="16" cy="148" r="16" fill="#624054"/><text x="16" y="153" text-anchor="middle" class="tag">3</text>
+    <text x="45" y="145" class="body">IT teacher + 多奖励 RL</text><text x="45" y="167" class="small">人类偏好 · 数学规则 · 代码执行</text>
+    <circle cx="16" cy="214" r="16" fill="#315b56"/><text x="16" y="219" text-anchor="middle" class="tag">4</text>
+    <text x="45" y="211" class="body">约 5,000 步 QAT</text><text x="45" y="233" class="small">Int4 · block Int4 · switched FP8</text>
+  </g>
+
+  <text x="58" y="638" class="tag">ORIGINAL REPORT FAMILY · MARCH 2025</text>
+  <g transform="translate(56 660)">
+    <rect width="300" height="120" rx="18" class="card"/><text x="24" y="40" class="value">1B</text><text x="24" y="68" class="body">纯文本 · 32K · 2T tokens</text><text x="24" y="94" class="small">302M embedding + 698M body</text>
+    <rect x="322" width="300" height="120" rx="18" class="card"/><text x="346" y="40" class="value">4B</text><text x="346" y="68" class="body">视觉语言 · 128K · 4T tokens</text><text x="346" y="94" class="small">+ 417M shared vision encoder</text>
+    <rect x="644" width="300" height="120" rx="18" class="card"/><text x="668" y="40" class="value">12B</text><text x="668" y="68" class="body">视觉语言 · 128K · 12T tokens</text><text x="668" y="94" class="small">48 layers · 16Q / 8KV heads</text>
+    <rect x="966" width="322" height="120" rx="18" class="card"/><text x="990" y="40" class="value">27B</text><text x="990" y="68" class="body">视觉语言 · 128K · 14T tokens</text><text x="990" y="94" class="small">62 layers · 32Q / 16KV heads</text>
+  </g>
+  <text x="56" y="816" class="small">版本边界：270M 与 Gemma 3n 属于后续发布，不在 arXiv:2503.19786 v1 的四模型家族中。</text>
+</svg>

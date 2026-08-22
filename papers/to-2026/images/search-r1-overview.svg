@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Search-R1 多轮推理、搜索与强化学习闭环</title>
+  <desc id="desc">问题进入策略模型，模型生成思考与搜索动作，搜索环境返回证据，模型继续推理并输出答案，终局奖励再更新策略。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#0d2136"/>
+    </linearGradient>
+    <linearGradient id="policy" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e7490"/>
+      <stop offset="1" stop-color="#155e75"/>
+    </linearGradient>
+    <linearGradient id="env" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b45309"/>
+      <stop offset="1" stop-color="#78350f"/>
+    </linearGradient>
+    <linearGradient id="reward" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#16a34a"/>
+      <stop offset="1" stop-color="#166534"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#020617" flood-opacity="0.45"/>
+    </filter>
+    <marker id="cyanArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="amberArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="greenArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4ade80"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="700" rx="28" fill="url(#bg)"/>
+  <g font-family="Inter, Noto Sans SC, Microsoft YaHei, sans-serif">
+    <text x="60" y="68" fill="#f8fafc" font-size="32" font-weight="700">Search-R1：把搜索引擎放进 RL 环境</text>
+    <text x="60" y="102" fill="#94a3b8" font-size="17">策略只生成“思考 / 搜索查询 / 答案”；检索结果由环境插入，终局正确性负责训练。</text>
+
+    <g filter="url(#shadow)">
+      <rect x="58" y="218" width="170" height="112" rx="20" fill="#172554" stroke="#818cf8" stroke-width="2"/>
+      <text x="143" y="258" fill="#c7d2fe" font-size="15" text-anchor="middle">输入状态</text>
+      <text x="143" y="291" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">问题 x</text>
+      <text x="143" y="316" fill="#a5b4fc" font-size="13" text-anchor="middle">+ 已有上下文</text>
+
+      <rect x="308" y="190" width="246" height="168" rx="24" fill="url(#policy)" stroke="#22d3ee" stroke-width="2"/>
+      <text x="431" y="232" fill="#cffafe" font-size="16" text-anchor="middle">策略 πθ</text>
+      <text x="431" y="268" fill="#fff" font-size="25" font-weight="700" text-anchor="middle">LLM 生成动作</text>
+      <text x="431" y="303" fill="#a5f3fc" font-size="15" text-anchor="middle">&lt;think&gt; 推理 &lt;/think&gt;</text>
+      <text x="431" y="329" fill="#a5f3fc" font-size="15" text-anchor="middle">搜索查询或最终答案</text>
+
+      <polygon points="650,205 748,274 650,343 552,274" fill="#172554" stroke="#60a5fa" stroke-width="2"/>
+      <text x="650" y="265" fill="#dbeafe" font-size="17" font-weight="700" text-anchor="middle">下一动作？</text>
+      <text x="650" y="292" fill="#93c5fd" font-size="13" text-anchor="middle">search / answer</text>
+
+      <rect x="790" y="154" width="338" height="118" rx="22" fill="#0f2d20" stroke="#4ade80" stroke-width="2"/>
+      <text x="959" y="193" fill="#bbf7d0" font-size="15" text-anchor="middle">停止分支</text>
+      <text x="959" y="227" fill="#fff" font-size="22" font-weight="700" text-anchor="middle">&lt;answer&gt; 最终答案 &lt;/answer&gt;</text>
+      <text x="959" y="253" fill="#86efac" font-size="13" text-anchor="middle">达到答案标记或耗尽动作预算</text>
+
+      <rect x="789" y="357" width="340" height="137" rx="22" fill="url(#env)" stroke="#f59e0b" stroke-width="2"/>
+      <text x="959" y="394" fill="#fde68a" font-size="15" text-anchor="middle">环境 R（不可微）</text>
+      <text x="959" y="429" fill="#fff" font-size="23" font-weight="700" text-anchor="middle">搜索引擎 / 检索器</text>
+      <text x="959" y="461" fill="#fef3c7" font-size="14" text-anchor="middle">query → top-k passages</text>
+      <text x="959" y="483" fill="#fcd34d" font-size="13" text-anchor="middle">返回 &lt;information&gt; evidence &lt;/information&gt;</text>
+
+      <rect x="793" y="548" width="332" height="90" rx="20" fill="url(#reward)" stroke="#4ade80" stroke-width="2"/>
+      <text x="959" y="584" fill="#dcfce7" font-size="15" text-anchor="middle">终局规则奖励</text>
+      <text x="959" y="615" fill="#fff" font-size="21" font-weight="700" text-anchor="middle">r = EM(answer, gold)</text>
+    </g>
+
+    <path d="M228 274 H294" fill="none" stroke="#22d3ee" stroke-width="4" marker-end="url(#cyanArrow)"/>
+    <path d="M554 274 H548" fill="none" stroke="#22d3ee" stroke-width="4"/>
+    <path d="M748 246 C772 220 778 214 790 214" fill="none" stroke="#4ade80" stroke-width="4" marker-end="url(#greenArrow)"/>
+    <text x="766" y="197" fill="#86efac" font-size="14">answer</text>
+
+    <path d="M650 343 C690 399 726 425 780 425" fill="none" stroke="#f59e0b" stroke-width="4" marker-end="url(#amberArrow)"/>
+    <text x="681" y="391" fill="#fcd34d" font-size="14">&lt;search&gt; q &lt;/search&gt;</text>
+
+    <path d="M790 461 C696 523 501 507 431 370" fill="none" stroke="#f59e0b" stroke-width="4" marker-end="url(#amberArrow)"/>
+    <text x="592" y="515" fill="#fcd34d" font-size="14">证据作为下一轮上下文（可多轮循环）</text>
+
+    <path d="M1128 214 C1172 214 1172 593 1125 593" fill="none" stroke="#4ade80" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#greenArrow)"/>
+    <path d="M793 593 C632 661 391 646 332 372" fill="none" stroke="#4ade80" stroke-width="3" stroke-dasharray="10 7" marker-end="url(#greenArrow)"/>
+    <text x="486" y="648" fill="#86efac" font-size="14">PPO / GRPO：奖励沿策略生成 token 回传；检索 token 的 loss mask = 0</text>
+
+    <g transform="translate(60 610)">
+      <circle cx="0" cy="0" r="6" fill="#22d3ee"/>
+      <text x="14" y="5" fill="#cbd5e1" font-size="13">模型生成 token</text>
+      <circle cx="145" cy="0" r="6" fill="#f59e0b"/>
+      <text x="159" y="5" fill="#cbd5e1" font-size="13">环境检索 token</text>
+      <circle cx="306" cy="0" r="6" fill="#4ade80"/>
+      <text x="320" y="5" fill="#cbd5e1" font-size="13">奖励 / 参数更新</text>
+    </g>
+  </g>
+</svg>

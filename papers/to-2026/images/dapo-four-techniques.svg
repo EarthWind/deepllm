@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" role="img" aria-labelledby="title desc">
+  <title id="title">DAPO 四项关键技术</title>
+  <desc id="desc">Clip-Higher、Dynamic Sampling、Token-Level Loss 与 Soft Overlong Punishment 的对照示意。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071526"/><stop offset="1" stop-color="#17152e"/></linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#28d8dc"/><stop offset="1" stop-color="#9b78ff"/></linearGradient>
+    <style>
+      .title{font:700 32px Inter,"Noto Sans SC",sans-serif;fill:#f7f8ff}
+      .sub{font:400 15px Inter,"Noto Sans SC",sans-serif;fill:#9aa8c5}
+      .num{font:800 25px Inter,sans-serif;fill:#6be7ed}
+      .head{font:700 22px Inter,"Noto Sans SC",sans-serif;fill:#f6f8ff}
+      .body{font:400 14px Inter,"Noto Sans SC",sans-serif;fill:#bac4dc}
+      .strong{font:700 14px Inter,"Noto Sans SC",sans-serif;fill:#f2c467}
+      .small{font:400 12px Inter,"Noto Sans SC",sans-serif;fill:#8492af}
+      .card{fill:#111f39;stroke:#344766;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1400" height="900" rx="24" fill="url(#bg)"/>
+  <text x="64" y="66" class="title">四个故障模式，四个相互配合的修复</text>
+  <text x="64" y="96" class="sub">DAPO 不是只替换一个公式，而是同时修正探索上限、有效批次、梯度归约和截断奖励。</text>
+
+  <g transform="translate(54 132)">
+    <rect width="626" height="326" rx="22" class="card"/>
+    <rect width="626" height="8" rx="4" fill="#2ed4df"/>
+    <text x="28" y="52" class="num">01</text><text x="78" y="52" class="head">Clip-Higher</text>
+    <text x="28" y="82" class="body">对称 ε=0.2 会把正优势 token 的 ratio 上限锁在 1.2。</text>
+    <line x1="62" y1="174" x2="566" y2="174" stroke="#586785" stroke-width="3"/>
+    <rect x="174" y="154" width="300" height="40" rx="10" fill="#1d4054" stroke="#3ee2dd"/>
+    <line x1="174" y1="145" x2="174" y2="204" stroke="#ea8194" stroke-width="3"/>
+    <line x1="426" y1="145" x2="426" y2="204" stroke="#f5c765" stroke-width="3" stroke-dasharray="5 4"/>
+    <line x1="474" y1="145" x2="474" y2="204" stroke="#6ce7a4" stroke-width="4"/>
+    <text x="174" y="226" text-anchor="middle" class="small">0.80</text>
+    <text x="426" y="226" text-anchor="middle" class="small">1.20</text>
+    <text x="474" y="226" text-anchor="middle" class="strong">1.28</text>
+    <text x="28" y="266" class="strong">只抬高 ε_high：0.20 → 0.28；ε_low 保持 0.20。</text>
+    <text x="28" y="294" class="body">目标：给低概率但有正优势的探索 token 更大上升空间。</text>
+  </g>
+
+  <g transform="translate(720 132)">
+    <rect width="626" height="326" rx="22" class="card"/>
+    <rect width="626" height="8" rx="4" fill="#f2bd57"/>
+    <text x="28" y="52" class="num">02</text><text x="78" y="52" class="head">Dynamic Sampling</text>
+    <text x="28" y="82" class="body">全对或全错的组 reward 相同，标准化后优势全为 0。</text>
+    <g transform="translate(28 112)">
+      <rect width="160" height="94" rx="14" fill="#162a43" stroke="#52627c"/>
+      <text x="80" y="25" text-anchor="middle" class="small">全对：丢弃</text>
+      <circle cx="35" cy="57" r="11" fill="#5ee29b"/><circle cx="66" cy="57" r="11" fill="#5ee29b"/><circle cx="97" cy="57" r="11" fill="#5ee29b"/><circle cx="128" cy="57" r="11" fill="#5ee29b"/>
+      <rect x="187" width="190" height="94" rx="14" fill="#203043" stroke="#f2bd57" stroke-width="2"/>
+      <text x="282" y="25" text-anchor="middle" class="strong">混合：保留</text>
+      <circle cx="224" cy="57" r="11" fill="#5ee29b"/><circle cx="263" cy="57" r="11" fill="#e77a91"/><circle cx="302" cy="57" r="11" fill="#5ee29b"/><circle cx="341" cy="57" r="11" fill="#e77a91"/>
+      <rect x="404" width="160" height="94" rx="14" fill="#162a43" stroke="#52627c"/>
+      <text x="484" y="25" text-anchor="middle" class="small">全错：丢弃</text>
+      <circle cx="439" cy="57" r="11" fill="#e77a91"/><circle cx="470" cy="57" r="11" fill="#e77a91"/><circle cx="501" cy="57" r="11" fill="#e77a91"/><circle cx="532" cy="57" r="11" fill="#e77a91"/>
+    </g>
+    <text x="28" y="250" class="strong">缓冲区不足 512 个有效 prompt，就继续过采样。</text>
+    <text x="28" y="278" class="body">代价是动态生成量；收益是每次更新保持稳定的有效梯度数。</text>
+  </g>
+
+  <g transform="translate(54 494)">
+    <rect width="626" height="338" rx="22" class="card"/>
+    <rect width="626" height="8" rx="4" fill="#a17cff"/>
+    <text x="28" y="52" class="num">03</text><text x="78" y="52" class="head">Token-Level Policy Gradient Loss</text>
+    <text x="28" y="82" class="body">改变的是 loss reduction，不是给每个 token 单独打 reward。</text>
+    <text x="28" y="122" class="strong">Sample-level：每条序列先求均值，再对序列求均值</text>
+    <g transform="translate(28 140)">
+      <rect width="112" height="30" rx="8" fill="#3b7ca2"/><rect x="132" width="330" height="30" rx="8" fill="#5e4f9d"/>
+      <text x="508" y="21" class="small">每条序列权重 1/2</text>
+    </g>
+    <text x="28" y="218" class="strong">Token-level：所有有效 token 一次求均值</text>
+    <g transform="translate(28 236)">
+      <rect width="22" height="30" rx="5" fill="#3b9bb6"/><rect x="28" width="22" height="30" rx="5" fill="#3b9bb6"/><rect x="56" width="22" height="30" rx="5" fill="#3b9bb6"/>
+      <rect x="96" width="22" height="30" rx="5" fill="#8065c1"/><rect x="124" width="22" height="30" rx="5" fill="#8065c1"/><rect x="152" width="22" height="30" rx="5" fill="#8065c1"/><rect x="180" width="22" height="30" rx="5" fill="#8065c1"/><rect x="208" width="22" height="30" rx="5" fill="#8065c1"/><rect x="236" width="22" height="30" rx="5" fill="#8065c1"/><rect x="264" width="22" height="30" rx="5" fill="#8065c1"/><rect x="292" width="22" height="30" rx="5" fill="#8065c1"/>
+      <text x="350" y="21" class="small">每个 token 权重 1/11</text>
+    </g>
+    <text x="28" y="306" class="body">长响应整体影响更大；其中的好模式和重复乱码都不再被 1/长度 稀释。</text>
+  </g>
+
+  <g transform="translate(720 494)">
+    <rect width="626" height="338" rx="22" class="card"/>
+    <rect width="626" height="8" rx="4" fill="#6ce39f"/>
+    <text x="28" y="52" class="num">04</text><text x="78" y="52" class="head">Soft Overlong Punishment</text>
+    <text x="28" y="82" class="body">不要在硬截断边界突然把“可能正确但差一点写完”的轨迹重罚。</text>
+    <line x1="48" y1="254" x2="570" y2="254" stroke="#586785" stroke-width="2"/>
+    <line x1="48" y1="114" x2="48" y2="270" stroke="#586785" stroke-width="2"/>
+    <path d="M48 130H364L548 254H570" fill="none" stroke="url(#bar)" stroke-width="5"/>
+    <line x1="364" y1="112" x2="364" y2="266" stroke="#f2bd57" stroke-dasharray="6 5"/>
+    <line x1="548" y1="112" x2="548" y2="266" stroke="#e77a91" stroke-dasharray="6 5"/>
+    <text x="30" y="135" text-anchor="end" class="small">0</text><text x="30" y="258" text-anchor="end" class="small">−1</text>
+    <text x="364" y="290" text-anchor="middle" class="strong">16,384</text><text x="548" y="290" text-anchor="middle" class="strong">20,480</text>
+    <text x="28" y="318" class="body">前 16K 无罚；后 4K 线性从 0 降到 −1，并加到正确性奖励。</text>
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 # 论文原理文档索引
 
-`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2`、`DeepSeek-V3`、`Learning to Summarize from Human Feedback`、`Codex / HumanEval`、`Training Verifiers`、`WebGPT`、`STaR`、`GPT-4 Technical Report`、`DeepSeekMath`、`Scaling LLM Test-Time Compute Optimally`、`Llama 3`、`Kimi k1.5`、`s1`、`Qwen3`、`TruthfulQA`、`HELM`、`Reflexion`、`Generative Agents`、`Voyager`、`MT-Bench / Chatbot Arena`、`Lost in the Middle`、`SWE-bench`、`Self-RAG`、`AlphaZero`、`MuZero`、`Vision Transformer`、`DDPM`、`CLIP`、`AlphaFold2`、`Decision Transformer`、`Stochastic Parrots`、`Latent Diffusion`、`Toy Models of Superposition`、`Whisper`、`Segment Anything` 与 `AlphaGeometry` 五十四篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 对齐 / 真实性与整体评测 / 代码生成 / 仓库级软件工程评测 / 数学推理 / 自举推理 / 搜索决策 / 世界模型 / 浏览 Agent / 社会模拟 / 具身 Agent / 验证器 / 人类偏好评测 / 长上下文评测 / 多模态 / 计算机视觉 / 生成模型 / 科学机器学习 / 大模型系统 / 推理优化 / 离线强化学习 / AI 治理 / 生成模型系统 / 机械可解释性 / 语音 / 视觉基础模型 / 神经符号推理论文，共 84 篇；其余扩展阅读暂以总导读和原文链接为主。
+`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2`、`DeepSeek-V3`、`Learning to Summarize from Human Feedback`、`Codex / HumanEval`、`Training Verifiers`、`WebGPT`、`STaR`、`GPT-4 Technical Report`、`DeepSeekMath`、`Scaling LLM Test-Time Compute Optimally`、`Llama 3`、`Kimi k1.5`、`s1`、`Qwen3`、`TruthfulQA`、`HELM`、`Reflexion`、`Generative Agents`、`Voyager`、`MT-Bench / Chatbot Arena`、`Lost in the Middle`、`SWE-bench`、`Self-RAG`、`AlphaZero`、`MuZero`、`Vision Transformer`、`DDPM`、`CLIP`、`AlphaFold2`、`Decision Transformer`、`Stochastic Parrots`、`Latent Diffusion`、`Toy Models of Superposition`、`Whisper`、`Segment Anything`、`AlphaGeometry`、`Search-R1`、`DAPO`、`Gemma 3` 与 `Limits of RLVR` 五十八篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 对齐 / 真实性与整体评测 / 代码生成 / 仓库级软件工程评测 / 数学推理 / 自举推理 / 搜索决策 / 世界模型 / 浏览 Agent / 社会模拟 / 具身 Agent / 验证器 / 人类偏好评测 / 长上下文评测 / 多模态 / 计算机视觉 / 生成模型 / 科学机器学习 / 大模型系统 / 推理优化 / 离线强化学习 / AI 治理 / 生成模型系统 / 机械可解释性 / 语音 / 视觉基础模型 / 神经符号推理 / 搜索增强推理 / 大规模推理强化学习 / 轻量多模态开放模型 / 推理能力边界评测论文，共 88 篇；其余扩展阅读暂以总导读和原文链接为主。
 增强版已补充：`论文链接`、`代表公式 / 关键表达`、`前置阅读`、`读完接着看`。
 
 ## 文件列表
@@ -89,22 +89,26 @@
 - `82_Whisper_2022_原理.md`: `Whisper` - Weak Supervision / Multilingual ASR / Encoder-Decoder / Speech Translation / Timestamp / Robustness
 - `83_Segment_Anything_2023_原理.md`: `Segment Anything` - Promptable Segmentation / Image Encoder / Prompt Encoder / Mask Decoder / SA-1B / Zero-shot Transfer
 - `84_AlphaGeometry_2024_原理.md`: `AlphaGeometry` - Neuro-symbolic Reasoning / Deductive Database / Algebraic Reasoning / Auxiliary Construction / Synthetic Proofs / Beam Search
+- `85_Search-R1_2025_原理.md`: `Search-R1` - Agentic Search / Multi-turn Retrieval / PPO / GRPO / Outcome Reward / Retrieved Token Loss Masking
+- `86_DAPO_2025_原理.md`: `DAPO` - Large-scale Reasoning RL / Clip-Higher / Dynamic Sampling / Token-Level Loss / Overlong Reward Shaping / verl
+- `87_Gemma_3_2025_原理.md`: `Gemma 3` - Multimodal Open Model / SigLIP / 5:1 Local-Global Attention / 128K Context / Distillation / QAT
+- `88_Limits_of_RLVR_2025_原理.md`: `Limits of RLVR` - RLVR / pass@k / Reasoning Boundary / Coverage / Perplexity / Distillation
 
 ## 建议阅读顺序
 
 0. 基础骨架：`Transformer`
 1. 预训练主线：`ULMFiT -> ELMo -> GPT -> BERT -> RoBERTa -> GPT-2 -> BART -> T5 -> GPT-3`
-2. 数据 / 扩展律主线：`Scaling Laws -> The Pile -> Foundation Models Report -> Chinchilla -> PaLM -> OLMo -> Llama 3 -> Qwen3`
+2. 数据 / 扩展律主线：`Scaling Laws -> The Pile -> Foundation Models Report -> Chinchilla -> PaLM -> OLMo -> Llama 3 -> Qwen3 -> Gemma 3`
 3. 对齐主线：`Learning to Summarize from Human Feedback -> TruthfulQA -> FLAN -> InstructGPT -> Constitutional AI -> DPO -> Llama 3 -> Kimi k1.5 -> Qwen3`
-4. 推理主线：`Training Verifiers -> Chain-of-Thought -> STaR -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> DeepSeekMath -> Scaling LLM Test-Time Compute Optimally -> Kimi k1.5 -> s1 -> Qwen3 -> DeepSeek-R1`
-5. 工程主线：`Megatron-LM -> ZeRO -> RoPE -> FlashAttention -> FlashAttention-2 -> LoRA -> GPTQ -> AWQ -> Speculative Decoding -> GQA -> QLoRA -> LLaMA -> Mistral 7B -> Mixtral -> Llama 3 -> DeepSeek-V2 -> DeepSeek-V3 -> Kimi k1.5 -> Qwen3`
-6. Agent / 检索 / 多模态补充：`Sentence-BERT -> DPR -> RAG -> WebGPT -> Toolformer -> ReAct -> Self-RAG -> Generative Agents -> Reflexion -> Voyager -> GPT-4 -> Gemini -> Kimi k1.5 -> Qwen3 -> Mamba`
+4. 推理主线：`Training Verifiers -> Chain-of-Thought -> STaR -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> DeepSeekMath -> Scaling LLM Test-Time Compute Optimally -> Kimi k1.5 -> s1 -> Qwen3 -> DeepSeek-R1 -> DAPO -> Limits of RLVR`
+5. 工程主线：`Megatron-LM -> ZeRO -> RoPE -> FlashAttention -> FlashAttention-2 -> LoRA -> GPTQ -> AWQ -> Speculative Decoding -> GQA -> QLoRA -> LLaMA -> Mistral 7B -> Mixtral -> Llama 3 -> DeepSeek-V2 -> DeepSeek-V3 -> Kimi k1.5 -> Qwen3 -> DAPO -> Gemma 3`
+6. Agent / 检索 / 多模态补充：`Sentence-BERT -> DPR -> RAG -> WebGPT -> Toolformer -> ReAct -> Self-RAG -> Search-R1 -> Generative Agents -> Reflexion -> Voyager -> GPT-4 -> Gemini -> Kimi k1.5 -> Qwen3 -> Mamba`
 7. 基础模型治理与开放科学主线：`The Pile -> Foundation Models Report -> TruthfulQA -> HELM -> OLMo -> Learning to Summarize from Human Feedback -> InstructGPT -> Constitutional AI -> Llama 3`
-8. 代码生成与执行评测主线：`GPT-3 -> Codex / HumanEval -> SWE-bench -> Reflexion -> Self-Consistency -> Let's Verify Step by Step -> DeepSeekMath -> Llama 3 -> Scaling LLM Test-Time Compute Optimally -> Kimi k1.5 -> s1 -> Qwen3`
+8. 代码生成与执行评测主线：`GPT-3 -> Codex / HumanEval -> SWE-bench -> Reflexion -> Self-Consistency -> Let's Verify Step by Step -> DeepSeekMath -> Llama 3 -> Scaling LLM Test-Time Compute Optimally -> Kimi k1.5 -> s1 -> Qwen3 -> Limits of RLVR`
 9. 真实性、整体评测与证据化问答主线：`Foundation Models Report -> TruthfulQA -> HELM -> WebGPT -> Self-RAG -> InstructGPT -> GPT-4 -> MT-Bench / Chatbot Arena -> OLMo`
-10. 长上下文容量与有效利用主线：`Transformer -> RoPE -> FlashAttention -> FlashAttention-2 -> GQA -> Lost in the Middle -> RAG -> Self-RAG`
-11. 搜索、世界模型、验证与自我改进主线：`AlphaZero -> MuZero -> Training Verifiers -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> Scaling LLM Test-Time Compute Optimally -> DeepSeek-R1`
-12. 视觉与多模态主线：`Transformer -> Vision Transformer -> CLIP -> GPT-4 -> Gemini -> Kimi k1.5 -> Qwen3`
+10. 长上下文容量与有效利用主线：`Transformer -> RoPE -> FlashAttention -> FlashAttention-2 -> GQA -> Lost in the Middle -> RAG -> Self-RAG -> Gemma 3`
+11. 搜索、世界模型、验证与自我改进主线：`AlphaZero -> MuZero -> Training Verifiers -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> Scaling LLM Test-Time Compute Optimally -> DeepSeek-R1 -> Search-R1 -> DAPO -> Limits of RLVR`
+12. 视觉与多模态主线：`Transformer -> Vision Transformer -> CLIP -> GPT-4 -> Gemini -> Kimi k1.5 -> Qwen3 -> Gemma 3`
 13. 生成模型主线：`VAE / ELBO -> Diffusion Probabilistic Model -> NCSN -> DDPM -> DDIM -> Improved DDPM -> Score SDE -> Classifier Guidance -> Latent Diffusion`
 14. 科学与几何建模主线：`Transformer -> AlphaFold1 -> AlphaFold2 -> AlphaFold-Multimer -> OpenFold`
 

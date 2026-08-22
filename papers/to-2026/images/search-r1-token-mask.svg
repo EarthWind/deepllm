@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">Search-R1 检索 token loss mask</title>
+  <desc id="desc">模型生成 token 的掩码为一，搜索环境插入的检索 token 掩码为零，策略梯度只优化模型实际采样的动作。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef6ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#64748b" flood-opacity="0.22"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="650" rx="28" fill="url(#bg)"/>
+  <g font-family="Inter, Noto Sans SC, Microsoft YaHei, sans-serif">
+    <text x="58" y="62" fill="#0f172a" font-size="31" font-weight="700">检索结果在上下文里，但不应被当成策略动作优化</text>
+    <text x="58" y="96" fill="#475569" font-size="17">同一条 rollout 混合两种来源：青色由 LLM 采样，琥珀色由搜索环境插入。</text>
+
+    <g filter="url(#shadow)">
+      <rect x="60" y="145" width="302" height="102" rx="18" fill="#cffafe" stroke="#0891b2" stroke-width="2"/>
+      <text x="211" y="181" fill="#155e75" font-size="14" text-anchor="middle">POLICY · mₜ = 1</text>
+      <text x="211" y="214" fill="#0f172a" font-size="18" font-weight="700" text-anchor="middle">&lt;think&gt; 缺少出生地 &lt;/think&gt;</text>
+      <text x="211" y="237" fill="#0e7490" font-size="13" text-anchor="middle">对 log πθ 计算梯度</text>
+
+      <rect x="388" y="145" width="285" height="102" rx="18" fill="#cffafe" stroke="#0891b2" stroke-width="2"/>
+      <text x="530" y="181" fill="#155e75" font-size="14" text-anchor="middle">POLICY · mₜ = 1</text>
+      <text x="530" y="214" fill="#0f172a" font-size="18" font-weight="700" text-anchor="middle">&lt;search&gt; 查询 q &lt;/search&gt;</text>
+      <text x="530" y="237" fill="#0e7490" font-size="13" text-anchor="middle">学习何时搜、搜什么</text>
+
+      <rect x="699" y="145" width="440" height="102" rx="18" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+      <text x="919" y="181" fill="#92400e" font-size="14" text-anchor="middle">ENVIRONMENT · mₜ = 0</text>
+      <text x="919" y="214" fill="#0f172a" font-size="17" font-weight="700" text-anchor="middle">&lt;information&gt; 检索文档 d &lt;/information&gt;</text>
+      <text x="919" y="237" fill="#b45309" font-size="13" text-anchor="middle">只作为下一步条件，不优化文档“被生成”的概率</text>
+    </g>
+
+    <path d="M362 196 H378" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M673 196 H689" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+    <path d="M919 253 C919 286 792 298 649 298 C482 298 381 304 381 332" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <g filter="url(#shadow)">
+      <rect x="220" y="340" width="322" height="96" rx="18" fill="#cffafe" stroke="#0891b2" stroke-width="2"/>
+      <text x="381" y="375" fill="#155e75" font-size="14" text-anchor="middle">POLICY · mₜ = 1</text>
+      <text x="381" y="407" fill="#0f172a" font-size="18" font-weight="700" text-anchor="middle">&lt;think&gt; 证据已足够 &lt;/think&gt;</text>
+      <text x="381" y="429" fill="#0e7490" font-size="13" text-anchor="middle">学习如何消费证据</text>
+
+      <rect x="568" y="340" width="388" height="96" rx="18" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+      <text x="762" y="375" fill="#166534" font-size="14" text-anchor="middle">POLICY · mₜ = 1</text>
+      <text x="762" y="407" fill="#0f172a" font-size="18" font-weight="700" text-anchor="middle">&lt;answer&gt; 最终答案 &lt;/answer&gt;</text>
+      <text x="762" y="429" fill="#15803d" font-size="13" text-anchor="middle">由终局 EM 奖励评价</text>
+    </g>
+    <path d="M542 388 H558" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <rect x="60" y="488" width="1080" height="116" rx="20" fill="#0f172a"/>
+    <text x="90" y="526" fill="#94a3b8" font-size="15">带掩码的 token 平均</text>
+    <text x="90" y="566" fill="#f8fafc" font-size="24" font-family="Cambria Math, STIX Two Math, serif">J(θ) ∝  1 / Σₜ mₜ  ·  Σₜ mₜ · min(ρₜ Aₜ, clip(ρₜ, 1−ε, 1+ε) Aₜ)</text>
+    <text x="90" y="590" fill="#67e8f9" font-size="14">mₜ = 1：模型 token</text>
+    <text x="294" y="590" fill="#fbbf24" font-size="14">mₜ = 0：检索 token</text>
+    <text x="500" y="590" fill="#cbd5e1" font-size="14">关键语义：环境 observation 影响后续动作，却不是策略需要复现的 action。</text>
+  </g>
+</svg>
