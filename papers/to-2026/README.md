@@ -1,6 +1,6 @@
 # 论文原理文档索引
 
-`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2`、`DeepSeek-V3`、`Learning to Summarize from Human Feedback`、`Codex / HumanEval`、`Training Verifiers`、`WebGPT`、`STaR`、`GPT-4 Technical Report`、`DeepSeekMath`、`Scaling LLM Test-Time Compute Optimally`、`Llama 3`、`Kimi k1.5`、`s1`、`Qwen3`、`TruthfulQA`、`HELM`、`Reflexion`、`Generative Agents`、`Voyager`、`MT-Bench / Chatbot Arena`、`Lost in the Middle`、`SWE-bench`、`Self-RAG`、`AlphaZero`、`MuZero`、`Vision Transformer`、`DDPM` 与 `CLIP` 四十六篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 对齐 / 真实性与整体评测 / 代码生成 / 仓库级软件工程评测 / 数学推理 / 自举推理 / 搜索决策 / 世界模型 / 浏览 Agent / 社会模拟 / 具身 Agent / 验证器 / 人类偏好评测 / 长上下文评测 / 多模态 / 计算机视觉 / 生成模型 / 大模型系统 / 推理优化论文，共 76 篇；其余扩展阅读暂以总导读和原文链接为主。
+`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2`、`DeepSeek-V3`、`Learning to Summarize from Human Feedback`、`Codex / HumanEval`、`Training Verifiers`、`WebGPT`、`STaR`、`GPT-4 Technical Report`、`DeepSeekMath`、`Scaling LLM Test-Time Compute Optimally`、`Llama 3`、`Kimi k1.5`、`s1`、`Qwen3`、`TruthfulQA`、`HELM`、`Reflexion`、`Generative Agents`、`Voyager`、`MT-Bench / Chatbot Arena`、`Lost in the Middle`、`SWE-bench`、`Self-RAG`、`AlphaZero`、`MuZero`、`Vision Transformer`、`DDPM`、`CLIP`、`AlphaFold2`、`Decision Transformer`、`Stochastic Parrots`、`Latent Diffusion`、`Toy Models of Superposition` 与 `Whisper` 五十二篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 对齐 / 真实性与整体评测 / 代码生成 / 仓库级软件工程评测 / 数学推理 / 自举推理 / 搜索决策 / 世界模型 / 浏览 Agent / 社会模拟 / 具身 Agent / 验证器 / 人类偏好评测 / 长上下文评测 / 多模态 / 计算机视觉 / 生成模型 / 科学机器学习 / 大模型系统 / 推理优化 / 离线强化学习 / AI 治理 / 生成模型系统 / 机械可解释性 / 语音论文，共 82 篇；其余扩展阅读暂以总导读和原文链接为主。
 增强版已补充：`论文链接`、`代表公式 / 关键表达`、`前置阅读`、`读完接着看`。
 
 ## 文件列表
@@ -81,6 +81,12 @@
 - `74_Vision_Transformer_2020_原理.md`: `Vision Transformer` - Patch Embedding / Pre-LN Encoder / 大规模视觉预训练 / 迁移学习
 - `75_DDPM_2020_原理.md`: `DDPM` - 高斯前向扩散 / 噪声预测 / 变分下界 / Score Matching / 逐步反向生成
 - `76_CLIP_2021_原理.md`: `CLIP` - 图文双塔 / 批内对比损失 / 自然语言监督 / Prompt Ensemble / Zero-shot 开放词汇分类
+- `77_AlphaFold2_2021_原理.md`: `AlphaFold2` - MSA / Evoformer / Triangle Update / IPA / FAPE / Recycling / 蛋白质结构预测
+- `78_Decision_Transformer_2021_原理.md`: `Decision Transformer` - Offline RL / Return-to-go / Causal Transformer / 条件动作生成 / Credit Assignment
+- `79_Stochastic_Parrots_2021_原理.md`: `On the Dangers of Stochastic Parrots` - 数据文档 / 代表性 / 环境成本 / 偏见 / 问责 / 社会技术系统
+- `80_Latent_Diffusion_2021_原理.md`: `Latent Diffusion` - Autoencoder / Latent Space / U-Net / Cross-Attention / Text-to-Image / Sampling
+- `81_Toy_Models_of_Superposition_2022_原理.md`: `Toy Models of Superposition` - Polysemanticity / Sparse Features / Feature Geometry / Phase Change / Mechanistic Interpretability
+- `82_Whisper_2022_原理.md`: `Whisper` - Weak Supervision / Multilingual ASR / Encoder-Decoder / Speech Translation / Timestamp / Robustness
 
 ## 建议阅读顺序
 
@@ -98,6 +104,7 @@
 11. 搜索、世界模型、验证与自我改进主线：`AlphaZero -> MuZero -> Training Verifiers -> Self-Consistency -> Let's Verify Step by Step -> Tree of Thoughts -> Scaling LLM Test-Time Compute Optimally -> DeepSeek-R1`
 12. 视觉与多模态主线：`Transformer -> Vision Transformer -> CLIP -> GPT-4 -> Gemini -> Kimi k1.5 -> Qwen3`
 13. 生成模型主线：`VAE / ELBO -> Diffusion Probabilistic Model -> NCSN -> DDPM -> DDIM -> Improved DDPM -> Score SDE -> Classifier Guidance -> Latent Diffusion`
+14. 科学与几何建模主线：`Transformer -> AlphaFold1 -> AlphaFold2 -> AlphaFold-Multimer -> OpenFold`
 
 ## 说明
 

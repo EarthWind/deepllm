@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+  <title id="title">Evoformer 的信息闭环与三角更新</title>
+  <desc id="desc">上方展示一个 Evoformer block 中 MSA 栈和 pair 栈的顺序更新；下方展示 outgoing 和 incoming 三角乘法如何用两条边更新第三条边。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#221339"/></linearGradient>
+    <marker id="a" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9Z" fill="#94a3b8"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.label{font-size:18px;font-weight:650;fill:#f8fafc}.small{font-size:14px;fill:#cbd5e1}.tiny{font-size:12px;fill:#94a3b8}.box{fill:#10233a;stroke:#35506e;stroke-width:1.5}.m{fill:#083b4a;stroke:#22d3ee}.z{fill:#2e1b52;stroke:#a78bfa}.flow{fill:none;stroke:#94a3b8;stroke-width:2.5;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1400" height="850" rx="28" fill="url(#bg)"/>
+  <text x="52" y="62" class="sans title">Evoformer：MSA 与 Pair 不是两条独立流水线，而是一个闭环</text>
+  <text x="52" y="94" class="sans sub">每个方框都以 LayerNorm 开始、以残差相加结束；图中省略 gate、dropout 和线性投影</text>
+
+  <rect x="44" y="125" width="1312" height="338" rx="22" class="box"/>
+  <text x="72" y="164" class="sans label" fill="#67e8f9">MSA 栈 M [S,R,cₘ]</text>
+  <rect x="75" y="190" width="225" height="76" rx="15" class="m"/><text x="187" y="220" text-anchor="middle" class="sans small">Row attention</text><text x="187" y="244" text-anchor="middle" class="sans tiny">沿残基 j；logit 加 Zᵢⱼ bias</text>
+  <path d="M305 228H348" class="flow"/>
+  <rect x="360" y="190" width="225" height="76" rx="15" class="m"/><text x="472" y="220" text-anchor="middle" class="sans small">Column attention</text><text x="472" y="244" text-anchor="middle" class="sans tiny">沿同源序列 s 交换位点证据</text>
+  <path d="M590 228H633" class="flow"/>
+  <rect x="645" y="190" width="180" height="76" rx="15" class="m"/><text x="735" y="220" text-anchor="middle" class="sans small">MSA transition</text><text x="735" y="244" text-anchor="middle" class="sans tiny">逐 cell 的 4× MLP</text>
+  <path d="M830 228H873" class="flow"/>
+  <rect x="885" y="190" width="244" height="76" rx="15" fill="#134e4a" stroke="#5eead4"/><text x="1007" y="220" text-anchor="middle" class="sans small">Outer Product Mean</text><text x="1007" y="244" text-anchor="middle" class="sans tiny">meanₛ aₛᵢ ⊗ bₛⱼ → ΔZᵢⱼ</text>
+  <path d="M1134 228H1252" class="flow"/><rect x="1262" y="199" width="60" height="58" rx="12" class="z"/><text x="1292" y="234" text-anchor="middle" class="sans small">Z</text>
+
+  <path d="M1292 271V315" class="flow"/>
+  <text x="72" y="331" class="sans label" fill="#c4b5fd">Pair 栈 Z [R,R,c_z]</text>
+  <g transform="translate(76 348)">
+    <rect width="184" height="70" rx="14" class="z"/><text x="92" y="28" text-anchor="middle" class="sans small">Triangle mult.</text><text x="92" y="50" text-anchor="middle" class="sans tiny">outgoing</text>
+    <path d="M190 35H223" class="flow"/>
+    <rect x="232" width="184" height="70" rx="14" class="z"/><text x="324" y="28" text-anchor="middle" class="sans small">Triangle mult.</text><text x="324" y="50" text-anchor="middle" class="sans tiny">incoming</text>
+    <path d="M422 35H455" class="flow"/>
+    <rect x="464" width="184" height="70" rx="14" class="z"/><text x="556" y="28" text-anchor="middle" class="sans small">Triangle attn.</text><text x="556" y="50" text-anchor="middle" class="sans tiny">starting node</text>
+    <path d="M654 35H687" class="flow"/>
+    <rect x="696" width="184" height="70" rx="14" class="z"/><text x="788" y="28" text-anchor="middle" class="sans small">Triangle attn.</text><text x="788" y="50" text-anchor="middle" class="sans tiny">ending node</text>
+    <path d="M886 35H919" class="flow"/>
+    <rect x="928" width="184" height="70" rx="14" class="z"/><text x="1020" y="28" text-anchor="middle" class="sans small">Pair transition</text><text x="1020" y="50" text-anchor="middle" class="sans tiny">逐边的 4× MLP</text>
+  </g>
+  <path d="M1292 419C1344 419 1340 172 1245 172C1150 172 1120 181 1075 188" fill="none" stroke="#c4b5fd" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#a)"/>
+  <text x="1242" y="145" text-anchor="end" class="sans tiny" fill="#ddd6fe">下一 block 再把 Z 作为 MSA row attention 的 bias</text>
+
+  <rect x="44" y="488" width="1312" height="318" rx="22" class="box"/>
+  <text x="70" y="531" class="sans label">为什么更新单位是“三角形”</text>
+  <text x="70" y="557" class="sans small">若 i、j、k 真能同时嵌入同一个三维结构，任意一条边都不能无视另外两条边。网络不硬编码距离，而是让边表示学习这种一致性。</text>
+
+  <g transform="translate(110 586)">
+    <circle cx="70" cy="35" r="25" fill="#0e7490"/><circle cx="20" cy="155" r="25" fill="#6d28d9"/><circle cx="190" cy="155" r="25" fill="#b45309"/>
+    <text x="70" y="42" text-anchor="middle" class="sans label">k</text><text x="20" y="162" text-anchor="middle" class="sans label">i</text><text x="190" y="162" text-anchor="middle" class="sans label">j</text>
+    <path d="M54 58L31 129" stroke="#67e8f9" stroke-width="8"/><path d="M89 57L172 134" stroke="#67e8f9" stroke-width="8"/><path d="M46 155H162" stroke="#fbbf24" stroke-width="8"/>
+    <text x="104" y="102" class="sans tiny" fill="#a5f3fc">zⱼₖ</text><text x="22" y="98" class="sans tiny" fill="#a5f3fc">zᵢₖ</text><text x="96" y="181" class="sans tiny" fill="#fde68a">更新 zᵢⱼ</text>
+  </g>
+  <text x="382" y="624" class="sans label">Outgoing</text>
+  <text x="382" y="659" class="sans small">Δzᵢⱼ ∝ ∑ₖ aᵢₖ ⊙ bⱼₖ</text>
+  <text x="382" y="689" class="sans tiny">两条边共同“从 i/j 指向 k”；对所有第三点 k 聚合。</text>
+
+  <g transform="translate(780 586)">
+    <circle cx="70" cy="35" r="25" fill="#0e7490"/><circle cx="20" cy="155" r="25" fill="#6d28d9"/><circle cx="190" cy="155" r="25" fill="#b45309"/>
+    <text x="70" y="42" text-anchor="middle" class="sans label">k</text><text x="20" y="162" text-anchor="middle" class="sans label">i</text><text x="190" y="162" text-anchor="middle" class="sans label">j</text>
+    <path d="M54 58L31 129" stroke="#a78bfa" stroke-width="8"/><path d="M89 57L172 134" stroke="#a78bfa" stroke-width="8"/><path d="M46 155H162" stroke="#fbbf24" stroke-width="8"/>
+    <text x="104" y="102" class="sans tiny" fill="#ddd6fe">zₖⱼ</text><text x="22" y="98" class="sans tiny" fill="#ddd6fe">zₖᵢ</text><text x="96" y="181" class="sans tiny" fill="#fde68a">更新 zᵢⱼ</text>
+  </g>
+  <text x="1052" y="624" class="sans label">Incoming</text>
+  <text x="1052" y="659" class="sans small">Δzᵢⱼ ∝ ∑ₖ aₖᵢ ⊙ bₖⱼ</text>
+  <text x="1052" y="689" class="sans tiny">共同从 k 指向 i/j；捕获反向信息。</text>
+  <text x="70" y="778" class="sans tiny">实际模块还包括 LayerNorm、两个带 sigmoid gate 的投影、按通道乘法、输出 LayerNorm/Linear 与 output gate；这里仅画索引收缩。</text>
+</svg>

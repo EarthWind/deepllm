@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">Decision Transformer 架构总览</title>
+  <desc id="desc">离线轨迹被转换成回报到达、状态、动作三元组，经模态嵌入和每时间步的位置嵌入后输入带因果遮罩的 GPT，状态 token 位置输出动作。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071225"/><stop offset="1" stop-color="#1d173b"/></linearGradient>
+    <linearGradient id="data" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="gpt" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6d28d9"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <linearGradient id="act" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b45309"/><stop offset="1" stop-color="#fbbf24"/></linearGradient>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#94a3b8"/></marker>
+    <style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.head{font-size:21px;font-weight:650;fill:#f8fafc}.small{font-size:15px;fill:#dbeafe}.tiny{font-size:13px;fill:#94a3b8}.panel{fill:#0c1d32;stroke:#2e4766;stroke-width:1.5}.flow{fill:none;stroke:#94a3b8;stroke-width:3;marker-end:url(#a)}</style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg)"/>
+  <text x="52" y="62" class="sans title">Decision Transformer：把“求最优策略”改写成“按目标回报生成动作”</text>
+  <text x="52" y="94" class="sans sub">训练使用固定离线数据集；推理只需给出 desired return、当前状态与历史上下文</text>
+
+  <rect x="45" y="125" width="360" height="590" rx="22" class="panel"/>
+  <text x="225" y="166" text-anchor="middle" class="sans head">离线轨迹数据集</text>
+  <text x="225" y="193" text-anchor="middle" class="sans tiny">不做 Bellman backup，不和环境在线交互</text>
+  <rect x="75" y="230" width="300" height="103" rx="16" fill="#123c4d" stroke="#22d3ee"/>
+  <text x="225" y="263" text-anchor="middle" class="sans small">τ = (sₜ, aₜ, rₜ)ₜ₌₀ᵀ</text>
+  <text x="225" y="291" text-anchor="middle" class="sans tiny">随机 / medium / expert 轨迹混合</text>
+  <text x="225" y="315" text-anchor="middle" class="sans tiny">状态可为向量，也可为图像</text>
+  <path d="M225 347V383" class="flow"/>
+  <rect x="75" y="397" width="300" height="140" rx="16" fill="#2b1b4c" stroke="#a78bfa"/>
+  <text x="225" y="431" text-anchor="middle" class="sans small">计算 hindsight return-to-go</text>
+  <text x="225" y="464" text-anchor="middle" class="sans small">R̂ₜ = Σₜ′₌ₜᵀ rₜ′</text>
+  <text x="225" y="501" text-anchor="middle" class="sans tiny">训练目标能看见整条轨迹的未来回报</text>
+  <path d="M225 551V584" class="flow"/>
+  <rect x="75" y="598" width="300" height="79" rx="15" fill="#3e2a16" stroke="#f59e0b"/>
+  <text x="225" y="630" text-anchor="middle" class="sans small">每 K 步随机 crop</text>
+  <text x="225" y="655" text-anchor="middle" class="sans tiny">形成 3K 个 token 的样本</text>
+
+  <path d="M410 420H465" class="flow"/>
+  <rect x="475" y="125" width="500" height="590" rx="22" class="panel"/>
+  <text x="725" y="166" text-anchor="middle" class="sans head">模态嵌入 + GPT causal Transformer</text>
+  <g transform="translate(508 218)">
+    <rect width="120" height="75" rx="14" fill="#3e2a16" stroke="#f59e0b"/><text x="60" y="31" text-anchor="middle" class="sans small">R̂ₜ</text><text x="60" y="56" text-anchor="middle" class="sans tiny">Linear + LN</text>
+    <rect x="145" width="120" height="75" rx="14" fill="url(#data)"/><text x="205" y="31" text-anchor="middle" class="sans small">sₜ</text><text x="205" y="56" text-anchor="middle" class="sans tiny">Linear / CNN + LN</text>
+    <rect x="290" width="120" height="75" rx="14" fill="url(#act)"/><text x="350" y="31" text-anchor="middle" class="sans small">aₜ</text><text x="350" y="56" text-anchor="middle" class="sans tiny">Linear + LN</text>
+  </g>
+  <text x="725" y="326" text-anchor="middle" class="sans small">逐时间步交错： [R̂₁, s₁, a₁, R̂₂, s₂, a₂, …]</text>
+  <text x="725" y="354" text-anchor="middle" class="sans tiny">同一 t 的三个 token 加同一个 learned timestep embedding</text>
+  <rect x="520" y="382" width="410" height="198" rx="18" fill="url(#gpt)" opacity=".82"/>
+  <text x="725" y="423" text-anchor="middle" class="sans head">GPT-style causal self-attention</text>
+  <g stroke="#e9d5ff" stroke-width="2" opacity=".75"><path d="M565 470H875M565 497H875M565 524H875M565 551H875"/><path d="M580 455V560M638 455V560M696 455V560M754 455V560M812 455V560"/></g>
+  <path d="M575 470L690 555M575 497L754 555M575 524L812 555M638 497L812 551" stroke="#fef08a" stroke-width="3" opacity=".85"/>
+  <text x="725" y="607" text-anchor="middle" class="sans tiny" fill="#ddd6fe">位置 i 只看 j ≤ i 的 token；未来 token 被 −∞ mask</text>
+  <path d="M725 620V654" class="flow"/>
+  <rect x="560" y="663" width="330" height="45" rx="12" fill="#1e1b4b" stroke="#fbbf24"/><text x="725" y="692" text-anchor="middle" class="sans small">只读取 state token 的隐藏状态预测动作</text>
+
+  <path d="M980 420H1035" class="flow"/>
+  <rect x="1045" y="125" width="310" height="590" rx="22" class="panel"/>
+  <text x="1200" y="166" text-anchor="middle" class="sans head">动作头与策略</text>
+  <rect x="1077" y="235" width="246" height="96" rx="16" fill="#123c4d" stroke="#22d3ee"/>
+  <text x="1200" y="271" text-anchor="middle" class="sans small">continuous action</text><text x="1200" y="301" text-anchor="middle" class="sans tiny">MSE / tanh → âₜ</text>
+  <rect x="1077" y="365" width="246" height="96" rx="16" fill="#3e2a16" stroke="#fbbf24"/>
+  <text x="1200" y="401" text-anchor="middle" class="sans small">discrete action</text><text x="1200" y="431" text-anchor="middle" class="sans tiny">Cross Entropy → π(aₜ|·)</text>
+  <path d="M1200 485V530" class="flow"/>
+  <rect x="1077" y="545" width="246" height="119" rx="16" fill="#103b32" stroke="#34d399"/>
+  <text x="1200" y="580" text-anchor="middle" class="sans small">执行并获取环境反馈</text><text x="1200" y="612" text-anchor="middle" class="sans tiny">R̂ₜ₊₁ = R̂ₜ − rₜ</text><text x="1200" y="638" text-anchor="middle" class="sans tiny">新状态与动作追加到上下文</text>
+  <path d="M1070 694C1010 760 760 768 410 690" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#a)"/>
+  <text x="805" y="773" text-anchor="middle" class="sans small" fill="#fde68a">滚动窗口：只保留最近 K 个时间步，继续自回归生成</text>
+</svg>

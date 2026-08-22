@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img" aria-labelledby="title desc">
+  <title id="title">Decision Transformer 的目标回报条件推理</title>
+  <desc id="desc">展示推理初始化 target return、状态输入和历史 token，模型生成动作，环境奖励递减 return-to-go 后滚动窗口前进。</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#201338"/></linearGradient><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#94a3b8"/></marker><style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.head{font-size:20px;font-weight:650;fill:#f8fafc}.small{font-size:15px;fill:#dbeafe}.tiny{font-size:13px;fill:#94a3b8}.panel{fill:#0c1d32;stroke:#334d6b;stroke-width:1.5}.flow{fill:none;stroke:#94a3b8;stroke-width:3;marker-end:url(#a)}.return{fill:#3e2a16;stroke:#f59e0b}.state{fill:#0b3b4b;stroke:#22d3ee}.action{fill:#3b1d68;stroke:#c084fc}</style></defs>
+  <rect width="1400" height="780" rx="28" fill="url(#bg)"/>
+  <text x="52" y="62" class="sans title">推理时的关键：不是预测奖励，而是用目标回报“提示”行为</text>
+  <text x="52" y="94" class="sans sub">执行一步之后，用真实奖励更新 RTG；模型在滚动上下文中持续生成下一步动作</text>
+  <rect x="48" y="130" width="1305" height="520" rx="23" class="panel"/>
+  <text x="75" y="171" class="sans head">第 t 步：初始化上下文</text>
+  <g transform="translate(78 220)">
+    <rect width="205" height="102" rx="16" class="return"/><text x="102" y="38" text-anchor="middle" class="sans small">desired return</text><text x="102" y="69" text-anchor="middle" class="sans head" fill="#fde68a">R̂ₜ = 100</text>
+    <rect x="242" width="205" height="102" rx="16" class="state"/><text x="344" y="38" text-anchor="middle" class="sans small">当前状态</text><text x="344" y="69" text-anchor="middle" class="sans tiny">sₜ = environment.reset()</text>
+    <rect x="484" width="270" height="102" rx="16" fill="#1e293b" stroke="#64748b"/><text x="619" y="38" text-anchor="middle" class="sans small">历史窗口（可为空）</text><text x="619" y="69" text-anchor="middle" class="sans tiny">… R̂ₜ₋₁, sₜ₋₁, aₜ₋₁</text>
+  </g>
+  <path d="M855 271H923" class="flow"/>
+  <rect x="940" y="208" width="350" height="125" rx="18" fill="#3b1d68" stroke="#c084fc"/>
+  <text x="1115" y="249" text-anchor="middle" class="sans head">causal Transformer</text><text x="1115" y="280" text-anchor="middle" class="sans small">âₜ ~ πθ(· | R̂≤t, s≤t, a&lt;t)</text><text x="1115" y="309" text-anchor="middle" class="sans tiny">只用当前及过去 token</text>
+  <path d="M1115 350V390" class="flow"/>
+  <rect x="940" y="406" width="350" height="99" rx="17" class="action"/>
+  <text x="1115" y="444" text-anchor="middle" class="sans small">生成动作 âₜ</text><text x="1115" y="476" text-anchor="middle" class="sans tiny">连续控制：回归；离散控制：采样 / argmax</text>
+  <path d="M940 455H855" class="flow"/>
+  <rect x="565" y="406" width="270" height="99" rx="17" fill="#103b32" stroke="#34d399"/>
+  <text x="700" y="444" text-anchor="middle" class="sans small">环境执行</text><text x="700" y="476" text-anchor="middle" class="sans tiny">sₜ₊₁, rₜ = env.step(âₜ)</text>
+  <path d="M565 455H480" class="flow"/>
+  <rect x="115" y="406" width="330" height="99" rx="17" class="return"/>
+  <text x="280" y="444" text-anchor="middle" class="sans small">更新 return-to-go</text><text x="280" y="476" text-anchor="middle" class="sans head" fill="#fde68a">R̂ₜ₊₁ = 100 − rₜ</text>
+  <path d="M280 540V594" class="flow"/>
+  <rect x="115" y="600" width="1175" height="31" rx="12" fill="#1e293b" stroke="#475569"/>
+  <text x="702" y="622" text-anchor="middle" class="sans tiny">追加 (R̂ₜ₊₁, sₜ₊₁, âₜ)，丢弃超过 K 的最早三元组，然后重复</text>
+  <path d="M1260 616C1340 616 1340 169 1260 169" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#a)"/>
+  <text x="1274" y="381" class="sans tiny" fill="#fde68a" transform="rotate(90 1274 381)">autoregressive rollout</text>
+
+  <rect x="48" y="682" width="1305" height="57" rx="15" fill="#10233a" stroke="#35506e"/>
+  <text x="700" y="706" text-anchor="middle" class="sans small">同一个模型可通过不同目标回报产生不同强度的行为；目标超出数据集范围时，外推不是保证。</text>
+  <text x="700" y="727" text-anchor="middle" class="sans tiny">RTG 是 hindsight 条件变量，不是环境在当前时刻可直接观测到的奖励。</text>
+</svg>
