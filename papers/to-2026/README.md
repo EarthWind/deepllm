@@ -1,6 +1,6 @@
 # 论文原理文档索引
 
-`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2`、`DeepSeek-V3`、`Learning to Summarize from Human Feedback`、`Codex / HumanEval`、`Training Verifiers`、`WebGPT`、`STaR`、`GPT-4 Technical Report`、`DeepSeekMath`、`Scaling LLM Test-Time Compute Optimally`、`Llama 3`、`Kimi k1.5`、`s1`、`Qwen3`、`TruthfulQA`、`HELM`、`Reflexion`、`Generative Agents`、`Voyager`、`MT-Bench / Chatbot Arena`、`Lost in the Middle`、`SWE-bench`、`Self-RAG`、`AlphaZero`、`MuZero`、`Vision Transformer`、`DDPM`、`CLIP`、`AlphaFold2`、`Decision Transformer`、`Stochastic Parrots`、`Latent Diffusion`、`Toy Models of Superposition` 与 `Whisper` 五十二篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 对齐 / 真实性与整体评测 / 代码生成 / 仓库级软件工程评测 / 数学推理 / 自举推理 / 搜索决策 / 世界模型 / 浏览 Agent / 社会模拟 / 具身 Agent / 验证器 / 人类偏好评测 / 长上下文评测 / 多模态 / 计算机视觉 / 生成模型 / 科学机器学习 / 大模型系统 / 推理优化 / 离线强化学习 / AI 治理 / 生成模型系统 / 机械可解释性 / 语音论文，共 82 篇；其余扩展阅读暂以总导读和原文链接为主。
+`transformer_llm_papers_guide_zh.md` 现收录 30 篇主论文与 60 篇扩展阅读（共 90 篇，时间边界为 2025-12-31）。本目录当前提供其中 30 篇主论文的独立详细原理文档，并额外补充 `Transformer`、`ULMFiT`、`ELMo`、`RoBERTa`、`BART`、`Sentence-BERT`、`DPR`、`The Pile`、`Foundation Models Report`、`OLMo`、`Megatron-LM`、`ZeRO`、`GPTQ`、`Speculative Decoding`、`GQA`、`AWQ`、`FlashAttention-2`、`Mistral 7B`、`DeepSeek-V2`、`DeepSeek-V3`、`Learning to Summarize from Human Feedback`、`Codex / HumanEval`、`Training Verifiers`、`WebGPT`、`STaR`、`GPT-4 Technical Report`、`DeepSeekMath`、`Scaling LLM Test-Time Compute Optimally`、`Llama 3`、`Kimi k1.5`、`s1`、`Qwen3`、`TruthfulQA`、`HELM`、`Reflexion`、`Generative Agents`、`Voyager`、`MT-Bench / Chatbot Arena`、`Lost in the Middle`、`SWE-bench`、`Self-RAG`、`AlphaZero`、`MuZero`、`Vision Transformer`、`DDPM`、`CLIP`、`AlphaFold2`、`Decision Transformer`、`Stochastic Parrots`、`Latent Diffusion`、`Toy Models of Superposition`、`Whisper`、`Segment Anything` 与 `AlphaGeometry` 五十四篇基础 / 迁移 / 检索 / 数据 / 治理 / 开放科学 / 对齐 / 真实性与整体评测 / 代码生成 / 仓库级软件工程评测 / 数学推理 / 自举推理 / 搜索决策 / 世界模型 / 浏览 Agent / 社会模拟 / 具身 Agent / 验证器 / 人类偏好评测 / 长上下文评测 / 多模态 / 计算机视觉 / 生成模型 / 科学机器学习 / 大模型系统 / 推理优化 / 离线强化学习 / AI 治理 / 生成模型系统 / 机械可解释性 / 语音 / 视觉基础模型 / 神经符号推理论文，共 84 篇；其余扩展阅读暂以总导读和原文链接为主。
 增强版已补充：`论文链接`、`代表公式 / 关键表达`、`前置阅读`、`读完接着看`。
 
 ## 文件列表
@@ -87,6 +87,8 @@
 - `80_Latent_Diffusion_2021_原理.md`: `Latent Diffusion` - Autoencoder / Latent Space / U-Net / Cross-Attention / Text-to-Image / Sampling
 - `81_Toy_Models_of_Superposition_2022_原理.md`: `Toy Models of Superposition` - Polysemanticity / Sparse Features / Feature Geometry / Phase Change / Mechanistic Interpretability
 - `82_Whisper_2022_原理.md`: `Whisper` - Weak Supervision / Multilingual ASR / Encoder-Decoder / Speech Translation / Timestamp / Robustness
+- `83_Segment_Anything_2023_原理.md`: `Segment Anything` - Promptable Segmentation / Image Encoder / Prompt Encoder / Mask Decoder / SA-1B / Zero-shot Transfer
+- `84_AlphaGeometry_2024_原理.md`: `AlphaGeometry` - Neuro-symbolic Reasoning / Deductive Database / Algebraic Reasoning / Auxiliary Construction / Synthetic Proofs / Beam Search
 
 ## 建议阅读顺序
 
