@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">RLVR 的核心作用：重排已有推理路径，而非稳定扩展能力边界</title>
+  <desc id="desc">基础模型有宽广但低概率的推理路径，RLVR 将概率集中到已有正确路径，提高单次命中率却可能丢失边缘问题；蒸馏能从教师模型注入新路径。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071120"/>
+      <stop offset="0.55" stop-color="#11163a"/>
+      <stop offset="1" stop-color="#081729"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#a3e635"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#020617" flood-opacity="0.55"/>
+    </filter>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#60a5fa"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="675" rx="28" fill="url(#bg)"/>
+  <circle cx="1030" cy="70" r="160" fill="#312e81" opacity="0.13"/>
+  <circle cx="150" cy="610" r="190" fill="#0369a1" opacity="0.1"/>
+
+  <text x="54" y="62" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="30" font-weight="700">RLVR 到底改变了什么？</text>
+  <text x="54" y="94" fill="#a5b4fc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16">论文的答案：当前二值可验证奖励主要在基础模型分布内重新分配概率质量</text>
+
+  <g transform="translate(45 128)" filter="url(#shadow)">
+    <rect width="340" height="398" rx="22" fill="#0f1b34" stroke="#38bdf8" stroke-opacity="0.38"/>
+    <rect x="20" y="18" width="92" height="28" rx="14" fill="#0c4a6e"/>
+    <text x="66" y="38" text-anchor="middle" fill="#bae6fd" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14" font-weight="700">BASE</text>
+    <text x="20" y="77" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="21" font-weight="700">宽，但正确路径很稀</text>
+    <text x="20" y="102" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14">大量问题仍有非零成功概率</text>
+
+    <g transform="translate(170 330)" fill="none" stroke-linecap="round">
+      <path d="M0 0C-2-52-5-84-32-111C-56-135-83-143-112-167" stroke="#38bdf8" stroke-width="5"/>
+      <path d="M-32-111C-38-145-27-174-41-216" stroke="#60a5fa" stroke-width="3.5"/>
+      <path d="M-32-111C-65-120-99-110-132-122" stroke="#818cf8" stroke-width="3"/>
+      <path d="M0 0C10-59 3-96 35-130C62-159 92-166 132-193" stroke="#22d3ee" stroke-width="4.5"/>
+      <path d="M35-130C48-166 35-194 53-225" stroke="#818cf8" stroke-width="3"/>
+      <path d="M35-130C82-131 105-110 143-115" stroke="#38bdf8" stroke-width="3"/>
+      <path d="M-41-216C-63-236-79-241-96-247" stroke="#6366f1" stroke-width="2"/>
+      <path d="M53-225C79-241 98-239 119-253" stroke="#34d399" stroke-width="4" filter="url(#glow)"/>
+      <path d="M-112-167C-139-175-148-195-157-218" stroke="#475569" stroke-width="2"/>
+      <path d="M132-193C149-213 148-235 162-249" stroke="#34d399" stroke-width="3" filter="url(#glow)"/>
+      <circle cx="119" cy="-253" r="7" fill="#34d399" stroke="none"/>
+      <circle cx="162" cy="-249" r="6" fill="#34d399" stroke="none"/>
+      <circle cx="-96" cy="-247" r="5" fill="#64748b" stroke="none"/>
+      <circle cx="-157" cy="-218" r="5" fill="#64748b" stroke="none"/>
+    </g>
+    <rect x="20" y="357" width="300" height="26" rx="13" fill="#082f49"/>
+    <text x="170" y="375" text-anchor="middle" fill="#7dd3fc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">大 k：更多问题至少成功一次</text>
+  </g>
+
+  <path d="M400 325H446" stroke="#60a5fa" stroke-width="3" marker-end="url(#arrowBlue)"/>
+  <text x="423" y="304" text-anchor="middle" fill="#93c5fd" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">RLVR</text>
+
+  <g transform="translate(457 128)" filter="url(#shadow)">
+    <rect width="340" height="398" rx="22" fill="#121a35" stroke="#34d399" stroke-opacity="0.42"/>
+    <rect x="20" y="18" width="92" height="28" rx="14" fill="#064e3b"/>
+    <text x="66" y="38" text-anchor="middle" fill="#a7f3d0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14" font-weight="700">RLVR</text>
+    <text x="20" y="77" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="21" font-weight="700">准，但覆盖可能变窄</text>
+    <text x="20" y="102" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14">已有高奖励轨迹被反复放大</text>
+
+    <g transform="translate(170 330)" fill="none" stroke-linecap="round">
+      <path d="M0 0C4-56 12-96 36-133C58-167 67-205 76-253" stroke="#34d399" stroke-width="13" opacity="0.18" filter="url(#glow)"/>
+      <path d="M0 0C4-56 12-96 36-133C58-167 67-205 76-253" stroke="#4ade80" stroke-width="6" filter="url(#glow)"/>
+      <path d="M4-70C-18-102-44-115-73-141" stroke="#818cf8" stroke-width="3"/>
+      <path d="M36-133C75-144 99-136 127-157" stroke="#38bdf8" stroke-width="2.5"/>
+      <path d="M-73-141C-91-166-92-186-111-205" stroke="#fb7185" stroke-width="2" stroke-dasharray="5 7" opacity="0.65"/>
+      <path d="M127-157C145-177 148-198 158-217" stroke="#fb7185" stroke-width="2" stroke-dasharray="5 7" opacity="0.65"/>
+      <path d="M-73-141C-107-141-128-130-151-140" stroke="#475569" stroke-width="2" opacity="0.45"/>
+      <circle cx="76" cy="-253" r="9" fill="#4ade80" stroke="none"/>
+      <path d="M-118-212l14 14M-104-212l-14 14" stroke="#fb7185" stroke-width="3"/>
+      <path d="M151-224l14 14M165-224l-14 14" stroke="#fb7185" stroke-width="3"/>
+    </g>
+    <g transform="translate(20 353)">
+      <rect width="142" height="30" rx="15" fill="#064e3b"/>
+      <text x="71" y="20" text-anchor="middle" fill="#a7f3d0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">pass@1 ↑</text>
+      <rect x="158" width="142" height="30" rx="15" fill="#4c1d2e"/>
+      <text x="229" y="20" text-anchor="middle" fill="#fecdd3" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">大 k 覆盖 ↓</text>
+    </g>
+  </g>
+
+  <path d="M812 325H858" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrowGold)"/>
+  <text x="835" y="294" text-anchor="middle" fill="#fde68a" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">强教师</text>
+  <text x="835" y="312" text-anchor="middle" fill="#fde68a" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">蒸馏</text>
+
+  <g transform="translate(869 128)" filter="url(#shadow)">
+    <rect width="286" height="398" rx="22" fill="#18182f" stroke="#fbbf24" stroke-opacity="0.4"/>
+    <rect x="20" y="18" width="108" height="28" rx="14" fill="#713f12"/>
+    <text x="74" y="38" text-anchor="middle" fill="#fef3c7" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14" font-weight="700">DISTILL</text>
+    <text x="20" y="77" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="21" font-weight="700">从外部注入新路径</text>
+    <text x="20" y="102" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14">边界可以超过原 student</text>
+
+    <g transform="translate(143 330)" fill="none" stroke-linecap="round">
+      <path d="M0 0C0-55-8-88-34-121C-56-149-78-164-103-190" stroke="#60a5fa" stroke-width="4"/>
+      <path d="M-34-121C-21-164-8-192 2-229" stroke="#818cf8" stroke-width="3"/>
+      <path d="M0 0C17-50 29-84 59-117C80-140 94-158 111-181" stroke="#38bdf8" stroke-width="3"/>
+      <path d="M59-117C74-155 71-195 83-247" stroke="#fbbf24" stroke-width="6" filter="url(#glow)"/>
+      <path d="M83-247C96-266 107-270 121-276" stroke="#fb7185" stroke-width="4" filter="url(#glow)"/>
+      <circle cx="121" cy="-276" r="8" fill="#fb7185" stroke="none"/>
+      <circle cx="-103" cy="-190" r="5" fill="#60a5fa" stroke="none"/>
+    </g>
+    <rect x="20" y="353" width="246" height="30" rx="15" fill="#422006"/>
+    <text x="143" y="373" text-anchor="middle" fill="#fde68a" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">教师轨迹改变 student 支持范围</text>
+  </g>
+
+  <g transform="translate(45 551)">
+    <rect width="1110" height="78" rx="20" fill="#111b31" stroke="#334155"/>
+    <circle cx="38" cy="39" r="19" fill="#312e81"/>
+    <text x="38" y="45" text-anchor="middle" fill="#c7d2fe" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700">!</text>
+    <text x="72" y="33" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="17" font-weight="700">这不是“RL 无用”</text>
+    <text x="72" y="56" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14">实际部署重视低预算准确率；论文质疑的是：当前二值 outcome-RLVR 是否已经发现基础模型分布之外的全新推理能力。</text>
+  </g>
+</svg>

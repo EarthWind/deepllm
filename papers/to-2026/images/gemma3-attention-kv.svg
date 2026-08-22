@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">Gemma 3 局部全局注意力与 KV Cache</title>
+  <desc id="desc">说明五个局部层接一个全局层的访问范围、KV Cache 公式和理论归一化对比。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#16162f"/></linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#35d6dd"/><stop offset="1" stop-color="#9c7cff"/></linearGradient>
+    <style>
+      .title{font:700 31px Inter,"Noto Sans SC",sans-serif;fill:#f7f9ff}.sub{font:400 15px Inter,"Noto Sans SC",sans-serif;fill:#9aa8c5}
+      .head{font:700 20px Inter,"Noto Sans SC",sans-serif;fill:#f5f8ff}.body{font:400 14px Inter,"Noto Sans SC",sans-serif;fill:#bac5dc}
+      .small{font:400 12px Inter,"Noto Sans SC",sans-serif;fill:#8391ad}.tag{font:700 12px Inter,"Noto Sans SC",sans-serif;fill:#6be2e8}.num{font:800 18px Inter,sans-serif;fill:#fff}
+      .card{fill:#111f39;stroke:#344866;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1400" height="860" rx="24" fill="url(#bg)"/>
+  <text x="60" y="64" class="title">长上下文不必让每一层都保存全部历史</text>
+  <text x="60" y="94" class="sub">Gemma 3 用 5:1 局部 / 全局交错，把短程细化与周期性长程汇聚分开</text>
+
+  <rect x="56" y="134" width="1288" height="280" rx="22" class="card"/>
+  <text x="82" y="174" class="tag">ONE REPEATING BLOCK</text>
+  <text x="82" y="206" class="head">查询位于长序列末端时，各层可直接读取的 Key 范围</text>
+  <line x1="116" y1="252" x2="1254" y2="252" stroke="#53627d" stroke-width="4"/>
+  <circle cx="1254" cy="252" r="8" fill="#f5c36a"/>
+  <text x="116" y="238" class="small">序列开头</text><text x="1254" y="238" text-anchor="end" class="small">当前 token</text>
+
+  <g transform="translate(90 282)">
+    <rect width="178" height="82" rx="14" fill="#173a50" stroke="#3ed8df"/><rect x="192" width="178" height="82" rx="14" fill="#173a50" stroke="#3ed8df"/>
+    <rect x="384" width="178" height="82" rx="14" fill="#173a50" stroke="#3ed8df"/><rect x="576" width="178" height="82" rx="14" fill="#173a50" stroke="#3ed8df"/>
+    <rect x="768" width="178" height="82" rx="14" fill="#173a50" stroke="#3ed8df"/><rect x="960" width="254" height="82" rx="14" fill="#332c61" stroke="#a47cff" stroke-width="2"/>
+    <text x="89" y="30" text-anchor="middle" class="head">Local 1</text><text x="281" y="30" text-anchor="middle" class="head">Local 2</text><text x="473" y="30" text-anchor="middle" class="head">Local 3</text>
+    <text x="665" y="30" text-anchor="middle" class="head">Local 4</text><text x="857" y="30" text-anchor="middle" class="head">Local 5</text><text x="1087" y="30" text-anchor="middle" class="head">Global</text>
+    <rect x="76" y="48" width="90" height="12" rx="6" fill="#43d5dd"/><rect x="268" y="48" width="90" height="12" rx="6" fill="#43d5dd"/><rect x="460" y="48" width="90" height="12" rx="6" fill="#43d5dd"/>
+    <rect x="652" y="48" width="90" height="12" rx="6" fill="#43d5dd"/><rect x="844" y="48" width="90" height="12" rx="6" fill="#43d5dd"/><rect x="982" y="48" width="210" height="12" rx="6" fill="url(#bar)"/>
+    <text x="121" y="76" text-anchor="middle" class="small">最近 1,024</text><text x="1087" y="76" text-anchor="middle" class="small">全部历史</text>
+  </g>
+
+  <rect x="56" y="444" width="600" height="352" rx="22" class="card"/>
+  <text x="82" y="485" class="tag">STRUCTURAL FORMULA</text>
+  <text x="82" y="518" class="head">原始 K/V 元素数</text>
+  <rect x="82" y="544" width="548" height="82" rx="14" fill="#172943" stroke="#405776"/>
+  <text x="356" y="578" text-anchor="middle" class="body">2 · B · H<tspan baseline-shift="sub" font-size="11">kv</tspan> · d<tspan baseline-shift="sub" font-size="11">h</tspan> · (L<tspan baseline-shift="sub" font-size="11">g</tspan> · n + L<tspan baseline-shift="sub" font-size="11">l</tspan> · min(n, w))</text>
+  <text x="356" y="606" text-anchor="middle" class="small">再乘每个元素字节数；2 来自 K 与 V</text>
+  <text x="82" y="662" class="body">当 n ≫ w，随上下文继续增长的主要是全局层：</text>
+  <text x="82" y="694" class="head">渐近斜率约为 L<tspan baseline-shift="sub" font-size="13">g</tspan> / L ≈ 1 / 6</text>
+  <text x="82" y="728" class="body">GQA 又用更少的 KV heads，和局部缓存节省相乘。</text>
+  <text x="82" y="760" class="small">这不是运行时峰值：未计 allocator、临时张量、batch、padding 与量化元数据。</text>
+
+  <rect x="684" y="444" width="660" height="352" rx="22" class="card"/>
+  <text x="712" y="485" class="tag">NORMALIZED THOUGHT EXPERIMENT</text>
+  <text x="712" y="518" class="head">相同 36 层、相同 GQA 维度、128K context</text>
+  <g transform="translate(712 554)">
+    <text x="0" y="23" class="body">全部 Global</text><rect x="164" width="410" height="34" rx="9" fill="#46536d"/><text x="588" y="23" class="num">100%</text>
+    <text x="0" y="91" class="body">Gemma 2：1:1</text><rect x="164" y="68" width="211" height="34" rx="9" fill="#477ca3"/><text x="389" y="91" class="num">51.6%</text>
+    <text x="0" y="159" class="body">Gemma 3：5:1</text><rect x="164" y="136" width="71" height="34" rx="9" fill="url(#bar)"/><text x="249" y="159" class="num">17.3%</text>
+    <text x="164" y="204" class="small">Gemma 2 假设 local window=4,096；Gemma 3 为 1,024。</text>
+  </g>
+  <rect x="712" y="732" width="602" height="42" rx="12" fill="#172943" stroke="#4c617d"/>
+  <text x="730" y="758" class="small">论文实测边界：2B ablation 在 32K 上把 KV overhead 从 global-only 的 60% 降到 1:3、sw=1024 时低于 15%。</text>
+  <text x="58" y="830" class="small">局部层并非“看不见长文”：每隔六层的全局注意力重新汇聚整段上下文；代价是长程交互不再发生于每一层。</text>
+</svg>

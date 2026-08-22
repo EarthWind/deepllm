@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">DAPO 的大规模强化学习闭环</title>
+  <desc id="desc">从问题批次、多路采样、规则验证、动态筛选、组相对优势到 token 级非对称裁剪更新的完整流程。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071426"/>
+      <stop offset="1" stop-color="#111735"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#23d5e6"/>
+      <stop offset="1" stop-color="#8b7cff"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10Z" fill="#65d9e8"/>
+    </marker>
+    <style>
+      .title{font:700 30px Inter,"Noto Sans SC",sans-serif;fill:#f5f7ff}
+      .subtitle{font:400 15px Inter,"Noto Sans SC",sans-serif;fill:#9ba8c7}
+      .head{font:700 19px Inter,"Noto Sans SC",sans-serif;fill:#f7f9ff}
+      .body{font:400 14px Inter,"Noto Sans SC",sans-serif;fill:#b7c1da}
+      .tag{font:700 13px Inter,"Noto Sans SC",sans-serif;fill:#6ce6ef}
+      .small{font:400 12px Inter,"Noto Sans SC",sans-serif;fill:#8390af}
+      .card{fill:#111d38;stroke:#304464;stroke-width:1.5}
+      .flow{fill:none;stroke:#65d9e8;stroke-width:2.2;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1280" height="720" rx="24" fill="url(#bg)"/>
+  <text x="64" y="68" class="title">DAPO：把“有效探索”保持在每一次策略更新里</text>
+  <text x="64" y="98" class="subtitle">Qwen2.5-32B Base · 每题 G=16 条响应 · 规则奖励 · 无 KL 项 · 基于 verl 的同步分布式训练</text>
+
+  <rect x="56" y="150" width="190" height="142" rx="18" class="card"/>
+  <rect x="56" y="150" width="190" height="7" rx="4" fill="#2ed3df"/>
+  <text x="78" y="194" class="tag">01 PROMPTS</text>
+  <text x="78" y="226" class="head">问题批次</text>
+  <text x="78" y="252" class="body">512 道数学题</text>
+  <text x="78" y="275" class="small">答案转成易验证整数</text>
+
+  <rect x="286" y="150" width="206" height="142" rx="18" class="card"/>
+  <rect x="286" y="150" width="206" height="7" rx="4" fill="#4bafff"/>
+  <text x="308" y="194" class="tag">02 ROLLOUT</text>
+  <text x="308" y="226" class="head">同题多路生成</text>
+  <text x="308" y="252" class="body">每题采样 16 条长 CoT</text>
+  <text x="308" y="275" class="small">旧策略 π_old 固定本轮数据</text>
+
+  <rect x="532" y="150" width="200" height="142" rx="18" class="card"/>
+  <rect x="532" y="150" width="200" height="7" rx="4" fill="#76df9f"/>
+  <text x="554" y="194" class="tag">03 VERIFY</text>
+  <text x="554" y="226" class="head">规则验证</text>
+  <text x="554" y="252" class="body">等价：+1 · 否则：−1</text>
+  <text x="554" y="275" class="small">无需训练 Reward Model</text>
+
+  <rect x="772" y="150" width="210" height="142" rx="18" class="card"/>
+  <rect x="772" y="150" width="210" height="7" rx="4" fill="#f0bd55"/>
+  <text x="794" y="194" class="tag">04 FILTER</text>
+  <text x="794" y="226" class="head">动态采样缓冲区</text>
+  <text x="794" y="252" class="body">保留 0 &lt; 正确数 &lt; G</text>
+  <text x="794" y="275" class="small">批次不足就继续生成</text>
+
+  <rect x="1022" y="150" width="202" height="142" rx="18" class="card"/>
+  <rect x="1022" y="150" width="202" height="7" rx="4" fill="#ae7cff"/>
+  <text x="1044" y="194" class="tag">05 ADVANTAGE</text>
+  <text x="1044" y="226" class="head">组内相对优势</text>
+  <text x="1044" y="252" class="body">(Rᵢ − mean) / std</text>
+  <text x="1044" y="275" class="small">不训练单独 Critic</text>
+
+  <path d="M246 221H278" class="flow"/>
+  <path d="M492 221H524" class="flow"/>
+  <path d="M732 221H764" class="flow"/>
+  <path d="M982 221H1014" class="flow"/>
+
+  <rect x="162" y="380" width="956" height="214" rx="25" fill="#101d39" stroke="url(#accent)" stroke-width="2"/>
+  <text x="200" y="426" class="tag">06 DAPO POLICY UPDATE</text>
+  <text x="200" y="461" class="head">所有有效 token 一起求均值，再做非对称 clipped surrogate</text>
+  <text x="200" y="492" class="body">Clip-Higher：ratio ∈ [0.80, 1.28] · Token-Level Loss：每个 token 等权 · 不加入 reference KL</text>
+
+  <g transform="translate(200 525)">
+    <rect width="190" height="42" rx="12" fill="#172d4a" stroke="#2ed3df"/>
+    <text x="95" y="27" text-anchor="middle" class="body">扩大低概率正向探索</text>
+    <rect x="212" width="190" height="42" rx="12" fill="#172d4a" stroke="#f0bd55"/>
+    <text x="307" y="27" text-anchor="middle" class="body">稳定有效 prompt 数</text>
+    <rect x="424" width="190" height="42" rx="12" fill="#172d4a" stroke="#ae7cff"/>
+    <text x="519" y="27" text-anchor="middle" class="body">重平衡长短序列梯度</text>
+    <rect x="636" width="240" height="42" rx="12" fill="#172d4a" stroke="#76df9f"/>
+    <text x="756" y="27" text-anchor="middle" class="body">软惩罚 16K→20K 超长区间</text>
+  </g>
+
+  <path d="M1122 292V332Q1122 350 1104 350H660Q640 350 640 372" class="flow"/>
+  <path d="M162 486H106Q82 486 82 462V336Q82 314 104 314H150Q162 314 162 302" fill="none" stroke="#8b7cff" stroke-width="2.2" stroke-dasharray="7 6" marker-end="url(#arrow)"/>
+  <text x="69" y="635" class="small">策略更新后进入下一轮 rollout；这里的“稳定”来自采样、奖励、loss reduction 与系统吞吐共同配合。</text>
+  <circle cx="1180" cy="650" r="22" fill="#18314d" stroke="#63e4aa" filter="url(#glow)"/>
+  <path d="M1169 650l8 8 15-18" fill="none" stroke="#63e4aa" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

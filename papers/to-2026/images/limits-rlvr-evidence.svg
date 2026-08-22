@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Limits of RLVR 的关键证据链</title>
+  <desc id="desc">可解题集合对比、训练步数下 pass@1 上升和 pass@256 下降，以及准确率分布、困惑度、蒸馏对照三类证据。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07111f"/><stop offset="1" stop-color="#171632"/></linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#121d36"/><stop offset="1" stop-color="#0b1429"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#020617" flood-opacity="0.52"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1200" height="675" rx="28" fill="url(#bg)"/>
+  <text x="48" y="57" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="30" font-weight="700">关键证据链：不是只看一条 pass@k 曲线</text>
+  <text x="48" y="89" fill="#a5b4fc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16">集合覆盖、训练动力学、概率分布与蒸馏对照共同支撑“重排已有路径”的解释</text>
+
+  <g transform="translate(46 120)" filter="url(#shadow)">
+    <rect width="535" height="250" rx="21" fill="url(#panel)" stroke="#38bdf8" stroke-opacity="0.35"/>
+    <text x="22" y="36" fill="#e2e8f0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="17" font-weight="700">1 · 可解问题集合（论文 Table 2）</text>
+    <text x="513" y="36" text-anchor="end" fill="#64748b" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">Base vs SimpleRLZoo</text>
+
+    <g transform="translate(128 70)">
+      <text x="-20" y="25" text-anchor="end" fill="#cbd5e1" font-family="Inter,Arial,sans-serif" font-size="14">AIME24</text>
+      <rect width="380" height="34" rx="8" fill="#111827"/>
+      <rect width="240.54" height="34" rx="8" fill="#22c55e"/>
+      <rect x="240.54" width="50.54" height="34" fill="#38bdf8"/>
+      <rect x="291.08" width="0" height="34" fill="#fb7185"/>
+      <rect x="291.08" width="88.54" height="34" rx="0 8 8 0" fill="#475569"/>
+      <text x="120" y="23" text-anchor="middle" fill="#052e16" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700">63.3%</text>
+      <text x="265.8" y="23" text-anchor="middle" fill="#082f49" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700">13.3</text>
+      <text x="335.4" y="23" text-anchor="middle" fill="#e2e8f0" font-family="Inter,Arial,sans-serif" font-size="11">23.3</text>
+
+      <text x="-20" y="82" text-anchor="end" fill="#cbd5e1" font-family="Inter,Arial,sans-serif" font-size="14">MATH500</text>
+      <rect y="57" width="380" height="34" rx="8" fill="#111827"/>
+      <rect y="57" width="351.12" height="34" rx="8" fill="#22c55e"/>
+      <rect x="351.12" y="57" width="13.68" height="34" fill="#38bdf8"/>
+      <rect x="364.8" y="57" width="3.8" height="34" fill="#fb7185"/>
+      <rect x="368.6" y="57" width="11.4" height="34" rx="0 8 8 0" fill="#475569"/>
+      <text x="175.6" y="80" text-anchor="middle" fill="#052e16" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700">92.4%</text>
+    </g>
+
+    <g transform="translate(24 184)" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">
+      <rect width="12" height="12" rx="3" fill="#22c55e"/><text x="18" y="11" fill="#cbd5e1">两者都解</text>
+      <rect x="108" width="12" height="12" rx="3" fill="#38bdf8"/><text x="126" y="11" fill="#cbd5e1">仅 Base</text>
+      <rect x="216" width="12" height="12" rx="3" fill="#fb7185"/><text x="234" y="11" fill="#cbd5e1">仅 RLVR</text>
+      <rect x="329" width="12" height="12" rx="3" fill="#475569"/><text x="347" y="11" fill="#cbd5e1">都未解</text>
+    </g>
+    <rect x="22" y="211" width="491" height="25" rx="12.5" fill="#082f49"/>
+    <text x="267.5" y="228" text-anchor="middle" fill="#bae6fd" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">AIME24：仅 Base 13.3%，仅 RLVR 0%；MATH500：3.6% vs 1.0%</text>
+  </g>
+
+  <g transform="translate(603 120)" filter="url(#shadow)">
+    <rect width="551" height="250" rx="21" fill="url(#panel)" stroke="#4ade80" stroke-opacity="0.35"/>
+    <text x="22" y="36" fill="#e2e8f0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="17" font-weight="700">2 · 训练越久：pass@1 ↑，pass@256 ↓</text>
+    <text x="529" y="36" text-anchor="end" fill="#64748b" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">Omni-MATH train · Table 4</text>
+
+    <g transform="translate(62 62)">
+      <rect width="444" height="135" rx="10" fill="#081326"/>
+      <g stroke="#26334b"><path d="M0 33.75H444M0 67.5H444M0 101.25H444"/><path d="M111 0V135M222 0V135M333 0V135"/></g>
+      <g fill="#64748b" font-family="Inter,Arial,sans-serif" font-size="10">
+        <text x="0" y="153" text-anchor="middle">Base</text><text x="148" y="153" text-anchor="middle">150</text><text x="296" y="153" text-anchor="middle">300</text><text x="444" y="153" text-anchor="middle">450 steps</text>
+      </g>
+      <path d="M0 118.3L148 90.9L296 78.3L444 63.3" fill="none" stroke="#4ade80" stroke-width="4" filter="url(#glow)"/>
+      <path d="M0 44.3L148 45.5L296 47.4L444 49.6" fill="none" stroke="#38bdf8" stroke-width="4" filter="url(#glow)"/>
+      <g fill="#4ade80"><circle cx="0" cy="118.3" r="5"/><circle cx="148" cy="90.9" r="5"/><circle cx="296" cy="78.3" r="5"/><circle cx="444" cy="63.3" r="5"/></g>
+      <g fill="#38bdf8"><circle cx="0" cy="44.3" r="5"/><circle cx="148" cy="45.5" r="5"/><circle cx="296" cy="47.4" r="5"/><circle cx="444" cy="49.6" r="5"/></g>
+      <text x="434" y="53" text-anchor="end" fill="#7dd3fc" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700">67.2 → 64.3</text>
+      <text x="434" y="76" text-anchor="end" fill="#86efac" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700">9.9 → 42.5</text>
+    </g>
+    <g transform="translate(22 216)" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">
+      <path d="M0 0H28" stroke="#4ade80" stroke-width="4"/><text x="36" y="4" fill="#bbf7d0">pass@1</text>
+      <path d="M126 0H154" stroke="#38bdf8" stroke-width="4"/><text x="162" y="4" fill="#bae6fd">pass@256</text>
+      <text x="507" y="4" text-anchor="end" fill="#94a3b8">同一训练集也出现边界收缩</text>
+    </g>
+  </g>
+
+  <g transform="translate(46 394)" filter="url(#shadow)">
+    <rect width="348" height="229" rx="20" fill="url(#panel)" stroke="#818cf8" stroke-opacity="0.34"/>
+    <text x="20" y="35" fill="#e2e8f0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16" font-weight="700">3 · 准确率分布重排</text>
+    <text x="20" y="58" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">高准确率题增多，但 accuracy = 0 也增多</text>
+    <g transform="translate(30 84)">
+      <path d="M0 103H286M0 0V103" stroke="#475569"/>
+      <g fill="#38bdf8" opacity="0.45"><rect x="10" y="55" width="24" height="48"/><rect x="52" y="37" width="24" height="66"/><rect x="94" y="50" width="24" height="53"/><rect x="136" y="65" width="24" height="38"/><rect x="178" y="71" width="24" height="32"/><rect x="220" y="62" width="24" height="41"/><rect x="262" y="49" width="24" height="54"/></g>
+      <g fill="#4ade80" opacity="0.8"><rect x="16" y="31" width="12" height="72"/><rect x="58" y="72" width="12" height="31"/><rect x="100" y="80" width="12" height="23"/><rect x="142" y="85" width="12" height="18"/><rect x="184" y="76" width="12" height="27"/><rect x="226" y="48" width="12" height="55"/><rect x="268" y="13" width="12" height="90"/></g>
+      <g fill="#64748b" font-family="Inter,Arial,sans-serif" font-size="10"><text x="22" y="120" text-anchor="middle">0</text><text x="148" y="120" text-anchor="middle">中间</text><text x="274" y="120" text-anchor="middle">1</text></g>
+    </g>
+    <text x="174" y="215" text-anchor="middle" fill="#c4b5fd" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">“更会做会做的题”与“放弃部分边缘题”同时发生</text>
+  </g>
+
+  <g transform="translate(416 394)" filter="url(#shadow)">
+    <rect width="348" height="229" rx="20" fill="url(#panel)" stroke="#38bdf8" stroke-opacity="0.34"/>
+    <text x="20" y="35" fill="#e2e8f0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16" font-weight="700">4 · Base 对 RLVR 轨迹的困惑度</text>
+    <text x="20" y="58" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">RLVR 轨迹落在 Base 自生成分布的低 PPL 区域</text>
+    <g transform="translate(30 88)">
+      <path d="M0 95H286" stroke="#475569"/>
+      <path d="M5 92C35 88 45 60 70 39C91 22 116 24 137 46C156 65 179 75 205 85C235 95 260 92 281 93" fill="#38bdf8" opacity="0.25" stroke="#38bdf8" stroke-width="3"/>
+      <path d="M10 92C37 87 50 55 74 41C91 31 111 34 127 50C142 64 154 81 174 91" fill="#4ade80" opacity="0.35" stroke="#4ade80" stroke-width="3"/>
+      <path d="M150 92C169 89 186 62 205 49C226 34 250 43 280 86" fill="#fb7185" opacity="0.22" stroke="#fb7185" stroke-width="2" stroke-dasharray="5 5"/>
+      <text x="71" y="113" text-anchor="middle" fill="#86efac" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="10">Base 认为常见</text>
+      <text x="239" y="113" text-anchor="middle" fill="#fda4af" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="10">高 PPL</text>
+    </g>
+    <text x="174" y="215" text-anchor="middle" fill="#7dd3fc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">训练越久，Base 对 RLVR 输出的 PPL 反而逐渐下降</text>
+  </g>
+
+  <g transform="translate(786 394)" filter="url(#shadow)">
+    <rect width="368" height="229" rx="20" fill="url(#panel)" stroke="#fbbf24" stroke-opacity="0.34"/>
+    <text x="20" y="35" fill="#e2e8f0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16" font-weight="700">5 · 蒸馏是关键对照组</text>
+    <text x="20" y="58" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">更强 teacher 的长 CoT 能改变 student 的训练分布</text>
+    <g transform="translate(30 83)">
+      <path d="M0 105H308M0 0V105" stroke="#475569"/>
+      <path d="M0 86C67 57 126 42 190 34C239 28 276 26 308 24" fill="none" stroke="#38bdf8" stroke-width="3.5"/>
+      <path d="M0 72C67 42 126 27 190 19C239 13 276 11 308 9" fill="none" stroke="#fbbf24" stroke-width="4" filter="url(#glow)"/>
+      <text x="300" y="19" text-anchor="end" fill="#fde68a" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700">Distilled</text>
+      <text x="300" y="40" text-anchor="end" fill="#bae6fd" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700">Base</text>
+      <text x="154" y="123" text-anchor="middle" fill="#64748b" font-family="Inter,Arial,sans-serif" font-size="10">k 增大 →</text>
+    </g>
+    <rect x="20" y="195" width="328" height="22" rx="11" fill="#422006"/>
+    <text x="184" y="210" text-anchor="middle" fill="#fde68a" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="11">Distilled 的 pass@k 全程显著高于 Base</text>
+  </g>
+</svg>
