@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">AlphaFold2 端到端架构总览</title>
+  <desc id="desc">序列、MSA 与模板经过嵌入后进入 48 层 Evoformer，在 MSA 与残基对表示之间反复交换信息，再由结构模块直接生成全原子坐标；预测结果循环回网络继续精修。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071224"/><stop offset="1" stop-color="#171538"/></linearGradient>
+    <linearGradient id="msa" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+    <linearGradient id="pair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6d28d9"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
+    <linearGradient id="str" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#047857"/><stop offset="1" stop-color="#34d399"/></linearGradient>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#94a3b8"/></marker>
+    <marker id="cyan" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67e8f9"/></marker>
+    <marker id="violet" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#c4b5fd"/></marker>
+    <style>
+      .sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.label{font-size:21px;font-weight:650;fill:#f8fafc}.small{font-size:15px;fill:#dbeafe}.tiny{font-size:13px;fill:#94a3b8}.panel{fill:#0c1b31;stroke:#2b4262;stroke-width:1.5}.arrow{fill:none;stroke:#94a3b8;stroke-width:3;marker-end:url(#arr)}
+    </style>
+  </defs>
+  <rect width="1400" height="820" rx="28" fill="url(#bg)"/>
+  <text x="52" y="62" class="sans title">AlphaFold2：先在“进化 × 残基对”中推理，再直接生成三维坐标</text>
+  <text x="52" y="94" class="sans sub">R = 残基数 · S = MSA 序列数 · 通道数采用论文 / 开源单体模型配置</text>
+
+  <rect x="44" y="126" width="236" height="542" rx="22" class="panel"/>
+  <text x="162" y="165" text-anchor="middle" class="sans label">输入与检索</text>
+  <g transform="translate(70 196)">
+    <rect width="184" height="86" rx="15" fill="#12344d" stroke="#22d3ee"/>
+    <text x="92" y="34" text-anchor="middle" class="sans small">目标氨基酸序列</text>
+    <text x="92" y="61" text-anchor="middle" class="sans tiny">A₁, A₂, …, Aᴿ</text>
+    <rect y="112" width="184" height="142" rx="15" fill="#0c3b48" stroke="#2dd4bf"/>
+    <text x="92" y="142" text-anchor="middle" class="sans small">多序列比对 MSA</text>
+    <g fill="#5eead4"><circle cx="23" cy="172" r="5"/><circle cx="47" cy="172" r="5"/><circle cx="71" cy="172" r="5"/><circle cx="95" cy="172" r="5"/><circle cx="119" cy="172" r="5"/><circle cx="143" cy="172" r="5"/><circle cx="167" cy="172" r="5"/></g>
+    <g fill="#67e8f9"><circle cx="23" cy="195" r="5"/><circle cx="47" cy="195" r="5"/><circle cx="71" cy="195" r="5"/><circle cx="95" cy="195" r="5"/><circle cx="119" cy="195" r="5"/><circle cx="143" cy="195" r="5"/><circle cx="167" cy="195" r="5"/></g>
+    <g fill="#a78bfa"><circle cx="23" cy="218" r="5"/><circle cx="47" cy="218" r="5"/><circle cx="71" cy="218" r="5"/><circle cx="95" cy="218" r="5"/><circle cx="119" cy="218" r="5"/><circle cx="143" cy="218" r="5"/><circle cx="167" cy="218" r="5"/></g>
+    <text x="92" y="242" text-anchor="middle" class="sans tiny">[S, R]</text>
+    <rect y="280" width="184" height="96" rx="15" fill="#2d1d51" stroke="#a78bfa"/>
+    <text x="92" y="317" text-anchor="middle" class="sans small">可选结构模板</text>
+    <text x="92" y="345" text-anchor="middle" class="sans tiny">距离 · 方向 · mask</text>
+    <rect y="402" width="184" height="84" rx="15" fill="#1c2940" stroke="#64748b"/>
+    <text x="92" y="435" text-anchor="middle" class="sans small">Embedding</text>
+    <text x="92" y="462" text-anchor="middle" class="sans tiny">相对位置 + deletion 特征</text>
+  </g>
+
+  <path d="M282 397H340" class="arrow"/>
+  <rect x="350" y="126" width="536" height="542" rx="24" class="panel"/>
+  <rect x="371" y="146" width="178" height="34" rx="17" fill="#263a5b"/><text x="460" y="169" text-anchor="middle" class="sans tiny" fill="#dbeafe">Evoformer × 48</text>
+  <text x="618" y="221" text-anchor="middle" class="sans label">双轨表示共同演化</text>
+  <g transform="translate(392 258)">
+    <rect width="204" height="250" rx="20" fill="url(#msa)" opacity=".83"/>
+    <text x="102" y="42" text-anchor="middle" class="sans label">MSA 表示 M</text>
+    <text x="102" y="71" text-anchor="middle" class="sans small">[S, R, 256]</text>
+    <g stroke="#cffafe" opacity=".65"><path d="M32 103H172M32 130H172M32 157H172M32 184H172M32 211H172"/><path d="M57 92V222M91 92V222M125 92V222M159 92V222"/></g>
+    <text x="102" y="238" text-anchor="middle" class="sans tiny">行：同一序列 · 列：同一位点</text>
+  </g>
+  <g transform="translate(642 258)">
+    <rect width="204" height="250" rx="20" fill="url(#pair)" opacity=".82"/>
+    <text x="102" y="42" text-anchor="middle" class="sans label">Pair 表示 Z</text>
+    <text x="102" y="71" text-anchor="middle" class="sans small">[R, R, 128]</text>
+    <rect x="39" y="96" width="126" height="126" fill="#24133f" stroke="#ddd6fe"/>
+    <path d="M39 117H165M39 138H165M39 159H165M39 180H165M39 201H165M60 96V222M81 96V222M102 96V222M123 96V222M144 96V222" stroke="#c4b5fd" opacity=".45"/>
+    <path d="M42 99L162 219" stroke="#fde68a" stroke-width="5" opacity=".8"/>
+    <text x="102" y="238" text-anchor="middle" class="sans tiny">有向边 i → j 的关系状态</text>
+  </g>
+  <path d="M596 337C626 307 634 307 642 337" fill="none" stroke="#67e8f9" stroke-width="3" marker-end="url(#cyan)"/>
+  <text x="619" y="248" text-anchor="middle" class="sans tiny" fill="#a5f3fc">Outer Product Mean</text>
+  <path d="M642 437C624 469 612 469 596 437" fill="none" stroke="#c4b5fd" stroke-width="3" marker-end="url(#violet)"/>
+  <text x="620" y="524" text-anchor="middle" class="sans tiny" fill="#ddd6fe">Pair bias → MSA attention</text>
+  <rect x="392" y="535" width="454" height="100" rx="16" fill="#121f35" stroke="#475569"/>
+  <text x="619" y="570" text-anchor="middle" class="sans small">Z 内部：Triangle multiplication + triangle attention</text>
+  <text x="619" y="598" text-anchor="middle" class="sans tiny">用第三个残基 k 检查 i–j 边能否属于同一三维结构</text>
+  <text x="619" y="620" text-anchor="middle" class="sans tiny">每个子层都有残差；行/列/起点/终点按轴分解计算</text>
+
+  <path d="M888 397H936" class="arrow"/>
+  <rect x="946" y="126" width="410" height="542" rx="24" class="panel"/>
+  <rect x="968" y="146" width="186" height="34" rx="17" fill="#14532d"/><text x="1061" y="169" text-anchor="middle" class="sans tiny" fill="#bbf7d0">Structure Module × 8</text>
+  <text x="1151" y="219" text-anchor="middle" class="sans label">从关系状态到原子坐标</text>
+  <rect x="982" y="250" width="338" height="91" rx="17" fill="#1e1b4b" stroke="#818cf8"/>
+  <text x="1151" y="284" text-anchor="middle" class="sans small">Single S = M 第一行经投影</text>
+  <text x="1151" y="313" text-anchor="middle" class="sans tiny">[R, 384] + Pair Z + 当前刚体 frames</text>
+  <path d="M1151 346V380" class="arrow"/>
+  <rect x="982" y="392" width="338" height="112" rx="17" fill="url(#str)" opacity=".78"/>
+  <text x="1151" y="428" text-anchor="middle" class="sans label">IPA + frame update</text>
+  <text x="1151" y="456" text-anchor="middle" class="sans small">每个残基一个旋转 Rᵢ 与平移 tᵢ</text>
+  <text x="1151" y="482" text-anchor="middle" class="sans tiny">同时预测主链 frame 与侧链 χ 角</text>
+  <path d="M1151 508V540" class="arrow"/>
+  <rect x="982" y="551" width="338" height="84" rx="17" fill="#3f2a18" stroke="#f59e0b"/>
+  <text x="1151" y="583" text-anchor="middle" class="sans small">全重原子坐标 + 置信度</text>
+  <text x="1151" y="610" text-anchor="middle" class="sans tiny">pLDDT · PAE / pTM · distogram</text>
+
+  <path d="M1190 678C1190 757 535 771 535 681" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#arr)"/>
+  <text x="865" y="750" text-anchor="middle" class="sans small" fill="#fde68a">Recycling：把上一轮 M、Z 与 Cβ 距离编码送回同一网络（配置为 3 次回收）</text>
+  <text x="52" y="795" class="sans tiny">注意：Amber relaxation 是网络后的立体化学清理，不是 AlphaFold2 精度跃升的主要来源。</text>
+</svg>

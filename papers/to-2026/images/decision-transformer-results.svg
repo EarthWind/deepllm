@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Decision Transformer 论文结果摘要</title>
+  <desc id="desc">展示 D4RL 平均 expert-normalized 分数、Key-to-Door 随机轨迹成功率，以及 Atari 代表性任务，数字来自 Decision Transformer 论文表格。</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071426"/><stop offset="1" stop-color="#211437"/></linearGradient><style>.sans{font-family:Inter,"Noto Sans SC","Microsoft YaHei",sans-serif}.title{font-size:34px;font-weight:700;fill:#f8fafc}.sub{font-size:16px;fill:#94a3b8}.head{font-size:19px;font-weight:650;fill:#f8fafc}.small{font-size:14px;fill:#dbeafe}.tiny{font-size:12px;fill:#94a3b8}.panel{fill:#0c1d32;stroke:#334d6b;stroke-width:1.5}.grid{stroke:#334155;stroke-width:1}</style></defs>
+  <rect width="1400" height="760" rx="28" fill="url(#bg)"/>
+  <text x="52" y="62" class="sans title">结果：序列建模在离线 RL 的三种压力下都保持竞争力</text>
+  <text x="52" y="94" class="sans sub">分数口径各不相同：D4RL 为 expert-normalized，Atari 为 gamer-normalized，Key-to-Door 为成功率</text>
+
+  <rect x="45" y="128" width="620" height="570" rx="22" class="panel"/>
+  <text x="75" y="169" class="sans head">D4RL 平均分（不含 Reacher）</text>
+  <text x="75" y="195" class="sans tiny">100 ≈ expert，0 ≈ random；论文 Table 2 的 average without Reacher</text>
+  <g transform="translate(220 235)">
+    <path d="M0 0V375M100 0V375M200 0V375M300 0V375M400 0V375" class="grid"/>
+    <text x="0" y="406" text-anchor="middle" class="sans tiny">0</text><text x="100" y="406" text-anchor="middle" class="sans tiny">25</text><text x="200" y="406" text-anchor="middle" class="sans tiny">50</text><text x="300" y="406" text-anchor="middle" class="sans tiny">75</text><text x="400" y="406" text-anchor="middle" class="sans tiny">100</text>
+    <text x="-18" y="39" text-anchor="end" class="sans small">DT</text><rect y="17" width="299" height="38" rx="10" fill="#a78bfa"/><text x="311" y="42" class="sans small">74.7</text>
+    <text x="-18" y="112" text-anchor="end" class="sans small">CQL</text><rect y="90" width="256" height="38" rx="10" fill="#64748b"/><text x="268" y="115" class="sans small">63.9</text>
+    <text x="-18" y="185" text-anchor="end" class="sans small">BEAR</text><rect y="163" width="193" height="38" rx="10" fill="#475569"/><text x="205" y="188" class="sans small">48.2</text>
+    <text x="-18" y="258" text-anchor="end" class="sans small">BRAC-v</text><rect y="236" width="148" height="38" rx="10" fill="#475569"/><text x="160" y="261" class="sans small">36.9</text>
+    <text x="-18" y="331" text-anchor="end" class="sans small">AWR</text><rect y="309" width="137" height="38" rx="10" fill="#475569"/><text x="149" y="334" class="sans small">34.3</text>
+  </g>
+
+  <rect x="697" y="128" width="658" height="260" rx="22" class="panel"/>
+  <text x="727" y="169" class="sans head">Key-to-Door：长时程 credit assignment</text>
+  <text x="727" y="195" class="sans tiny">只用随机轨迹；任务必须先拿钥匙再到门，TD 学习难以传播长期回报</text>
+  <g transform="translate(755 236)">
+    <path d="M0 0V110M150 0V110M300 0V110M450 0V110" class="grid"/>
+    <text x="0" y="139" text-anchor="middle" class="sans tiny">0</text><text x="150" y="139" text-anchor="middle" class="sans tiny">25</text><text x="300" y="139" text-anchor="middle" class="sans tiny">50</text><text x="450" y="139" text-anchor="middle" class="sans tiny">100%</text>
+    <text x="-18" y="34" text-anchor="end" class="sans small">1K</text><rect y="17" width="323" height="32" rx="9" fill="#a78bfa"/><text x="335" y="39" class="sans small">DT 71.8</text>
+    <text x="-18" y="88" text-anchor="end" class="sans small">10K</text><rect y="71" width="425" height="32" rx="9" fill="#c084fc"/><text x="437" y="93" class="sans small">DT 94.6</text>
+  </g>
+  <text x="727" y="365" class="sans tiny">CQL：13.1 / 13.3；BC：1.4 / 1.6。hindsight RTG 让序列模型利用成功轨迹。</text>
+
+  <rect x="697" y="420" width="658" height="278" rx="22" class="panel"/>
+  <text x="727" y="461" class="sans head">Atari 1% DQN replay：gamer-normalized</text>
+  <text x="727" y="486" class="sans tiny">代表任务；DT 与 CQL/BC 的完整比较见论文 Table 1</text>
+  <g transform="translate(805 522)">
+    <path d="M0 0V135M100 0V135M200 0V135M300 0V135" class="grid"/><text x="0" y="164" text-anchor="middle" class="sans tiny">0</text><text x="100" y="164" text-anchor="middle" class="sans tiny">100</text><text x="200" y="164" text-anchor="middle" class="sans tiny">200</text><text x="300" y="164" text-anchor="middle" class="sans tiny">300</text>
+    <text x="-18" y="28" text-anchor="end" class="sans small">Breakout</text><rect y="10" width="268" height="24" rx="7" fill="#22d3ee"/><text x="280" y="28" class="sans tiny">DT 267.5</text>
+    <text x="-18" y="68" text-anchor="end" class="sans small">Pong</text><rect y="50" width="106" height="24" rx="7" fill="#22d3ee"/><text x="118" y="68" class="sans tiny">DT 106.1</text>
+    <text x="-18" y="108" text-anchor="end" class="sans small">Qbert</text><rect y="90" width="15" height="24" rx="5" fill="#22d3ee"/><text x="27" y="108" class="sans tiny">15.1</text>
+  </g>
+  <text x="727" y="674" class="sans tiny">数字为 3 个随机种子的均值 ± 标准差；DT 在 4 个 Atari 游戏中与 CQL 竞争，并普遍超过 BC。</text>
+</svg>
