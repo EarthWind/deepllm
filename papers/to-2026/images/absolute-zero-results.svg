@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Absolute Zero Reasoner 的主结果与模型规模趋势</title>
+  <desc id="desc">左侧对比 Qwen2.5 7B Base 和 Coder 在 AZR 前后的代码、数学和综合平均；右侧显示 3B、7B、14B Coder 的综合绝对增益。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06131f"/><stop offset="1" stop-color="#160c2c"/></linearGradient>
+    <linearGradient id="azr" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#6366f1"/></linearGradient>
+    <linearGradient id="gain" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#8b5cf6"/><stop offset="1" stop-color="#d946ef"/></linearGradient>
+    <style>
+      .h{font:700 31px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#f8fafc}.s{font:500 15px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#94a3b8}.t{font:700 20px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#f8fafc}.b{font:500 14px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#cbd5e1}.n{font:700 15px ui-monospace,SFMono-Regular,monospace;fill:#f8fafc}.grid{stroke:#334155;stroke-width:1}.card{fill:#0d1b2b;stroke:#334155;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1200" height="720" rx="28" fill="url(#bg)"/>
+  <text class="h" x="600" y="55" text-anchor="middle">没有外部后训练题库，7B 仍获得显著跨域增益</text>
+  <text class="s" x="600" y="84" text-anchor="middle">论文 Table 1 / Figure 6；分数均为绝对百分点，AVG = (Code Avg + Math Avg) / 2</text>
+
+  <rect class="card" x="42" y="116" width="720" height="548" rx="24"/>
+  <text class="t" x="402" y="154" text-anchor="middle">Qwen2.5-7B：基座 vs. AZR</text>
+  <g class="grid"><line x1="108" y1="542" x2="718" y2="542"/><line x1="108" y1="472" x2="718" y2="472"/><line x1="108" y1="402" x2="718" y2="402"/><line x1="108" y1="332" x2="718" y2="332"/><line x1="108" y1="262" x2="718" y2="262"/><line x1="108" y1="192" x2="718" y2="192"/></g>
+  <g class="s"><text x="96" y="547" text-anchor="end">0</text><text x="96" y="477" text-anchor="end">15</text><text x="96" y="407" text-anchor="end">30</text><text x="96" y="337" text-anchor="end">45</text><text x="96" y="267" text-anchor="end">60</text><text x="96" y="197" text-anchor="end">75</text></g>
+  <!-- Base-7B groups: scale 4.6667 px per point from y=542 -->
+  <rect x="135" y="299.3" width="42" height="242.7" rx="7" fill="#475569"/><rect x="181" y="284.4" width="42" height="257.6" rx="7" fill="url(#azr)"/>
+  <rect x="259" y="413.7" width="42" height="128.3" rx="7" fill="#475569"/><rect x="305" y="362.8" width="42" height="179.2" rx="7" fill="url(#azr)"/>
+  <rect x="383" y="356.3" width="42" height="185.7" rx="7" fill="#475569"/><rect x="429" y="323.6" width="42" height="218.4" rx="7" fill="url(#azr)"/>
+  <rect x="527" y="277.9" width="42" height="264.1" rx="7" fill="#475569"/><rect x="573" y="254.5" width="42" height="287.5" rx="7" fill="url(#azr)"/>
+  <rect x="651" y="430.5" width="42" height="111.5" rx="7" fill="#475569"/><rect x="697" y="359.5" width="42" height="182.5" rx="7" fill="url(#azr)"/>
+  <g class="n"><text x="156" y="290" text-anchor="middle">52.0</text><text x="202" y="275" text-anchor="middle">55.2</text><text x="280" y="404" text-anchor="middle">27.5</text><text x="326" y="353" text-anchor="middle">38.4</text><text x="404" y="347" text-anchor="middle">39.8</text><text x="450" y="314" text-anchor="middle">46.8</text><text x="548" y="269" text-anchor="middle">56.6</text><text x="594" y="245" text-anchor="middle">61.6</text><text x="672" y="421" text-anchor="middle">23.9</text><text x="718" y="350" text-anchor="middle">39.1</text></g>
+  <g class="b"><text x="179" y="572" text-anchor="middle">Base · Code</text><text x="303" y="572" text-anchor="middle">Base · Math</text><text x="427" y="572" text-anchor="middle">Base · AVG</text><text x="571" y="572" text-anchor="middle">Coder · Code</text><text x="695" y="572" text-anchor="middle">Coder · Math</text></g>
+  <rect x="204" y="606" width="18" height="18" rx="4" fill="#475569"/><text class="b" x="232" y="620">原始基座</text><rect x="330" y="606" width="18" height="18" rx="4" fill="url(#azr)"/><text class="b" x="358" y="620">+ AZR（0 外部后训练样本）</text>
+
+  <rect class="card" x="790" y="116" width="368" height="548" rx="24"/>
+  <text class="t" x="974" y="154" text-anchor="middle">Coder 模型：综合增益</text>
+  <text class="s" x="974" y="180" text-anchor="middle">模型越强，论文观察到的收益越大</text>
+  <line class="grid" x1="850" y1="550" x2="1118" y2="550"/>
+  <line class="grid" x1="850" y1="290" x2="850" y2="550"/>
+  <g class="grid" opacity=".75"><line x1="850" y1="463.3" x2="1118" y2="463.3"/><line x1="850" y1="376.7" x2="1118" y2="376.7"/><line x1="850" y1="290" x2="1118" y2="290"/></g>
+  <g class="s"><text x="838" y="555" text-anchor="end">0</text><text x="838" y="468" text-anchor="end">5</text><text x="838" y="382" text-anchor="end">10</text><text x="838" y="295" text-anchor="end">15</text></g>
+  <rect x="885" y="451.2" width="56" height="98.8" rx="9" fill="url(#gain)"/><rect x="956" y="373.2" width="56" height="176.8" rx="9" fill="url(#gain)"/><rect x="1027" y="321.2" width="56" height="228.8" rx="9" fill="url(#gain)"/>
+  <g class="n"><text x="913" y="439" text-anchor="middle">+5.7</text><text x="984" y="361" text-anchor="middle">+10.2</text><text x="1055" y="309" text-anchor="middle">+13.2</text></g>
+  <g class="b"><text x="913" y="578" text-anchor="middle">3B</text><text x="984" y="578" text-anchor="middle">7B</text><text x="1055" y="578" text-anchor="middle">14B</text></g>
+  <rect x="835" y="607" width="278" height="35" rx="17" fill="#24163f" stroke="#8b5cf6"/>
+  <text class="b" x="974" y="630" text-anchor="middle">Math 增益：+7.7 → +15.2 → +22.8</text>
+</svg>

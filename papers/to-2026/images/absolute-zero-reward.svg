@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">AZR 的可学习性奖励与六组 TRR++ baseline</title>
+  <desc id="desc">左侧展示 proposer reward 随 solver 成功率变化：完全不可解和完全可解都为零，偶尔成功的难题奖励较高。右侧展示三类任务乘两种角色形成六个独立优势标准化组。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06131f"/><stop offset="1" stop-color="#160c2c"/></linearGradient>
+    <linearGradient id="curve" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    <style>
+      .h{font:700 31px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#f8fafc}.s{font:500 15px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#94a3b8}.t{font:700 21px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#f8fafc}.b{font:500 15px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#cbd5e1}.m{font:700 15px ui-monospace,SFMono-Regular,monospace;fill:#e2e8f0}.grid{stroke:#334155;stroke-width:1}.card{fill:#0d1b2b;stroke:#334155;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1200" height="680" rx="28" fill="url(#bg)"/>
+  <text class="h" x="600" y="56" text-anchor="middle">Proposer 不追求“越难越好”，而追求学习前沿</text>
+  <text class="s" x="600" y="85" text-anchor="middle">G=8 次 solver rollout 估计当前任务的成功率；奖励随策略能力在线变化</text>
+
+  <rect class="card" x="45" y="120" width="650" height="495" rx="24"/>
+  <text class="t" x="370" y="158" text-anchor="middle">Learnability reward</text>
+  <line class="grid" x1="125" y1="205" x2="125" y2="510"/>
+  <line class="grid" x1="125" y1="510" x2="635" y2="510"/>
+  <g class="grid" opacity=".75"><line x1="125" y1="434" x2="635" y2="434"/><line x1="125" y1="358" x2="635" y2="358"/><line x1="125" y1="282" x2="635" y2="282"/><line x1="125" y1="206" x2="635" y2="206"/><line x1="252.5" y1="205" x2="252.5" y2="510"/><line x1="380" y1="205" x2="380" y2="510"/><line x1="507.5" y1="205" x2="507.5" y2="510"/><line x1="635" y1="205" x2="635" y2="510"/></g>
+  <text class="s" x="112" y="516" text-anchor="end">0</text><text class="s" x="112" y="440" text-anchor="end">0.25</text><text class="s" x="112" y="364" text-anchor="end">0.50</text><text class="s" x="112" y="288" text-anchor="end">0.75</text><text class="s" x="112" y="212" text-anchor="end">1</text>
+  <text class="s" x="125" y="535" text-anchor="middle">0</text><text class="s" x="252.5" y="535" text-anchor="middle">0.25</text><text class="s" x="380" y="535" text-anchor="middle">0.50</text><text class="s" x="507.5" y="535" text-anchor="middle">0.75</text><text class="s" x="635" y="535" text-anchor="middle">1</text>
+  <text class="b" x="380" y="568" text-anchor="middle">solver 平均成功率 r̄solve</text>
+  <text class="b" x="72" y="360" text-anchor="middle" transform="rotate(-90 72 360)">rpropose</text>
+  <circle cx="125" cy="510" r="7" fill="#f472b6"/>
+  <path d="M188.75 244L252.5 282L316.25 320L380 358L443.75 396L507.5 434L571.25 472L635 510" fill="none" stroke="url(#curve)" stroke-width="5"/>
+  <g fill="#67e8f9"><circle cx="188.75" cy="244" r="6"/><circle cx="252.5" cy="282" r="6"/><circle cx="316.25" cy="320" r="6"/><circle cx="380" cy="358" r="6"/><circle cx="443.75" cy="396" r="6"/><circle cx="507.5" cy="434" r="6"/><circle cx="571.25" cy="472" r="6"/><circle cx="635" cy="510" r="6"/></g>
+  <path d="M130 500L181 254" stroke="#f472b6" stroke-width="2" stroke-dasharray="5 5"/>
+  <text class="s" x="148" y="485">完全不可解：0</text>
+  <text class="s" x="205" y="229">8 次中成功 1 次：奖励 7/8</text>
+  <text class="s" x="485" y="337">r = 1 − r̄</text>
+  <text class="m" x="380" y="594" text-anchor="middle">r = 0 if r̄=0, else 1−r̄</text>
+
+  <rect class="card" x="730" y="120" width="425" height="495" rx="24"/>
+  <text class="t" x="942" y="158" text-anchor="middle">TRR++：六个参照系</text>
+  <text class="s" x="942" y="185" text-anchor="middle">避免不同任务 / 角色的奖励尺度互相污染</text>
+  <g transform="translate(766 220)">
+    <rect width="166" height="78" rx="15" fill="#0b3345" stroke="#22d3ee"/><text class="b" x="83" y="30" text-anchor="middle">Deduction</text><text class="m" x="83" y="56" text-anchor="middle">propose</text>
+    <rect x="186" width="166" height="78" rx="15" fill="#291844" stroke="#8b5cf6"/><text class="b" x="269" y="30" text-anchor="middle">Deduction</text><text class="m" x="269" y="56" text-anchor="middle">solve</text>
+    <rect y="98" width="166" height="78" rx="15" fill="#0b3345" stroke="#22d3ee"/><text class="b" x="83" y="128" text-anchor="middle">Abduction</text><text class="m" x="83" y="154" text-anchor="middle">propose</text>
+    <rect x="186" y="98" width="166" height="78" rx="15" fill="#291844" stroke="#8b5cf6"/><text class="b" x="269" y="128" text-anchor="middle">Abduction</text><text class="m" x="269" y="154" text-anchor="middle">solve</text>
+    <rect y="196" width="166" height="78" rx="15" fill="#0b3345" stroke="#22d3ee"/><text class="b" x="83" y="226" text-anchor="middle">Induction</text><text class="m" x="83" y="252" text-anchor="middle">propose</text>
+    <rect x="186" y="196" width="166" height="78" rx="15" fill="#291844" stroke="#8b5cf6"/><text class="b" x="269" y="226" text-anchor="middle">Induction</text><text class="m" x="269" y="252" text-anchor="middle">solve</text>
+  </g>
+  <rect x="775" y="522" width="335" height="60" rx="16" fill="#172238" stroke="#64748b"/>
+  <text class="m" x="942" y="547" text-anchor="middle">A = (r − μtask,role) / σtask,role</text>
+  <text class="s" x="942" y="570" text-anchor="middle">组内全同奖励时，标准化优势为 0</text>
+</svg>
