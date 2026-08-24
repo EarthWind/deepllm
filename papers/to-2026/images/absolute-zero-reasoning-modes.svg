@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">program input output 三元组上的演绎、溯因和归纳</title>
+  <desc id="desc">三张卡片分别说明给定程序和输入预测输出、给定程序和输出寻找可行输入、根据可见输入输出样例归纳程序并在隐藏样例验证。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#06131f"/><stop offset="1" stop-color="#160c2c"/></linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#22d3ee"/><stop offset="1" stop-color="#a78bfa"/></linearGradient>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#60a5fa"/></marker>
+    <style>
+      .h{font:700 31px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#f8fafc}.s{font:500 16px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#94a3b8}.t{font:700 22px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#f8fafc}.b{font:500 15px system-ui,-apple-system,"Noto Sans CJK SC",sans-serif;fill:#cbd5e1}.m{font:700 16px ui-monospace,SFMono-Regular,monospace;fill:#e2e8f0}.known{fill:#10304a;stroke:#38bdf8;stroke-width:1.5}.unknown{fill:#32184f;stroke:#c084fc;stroke-width:2;stroke-dasharray:6 4}.card{fill:#0d1b2b;stroke:#334155;stroke-width:1.5}
+    </style>
+  </defs>
+  <rect width="1200" height="700" rx="28" fill="url(#bg)"/>
+  <text class="h" x="600" y="57" text-anchor="middle">一个可执行三元组，训练三种互补推理</text>
+  <text class="s" x="600" y="87" text-anchor="middle">合法关系只有一条：o = p(i)；每种任务遮住不同的变量</text>
+
+  <g transform="translate(50 128)">
+    <rect class="card" width="340" height="476" rx="24"/>
+    <rect width="340" height="8" rx="4" fill="#22d3ee"/>
+    <text class="t" x="170" y="52" text-anchor="middle">演绎 · Deduction</text>
+    <text class="s" x="170" y="79" text-anchor="middle">沿程序正向执行</text>
+    <rect class="known" x="34" y="116" width="126" height="62" rx="14"/><text class="m" x="97" y="153" text-anchor="middle">program p</text>
+    <rect class="known" x="180" y="116" width="126" height="62" rx="14"/><text class="m" x="243" y="153" text-anchor="middle">input i</text>
+    <path d="M97 188V224H243V254" fill="none" stroke="#60a5fa" stroke-width="3" marker-end="url(#a)"/>
+    <rect class="unknown" x="107" y="254" width="126" height="62" rx="14"/><text class="m" x="170" y="291" text-anchor="middle">output ?</text>
+    <text class="b" x="170" y="354" text-anchor="middle">solver 输出 oπ</text>
+    <text class="m" x="170" y="385" text-anchor="middle">verify: oπ == p(i)</text>
+    <text class="s" x="170" y="430" text-anchor="middle">典型行为：逐行模拟、状态跟踪</text>
+  </g>
+
+  <g transform="translate(430 128)">
+    <rect class="card" width="340" height="476" rx="24"/>
+    <rect width="340" height="8" rx="4" fill="#8b5cf6"/>
+    <text class="t" x="170" y="52" text-anchor="middle">溯因 · Abduction</text>
+    <text class="s" x="170" y="79" text-anchor="middle">从结果反推一个原因</text>
+    <rect class="known" x="34" y="116" width="126" height="62" rx="14"/><text class="m" x="97" y="153" text-anchor="middle">program p</text>
+    <rect class="known" x="180" y="116" width="126" height="62" rx="14"/><text class="m" x="243" y="153" text-anchor="middle">output o</text>
+    <path d="M97 188V224H243V254" fill="none" stroke="#a78bfa" stroke-width="3" marker-end="url(#a)"/>
+    <rect class="unknown" x="107" y="254" width="126" height="62" rx="14"/><text class="m" x="170" y="291" text-anchor="middle">input ?</text>
+    <text class="b" x="170" y="354" text-anchor="middle">solver 输出任意 iπ</text>
+    <text class="m" x="170" y="385" text-anchor="middle">verify: p(iπ) == o</text>
+    <text class="s" x="170" y="420" text-anchor="middle">不要求 iπ == i★</text>
+    <text class="s" x="170" y="445" text-anchor="middle">因为 p 可能不是单射</text>
+  </g>
+
+  <g transform="translate(810 128)">
+    <rect class="card" width="340" height="476" rx="24"/>
+    <rect width="340" height="8" rx="4" fill="url(#edge)"/>
+    <text class="t" x="170" y="52" text-anchor="middle">归纳 · Induction</text>
+    <text class="s" x="170" y="79" text-anchor="middle">从有限观测合成规则</text>
+    <rect class="known" x="35" y="112" width="270" height="102" rx="14"/>
+    <text class="m" x="170" y="145" text-anchor="middle">visible {(iⁿ, oⁿ)}</text>
+    <text class="b" x="170" y="176" text-anchor="middle">前一半样例 + message</text>
+    <path d="M170 222V252" stroke="#60a5fa" stroke-width="3" marker-end="url(#a)"/>
+    <rect class="unknown" x="107" y="252" width="126" height="62" rx="14"/><text class="m" x="170" y="289" text-anchor="middle">program ?</text>
+    <text class="b" x="170" y="351" text-anchor="middle">solver 合成 pπ</text>
+    <text class="m" x="170" y="382" text-anchor="middle">verify hidden cases</text>
+    <text class="b" x="170" y="415" text-anchor="middle">∀(i,o)hidden: pπ(i) == o</text>
+    <text class="s" x="170" y="449" text-anchor="middle">隐藏样例抑制 if-else 记忆</text>
+  </g>
+
+  <rect x="194" y="632" width="812" height="42" rx="21" fill="#111d31" stroke="#475569"/>
+  <text class="b" x="600" y="659" text-anchor="middle">三类任务共享程序空间与执行器，却诱发正向模拟、反向搜索、模式概括三种不同计算过程</text>
+</svg>

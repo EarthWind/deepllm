@@ -573,7 +573,7 @@
 | 87 | [Gemma 3 (2025)](https://arxiv.org/abs/2503.19786) — `Gemma 3 Technical Report` | 展示轻量开放模型如何结合视觉、多语言、长上下文与蒸馏。 | 局部/全局 attention 配比、KV cache、蒸馏与多模态后训练。 |
 | 88 | [Limits of RLVR (2025)](https://arxiv.org/abs/2504.13837) — `Does Reinforcement Learning Really Incentivize Reasoning Capacity in LLMs Beyond the Base Model?` | 用大 k 的 pass@k 质疑 RLVR 是否创造新能力，提供理解 R1 类训练的必要反方证据。 | pass@k 能力边界、分布重加权、RL 与蒸馏的区别。 |
 | 89 | [DeepSeek-Prover-V2 (2025)](https://arxiv.org/abs/2504.21801) · [中文详解](89_DeepSeek_Prover_V2_2025_原理.md) | 把子目标分解、形式证明和 RL 结合，展示推理模型在 Lean 中生成可机器验证证明。 | recursive theorem proving、cold start、subgoal decomposition、形式验证。 |
-| 90 | [Absolute Zero (2025)](https://arxiv.org/abs/2505.03335) — `Reinforced Self-play Reasoning with Zero Data` | 让模型同时提出可验证任务并求解，探索不依赖外部题库的自生成课程。 | proposer/solver、自博弈、代码执行器、可验证奖励与安全边界。 |
+| 90 | [Absolute Zero (2025)](https://arxiv.org/abs/2505.03335) — `Reinforced Self-play Reasoning with Zero Data` · [中文详解](90_Absolute_Zero_2025_原理.md) | 让模型同时提出可验证任务并求解，探索不依赖外部题库的自生成课程。 | proposer/solver、自博弈、代码执行器、可验证奖励与安全边界。 |
 
 ### 这 60 篇怎么取舍
 
