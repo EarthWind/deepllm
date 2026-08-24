@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-Prover-V2 子目标分解、课程构造和完整证明合成</title>
+  <desc id="desc">复杂目标被分解为有依赖顺序的 G1、G2、G3；每个子目标派生独立版与带前置引理版课程题；局部证明全部通过 Lean 后被替换回 have 结构。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071120"/><stop offset="1" stop-color="#11162f"/>
+    </linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#020617" flood-opacity="0.55"/></filter>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#60a5fa"/></marker>
+  </defs>
+  <rect width="1200" height="720" rx="28" fill="url(#bg2)"/>
+  <text x="50" y="58" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="30" font-weight="700">子目标不只是搜索技巧，也是训练数据生成器</text>
+  <text x="50" y="88" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16">把一次稀疏的整题成败，展开为多个难度递进、可独立验证的课程样本</text>
+
+  <g transform="translate(44 118)" filter="url(#sh)">
+    <rect width="320" height="506" rx="22" fill="#0d1a31" stroke="#475569"/>
+    <rect x="18" y="18" width="126" height="28" rx="14" fill="#1e293b"/>
+    <text x="81" y="38" text-anchor="middle" fill="#cbd5e1" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13" font-weight="700">① 形式 proof sketch</text>
+    <text x="22" y="78" fill="#e2e8f0" font-family="ui-monospace,'SFMono-Regular',monospace" font-size="13">theorem T (Γ) : G := by</text>
+    <rect x="20" y="97" width="280" height="214" rx="14" fill="#070d1c"/>
+    <text x="34" y="126" fill="#c4b5fd" font-family="ui-monospace,monospace" font-size="13">have h₁ : G₁ := by</text>
+    <text x="52" y="151" fill="#fb7185" font-family="ui-monospace,monospace" font-size="13">sorry</text>
+    <text x="34" y="186" fill="#c4b5fd" font-family="ui-monospace,monospace" font-size="13">have h₂ : G₂ := by</text>
+    <text x="52" y="211" fill="#fb7185" font-family="ui-monospace,monospace" font-size="13">sorry</text>
+    <text x="34" y="246" fill="#c4b5fd" font-family="ui-monospace,monospace" font-size="13">have h₃ : G₃ := by</text>
+    <text x="52" y="271" fill="#fb7185" font-family="ui-monospace,monospace" font-size="13">sorry</text>
+    <text x="34" y="296" fill="#a7f3d0" font-family="ui-monospace,monospace" font-size="13">exact h₃</text>
+
+    <g transform="translate(20 340)">
+      <circle cx="38" cy="42" r="28" fill="#312e81" stroke="#818cf8"/>
+      <text x="38" y="49" text-anchor="middle" fill="#eef2ff" font-family="Inter,Arial,sans-serif" font-size="18">G₁</text>
+      <circle cx="140" cy="42" r="28" fill="#312e81" stroke="#818cf8"/>
+      <text x="140" y="49" text-anchor="middle" fill="#eef2ff" font-family="Inter,Arial,sans-serif" font-size="18">G₂</text>
+      <circle cx="242" cy="42" r="28" fill="#312e81" stroke="#818cf8"/>
+      <text x="242" y="49" text-anchor="middle" fill="#eef2ff" font-family="Inter,Arial,sans-serif" font-size="18">G₃</text>
+      <path d="M68 42H106M170 42H208" stroke="#60a5fa" stroke-width="3" marker-end="url(#arr2)"/>
+      <text x="140" y="92" text-anchor="middle" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">后面的引理可依赖前面的结果</text>
+    </g>
+    <rect x="20" y="458" width="280" height="30" rx="15" fill="#172554"/>
+    <text x="160" y="478" text-anchor="middle" fill="#bfdbfe" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">高层推理决定“证明什么”</text>
+  </g>
+
+  <path d="M375 371H411" stroke="#60a5fa" stroke-width="3" marker-end="url(#arr2)"/>
+
+  <g transform="translate(424 118)" filter="url(#sh)">
+    <rect width="348" height="506" rx="22" fill="#11172f" stroke="#8b5cf6"/>
+    <rect x="18" y="18" width="140" height="28" rx="14" fill="#312e81"/>
+    <text x="88" y="38" text-anchor="middle" fill="#ddd6fe" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13" font-weight="700">② 两类 curriculum</text>
+
+    <g transform="translate(20 69)">
+      <rect width="308" height="150" rx="16" fill="#0b1328" stroke="#6366f1"/>
+      <rect x="14" y="13" width="105" height="24" rx="12" fill="#3730a3"/>
+      <text x="66" y="30" text-anchor="middle" fill="#e0e7ff" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12" font-weight="700">A · 替换目标</text>
+      <text x="18" y="66" fill="#c4b5fd" font-family="ui-monospace,monospace" font-size="14">Γ ⊢ Gᵢ</text>
+      <text x="18" y="98" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">只保留原始上下文，把 G 换成 Gᵢ</text>
+      <text x="18" y="125" fill="#a5b4fc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">训练独立解决局部命题的能力</text>
+    </g>
+
+    <g transform="translate(20 239)">
+      <rect width="308" height="150" rx="16" fill="#101d29" stroke="#22d3ee"/>
+      <rect x="14" y="13" width="118" height="24" rx="12" fill="#155e75"/>
+      <text x="73" y="30" text-anchor="middle" fill="#cffafe" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12" font-weight="700">B · 加前置引理</text>
+      <text x="18" y="66" fill="#67e8f9" font-family="ui-monospace,monospace" font-size="14">Γ, G₁, …, Gᵢ₋₁ ⊢ Gᵢ</text>
+      <text x="18" y="98" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">让后续子目标直接复用先前结论</text>
+      <text x="18" y="125" fill="#a5f3fc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">更贴近原证明中的局部依赖结构</text>
+    </g>
+
+    <rect x="20" y="415" width="308" height="72" rx="16" fill="#251b32" stroke="#a855f7" stroke-dasharray="6 5"/>
+    <text x="174" y="444" text-anchor="middle" fill="#f3e8ff" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14" font-weight="700">稠密训练信号</text>
+    <text x="174" y="469" text-anchor="middle" fill="#c4b5fd" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">一个难题 → 最多 2m 个可验证子题</text>
+  </g>
+
+  <path d="M783 371H819" stroke="#60a5fa" stroke-width="3" marker-end="url(#arr2)"/>
+
+  <g transform="translate(832 118)" filter="url(#sh)">
+    <rect width="324" height="506" rx="22" fill="#0d201f" stroke="#34d399"/>
+    <rect x="18" y="18" width="142" height="28" rx="14" fill="#065f46"/>
+    <text x="89" y="38" text-anchor="middle" fill="#d1fae5" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13" font-weight="700">③ 验证并拼回原题</text>
+
+    <g transform="translate(20 70)">
+      <rect width="284" height="65" rx="14" fill="#0b2b2d" stroke="#2dd4bf"/>
+      <text x="18" y="27" fill="#ccfbf1" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14" font-weight="700">7B 搜索 proof p₁, p₂, p₃</text>
+      <text x="18" y="49" fill="#5eead4" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">每个局部 proof 都交给 Lean 检查</text>
+    </g>
+
+    <g transform="translate(20 153)">
+      <rect width="284" height="221" rx="14" fill="#061514"/>
+      <text x="18" y="31" fill="#a7f3d0" font-family="ui-monospace,monospace" font-size="13">have h₁ : G₁ := by</text>
+      <text x="36" y="55" fill="#34d399" font-family="ui-monospace,monospace" font-size="13">p₁</text>
+      <text x="18" y="89" fill="#a7f3d0" font-family="ui-monospace,monospace" font-size="13">have h₂ : G₂ := by</text>
+      <text x="36" y="113" fill="#34d399" font-family="ui-monospace,monospace" font-size="13">p₂ [h₁]</text>
+      <text x="18" y="147" fill="#a7f3d0" font-family="ui-monospace,monospace" font-size="13">have h₃ : G₃ := by</text>
+      <text x="36" y="171" fill="#34d399" font-family="ui-monospace,monospace" font-size="13">p₃ [h₁, h₂]</text>
+      <text x="18" y="205" fill="#fef3c7" font-family="ui-monospace,monospace" font-size="13">exact h₃</text>
+    </g>
+
+    <g transform="translate(20 395)">
+      <rect width="284" height="92" rx="16" fill="#103226" stroke="#84cc16"/>
+      <circle cx="38" cy="46" r="23" fill="#166534"/>
+      <path d="M27 46l7 7 15-18" fill="none" stroke="#d9f99d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="72" y="38" fill="#ecfccb" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14" font-weight="700">完整形式证明</text>
+      <text x="72" y="62" fill="#a7f3d0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">全部通过才成为 cold-start</text>
+    </g>
+  </g>
+
+  <g transform="translate(44 650)">
+    <rect width="1112" height="42" rx="17" fill="#172033" stroke="#334155"/>
+    <text x="556" y="27" text-anchor="middle" fill="#cbd5e1" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">关键筛选条件：整题端到端原本失败 ∧ 所有分解子目标成功；否则没有可靠的完整训练样本</text>
+  </g>
+</svg>
