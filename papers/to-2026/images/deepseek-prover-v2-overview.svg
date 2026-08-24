@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeek-Prover-V2 从子目标冷启动到强化学习与蒸馏的完整流程</title>
+  <desc id="desc">DeepSeek-V3 把复杂 Lean 定理分解成带 sorry 的 have 子目标，7B prover 递归求解并合成冷启动数据，随后在 671B 模型上监督微调和 GRPO，最后蒸馏回 7B。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="0.55" stop-color="#10183a"/>
+      <stop offset="1" stop-color="#071827"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#84cc16"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity="0.55"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10Z" fill="#67e8f9"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="675" rx="28" fill="url(#bg)"/>
+  <circle cx="1090" cy="30" r="190" fill="#4f46e5" opacity="0.1"/>
+  <circle cx="70" cy="650" r="210" fill="#0891b2" opacity="0.08"/>
+
+  <text x="50" y="58" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="30" font-weight="700">把“会想证明”变成“能被 Lean 接受”</text>
+  <text x="50" y="89" fill="#a5b4fc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16">先离线制造结构化冷启动，再让一个统一模型学会 proof plan → formal proof</text>
+
+  <g transform="translate(42 118)">
+    <rect width="720" height="330" rx="24" fill="#0b1830" stroke="#6366f1" stroke-opacity="0.55"/>
+    <rect x="18" y="18" width="164" height="30" rx="15" fill="#312e81"/>
+    <text x="100" y="39" text-anchor="middle" fill="#ddd6fe" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14" font-weight="700">阶段一：制造冷启动</text>
+
+    <g transform="translate(22 72)" filter="url(#shadow)">
+      <rect width="138" height="192" rx="18" fill="#101d35" stroke="#475569"/>
+      <text x="69" y="31" text-anchor="middle" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16" font-weight="700">复杂定理</text>
+      <text x="14" y="65" fill="#94a3b8" font-family="ui-monospace,monospace" font-size="12">Γ ⊢ G</text>
+      <path d="M22 93H116M22 113H96M22 133H109" stroke="#334155" stroke-width="7" stroke-linecap="round"/>
+      <rect x="18" y="155" width="102" height="22" rx="11" fill="#172554"/>
+      <text x="69" y="170" text-anchor="middle" fill="#93c5fd" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="11">端到端难解</text>
+    </g>
+
+    <path d="M170 168H202" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <g transform="translate(212 72)" filter="url(#shadow)">
+      <rect width="184" height="192" rx="18" fill="#181535" stroke="#8b5cf6"/>
+      <text x="92" y="30" text-anchor="middle" fill="#ede9fe" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="16" font-weight="700">DeepSeek-V3</text>
+      <text x="14" y="55" fill="#a78bfa" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">自然语言 proof plan</text>
+      <rect x="14" y="70" width="156" height="96" rx="10" fill="#0f172a"/>
+      <text x="24" y="92" fill="#c4b5fd" font-family="ui-monospace,monospace" font-size="12">have h₁ : G₁ := by</text>
+      <text x="34" y="112" fill="#fb7185" font-family="ui-monospace,monospace" font-size="12">sorry</text>
+      <text x="24" y="136" fill="#c4b5fd" font-family="ui-monospace,monospace" font-size="12">have h₂ : G₂ := by</text>
+      <text x="34" y="156" fill="#fb7185" font-family="ui-monospace,monospace" font-size="12">sorry</text>
+      <text x="92" y="184" text-anchor="middle" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="11">分解 + Lean 形式化</text>
+    </g>
+
+    <path d="M406 168H438" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <g transform="translate(448 72)" filter="url(#shadow)">
+      <rect width="118" height="192" rx="18" fill="#0d2430" stroke="#22d3ee"/>
+      <text x="59" y="29" text-anchor="middle" fill="#cffafe" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="15" font-weight="700">7B prover</text>
+      <circle cx="59" cy="73" r="23" fill="#164e63" stroke="#67e8f9"/>
+      <text x="59" y="79" text-anchor="middle" fill="#ecfeff" font-family="Inter,Arial,sans-serif" font-size="17">G₁</text>
+      <circle cx="59" cy="125" r="23" fill="#164e63" stroke="#67e8f9"/>
+      <text x="59" y="131" text-anchor="middle" fill="#ecfeff" font-family="Inter,Arial,sans-serif" font-size="17">G₂</text>
+      <path d="M59 97V101" stroke="#67e8f9" stroke-width="2" marker-end="url(#arrow)"/>
+      <text x="59" y="177" text-anchor="middle" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="11">递归补洞</text>
+    </g>
+
+    <path d="M576 168H608" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <g transform="translate(618 72)" filter="url(#shadow)">
+      <rect width="80" height="192" rx="18" fill="#10251f" stroke="#34d399"/>
+      <circle cx="40" cy="57" r="25" fill="#065f46"/>
+      <path d="M28 57l8 8 17-20" fill="none" stroke="#a7f3d0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M20 99H60M20 119H60M20 139H52" stroke="#34d399" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+      <text x="40" y="177" text-anchor="middle" fill="#a7f3d0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="11">合成 proof</text>
+    </g>
+
+    <g transform="translate(22 282)">
+      <rect width="676" height="30" rx="15" fill="#172554"/>
+      <text x="338" y="20" text-anchor="middle" fill="#c7d2fe" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">只保留：7B 整题失败，但所有分解子目标都成功 → 数百条高质量 CoT 冷启动</text>
+    </g>
+  </g>
+
+  <path d="M772 283H802" stroke="#67e8f9" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g transform="translate(812 118)">
+    <rect width="346" height="330" rx="24" fill="#0b1f2a" stroke="#34d399" stroke-opacity="0.6"/>
+    <rect x="18" y="18" width="170" height="30" rx="15" fill="#064e3b"/>
+    <text x="103" y="39" text-anchor="middle" fill="#d1fae5" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="14" font-weight="700">阶段二：统一模型训练</text>
+
+    <g transform="translate(25 72)" filter="url(#shadow)">
+      <rect width="296" height="62" rx="16" fill="#102a31" stroke="#2dd4bf"/>
+      <text x="20" y="26" fill="#f0fdfa" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="15" font-weight="700">SFT · DeepSeek-V3-Base-671B</text>
+      <text x="20" y="48" fill="#99f6e4" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">non-CoT expert iteration + cold-start CoT</text>
+    </g>
+    <path d="M173 141V158" stroke="#6ee7b7" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(25 168)" filter="url(#shadow)">
+      <rect width="296" height="62" rx="16" fill="#102a31" stroke="#84cc16"/>
+      <text x="20" y="26" fill="#f7fee7" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="15" font-weight="700">GRPO · Lean 二值验证</text>
+      <text x="20" y="48" fill="#d9f99d" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">256 题/轮 × 32 proofs · 最长 32K token</text>
+    </g>
+    <path d="M173 237V254" stroke="#6ee7b7" stroke-width="3" marker-end="url(#arrow)"/>
+    <g transform="translate(25 264)" filter="url(#shadow)">
+      <rect width="296" height="44" rx="15" fill="url(#green)"/>
+      <text x="148" y="28" text-anchor="middle" fill="#052e16" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="15" font-weight="800">DeepSeek-Prover-V2-671B</text>
+    </g>
+  </g>
+
+  <g transform="translate(42 476)">
+    <rect width="1116" height="150" rx="24" fill="#0d1930" stroke="#334155"/>
+    <text x="22" y="34" fill="#f8fafc" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="17" font-weight="700">同一权重，两种 prompt 控制的生成模式</text>
+
+    <g transform="translate(22 52)">
+      <rect width="335" height="74" rx="16" fill="#172033" stroke="#64748b"/>
+      <text x="18" y="27" fill="#e2e8f0" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="15" font-weight="700">non-CoT · 快</text>
+      <text x="18" y="52" fill="#94a3b8" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">直接输出简洁 Lean proof，服务 expert iteration</text>
+    </g>
+    <g transform="translate(379 52)">
+      <rect width="335" height="74" rx="16" fill="#1d1835" stroke="#8b5cf6"/>
+      <text x="18" y="27" fill="#ede9fe" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="15" font-weight="700">CoT · 准</text>
+      <text x="18" y="52" fill="#c4b5fd" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="13">先讲 proof plan，再给可验证的 Lean proof</text>
+    </g>
+    <path d="M736 89H780" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="758" y="72" text-anchor="middle" fill="#fde68a" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">蒸馏</text>
+    <g transform="translate(792 52)">
+      <rect width="302" height="74" rx="16" fill="#172033" stroke="#fbbf24"/>
+      <text x="151" y="29" text-anchor="middle" fill="#fef3c7" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="15" font-weight="700">DeepSeek-Prover-V2-7B</text>
+      <text x="151" y="53" text-anchor="middle" fill="#fcd34d" font-family="Inter,Arial,'PingFang SC',sans-serif" font-size="12">671B rollout 蒸馏 + 同配方 RL · 32K</text>
+    </g>
+  </g>
+</svg>

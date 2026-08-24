@@ -572,7 +572,7 @@
 | 86 | [DAPO (2025)](https://arxiv.org/abs/2503.14476) — `An Open-Source LLM Reinforcement Learning System at Scale` | 公开大规模推理 RL 的代码、数据和稳定训练技巧，补足 R1 报告的复现缺口。 | Clip-Higher、dynamic sampling、token-level loss、overlong reward shaping。 |
 | 87 | [Gemma 3 (2025)](https://arxiv.org/abs/2503.19786) — `Gemma 3 Technical Report` | 展示轻量开放模型如何结合视觉、多语言、长上下文与蒸馏。 | 局部/全局 attention 配比、KV cache、蒸馏与多模态后训练。 |
 | 88 | [Limits of RLVR (2025)](https://arxiv.org/abs/2504.13837) — `Does Reinforcement Learning Really Incentivize Reasoning Capacity in LLMs Beyond the Base Model?` | 用大 k 的 pass@k 质疑 RLVR 是否创造新能力，提供理解 R1 类训练的必要反方证据。 | pass@k 能力边界、分布重加权、RL 与蒸馏的区别。 |
-| 89 | [DeepSeek-Prover-V2 (2025)](https://arxiv.org/abs/2504.21801) | 把子目标分解、形式证明和 RL 结合，展示推理模型在 Lean 中生成可机器验证证明。 | recursive theorem proving、cold start、subgoal decomposition、形式验证。 |
+| 89 | [DeepSeek-Prover-V2 (2025)](https://arxiv.org/abs/2504.21801) · [中文详解](89_DeepSeek_Prover_V2_2025_原理.md) | 把子目标分解、形式证明和 RL 结合，展示推理模型在 Lean 中生成可机器验证证明。 | recursive theorem proving、cold start、subgoal decomposition、形式验证。 |
 | 90 | [Absolute Zero (2025)](https://arxiv.org/abs/2505.03335) — `Reinforced Self-play Reasoning with Zero Data` | 让模型同时提出可验证任务并求解，探索不依赖外部题库的自生成课程。 | proposer/solver、自博弈、代码执行器、可验证奖励与安全边界。 |
 
 ### 这 60 篇怎么取舍
@@ -812,7 +812,8 @@
 11. `Kimi k1.5`
 12. `s1`
 13. `Limits of RLVR`
-14. `Absolute Zero`
+14. `DeepSeek-Prover-V2`
+15. `Absolute Zero`
 
 ### 路线 5：如果你做推理部署与性能优化
 
@@ -964,7 +965,7 @@
 - `Let’s Verify Step by Step` 强调过程监督
 - `DeepSeekMath / DeepSeek-R1` 把 GRPO、可验证奖励和 reasoning model 推向新阶段
 - `Test-Time Compute / Kimi k1.5 / s1` 说明推理预算本身也是扩展轴
-- `DAPO / Limits of RLVR / Absolute Zero` 展示开放复现、能力边界争论与自生成课程三条 2025 前沿分支
+- `DAPO / Limits of RLVR / DeepSeek-Prover-V2 / Absolute Zero` 展示开放复现、能力边界争论、形式证明与自生成课程四条 2025 前沿分支
 
 ### 5. 为什么应用层离不开外部系统
 
