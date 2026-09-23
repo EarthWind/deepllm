@@ -1,0 +1,4 @@
+jev / choice: 64/64; 0 failed requests; p50=253.4769795020111 ms
+jev / four_noul: 63/64; 0 failed requests; p50=249.7323334973771 ms
+laya / choice: 20/64; 0 failed requests; p50=150.52629148704 ms
+laya / four_noul: 18/64; 0 failed requests; p50=414.9067710095551 ms

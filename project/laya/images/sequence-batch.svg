@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="730" viewBox="0 0 1400 730" role="img">
+<title>一次前向调用 ≠ 文本只编码一次</title><desc>两个问题对应 batch 中两行；问题之间没有联合注意力或一致性约束</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0 L10 4 L0 8" fill="#72879b"/></marker></defs>
+<rect width="1400" height="730" fill="#f7f9fc"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,sans-serif">
+<text x="50" y="58" font-size="32" font-weight="700" fill="#192d43">一次前向调用 ≠ 文本只编码一次</text>
+<text x="50" y="98" font-size="19" font-weight="400" fill="#52667a">两个问题对应 batch 中两行；问题之间没有联合注意力或一致性约束</text>
+<rect x="50" y="155" width="800" height="135" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="169" width="5" height="107" fill="#2864b4"/>
+<text x="72" y="194" font-size="23" font-weight="700" fill="#2864b4">Q1：choice · 应转哪个部门？</text>
+<text x="72" y="232" font-size="19" font-weight="400" fill="#192d43">[CLS] 指令 [SEP] [MASK] billing   [MASK] technical   [MASK] sales</text>
+<text x="72" y="264" font-size="19" font-weight="400" fill="#192d43">[SEP] 同一份 state 的副本 [SEP]</text>
+<rect x="50" y="325" width="800" height="135" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="339" width="5" height="107" fill="#2864b4"/>
+<text x="72" y="364" font-size="23" font-weight="700" fill="#2864b4">Q2：noul · 是否明确要求退款？</text>
+<text x="72" y="402" font-size="19" font-weight="400" fill="#192d43">[CLS] 指令 [SEP] [MASK] false: …   [MASK] true: …</text>
+<text x="72" y="434" font-size="19" font-weight="400" fill="#192d43">[SEP] 同一份 state 的副本 [SEP]</text>
+<rect x="950" y="215" width="400" height="195" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="950" y="229" width="5" height="167" fill="#2864b4"/>
+<text x="972" y="254" font-size="23" font-weight="700" fill="#2864b4">collate_items</text>
+<text x="972" y="292" font-size="19" font-weight="400" fill="#192d43">padding + attention_mask</text>
+<text x="972" y="324" font-size="19" font-weight="400" fill="#192d43">marker_pos + marker_mask</text>
+<text x="972" y="356" font-size="19" font-weight="400" fill="#192d43">堆叠为 [2, L]，调用模型一次</text>
+<text x="972" y="388" font-size="19" font-weight="400" fill="#192d43">两行各自计算 attention</text>
+<path d="M850 220 L950 280" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M850 390 L950 350" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="530" width="1300" height="125" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="544" width="5" height="97" fill="#c17a24"/>
+<text x="72" y="569" font-size="23" font-weight="700" fill="#c17a24">长度预算会影响模型实际看见什么</text>
+<text x="72" y="607" font-size="19" font-weight="400" fill="#192d43">max_len 是序列硬截断；head_max_len 是问题头的启发式预算，并非严格上界。</text>
+<text x="72" y="639" font-size="19" font-weight="400" fill="#192d43">77 个选项 × 最少 4 token = 308 token，仅选项就可能超过 192 / 256 的问题头预算。</text>
+<text x="50" y="704" font-size="17" font-weight="400" fill="#52667a">依据 build_sequence / _encode_state / predict_batch；对话 list 保留尾部，字符串与字典默认保留前部。</text>
+</g></svg>

@@ -1,0 +1,11 @@
+test_archived_results (test_audit.AuditTests.test_archived_results) ... ok
+test_archived_source_bytes (test_audit.AuditTests.test_archived_source_bytes) ... ok
+test_balanced_frozen_cases (test_audit.AuditTests.test_balanced_frozen_cases) ... ok
+test_failed_request_stays_in_denominator (test_audit.AuditTests.test_failed_request_stays_in_denominator) ... ok
+test_perfect_and_failed_classification (test_audit.AuditTests.test_perfect_and_failed_classification) ... ok
+test_reject_corrupted_records (test_audit.AuditTests.test_reject_corrupted_records) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.087s
+
+OK
