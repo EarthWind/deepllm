@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="750" viewBox="0 0 1400 750" role="img">
+<title>公开微调 notebook：RLCD + soft-label CE</title><desc>在 logit 空间探索概率分布；奖励不是对自然语言回答进行打分</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0 L10 4 L0 8" fill="#72879b"/></marker></defs>
+<rect width="1400" height="750" fill="#f7f9fc"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,sans-serif">
+<text x="50" y="58" font-size="32" font-weight="700" fill="#192d43">公开微调 notebook：RLCD + soft-label CE</text>
+<text x="50" y="98" font-size="19" font-weight="400" fill="#52667a">在 logit 空间探索概率分布；奖励不是对自然语言回答进行打分</text>
+<rect x="50" y="150" width="360" height="165" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="164" width="5" height="137" fill="#2864b4"/>
+<text x="72" y="189" font-size="23" font-weight="700" fill="#2864b4">模型输出 μθ</text>
+<text x="72" y="227" font-size="19" font-weight="400" fill="#192d43">训练目标：教师软分布 t</text>
+<text x="72" y="259" font-size="19" font-weight="400" fill="#192d43">G = 4 组高斯噪声</text>
+<text x="72" y="291" font-size="19" font-weight="400" fill="#192d43">对有效选项投影到零和空间</text>
+<rect x="505" y="150" width="365" height="165" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="505" y="164" width="5" height="137" fill="#2864b4"/>
+<text x="527" y="189" font-size="23" font-weight="700" fill="#2864b4">候选分布 qg</text>
+<text x="527" y="227" font-size="19" font-weight="400" fill="#192d43">zg = stopgrad(μθ) + εg</text>
+<text x="527" y="259" font-size="19" font-weight="400" fill="#192d43">qg = softmax(zg)</text>
+<text x="527" y="291" font-size="19" font-weight="400" fill="#192d43">相同输入，探索不同概率报告</text>
+<rect x="965" y="150" width="385" height="165" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="965" y="164" width="5" height="137" fill="#2864b4"/>
+<text x="987" y="189" font-size="23" font-weight="700" fill="#2864b4">分布奖励 Rg</text>
+<text x="987" y="227" font-size="19" font-weight="400" fill="#192d43">log score + 0.75 spherical</text>
+<text x="987" y="259" font-size="19" font-weight="400" fill="#192d43">score 类型再减 RPS</text>
+<text x="987" y="291" font-size="19" font-weight="400" fill="#192d43">组均值基线 + 标准差归一化</text>
+<path d="M410 230 L505 230" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M870 230 L965 230" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="430" width="360" height="190" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="444" width="5" height="162" fill="#c17a24"/>
+<text x="72" y="469" font-size="23" font-weight="700" fill="#c17a24">监督项 LCE</text>
+<text x="72" y="507" font-size="19" font-weight="400" fill="#192d43">−Σ tk log softmax(μθ)k</text>
+<text x="72" y="539" font-size="19" font-weight="400" fill="#192d43">系数 1.0</text>
+<text x="72" y="571" font-size="19" font-weight="400" fill="#192d43">与策略梯度共同更新模型</text>
+<rect x="505" y="430" width="365" height="190" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="505" y="444" width="5" height="162" fill="#2864b4"/>
+<text x="527" y="469" font-size="23" font-weight="700" fill="#2864b4">策略项 LRL</text>
+<text x="527" y="507" font-size="19" font-weight="400" fill="#192d43">−mean(Ag · log πθ(zg))</text>
+<text x="527" y="539" font-size="19" font-weight="400" fill="#192d43">detach 固定采样点与 advantage</text>
+<text x="527" y="571" font-size="19" font-weight="400" fill="#192d43">梯度穿过分布均值 μθ</text>
+<rect x="965" y="430" width="385" height="190" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="965" y="444" width="5" height="162" fill="#c17a24"/>
+<text x="987" y="469" font-size="23" font-weight="700" fill="#c17a24">训练后校准</text>
+<text x="987" y="507" font-size="19" font-weight="400" fill="#192d43">保留样本拟合温度</text>
+<text x="987" y="539" font-size="19" font-weight="400" fill="#192d43">清除旧的 bucket 覆盖项</text>
+<text x="987" y="571" font-size="19" font-weight="400" fill="#192d43">实际推理仍会将温度夹紧</text>
+<text x="987" y="603" font-size="19" font-weight="400" fill="#192d43">独立测试集评估最终概率</text>
+<path d="M230 315 L230 430" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M690 315 L690 430" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M1150 315 L1150 375" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M1150 375 L690 375" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M690 375 L690 430" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="50" y="724" font-size="17" font-weight="400" fill="#52667a">教学重绘；当前 notebook 对 action head 使用 0 权重，不含 PPO clipping 或显式参考策略 KL。</text>
+</g></svg>

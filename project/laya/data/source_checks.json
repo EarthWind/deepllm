@@ -1,0 +1,16 @@
+{
+  "source_commit": "3b000c87daf237729aa66614c9f79b6609ee27e3",
+  "hashes_verified": 16,
+  "decode_parity_cases": 36,
+  "budget_probe": {
+    "tokenizer": "toy character tokenizer; not real BPE",
+    "options": 77,
+    "declared_head_max_len": 192,
+    "actual_option_block_tokens": 308,
+    "remaining_state_tokens": 192,
+    "total_tokens": 512
+  },
+  "truncation_direction": "passed",
+  "temperature_clamp": "passed",
+  "scope": "真实上游纯函数/解码逻辑；不包括神经网络、权重或 GPU"
+}

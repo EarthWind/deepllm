@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780" role="img">
+<title>Laya：从文本到有类型的决策</title><desc>一次批量前向计算；每个问题拥有自己的输入序列与输出分布</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0 L10 4 L0 8" fill="#72879b"/></marker></defs>
+<rect width="1400" height="780" fill="#f7f9fc"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,sans-serif">
+<text x="50" y="58" font-size="32" font-weight="700" fill="#192d43">Laya：从文本到有类型的决策</text>
+<text x="50" y="98" font-size="19" font-weight="400" fill="#52667a">一次批量前向计算；每个问题拥有自己的输入序列与输出分布</text>
+<rect x="50" y="155" width="300" height="180" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="169" width="5" height="152" fill="#2864b4"/>
+<text x="72" y="194" font-size="23" font-weight="700" fill="#2864b4">输入</text>
+<text x="72" y="232" font-size="19" font-weight="400" fill="#192d43">state：文本 / JSON / 对话</text>
+<text x="72" y="264" font-size="19" font-weight="400" fill="#192d43">questions：类型 + 指令</text>
+<text x="72" y="296" font-size="19" font-weight="400" fill="#192d43">criteria：候选标签或等级</text>
+<rect x="425" y="155" width="430" height="180" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="425" y="169" width="5" height="152" fill="#2864b4"/>
+<text x="447" y="194" font-size="23" font-weight="700" fill="#2864b4">双向编码器</text>
+<text x="447" y="232" font-size="19" font-weight="400" fill="#192d43">ModernBERT-large / mmBERT-base</text>
+<text x="447" y="264" font-size="19" font-weight="400" fill="#192d43">每题构造一条 [问题 + 选项 + 文本]</text>
+<text x="447" y="296" font-size="19" font-weight="400" fill="#192d43">H ∈ R^(B × L × d)</text>
+<rect x="930" y="155" width="420" height="180" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="930" y="169" width="5" height="152" fill="#2864b4"/>
+<text x="952" y="194" font-size="23" font-weight="700" fill="#2864b4">类型感知决策头</text>
+<text x="952" y="232" font-size="19" font-weight="400" fill="#192d43">H + type embedding</text>
+<text x="952" y="264" font-size="19" font-weight="400" fill="#192d43">2 层 Transformer（全序列）</text>
+<text x="952" y="296" font-size="19" font-weight="400" fill="#192d43">从每个选项的 [MASK] 提取表示</text>
+<path d="M350 245 L425 245" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M855 245 L930 245" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="430" width="300" height="215" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="444" width="5" height="187" fill="#c17a24"/>
+<text x="72" y="469" font-size="23" font-weight="700" fill="#c17a24">类型化答案</text>
+<text x="72" y="507" font-size="19" font-weight="400" fill="#192d43">choice：argmax + 概率字典</text>
+<text x="72" y="539" font-size="19" font-weight="400" fill="#192d43">score：等级索引的期望</text>
+<text x="72" y="571" font-size="19" font-weight="400" fill="#192d43">noul：P(true)</text>
+<text x="72" y="603" font-size="19" font-weight="400" fill="#192d43">output_tokens = 0</text>
+<rect x="425" y="430" width="430" height="215" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="425" y="444" width="5" height="187" fill="#2864b4"/>
+<text x="447" y="469" font-size="23" font-weight="700" fill="#2864b4">共享选项评分器</text>
+<text x="447" y="507" font-size="19" font-weight="400" fill="#192d43">LayerNorm → Linear → GELU</text>
+<text x="447" y="539" font-size="19" font-weight="400" fill="#192d43">→ Linear(1)，每个 marker 一个 logit</text>
+<text x="447" y="571" font-size="19" font-weight="400" fill="#192d43">按题选择温度 T，softmax(z / T)</text>
+<text x="447" y="603" font-size="19" font-weight="400" fill="#192d43">标签空间可在请求时改变</text>
+<rect x="930" y="430" width="420" height="215" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="930" y="444" width="5" height="187" fill="#c17a24"/>
+<text x="952" y="469" font-size="23" font-weight="700" fill="#c17a24">另一路：action head</text>
+<text x="952" y="507" font-size="19" font-weight="400" fill="#192d43">[CLS] + top1 / margin / entropy / K</text>
+<text x="952" y="539" font-size="19" font-weight="400" fill="#192d43">小型 MLP → act / escalate</text>
+<text x="952" y="571" font-size="19" font-weight="400" fill="#192d43">公开 notebook 中 act 损失权重为 0</text>
+<text x="952" y="603" font-size="19" font-weight="400" fill="#192d43">不能把它视作已可靠训练的拒答器</text>
+<path d="M1140 335 V385 H640 V430" fill="none" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M1140 385 L1140 430" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M425 538 L350 538" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M855 540 L930 540" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="50" y="754" font-size="17" font-weight="400" fill="#52667a">依据 common.py / agent.py；箭头表示张量流。action 分支使用未按题校准的 logits 派生特征。</text>
+</g></svg>

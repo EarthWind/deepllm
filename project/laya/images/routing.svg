@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img">
+<title>Router：规则选择 checkpoint，随后才运行神经网络</title><desc>按优先级命中即返回；路由规则本身不需要加载模型权重</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0 L10 4 L0 8" fill="#72879b"/></marker></defs>
+<rect width="1400" height="860" fill="#f7f9fc"/>
+<g font-family="Noto Sans CJK SC,Microsoft YaHei,sans-serif">
+<text x="50" y="58" font-size="32" font-weight="700" fill="#192d43">Router：规则选择 checkpoint，随后才运行神经网络</text>
+<text x="50" y="98" font-size="19" font-weight="400" fill="#52667a">按优先级命中即返回；路由规则本身不需要加载模型权重</text>
+<rect x="50" y="142" width="1280" height="72" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="156" width="5" height="44" fill="#2864b4"/>
+<text x="72" y="181" font-size="23" font-weight="700" fill="#2864b4">1  显式 model</text>
+<text x="390" y="185" font-size="21" font-weight="400" fill="#192d43">直接指定 english / multilingual / typed-decisions</text>
+<path d="M110 214 L110 231" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="231" width="1280" height="72" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="245" width="5" height="44" fill="#2864b4"/>
+<text x="72" y="270" font-size="23" font-weight="700" fill="#2864b4">2  显式 task</text>
+<text x="390" y="274" font-size="21" font-weight="400" fill="#192d43">typed_decisions 对应领域微调 checkpoint</text>
+<path d="M110 303 L110 320" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="320" width="1280" height="72" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="334" width="5" height="44" fill="#2864b4"/>
+<text x="72" y="359" font-size="23" font-weight="700" fill="#2864b4">3  工作流 ID 集合</text>
+<text x="390" y="363" font-size="21" font-weight="400" fill="#192d43">仅 auto_task_detection=True 生效；精确匹配四类 schema</text>
+<path d="M110 392 L110 409" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="409" width="1280" height="72" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="423" width="5" height="44" fill="#2864b4"/>
+<text x="72" y="448" font-size="23" font-weight="700" fill="#2864b4">4  显式 lang</text>
+<text x="390" y="452" font-size="21" font-weight="400" fill="#192d43">en → english；其他语言 → multilingual</text>
+<path d="M110 481 L110 498" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="498" width="1280" height="72" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="512" width="5" height="44" fill="#2864b4"/>
+<text x="72" y="537" font-size="23" font-weight="700" fill="#2864b4">5  lang_guess</text>
+<text x="390" y="541" font-size="21" font-weight="400" fill="#192d43">单次请求提示优先，再看 Router 级别提示</text>
+<path d="M110 570 L110 587" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="587" width="1280" height="72" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="601" width="5" height="44" fill="#2864b4"/>
+<text x="72" y="626" font-size="23" font-weight="700" fill="#2864b4">6  字符与词表规则</text>
+<text x="390" y="630" font-size="21" font-weight="400" fill="#192d43">非拉丁文字 / 非英语线索 → multilingual</text>
+<path d="M110 659 L110 676" stroke="#72879b" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="50" y="676" width="1280" height="72" rx="12" fill="white" stroke="#d4dee8" stroke-width="2"/>
+<rect x="50" y="690" width="5" height="44" fill="#2864b4"/>
+<text x="72" y="715" font-size="23" font-weight="700" fill="#2864b4">7  default</text>
+<text x="390" y="719" font-size="21" font-weight="400" fill="#192d43">短文本或缺乏证据时回退；默认 english</text>
+<text x="50" y="834" font-size="17" font-weight="400" fill="#52667a">注意：自动工作流匹配排在 lang 之前；启用后可能优先选中英语领域模型。来源：Router.route。</text>
+</g></svg>

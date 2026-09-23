@@ -1,0 +1,442 @@
+{
+  "description": "上游已提交的历史测量摘录；本次未重跑模型。字段保留原始精度。",
+  "source_commit": "3b000c87daf237729aa66614c9f79b6609ee27e3",
+  "t4": {
+    "meta": {
+      "seed": 13,
+      "n_opts": 20,
+      "per_lang": 300,
+      "timestamp": "2026-09-19 04:45:43",
+      "gpu": "Tesla T4",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.17.0",
+      "models": {
+        "laya": {
+          "repo": "convaiinnovations/laya",
+          "params_total_m": 421.29,
+          "params_encoder_m": 394.78,
+          "params_head_m": 26.51,
+          "hidden_size": 1024,
+          "num_layers": 28,
+          "vocab_size": 50368,
+          "max_len": 512,
+          "head_max_len": 192,
+          "temperature": [
+            1.6369030475616455,
+            1.2514300346374512,
+            1.983399510383606
+          ],
+          "temperature_by_options": {
+            "choice:3-5": 1.7601518630981445,
+            "choice:6-10": 1.0000158548355103,
+            "score:3-5": 1.2514300346374512,
+            "noul:2": 1.983399510383606,
+            "choice:11+": 0.10058280825614929,
+            "choice:2": 1.9063563346862793
+          },
+          "training": {
+            "updates": 7313,
+            "epochs_completed": 1,
+            "hours": 1.96,
+            "world_size": 1,
+            "fine_tuned_from_checkpoint": true
+          },
+          "download_s": 10.7,
+          "tokenizer_config_patched": []
+        },
+        "laya-multilingual": {
+          "repo": "convaiinnovations/laya-multilingual",
+          "params_total_m": 321.91,
+          "params_encoder_m": 306.94,
+          "params_head_m": 14.97,
+          "hidden_size": 768,
+          "num_layers": 22,
+          "vocab_size": 256000,
+          "max_len": 1024,
+          "head_max_len": 256,
+          "temperature": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "temperature_by_options": {},
+          "training": {
+            "updates": 15987,
+            "epochs_completed": 4,
+            "hours": 4.97,
+            "world_size": 1,
+            "fine_tuned_from_checkpoint": false
+          },
+          "download_s": 8.3,
+          "tokenizer_config_patched": [
+            "extra_special_tokens list->dict"
+          ]
+        }
+      }
+    },
+    "latency": {
+      "laya": {
+        "1_questions": {
+          "p50_ms": 39.5,
+          "p95_ms": 44.8,
+          "ms_per_question": 39.5
+        },
+        "5_questions": {
+          "p50_ms": 84.5,
+          "p95_ms": 86.0,
+          "ms_per_question": 16.89
+        },
+        "10_questions": {
+          "p50_ms": 158.6,
+          "p95_ms": 160.1,
+          "ms_per_question": 15.86
+        },
+        "50_questions": {
+          "p50_ms": 771.3,
+          "p95_ms": 806.7,
+          "ms_per_question": 15.43
+        }
+      },
+      "laya-multilingual": {
+        "1_questions": {
+          "p50_ms": 32.8,
+          "p95_ms": 38.8,
+          "ms_per_question": 32.83
+        },
+        "5_questions": {
+          "p50_ms": 40.1,
+          "p95_ms": 43.5,
+          "ms_per_question": 8.02
+        },
+        "10_questions": {
+          "p50_ms": 72.3,
+          "p95_ms": 74.4,
+          "ms_per_question": 7.23
+        },
+        "50_questions": {
+          "p50_ms": 337.4,
+          "p95_ms": 693.7,
+          "ms_per_question": 6.75
+        }
+      }
+    },
+    "language_comparison": {
+      "massive_intent_english_vs_rest": {
+        "english": {
+          "laya": 0.7833,
+          "laya-multilingual": 0.6567
+        },
+        "non_english": {
+          "laya": 0.3064,
+          "laya-multilingual": 0.4513
+        }
+      },
+      "massive_scenario_english_vs_rest": {
+        "english": {
+          "laya": 0.6033,
+          "laya-multilingual": 0.56
+        },
+        "non_english": {
+          "laya": 0.2805,
+          "laya-multilingual": 0.4387
+        }
+      },
+      "xnli_english_vs_rest": {
+        "english": {
+          "laya": 0.86,
+          "laya-multilingual": 0.8433
+        },
+        "non_english": {
+          "laya": 0.521,
+          "laya-multilingual": 0.731
+        }
+      }
+    },
+    "caveats": {
+      "context_window": "laya max_len=512, laya-multilingual max_len=1024 (shipped configs). See typed_decisions_matched_512 for the equal-budget control.",
+      "shipped_calibration": "laya ships fitted temperatures; laya-multilingual ships all-1.0 (uncalibrated). See calibration_repair for the out-of-sample refit.",
+      "training_overlap": "ag_news and boolq were in Laya's training mix (retention, not generalisation). sst5, emotion, prompt_injections, banking77 were held out. Neither checkpoint trained on typed-decisions, MASSIVE or XNLI."
+    }
+  },
+  "apps": {
+    "meta": {
+      "timestamp": "2026-09-19 11:57:16",
+      "device": "cpu",
+      "n_per_task": 400,
+      "seed": 13,
+      "laya": "0.2.1"
+    },
+    "suites": {
+      "jev.ag_news": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.95,
+          "macro_f1": 0.9439,
+          "ece": 0.0316
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.93,
+          "macro_f1": 0.925,
+          "ece": 0.042
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.9525,
+          "macro_f1": 0.9468,
+          "ece": 0.155
+        }
+      },
+      "jev.emotion": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.595,
+          "macro_f1": 0.4752,
+          "ece": 0.3063
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.53,
+          "macro_f1": 0.4441,
+          "ece": 0.3412
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.6,
+          "macro_f1": 0.4741,
+          "ece": 0.2005
+        }
+      },
+      "jev.banking77_full": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.425,
+          "macro_f1": 0.1121,
+          "ece": 0.5397
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.425,
+          "macro_f1": 0.1125,
+          "ece": 0.4037
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.4925,
+          "macro_f1": 0.1307,
+          "ece": 0.4173
+        }
+      },
+      "app.support_triage": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.5025,
+          "macro_f1": 0.4802,
+          "ece": 0.0907
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.5225,
+          "macro_f1": 0.5159,
+          "ece": 0.0724
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.505,
+          "macro_f1": 0.4699,
+          "ece": 0.1149
+        }
+      },
+      "app.email_spam": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.9925,
+          "macro_f1": 0.9925,
+          "ece": 0.0133
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.9925,
+          "macro_f1": 0.9925,
+          "ece": 0.0079
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.9575,
+          "macro_f1": 0.9575,
+          "ece": 0.1085
+        }
+      },
+      "app.phishing": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.98,
+          "macro_f1": 0.9789,
+          "ece": 0.0121
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.9925,
+          "macro_f1": 0.9921,
+          "ece": 0.0032
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.94,
+          "macro_f1": 0.9353,
+          "ece": 0.0762
+        }
+      },
+      "app.guardrails_jailbreak": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.7075,
+          "macro_f1": 0.684,
+          "ece": 0.2591
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.755,
+          "macro_f1": 0.7208,
+          "ece": 0.1974
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.7625,
+          "macro_f1": 0.733,
+          "ece": 0.0869
+        }
+      },
+      "app.moderation_toxicity": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.53,
+          "macro_f1": 0.4003,
+          "ece": 0.2961
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.525,
+          "macro_f1": 0.394,
+          "ece": 0.3809
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.53,
+          "macro_f1": 0.3967,
+          "ece": 0.244
+        }
+      },
+      "app.rag_relevance": {
+        "english": {
+          "n": 400,
+          "accuracy": 0.625,
+          "macro_f1": 0.6234,
+          "ece": 0.1175
+        },
+        "multilingual": {
+          "n": 400,
+          "accuracy": 0.6575,
+          "macro_f1": 0.6567,
+          "ece": 0.1718
+        },
+        "typed-decisions": {
+          "n": 400,
+          "accuracy": 0.625,
+          "macro_f1": 0.6239,
+          "ece": 0.0419
+        }
+      },
+      "app.model_routing_domain": {
+        "english": {
+          "n": 399,
+          "accuracy": 0.6391,
+          "macro_f1": 0.3199,
+          "ece": 0.0889
+        },
+        "multilingual": {
+          "n": 399,
+          "accuracy": 0.1228,
+          "macro_f1": 0.0912,
+          "ece": 0.4898
+        },
+        "typed-decisions": {
+          "n": 399,
+          "accuracy": 0.6591,
+          "macro_f1": 0.3426,
+          "ece": 0.1058
+        }
+      }
+    }
+  },
+  "temperature_clamp": {
+    "committed": {
+      "accuracy": 0.2269,
+      "ece": 0.7331,
+      "languages": 51
+    },
+    "unclamped_rerun": {
+      "languages": 51,
+      "macro_accuracy": 0.2269,
+      "macro_ece": 0.7331,
+      "macro_f1": 0.2053,
+      "seconds": 1444.9
+    },
+    "clamped_rerun": {
+      "languages": 51,
+      "macro_accuracy": 0.2269,
+      "macro_ece": 0.5709,
+      "macro_f1": 0.2053,
+      "seconds": 1360.1
+    }
+  },
+  "feishu_zh": {
+    "note": "2026-09-21 历史快照，64 个合成场景；首次固定结果，非当前源码重测。",
+    "results": {
+      "jev": {
+        "choice": {
+          "n": 64,
+          "correct": 64,
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "false_action_count": 0,
+          "nonaction_denominator": 32,
+          "missed_action_count": 0,
+          "action_denominator": 32
+        },
+        "four_noul": {
+          "n": 64,
+          "correct": 63,
+          "accuracy": 0.984375,
+          "macro_f1": 0.9843597262952102,
+          "false_action_count": 0,
+          "nonaction_denominator": 32,
+          "missed_action_count": 1,
+          "action_denominator": 32
+        }
+      },
+      "laya": {
+        "choice": {
+          "n": 64,
+          "correct": 20,
+          "accuracy": 0.3125,
+          "macro_f1": 0.2569444444444444,
+          "false_action_count": 22,
+          "nonaction_denominator": 32,
+          "missed_action_count": 6,
+          "action_denominator": 32
+        },
+        "four_noul": {
+          "n": 64,
+          "correct": 18,
+          "accuracy": 0.28125,
+          "macro_f1": 0.16245270037839696,
+          "false_action_count": 30,
+          "nonaction_denominator": 32,
+          "missed_action_count": 0,
+          "action_denominator": 32
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "repository": "https://github.com/NandhaKishorM/laya",
+  "commit": "3b000c87daf237729aa66614c9f79b6609ee27e3",
+  "access_date": "2026-09-23",
+  "package_version": "0.3.7",
+  "files": [
+    {
+      "path": "laya/common.py",
+      "sha256": "98fe673acb1973b56bedfc9495d4afacb7271e99ea0811a968bbab237cd0b429",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/common.py"
+    },
+    {
+      "path": "laya/agent.py",
+      "sha256": "738f8d346c2e9ad700e170c0763f476c82bbac934ba157df2dbeb864cffe2cf9",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/agent.py"
+    },
+    {
+      "path": "laya/router.py",
+      "sha256": "2afed7666bb08c6172b1bfb0fb0a780b609e82ef3bef55c31e1ee46b41c6ddfc",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/router.py"
+    },
+    {
+      "path": "laya/lang.py",
+      "sha256": "c269a08ca1a1b6de0b0bd2a33b796b5b9882256e793693a0c9e07ad8fbb08079",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/lang.py"
+    },
+    {
+      "path": "laya/serve.py",
+      "sha256": "d5ea2201ce2a380f1b608c2cd55bded9e2492deb0cba8b13235053ec97f880ab",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/serve.py"
+    },
+    {
+      "path": "laya/fast.py",
+      "sha256": "feeb175dcfa8287d35cbd9a076af4987bf3327204b383223673b51c78b36cd8a",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/fast.py"
+    },
+    {
+      "path": "laya/tl_kernels.py",
+      "sha256": "6c647e9200001f60ab787977b859762d2fb65fcec196c02c5aea20035ac89773",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/tl_kernels.py"
+    },
+    {
+      "path": "laya/shortlist.py",
+      "sha256": "a1fe64d5f115ff37a71b6d15fde32e8103013a238168c60b669462ac23c202c9",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/shortlist.py"
+    },
+    {
+      "path": "laya/integrations/langchain.py",
+      "sha256": "3c55e296542c989864d50fab0cf387ed10f96d37effb6852a8473d627c24430c",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/laya/integrations/langchain.py"
+    },
+    {
+      "path": "notebooks/laya_finetune_typed_decisions_2xT4_kaggle.ipynb",
+      "sha256": "6b81f290bbd213008d3e79c80d207b9abc1d1b5ab0a23f3f4bd9a289611433ed",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/notebooks/laya_finetune_typed_decisions_2xT4_kaggle.ipynb"
+    },
+    {
+      "path": "research/results/t4_colab_benchmark.json",
+      "sha256": "484a20273e75c659a2275f09bdb78a4b682363402b591c4bfc8ab12a382d1ec8",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/research/results/t4_colab_benchmark.json"
+    },
+    {
+      "path": "research/results/app_benchmark_results.json",
+      "sha256": "15a7ba8a4d123cd1de499ef8036d14ce52e25bfb2bf6ac1d03702135d79c0a05",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/research/results/app_benchmark_results.json"
+    },
+    {
+      "path": "research/results/cpu_51_language_sweep_clamped.json",
+      "sha256": "c0c25d5409fa2ca1ffac8e6f729fffde327d2daf8eec315f0fce24e0e6427913",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/research/results/cpu_51_language_sweep_clamped.json"
+    },
+    {
+      "path": "research/benchmarks/feishu_zh/results/v1/summary.json",
+      "sha256": "ec4a60b495b6d47192f8a82a1258bcf46db1e33396b1caf3cff706f0435a934c",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/research/benchmarks/feishu_zh/results/v1/summary.json"
+    },
+    {
+      "path": "BENCHMARKS.md",
+      "sha256": "0609688344a5f183194f85910e5b3d1a7373c41f1709cc68cf8277c0db62c05a",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/BENCHMARKS.md"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "462eef75c668379229d207cffe872de648004cd4e2d8f0aa9b471a5e55577d19",
+      "url": "https://github.com/NandhaKishorM/laya/blob/3b000c87daf237729aa66614c9f79b6609ee27e3/pyproject.toml"
+    }
+  ]
+}
