@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+<title id="title">从知识到行动：RAG 与工具链路</title><desc id="desc">检索提供证据；模型生成调用；应用负责权限校验与真实执行。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#7890a6"/></marker></defs>
+<rect width="1200" height="900" rx="24" fill="#f5f8fc"/>
+<g font-family="Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif">
+<text x="48" y="55" font-size="30" font-weight="700" fill="#152e49">从知识到行动：RAG 与工具链路</text>
+<text x="48" y="87" font-size="15" font-weight="400" fill="#51667b">检索提供证据；模型生成调用；应用负责权限校验与真实执行。</text>
+<rect x="40" y="123" width="1120" height="166" rx="16" fill="#edf3ff" stroke="#dce7fc"/>
+<text x="60" y="154" font-size="17" font-weight="700" fill="#2563eb">离线 · 知识库更新</text>
+<rect x="60" y="174" width="344" height="90" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="60" y="191" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="80" y="211" font-size="21" font-weight="700" fill="#17334f">原始文档</text>
+<text x="80" y="241" font-size="15" font-weight="400" fill="#51667b">来源 · 版本 · 权限</text>
+<rect x="428" y="174" width="344" height="90" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="428" y="191" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="448" y="211" font-size="21" font-weight="700" fill="#17334f">解析与分块</text>
+<text x="448" y="241" font-size="15" font-weight="400" fill="#51667b">保留条款和结构</text>
+<rect x="796" y="174" width="344" height="90" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="796" y="191" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="816" y="211" font-size="21" font-weight="700" fill="#17334f">建立索引</text>
+<text x="816" y="241" font-size="15" font-weight="400" fill="#51667b">向量 / 关键词 / 元数据</text>
+<polyline points="404,220 422,220" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="772,220 790,220" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="60" y="334" font-size="17" font-weight="700" fill="#087f6c">在线 · 回答与执行</text>
+<rect x="60" y="358" width="344" height="115" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="60" y="375" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="80" y="395" font-size="21" font-weight="700" fill="#17334f">用户问题</text>
+<text x="80" y="425" font-size="15" font-weight="400" fill="#51667b">身份与请求上下文</text>
+<rect x="428" y="358" width="344" height="115" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="428" y="375" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="448" y="395" font-size="21" font-weight="700" fill="#17334f">检索与可选重排</text>
+<text x="448" y="425" font-size="15" font-weight="400" fill="#51667b">先过滤权限，再选择证据</text>
+<rect x="796" y="358" width="344" height="115" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="796" y="375" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="816" y="395" font-size="21" font-weight="700" fill="#17334f">模型生成</text>
+<text x="816" y="425" font-size="15" font-weight="400" fill="#51667b">问题 + 证据 + 工具定义</text>
+<polyline points="404,414 422,414" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="772,414 790,414" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="968,264 968,311 600,311 600,352" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<rect x="796" y="538" width="344" height="145" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="796" y="555" width="4" height="28" rx="2" fill="#9333ea"/>
+<text x="816" y="575" font-size="21" font-weight="700" fill="#17334f">调用工具？</text>
+<text x="816" y="605" font-size="15" font-weight="400" fill="#51667b">应用验证参数与权限</text>
+<text x="816" y="630" font-size="15" font-weight="400" fill="#51667b">执行查询 / 经授权的操作</text>
+<text x="816" y="655" font-size="15" font-weight="400" fill="#51667b">结果作为工具消息回传</text>
+<polyline points="968,473 968,532" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="1140,611 1150,611 1150,415 1146,415" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="1008" y="511" font-size="14" font-weight="400" fill="#51667b">需要工具时</text>
+<rect x="428" y="538" width="344" height="145" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="428" y="555" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="448" y="575" font-size="21" font-weight="700" fill="#17334f">校验与返回</text>
+<text x="448" y="605" font-size="15" font-weight="400" fill="#51667b">答案是否有证据支持？</text>
+<text x="448" y="630" font-size="15" font-weight="400" fill="#51667b">引用是否定位到真实来源？</text>
+<text x="448" y="655" font-size="15" font-weight="400" fill="#51667b">记录链路与运行指标</text>
+<polyline points="796,450 783,450 783,507 600,507 600,532" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="620" y="499" font-size="14" font-weight="400" fill="#51667b">可直接回答时</text>
+<polyline points="796,630 778,630" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="60" y="735" width="1080" height="88" rx="16" fill="#fff7e7" stroke="#f0dfbd"/>
+<text x="82" y="768" font-size="20" font-weight="700" fill="#8b611d">外部材料是数据，不能自动成为高优先级指令。</text>
+<text x="82" y="797" font-size="16" font-weight="400" fill="#8b611d">权限在检索和执行层落实；工具循环设置步数、超时、重试与费用上限。</text>
+<text x="48" y="876" font-size="12" font-weight="400" fill="#7b8da0">DeepLLM  /  LLM 全流程 · 原创原理示意，具体实现可有差异</text>
+</g></svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="770" viewBox="0 0 1200 770" role="img" aria-labelledby="title desc">
+<title id="title">一次问答的推理路径</title><desc id="desc">相同权重反复使用；上下文与 KV Cache 随生成增长。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#7890a6"/></marker></defs>
+<rect width="1200" height="770" rx="24" fill="#f5f8fc"/>
+<g font-family="Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif">
+<text x="48" y="55" font-size="30" font-weight="700" fill="#152e49">一次问答的推理路径</text>
+<text x="48" y="87" font-size="15" font-weight="400" fill="#51667b">相同权重反复使用；上下文与 KV Cache 随生成增长。</text>
+<rect x="48" y="139" width="344" height="146" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="48" y="156" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="68" y="176" font-size="21" font-weight="700" fill="#17334f">构造输入</text>
+<text x="68" y="206" font-size="15" font-weight="400" fill="#51667b">系统指令 · 历史</text>
+<text x="68" y="231" font-size="15" font-weight="400" fill="#51667b">问题 · 检索证据</text>
+<rect x="428" y="139" width="344" height="146" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="428" y="156" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="448" y="176" font-size="21" font-weight="700" fill="#17334f">Prefill</text>
+<text x="448" y="206" font-size="15" font-weight="400" fill="#51667b">并行处理已有前缀</text>
+<text x="448" y="231" font-size="15" font-weight="400" fill="#51667b">填充各层 KV Cache</text>
+<rect x="808" y="139" width="344" height="146" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="808" y="156" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="828" y="176" font-size="21" font-weight="700" fill="#17334f">首个输出 token</text>
+<text x="828" y="206" font-size="15" font-weight="400" fill="#51667b">最后位置的概率分布</text>
+<text x="828" y="231" font-size="15" font-weight="400" fill="#51667b">解码选择：“先”</text>
+<polyline points="392,212 422,212" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="772,212 802,212" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="48" y="332" width="1104" height="258" rx="16" fill="#edf8f5" stroke="#d9eee8"/>
+<text x="70" y="368" font-size="21" font-weight="700" fill="#087f6c">Decode · 逐步生成</text>
+<rect x="70" y="390" width="330" height="137" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="70" y="407" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="90" y="427" font-size="21" font-weight="700" fill="#17334f">新 token 输入</text>
+<text x="90" y="457" font-size="15" font-weight="400" fill="#51667b">读取“先”的 ID</text>
+<text x="90" y="482" font-size="15" font-weight="400" fill="#51667b">只处理新增位置</text>
+<rect x="435" y="390" width="330" height="137" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="435" y="407" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="455" y="427" font-size="21" font-weight="700" fill="#17334f">读取并扩展缓存</text>
+<text x="455" y="457" font-size="15" font-weight="400" fill="#51667b">关注历史 K / V</text>
+<text x="455" y="482" font-size="15" font-weight="400" fill="#51667b">追加新位置的 K / V</text>
+<rect x="800" y="390" width="330" height="137" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="800" y="407" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="820" y="427" font-size="21" font-weight="700" fill="#17334f">选择后续 token</text>
+<text x="820" y="457" font-size="15" font-weight="400" fill="#51667b">输出下一 token 分布</text>
+<text x="820" y="482" font-size="15" font-weight="400" fill="#51667b">采样 → “填写”</text>
+<polyline points="980,285 980,310 235,310 235,384" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="400,454 429,454" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="765,454 794,454" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="965,527 965,561 235,561 235,533" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="473" y="554" font-size="14" font-weight="400" fill="#087f6c">将新 token 放入下一步；直到满足停止条件</text>
+<rect x="48" y="629" width="1104" height="72" rx="16" fill="#fff7e7" stroke="#f0dfbd"/>
+<text x="70" y="659" font-size="20" font-weight="700" fill="#8b611d">KV Cache ≠ 权重更新 ≠ 长期记忆</text>
+<text x="70" y="685" font-size="16" font-weight="400" fill="#8b611d">缓存复用中间计算；前缀越长、并发越高，通常需要越多缓存显存。</text>
+<text x="48" y="746" font-size="12" font-weight="400" fill="#7b8da0">DeepLLM  /  LLM 全流程 · 原创原理示意，具体实现可有差异</text>
+</g></svg>
