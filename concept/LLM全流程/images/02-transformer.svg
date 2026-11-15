@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850" role="img" aria-labelledby="title desc">
+<title id="title">一个 token 怎样变成概率</title><desc id="desc">Decoder-only Transformer · 采用常见 Pre-Norm 结构示意</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#7890a6"/></marker></defs>
+<rect width="1200" height="850" rx="24" fill="#f5f8fc"/>
+<g font-family="Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif">
+<text x="48" y="55" font-size="30" font-weight="700" fill="#152e49">一个 token 怎样变成概率</text>
+<text x="48" y="87" font-size="15" font-weight="400" fill="#51667b">Decoder-only Transformer · 采用常见 Pre-Norm 结构示意</text>
+<rect x="48" y="138" width="280" height="135" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="48" y="155" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="68" y="175" font-size="21" font-weight="700" fill="#17334f">输入与 Embedding</text>
+<text x="68" y="205" font-size="15" font-weight="400" fill="#51667b">token ID： [31, 82, 906]</text>
+<text x="68" y="230" font-size="15" font-weight="400" fill="#51667b">查表 → [B, T, d]</text>
+<text x="68" y="256" font-size="13" font-weight="600" fill="#2563eb">离散 ID → 连续向量</text>
+<rect x="48" y="331" width="280" height="157" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="48" y="348" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="68" y="368" font-size="21" font-weight="700" fill="#17334f">位置与因果约束</text>
+<text x="68" y="398" font-size="15" font-weight="400" fill="#51667b">RoPE 等提供位置信息</text>
+<text x="68" y="423" font-size="15" font-weight="400" fill="#51667b">因果掩码阻止读取未来</text>
+<text x="68" y="448" font-size="15" font-weight="400" fill="#51667b">RoPE 通常作用在 Q / K</text>
+<rect x="390" y="125" width="400" height="535" rx="16" fill="#edf3ff" stroke="#d6e4fd"/>
+<text x="414" y="160" font-size="23" font-weight="700" fill="#2563eb">Transformer Block × L</text>
+<rect x="420" y="191" width="340" height="93" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="420" y="208" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="440" y="228" font-size="21" font-weight="700" fill="#17334f">Norm → Attention</text>
+<text x="440" y="258" font-size="15" font-weight="400" fill="#51667b">多头 Q/K/V · 汇总可见前文</text>
+<rect x="420" y="341" width="340" height="93" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="420" y="358" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="440" y="378" font-size="21" font-weight="700" fill="#17334f">Norm → FFN</text>
+<text x="440" y="408" font-size="15" font-weight="400" fill="#51667b">逐位置非线性变换</text>
+<rect x="420" y="491" width="340" height="112" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="420" y="508" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="440" y="528" font-size="21" font-weight="700" fill="#17334f">隐藏表示</text>
+<text x="440" y="558" font-size="15" font-weight="400" fill="#51667b">形状仍为 [B, T, d]</text>
+<text x="440" y="583" font-size="15" font-weight="400" fill="#51667b">进入下一层或最终输出</text>
+<polyline points="590,284 590,335" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="605" y="316" font-size="14" font-weight="400" fill="#2563eb">+ 残差</text>
+<polyline points="590,434 590,485" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="605" y="465" font-size="14" font-weight="400" fill="#2563eb">+ 残差</text>
+<polyline points="408,210 401,210 401,310 576,310" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="408,360 401,360 401,459 576,459" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="328,205 360,205 360,177 590,177 590,185" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="328,406 372,406 372,240 414,240" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)" stroke-dasharray="6 5"/>
+<rect x="840" y="187" width="312" height="153" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="840" y="204" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="860" y="224" font-size="21" font-weight="700" fill="#17334f">最终 Norm + 输出头</text>
+<text x="860" y="254" font-size="15" font-weight="400" fill="#51667b">[B, T, d] → [B, T, V]</text>
+<text x="860" y="279" font-size="15" font-weight="400" fill="#51667b">V 个 logit → Softmax</text>
+<text x="860" y="304" font-size="15" font-weight="400" fill="#51667b">得到下一 token 的分布</text>
+<polyline points="790,551 815,551 815,266 834,266" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="840" y="405" width="312" height="145" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="840" y="422" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="860" y="442" font-size="21" font-weight="700" fill="#17334f">选择下一个 token</text>
+<text x="860" y="472" font-size="15" font-weight="400" fill="#51667b">贪心或采样：例如“先”</text>
+<text x="860" y="497" font-size="15" font-weight="400" fill="#51667b">加入序列 → 继续生成</text>
+<text x="860" y="533" font-size="13" font-weight="600" fill="#0d9488">遇结束符或其他停止条件时结束</text>
+<polyline points="996,340 996,399" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="48" y="704" width="1104" height="79" rx="16" fill="#fff" stroke="#dce5ef"/>
+<text x="70" y="735" font-size="18" font-weight="600" fill="#17334f">训练：多个位置计算损失，再反向传播更新参数。</text>
+<text x="70" y="763" font-size="16" font-weight="400" fill="#51667b">推理：通常读取末位置分布，不计算梯度；新 token 将成为下一步的输入。</text>
+<text x="48" y="826" font-size="12" font-weight="400" fill="#7b8da0">DeepLLM  /  LLM 全流程 · 原创原理示意，具体实现可有差异</text>
+</g></svg>

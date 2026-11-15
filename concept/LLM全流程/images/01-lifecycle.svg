@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="810" viewBox="0 0 1200 810" role="img" aria-labelledby="title desc">
+<title id="title">LLM 的全生命周期</title><desc id="desc">两条主线：训练把数据变成参数；应用把上下文变成结果。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#7890a6"/></marker></defs>
+<rect width="1200" height="810" rx="24" fill="#f5f8fc"/>
+<g font-family="Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif">
+<text x="48" y="55" font-size="30" font-weight="700" fill="#152e49">LLM 的全生命周期</text>
+<text x="48" y="87" font-size="15" font-weight="400" fill="#51667b">两条主线：训练把数据变成参数；应用把上下文变成结果。</text>
+<rect x="32" y="117" width="1136" height="254" rx="16" fill="#edf3ff" stroke="#dce7fc"/>
+<text x="52" y="150" font-size="17" font-weight="700" fill="#2563eb">01  模型生产 · 更新参数</text>
+<rect x="52" y="173" width="256" height="165" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="52" y="190" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="72" y="210" font-size="21" font-weight="700" fill="#17334f">数据处理</text>
+<text x="72" y="240" font-size="15" font-weight="400" fill="#51667b">采集 · 清洗 · 去重</text>
+<text x="72" y="265" font-size="15" font-weight="400" fill="#51667b">划分数据集与分词</text>
+<rect x="332" y="173" width="256" height="165" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="332" y="190" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="352" y="210" font-size="21" font-weight="700" fill="#17334f">预训练</text>
+<text x="352" y="240" font-size="15" font-weight="400" fill="#51667b">预测下一个 token</text>
+<text x="352" y="265" font-size="15" font-weight="400" fill="#51667b">梯度更新 → 基座权重</text>
+<text x="352" y="321" font-size="13" font-weight="600" fill="#2563eb">DATA → PARAMETERS</text>
+<rect x="612" y="173" width="256" height="165" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="612" y="190" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="632" y="210" font-size="21" font-weight="700" fill="#17334f">后训练</text>
+<text x="632" y="240" font-size="15" font-weight="400" fill="#51667b">指令示范 · 偏好 · 奖励</text>
+<text x="632" y="265" font-size="15" font-weight="400" fill="#51667b">按目标选择适配路线</text>
+<rect x="892" y="173" width="256" height="165" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="892" y="190" width="4" height="28" rx="2" fill="#2563eb"/>
+<text x="912" y="210" font-size="21" font-weight="700" fill="#17334f">评测与发布</text>
+<text x="912" y="240" font-size="15" font-weight="400" fill="#51667b">能力 · 回归 · 风险</text>
+<text x="912" y="265" font-size="15" font-weight="400" fill="#51667b">权重 + 配置 + 模板</text>
+<polyline points="308,255 328,255" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="588,255 608,255" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="868,255 888,255" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="32" y="400" width="1136" height="240" rx="16" fill="#edf8f5" stroke="#d9eee8"/>
+<text x="52" y="433" font-size="17" font-weight="700" fill="#087f6c">02  应用运行 · 通常冻结参数</text>
+<rect x="52" y="455" width="348" height="151" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="52" y="472" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="72" y="492" font-size="21" font-weight="700" fill="#17334f">请求与证据</text>
+<text x="72" y="522" font-size="15" font-weight="400" fill="#51667b">问题 · 历史 · 检索材料</text>
+<text x="72" y="547" font-size="15" font-weight="400" fill="#51667b">工具定义与工具结果</text>
+<rect x="426" y="455" width="348" height="151" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="426" y="472" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="446" y="492" font-size="21" font-weight="700" fill="#17334f">模型推理</text>
+<text x="446" y="522" font-size="15" font-weight="400" fill="#51667b">模板 → token → 概率</text>
+<text x="446" y="547" font-size="15" font-weight="400" fill="#51667b">Prefill → Decode</text>
+<rect x="800" y="455" width="348" height="151" rx="16" fill="#fff" stroke="#dce5ef"/>
+<rect x="800" y="472" width="4" height="28" rx="2" fill="#0d9488"/>
+<text x="820" y="492" font-size="21" font-weight="700" fill="#17334f">结果与执行</text>
+<text x="820" y="522" font-size="15" font-weight="400" fill="#51667b">回答 · 引用 · 工具调用</text>
+<text x="820" y="547" font-size="15" font-weight="400" fill="#51667b">由应用校验和执行</text>
+<polyline points="400,530 420,530" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="774,530 794,530" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<polyline points="1020,338 1020,381 600,381 600,449" fill="none" stroke="#7890a6" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="650" y="375" font-size="13" font-weight="400" fill="#51667b">加载已发布的模型</text>
+<rect x="52" y="675" width="1096" height="65" rx="16" fill="#fff7e7" stroke="#f0dfbd"/>
+<text x="74" y="703" font-size="17" font-weight="600" fill="#8b611d">反馈闭环：记录失败 → 定位数据 / 检索 / 模型 / 工具问题 → 独立评测 → 发布新版本</text>
+<text x="74" y="727" font-size="14" font-weight="400" fill="#8b611d">生产反馈需要审查、去隐私与版本化，不能自动作为训练真值。</text>
+<text x="48" y="786" font-size="12" font-weight="400" fill="#7b8da0">DeepLLM  /  LLM 全流程 · 原创原理示意，具体实现可有差异</text>
+</g></svg>
