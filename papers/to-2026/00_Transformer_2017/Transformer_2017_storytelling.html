@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attention Is All You Need — 深度解读：一篇翻译论文，怎么成了所有大模型的发动机</title>
+<style>
+:root{--text:#1a1a1a;--bg:#fafaf8;--accent:#2563eb;--muted:#6b7280;--border:#e5e7eb;--code-bg:#f3f4f6;--orange:#ea580c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Noto Serif SC",serif;color:var(--text);background:var(--bg);line-height:1.85;padding:2.5rem 1.5rem;max-width:720px;margin:0 auto;font-size:17px}
+h1{font-size:2rem;margin:0 0 .3rem;line-height:1.3}
+h2{font-size:1.35rem;margin:2.8rem 0 .8rem;color:var(--accent);padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+h3{font-size:1.1rem;margin:1.5rem 0 .5rem;color:#333}
+.meta{color:var(--muted);font-size:.9rem;margin-bottom:2.5rem;line-height:1.8}
+.meta a{color:var(--accent);text-decoration:none}
+blockquote{border-left:3px solid var(--accent);padding:.6rem 1.2rem;margin:1.5rem 0;background:#f0f4ff;border-radius:0 8px 8px 0}
+blockquote .zh{display:block;color:var(--muted);font-size:.92rem;margin-top:.3rem}
+pre{background:var(--code-bg);padding:1rem 1.2rem;border-radius:8px;overflow-x:auto;font-size:.85rem;line-height:1.5;margin:1.5rem 0 .4rem;border:1px solid var(--border)}
+.code-cap{font-size:.82rem;color:var(--muted);margin:0 0 1.5rem}
+code{font-family:"SF Mono","Fira Code",monospace;font-size:.9em}
+p{margin:1rem 0}
+strong{color:#111}
+table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.93rem}
+td,th{border:1px solid var(--border);padding:.6rem .9rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+tr.hl td{background:#fff7ed;font-weight:600}
+.summary-box{background:linear-gradient(135deg,#f0f4ff,#faf5ff);padding:1.5rem;border-radius:12px;margin:1.5rem 0}
+.summary-box h3{margin:0 0 .5rem;color:var(--accent)}
+.ps{font-size:.92rem;color:#555;background:#fffbea;border:1px dashed #e5c76b;border-radius:8px;padding:.7rem 1rem;margin:1.2rem 0}
+figure{margin:1.8rem -2rem}
+figure img{width:100%;border:1px solid var(--border);border-radius:10px;background:#fff}
+figcaption{font-size:.85rem;color:var(--muted);text-align:center;margin-top:.4rem}
+.golden{font-size:1.25rem;font-weight:600;color:var(--accent);text-align:center;padding:2rem 1rem;border-top:2px solid var(--accent);border-bottom:2px solid var(--accent);margin:2.5rem 0;line-height:1.5}
+@media(max-width:800px){figure{margin:1.5rem 0}}
+@media(max-width:600px){body{font-size:16px;padding:1.2rem 1rem}h1{font-size:1.5rem}}
+</style>
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js" integrity="sha384-WmdflGW9aGfoBdHc4rRyWzYuAjEmDwMdGdiPNacbwfGKxBW/SO6guzuQ76qjnSlr" crossorigin="anonymous"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',securityLevel:'loose'});</script>
+</head>
+<body>
+
+<h1>一篇只做了机器翻译的论文，怎么成了所有大模型的发动机？</h1>
+<div class="meta">
+《Attention Is All You Need》深度解读 · 故事版<br>
+Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin · NIPS 2017<br>
+论文：<a href="https://arxiv.org/abs/1706.03762v7">arXiv:1706.03762v7</a>（本文数值以 v7 为准）·
+代码：<a href="https://github.com/tensorflow/tensor2tensor">tensorflow/tensor2tensor</a>（官方，已归档）·
+PyTorch 逐行注释版：<a href="https://nlp.seas.harvard.edu/annotated-transformer/">The Annotated Transformer</a><br>
+配图：<a href="illustrated/transformer-illustrated.md">本目录 illustrated/ 下的 8 张方法图解</a>
+</div>
+
+<figure>
+<img src="illustrated/00-cover.png" alt="封面：RNN 逐步传递 vs Self-Attention 一步直连">
+<figcaption>图 0 · 同一句话，在 RNN 里“它”要走 5 步才能找回“小猫”，在自注意力里只要 1 步</figcaption>
+</figure>
+
+<h2>一、一篇“不像会改变世界”的论文</h2>
+
+<p>你有没有想过：ChatGPT、Claude、Gemini、DeepSeek，这些长得完全不一样的产品，核心那一层到底是什么？</p>
+
+<p>答案出奇地统一：几乎都来自 2017 年的一篇 15 页论文。标题像一句歌词，叫《Attention Is All You Need》。</p>
+
+<p>更反常识的是，这篇论文<strong>根本没打算做“大模型”</strong>。它只做了两件事：英语翻德语、英语翻法语，外加一个句法分析小实验。全文没有“预训练”，没有“对话”，也没有“涌现”。</p>
+
+<p>它真正的卖点写在摘要里，朴素到有点不起眼：</p>
+
+<blockquote>“…the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.”
+<span class="zh">——Transformer 只依赖注意力机制，彻底抛弃了循环和卷积。（Abstract）</span></blockquote>
+
+<p>翻译成人话：<strong>以前的模型是“一个字一个字往后读”，Transformer 改成“整句话一起看”。</strong>就这一个改动，让 8 张 P100 显卡训练 12 小时的模型，打败了此前所有翻译系统，包括那些把好几个模型绑在一起的集成系统。</p>
+
+<p>下面我们从“为什么非改不可”讲起，一步一步看它到底改了什么。</p>
+
+<h2>二、为什么非改不可：RNN 的“传话游戏”</h2>
+
+<p>2017 年以前，处理句子的主流模型是 RNN（循环神经网络）和它的改良版 LSTM。它的工作方式很像小时候玩的<strong>传话游戏</strong>：第 1 个人把话传给第 2 个人，第 2 个人加上自己的理解再传给第 3 个……</p>
+
+<p>论文里的说法是：</p>
+
+<blockquote>“…they generate a sequence of hidden states $h_t$, as a function of the previous hidden state $h_{t-1}$ and the input for position $t$. This inherently sequential nature precludes parallelization within training examples…”
+<span class="zh">——第 t 步的状态依赖第 t−1 步。这种天生的串行性，让一个样本内部无法并行。（Section 1）</span></blockquote>
+
+<p>传话游戏有两个毛病，正好对应 RNN 的两个瓶颈。</p>
+
+<p><strong>毛病一：慢。</strong>第 100 个人必须等前 99 个人都传完才能开口。GPU 有几千个核心，却只能排队等。句子越长，等得越久。</p>
+
+<p><strong>毛病二：失真。</strong>传到最后，开头那句话早就走样了。比如“小猫没过马路，因为它累了”，模型读到“它”时，要回头找“小猫”，信息得穿过中间 5 步才能到达。论文把这叫“路径长度”：RNN 是 $O(n)$，句子越长，远处的信息越难传到。</p>
+
+<p>当时也有人用卷积（ConvS2S、ByteNet）来并行，但卷积每次只看一个小窗口，想连起两个远处的词，要堆很多层，路径长度变成 $O(n/k)$ 或 $O(\log_k n)$。注意力机制其实早就有了（Bahdanau 2014），但几乎都是<strong>嫁接在 RNN 上</strong>的辅助零件，主干还是那条传话链。</p>
+
+<p>所以问题很清楚：<strong>能不能把传话链整个拆掉，只留下注意力？</strong></p>
+
+<h2>三、核心洞察：把“传话游戏”换成“圆桌会议”</h2>
+
+<p>Transformer 的回答是：能。</p>
+
+<blockquote>“…relying entirely on an attention mechanism to draw global dependencies between input and output.”
+<span class="zh">——完全依靠注意力机制，建立输入和输出之间的全局依赖。（Section 1）</span></blockquote>
+
+<p>打个比方：RNN 是传话游戏，Transformer 是<strong>圆桌会议</strong>。所有人同时坐在桌边，谁想知道什么，直接看向那个人问就行。“它”想知道自己指的是谁，一眼看向“小猫”，一步到位。所有人还可以<strong>同时</strong>提问，GPU 的几千个核心终于都有活干了。</p>
+
+<p>论文 Table 1 用三个数字把这件事说透了：</p>
+
+<table>
+<tr><th>层类型</th><th>每层计算量</th><th>顺序操作数</th><th>最长路径</th></tr>
+<tr class="hl"><td>Self-Attention</td><td>$O(n^2 \cdot d)$</td><td>$O(1)$</td><td>$O(1)$</td></tr>
+<tr><td>RNN</td><td>$O(n \cdot d^2)$</td><td>$O(n)$</td><td>$O(n)$</td></tr>
+<tr><td>CNN</td><td>$O(k \cdot n \cdot d^2)$</td><td>$O(1)$</td><td>$O(\log_k n)$</td></tr>
+</table>
+
+<p>“顺序操作 $O(1)$”的意思是：不管句子多长，一层里都不用排队，一把算完。“最长路径 $O(1)$”的意思是：任意两个词之间只隔一步。代价是计算量里有个 $n^2$，因为每个词都要和其他所有词打个招呼。不过论文指出，翻译句子通常只有几十个 token，比表示维度 $d=512$ 小，这时自注意力每层反而比 RNN 更省。</p>
+
+<h2>四、方法详解：圆桌会议是怎么开的</h2>
+
+<figure>
+<img src="illustrated/01-method-overview.png" alt="方法总览">
+<figcaption>图 1 · 整体结构：Encoder 把源句读成 Memory，Decoder 每层都去 Memory 里查询</figcaption>
+</figure>
+
+<p>整体结构还是经典的“编码器-解码器”（论文 Figure 1）：Encoder 读懂源句，Decoder 一边看已经写出的译文，一边回头查源句，然后预测下一个词。两边各堆 6 层。真正的新东西在每一层的内部。我们按开会的顺序讲。</p>
+
+<h3>第 1 步：每个人准备三张卡片（Q、K、V）</h3>
+
+<p>开会前，每个词都要准备三张卡片：</p>
+<p>· <strong>Query（问题卡）</strong>：我想找什么样的信息？<br>
+· <strong>Key（名片）</strong>：我能提供什么样的信息？<br>
+· <strong>Value（内容卡）</strong>：如果你选中我，我真正交给你的东西。</p>
+
+<p>这就像<strong>在图书馆查资料</strong>：Query 是你的检索词，Key 是每本书的书脊标签，Value 是书的内容。你拿检索词去比对所有标签，越匹配的书读得越多，最后把读到的内容按匹配度混在一起。三张卡片都来自同一个词向量 $x$，分别乘上三个可学习的矩阵 $W^Q, W^K, W^V$。</p>
+
+<p>论文的公式只有一行（Equation 1）：</p>
+
+$$\mathrm{Attention}(Q,K,V)=\mathrm{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
+
+<p>拆开读：$QK^\top$ 让每个问题卡和所有名片做点积，得到 $n\times n$ 的“匹配分数表”；softmax 把每一行变成加起来等于 1 的权重；再乘 $V$，就是按权重把内容混起来。整句话的所有词<strong>在一次矩阵乘法里同时完成</strong>，没有任何排队。</p>
+
+<figure>
+<img src="illustrated/02-scaled-dot-product-attention.png" alt="缩放点积注意力">
+<figcaption>图 2 · 用 4 个 token 走一遍：打分 → 缩放 → softmax → 加权求和</figcaption>
+</figure>
+
+<h3>第 2 步：为什么要除以 $\sqrt{d_k}$？</h3>
+
+<p>这个小细节很多人一眼带过，其实挺关键。论文在脚注里给了解释：</p>
+
+<blockquote>“…assume that the components of q and k are independent random variables with mean 0 and variance 1. Then their dot product … has mean 0 and variance $d_k$.”
+<span class="zh">——如果 q、k 每个分量都是均值 0、方差 1 的独立随机变量，那么它们的点积方差就是 $d_k$。（Section 3.2.1，脚注 4）</span></blockquote>
+
+<p>$d_k=64$ 时，点积的标准差是 8。分数动不动就是 ±20，softmax 会变成“一个 1、其余全是 0”，梯度几乎消失，模型学不动。除以 $\sqrt{d_k}$ 后方差回到 1，softmax 重新变得“软”。</p>
+
+<p>说白了，这就像<strong>会议室的麦克风音量</strong>：人越多（维度越高），每个人的声音叠起来越响，不调小音量，大家只能听见嗓门最大的那个人。</p>
+
+<p>官方代码 tensor2tensor 的写法很直白：先把 q 缩小，再做矩阵乘法、softmax、加权求和：</p>
+
+<pre><code># tensor2tensor/layers/common_attention.py:4700-4702  (multihead_attention 内)
+key_depth_per_head = total_key_depth // num_heads
+if not vars_3d:
+  q *= key_depth_per_head**-0.5          # 先除以 √d_k（等价于对分数缩放）
+
+# tensor2tensor/layers/common_attention.py:1648-1667  (dot_product_attention)
+logits = tf.matmul(q, k, transpose_b=True)  # [..., length_q, length_kv]  即 QK^T
+if bias is not None:
+  logits += bias                            # 掩码：非法位置加上一个极大的负数
+weights = tf.nn.softmax(logits, name="attention_weights")
+...
+return tf.matmul(weights, v)                # 按权重混合 V</code></pre>
+<p class="code-cap">先缩 q 再相乘，和论文“先乘后除”在数学上完全等价，只是把除法挪到了更小的张量上。掩码通过 bias 加到 logits 上，正好对应论文“set to −∞”的做法。</p>
+
+<h3>第 3 步：多请几位专家——Multi-Head Attention</h3>
+
+<p>只开一场会有个问题：一句话里的关系不止一种。“它”要找指代对象，动词要找宾语，形容词要找它修饰的名词。一组 Q/K/V 只能学一种“看法”，把所有关系平均到一起就糊了。论文在 Section 2 直说了这个代价：注意力的平均会<strong>降低有效分辨率</strong>，所以要用多头来抵消。</p>
+
+<p>做法是把 512 维切成 8 份，每份 64 维，相当于请 8 位专家<strong>各开一场小会</strong>：</p>
+
+$$\mathrm{MultiHead}(Q,K,V)=\mathrm{Concat}(\mathrm{head}_1,\dots,\mathrm{head}_h)\,W^O$$
+$$\mathrm{head}_i=\mathrm{Attention}(QW_i^Q,\;KW_i^K,\;VW_i^V)$$
+
+<p>8 个头的结果拼回 512 维，再用 $W^O$ 融合一下。因为 $h\cdot d_k=8\times64=512$，总计算量和一个 512 维的大头差不多，相当于<strong>免费换来了 8 种视角</strong>。</p>
+
+<figure>
+<img src="illustrated/03-multi-head-attention.png" alt="多头注意力与三种用法">
+<figcaption>图 3 · 左：多头拆分与拼接，头数消融；右：同一个模块的三种接法</figcaption>
+</figure>
+
+<p>多头真的学到了不同的东西吗？论文附录的 Figure 3–5 给了证据：第 5 层有些头专门把动词“making”连到远处的“more difficult”；有两个头专门处理代词“its”的指代，注意力“very sharp”；还有些头明显在学句法结构。论文原话是：“The heads clearly learned to perform different tasks.”</p>
+
+<p>同一个注意力模块，在 Transformer 里有三种接法：</p>
+
+<table>
+<tr><th>接法</th><th>Q 从哪来</th><th>K、V 从哪来</th><th>能看见谁</th></tr>
+<tr><td>Encoder 自注意力</td><td>源句</td><td>源句</td><td>全部源词（双向）</td></tr>
+<tr><td>Decoder 掩码自注意力</td><td>已生成的译文</td><td>已生成的译文</td><td>只能看自己和左边</td></tr>
+<tr><td>Cross-Attention</td><td>译文</td><td>Encoder 的输出</td><td>全部源词</td></tr>
+</table>
+
+<p>中间那行的“掩码”就像<strong>考试时用纸盖住后面的答案</strong>：训练时整句译文一次性喂进去，但每个位置只能看到自己左边，模型没法偷看答案。这样训练可以并行，又不会作弊。</p>
+
+<h3>第 4 步：给每个座位贴上号码——位置编码</h3>
+
+<p>圆桌会议有个隐患：<strong>圆桌没有座次</strong>。注意力只关心“谁和谁像”，不关心“谁在前谁在后”。“猫追狗”和“狗追猫”在它看来是同一组词。</p>
+
+<p>论文的解法是给每个位置加一组固定的波形信号（Section 3.5）：</p>
+
+$$PE_{(pos,2i)}=\sin\!\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right),\qquad PE_{(pos,2i+1)}=\cos\!\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)$$
+
+<p>可以把它想成<strong>一组钟表指针</strong>：秒针转得飞快（低维，高频），分针慢一些，时针更慢（高维，低频）。只看秒针分不清 1 点和 2 点，但所有指针一起看，每个时刻都是独一无二的。波长从 $2\pi$ 一路增长到 $10000\cdot2\pi$。</p>
+
+<figure>
+<img src="illustrated/04-positional-encoding.png" alt="位置编码">
+<figcaption>图 4 · 按论文公式真实计算的 PE 热力图：左边转得快，右边转得慢</figcaption>
+</figure>
+
+<p>为什么选正弦？因为它有一个漂亮的性质：$PE_{pos+k}$ 可以写成 $PE_{pos}$ 的线性变换（一个只依赖 $k$ 的旋转），模型更容易学到“隔了几个词”这种相对距离。论文也试过可学习的位置向量，效果几乎一样（Table 3 第 E 行：25.7 vs 25.8），最后选正弦，是希望能外推到比训练时更长的句子。</p>
+
+<div class="ps">PS：翻官方代码时我发现一个小彩蛋。tensor2tensor 里的位置编码并不是 sin、cos 交错排列，而是<strong>前一半全是 sin、后一半全是 cos</strong>，代码注释里直接写着“this slightly differs from the published paper”。因为后面接的是线性层，维度怎么排列对模型来说等价，但如果你想逐数值复现论文，要注意这一点。</div>
+
+<pre><code># tensor2tensor/layers/common_attention.py:443-453  (get_timing_signal_1d)
+position = tf.to_float(tf.range(length) + start_index)
+num_timescales = channels // 2
+log_timescale_increment = (
+    math.log(float(max_timescale) / float(min_timescale)) /
+    tf.maximum(tf.to_float(num_timescales) - 1, 1))
+inv_timescales = min_timescale * tf.exp(
+    tf.to_float(tf.range(num_timescales)) * -log_timescale_increment)
+scaled_time = tf.expand_dims(position, 1) * tf.expand_dims(inv_timescales, 0)
+# Please note that this slightly differs from the published paper.
+signal = tf.concat([tf.sin(scaled_time), tf.cos(scaled_time)], axis=1)</code></pre>
+<p class="code-cap">max_timescale=1e4 对应论文里的 10000；频率按几何级数排列。差别只在 sin/cos 的排列方式。</p>
+
+<h3>第 5 步：散会后各自回工位——FFN、残差和 LayerNorm</h3>
+
+<p>开完会，每个人带着从别人那里收集到的信息回到自己的工位，<strong>独立消化</strong>。这就是每层第二个子层：逐位置前馈网络（FFN，Equation 2）：</p>
+
+$$\mathrm{FFN}(x)=\max(0,\;xW_1+b_1)\,W_2+b_2$$
+
+<p>先把 512 维放大到 2048 维，过一个 ReLU，再压回 512 维。每个词各算各的，但用同一套参数。分工很清楚：<strong>注意力负责“词与词之间交换信息”，FFN 负责“每个词内部加工信息”。</strong>按参数量算，FFN 每层约 2.1M，注意力约 1.05M，FFN 占了每层的大约三分之二。</p>
+
+<p>每个子层外面还包着一层“保险”：</p>
+
+$$\mathrm{output}=\mathrm{LayerNorm}\big(x+\mathrm{Dropout}(\mathrm{Sublayer}(x))\big)$$
+
+<p>残差连接 $x+\dots$ 像<strong>会议纪要的原稿</strong>：不管讨论得多热烈，原始信息都原样保留一份，梯度也能顺着这条捷径直通底层。LayerNorm 则把每个词的 512 个数拉回均值 0、方差 1，防止层数一深数值就飘走。这种“先相加、后归一化”的写法叫 <strong>Post-Norm</strong>。</p>
+
+<figure>
+<img src="illustrated/05-residual-layernorm-ffn.png" alt="残差 LayerNorm FFN">
+<figcaption>图 5 · 一层内部：注意力横向混合，FFN 纵向加工，残差 + LayerNorm 包住两者</figcaption>
+</figure>
+
+<div class="ps">PS：这里又有一个“代码和论文不一致”的地方。tensor2tensor 的 <code>transformer_base_v1</code> 默认 <code>layer_postprocess_sequence="dan"</code>（dropout → add → norm），和论文一样是 Post-Norm；但从 <code>transformer_base_v2</code> 开始改成了 <code>layer_preprocess_sequence="n"</code> + <code>"da"</code>，也就是先归一化的 <strong>Pre-Norm</strong>（<code>models/transformer.py:1846-1847</code>）。哈佛的 Annotated Transformer 也选了 Pre-Norm，代码注释里写着“the norm is first as opposed to last”。后来的 GPT-2 等模型基本都走了 Pre-Norm，因为深层训练更稳。</div>
+
+<pre><code># code/annotated-transformer/the_annotated_transformer.py:344-357
+class SublayerConnection(nn.Module):
+    """
+    A residual connection followed by a layer norm.
+    Note for code simplicity the norm is first as opposed to last.
+    """
+    def __init__(self, size, dropout):
+        super(SublayerConnection, self).__init__()
+        self.norm = LayerNorm(size)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x, sublayer):
+        "Apply residual connection to any sublayer with the same size."
+        return x + self.dropout(sublayer(self.norm(x)))   # Pre-Norm 写法</code></pre>
+<p class="code-cap">论文写法应为 <code>self.norm(x + self.dropout(sublayer(x)))</code>；这里的 Pre-Norm 是后来被广泛采用的改法。</p>
+
+<h3>新旧对比：一张表看清改了什么</h3>
+
+<table>
+<tr><th>维度</th><th>RNN + Attention（旧）</th><th>Transformer（新）</th></tr>
+<tr><td>主干</td><td>循环链，逐步传递</td><td>自注意力 + FFN，整句并行</td></tr>
+<tr><td>注意力的角色</td><td>嫁接在主干上的辅助零件</td><td>主干本身</td></tr>
+<tr><td>远距离依赖</td><td>路径 $O(n)$，越远越难</td><td>路径 $O(1)$，一步直连</td></tr>
+<tr><td>训练并行度</td><td>一个样本内部只能串行</td><td>一个样本内部全部并行</td></tr>
+<tr><td>位置信息</td><td>天然蕴含在循环顺序中</td><td>靠位置编码显式注入</td></tr>
+<tr><td>主要代价</td><td>慢、长句遗忘</td><td>$O(n^2)$ 显存与计算</td></tr>
+</table>
+
+<h3>第 6 步：会议之外的“家规”——训练配方</h3>
+
+<p>好架构还要配好的训练方法。最有名的是 warmup 学习率（Equation 3）：</p>
+
+$$lrate=d_{\text{model}}^{-0.5}\cdot\min\!\left(step^{-0.5},\;step\cdot warmup^{-1.5}\right),\quad warmup=4000$$
+
+<p>前 4000 步学习率线性上升，之后按 $1/\sqrt{step}$ 慢慢下降，峰值大约 $7\times10^{-4}$。这就像<strong>新司机上路</strong>：一开始参数是随机的，猛踩油门容易翻车，先慢慢加速，熟悉了再稳稳巡航。</p>
+
+<figure>
+<img src="illustrated/06-training-recipe.png" alt="训练配方">
+<figcaption>图 6 · 训练配方：长度分桶、warmup、Adam、Dropout 与 Label Smoothing、checkpoint 平均</figcaption>
+</figure>
+
+<p>官方代码里这个公式藏在一个叫 <code>noam</code> 的分支里，名字取自作者 Noam Shazeer：</p>
+
+<pre><code># tensor2tensor/utils/learning_rate.py:105-115  (legacy_learning_rate_schedule)
+if hparams.learning_rate_decay_scheme == "noam":
+  ret = 5000.0 * hparams.hidden_size**-0.5 * tf.minimum(
+      (step_num + 1) * warmup_steps**-1.5, (step_num + 1)**-0.5)
+...
+optimizer_correction = 0.002 if "adam" in hparams.optimizer else 1.0
+return ret * optimizer_correction * hparams.learning_rate</code></pre>
+<p class="code-cap">配合 <code>transformer_base_v1</code> 里的 learning_rate=0.1：5000 × 0.002 × 0.1 = 1，恰好还原成论文公式。</p>
+
+<p>另外几条家规：Adam 的 $\beta_2$ 用 0.98（比常见默认 0.999 小）；每个子层输出加 0.1 的 Dropout；标签平滑 $\epsilon_{ls}=0.1$，让模型别对正确答案太笃定。论文直言标签平滑“hurts perplexity… but improves accuracy and BLEU score”，也就是困惑度变差了，但翻译质量提高了。</p>
+
+<h2>五、效果：更好，还便宜一个数量级</h2>
+
+<figure>
+<img src="illustrated/07-key-results.png" alt="关键结果">
+<figcaption>图 7 · 左：EN→DE 的 BLEU 与训练算力；中：EN→FR；右：为什么快</figcaption>
+</figure>
+
+<p>直接看论文 Table 2（WMT 2014 newstest2014）：</p>
+
+<table>
+<tr><th>模型</th><th>EN→DE BLEU</th><th>EN→FR BLEU</th><th>训练算力 (FLOPs, EN→DE / EN→FR)</th></tr>
+<tr><td>GNMT + RL</td><td>24.6</td><td>39.92</td><td>2.3×10<sup>19</sup> / 1.4×10<sup>20</sup></td></tr>
+<tr><td>ConvS2S</td><td>25.16</td><td>40.46</td><td>9.6×10<sup>18</sup> / 1.5×10<sup>20</sup></td></tr>
+<tr><td>MoE</td><td>26.03</td><td>40.56</td><td>2.0×10<sup>19</sup> / 1.2×10<sup>20</sup></td></tr>
+<tr><td>ConvS2S 集成</td><td>26.36</td><td>41.29</td><td>7.7×10<sup>19</sup> / 1.2×10<sup>21</sup></td></tr>
+<tr><td>Transformer (base)</td><td>27.3</td><td>38.1</td><td>3.3×10<sup>18</sup></td></tr>
+<tr class="hl"><td>Transformer (big)</td><td>28.4</td><td>41.8</td><td>2.3×10<sup>19</sup></td></tr>
+</table>
+
+<p>这张表里最该看的不是 28.4，而是 <strong>base 那一行</strong>。它的训练算力 3.3×10<sup>18</sup> 是全表最低，只有 ConvS2S 的约三分之一、GNMT 的约七分之一，但它的英德 BLEU 27.3 已经超过表里所有旧模型，<strong>包括集成模型</strong>。换句话说，便宜的版本已经比贵的旧冠军强。</p>
+
+<p>big 模型在英德上达到 28.4，比此前最好的成绩（含集成）高出 2 BLEU 以上。在机器翻译里，1 个 BLEU 通常已经是明显进步，2 个以上相当于把整个排行榜往上推了一档。英法上，big 拿到 41.8，算力只有 ConvS2S 集成的大约 1/50。</p>
+
+<div class="ps">PS：版本细节。2017 会议版里英法 big 是 41.0，arXiv v7 的 Table 2 改成了 41.8，但 v7 正文 6.1 节仍写着 41.0。引用这个数字时最好注明版本。</div>
+
+<p>消融实验（Table 3，开发集 newstest2013）告诉我们哪些设计真的有用：</p>
+
+<table>
+<tr><th>改动</th><th>dev BLEU</th><th>说明了什么</th></tr>
+<tr class="hl"><td>base（h=8，d<sub>k</sub>=64）</td><td>25.8</td><td>参照</td></tr>
+<tr><td>只用 1 个头（d<sub>k</sub>=512）</td><td>24.9</td><td>多头确实有用：单头低 0.9</td></tr>
+<tr><td>32 个头（d<sub>k</sub>=16）</td><td>25.4</td><td>头太多、每头太窄也不行</td></tr>
+<tr><td>d<sub>k</sub> 降到 16（行 B）</td><td>25.1</td><td>“匹配”这件事需要足够的维度</td></tr>
+<tr><td>去掉 Dropout</td><td>24.6</td><td>正则化很关键，否则过拟合</td></tr>
+<tr><td>去掉标签平滑</td><td>25.3</td><td>标签平滑贡献约 0.5</td></tr>
+<tr><td>可学习位置向量</td><td>25.7</td><td>正弦编码不是关键，有位置信息就行</td></tr>
+<tr><td>big（d=1024，h=16）</td><td>26.4</td><td>更大更好，规模化的伏笔</td></tr>
+</table>
+
+<p>最后一行很值得回味：模型变大，效果就稳定变好。论文只是顺带一提（“bigger models are better”），却恰好预言了后面五年的整条路线。</p>
+
+<p>论文还做了一个跨任务小实验：英语成分句法分析。只用 4 层、几乎没调参，在只有 4 万句训练数据的 WSJ 上拿到 91.3 F1，半监督设置下 92.7，超过了大部分专门设计的模型。这说明它不只是一个“翻译模型”，而是一种通用的序列建模积木。</p>
+
+<h2>六、它为什么能改变世界</h2>
+
+<p><strong>技术上</strong>，它把序列建模拆成了一组标准积木：注意力负责路由，FFN 负责加工，残差和归一化负责让积木能一直往上堆。后来的 BERT 只拿了 Encoder，GPT 只拿了 Decoder，T5 保留了整套 Encoder-Decoder。架构几乎不用改，换个训练目标就行。</p>
+
+<p><strong>产业上</strong>，它和 GPU 天生合拍。整个前向计算几乎都是大矩阵乘法，正是 GPU、TPU 最擅长的。RNN 时代，加显卡也快不起来，因为计算本身要排队；Transformer 时代，算力翻倍就能把模型做大一倍。从 6500 万参数的 base 到今天上万亿参数的模型，靠的都是这条“可以花钱买效果”的路。</p>
+
+<p><strong>方法学上</strong>，它说明“少一点先验，多一点数据和算力”可以赢。RNN 内置了“按顺序读”的假设，CNN 内置了“局部相关”的假设；Transformer 几乎什么都不假设，只给一个位置信号，剩下的关系全靠模型自己从数据里学。数据和算力够多时，这种“白纸”反而走得最远。</p>
+
+<h2>七、它没解决的问题</h2>
+
+<p><strong>作者自己承认的：</strong>一是注意力的加权平均会降低“有效分辨率”，多头只是缓解；二是长序列的计算问题。结论部分写着，计划研究“local, restricted attention mechanisms to efficiently handle large inputs and outputs such as images, audio and video”，还说“Making generation less sequential is another research goal”。也就是说，<strong>生成仍然是串行的</strong>，Transformer 提速的主要是训练，推理还是一个字一个字往外蹦。</p>
+
+<p><strong>我的判断：</strong>第一，$O(n^2)$ 的显存和计算是实打实的天花板。句子短时不明显，上下文到了 10 万 token 就是灾难。后来的 FlashAttention、稀疏注意力、线性注意力、Mamba，都在补这个洞。第二，Post-Norm 加 warmup 的组合对深层模型不太友好，层数一多就容易训崩，这也是后来大家普遍改用 Pre-Norm 的原因。第三，论文说正弦编码“may allow the model to extrapolate”，但并没有给出外推实验；后来的实践表明，绝对位置编码的外推能力很有限，RoPE、ALiBi 等相对位置方案才逐渐成为主流。第四，评测面比较窄：两个语言对、一个句法任务，主要指标只有 BLEU。它的通用性，是后来的 BERT 和 GPT 替它证明的。</p>
+
+<h2>八、回到开头</h2>
+
+<p>回到最开始的问题：为什么一篇只做翻译的论文，会成为所有大模型的发动机？</p>
+
+<p>因为它解决的从来不只是“翻译”，而是一个更底层的问题：<strong>让一句话里的每个词，都能一步找到它需要的信息，而且所有词同时找。</strong>传话游戏变成圆桌会议之后，GPU 终于能满负荷运转，模型终于能放心地变大。剩下的故事，你在 ChatGPT 的对话框里每天都能看到。</p>
+
+<div class="summary-box">
+<h3>三句话带走</h3>
+<p>1. <strong>注意力即路由</strong>：$\mathrm{softmax}(QK^\top/\sqrt{d_k})V$ 让任意两个位置一步交换信息，多头提供多种视角，掩码决定谁能看见谁。<br>
+2. <strong>积木化堆叠</strong>：Attention（词与词之间）+ FFN（词内部）+ 残差/LayerNorm（可训练性），位置信息靠 PE 注入。<br>
+3. <strong>并行即规模</strong>：去掉循环后，每层只需 $O(1)$ 次顺序操作，用更少的算力拿到更高的 BLEU，这才有了后来的“越大越强”。</p>
+</div>
+
+<div class="golden">RNN 让信息排队，Transformer 让信息开会。<br>当所有词能同时开口，模型就再也不必等待。</div>
+
+</body>
+</html>
