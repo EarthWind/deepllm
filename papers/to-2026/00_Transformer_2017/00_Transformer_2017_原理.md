@@ -644,7 +644,7 @@ Transformer 把序列模型统一成了“矩阵乘法 + 归一化 + 逐位置 M
 
 ### 读完接着看
 
-- 架构分支：[BERT：Encoder-only](../01_BERT_2018_原理.md) · [GPT：Decoder-only](../02_GPT_2018_原理.md) · [T5：Encoder-Decoder](../04_T5_2020_原理.md)
+- 架构分支：[BERT：Encoder-only](../01_BERT_2018_原理.md) · [GPT：Decoder-only](../02_GPT_2018/02_GPT_2018_原理.md) · [T5：Encoder-Decoder](../04_T5_2020_原理.md)
 - 位置编码：[RoFormer / RoPE](../09_RoFormer_RoPE_2021_原理.md)
 - 系统优化：[FlashAttention](../14_FlashAttention_2022_原理.md)
 - 模型组件：[FFN 详解](../../../concept/FFN.md)
