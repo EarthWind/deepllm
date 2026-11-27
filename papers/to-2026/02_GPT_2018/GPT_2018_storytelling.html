@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Improving Language Understanding by Generative Pre-Training — 深度解读：一篇没写“GPT”的论文，怎么开启了 GPT 时代</title>
+<style>
+:root{--text:#1a1a1a;--bg:#fafaf8;--accent:#2563eb;--muted:#6b7280;--border:#e5e7eb;--code-bg:#f3f4f6;--orange:#ea580c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Noto Serif SC",serif;color:var(--text);background:var(--bg);line-height:1.85;padding:2.5rem 1.5rem;max-width:720px;margin:0 auto;font-size:17px}
+h1{font-size:2rem;margin:0 0 .3rem;line-height:1.3}
+h2{font-size:1.35rem;margin:2.8rem 0 .8rem;color:var(--accent);padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+h3{font-size:1.1rem;margin:1.5rem 0 .5rem;color:#333}
+.meta{color:var(--muted);font-size:.9rem;margin-bottom:2.5rem;line-height:1.8}
+.meta a{color:var(--accent);text-decoration:none}
+blockquote{border-left:3px solid var(--accent);padding:.6rem 1.2rem;margin:1.5rem 0;background:#f0f4ff;border-radius:0 8px 8px 0}
+blockquote .zh{display:block;color:var(--muted);font-size:.92rem;margin-top:.3rem}
+pre{background:var(--code-bg);padding:1rem 1.2rem;border-radius:8px;overflow-x:auto;font-size:.85rem;line-height:1.5;margin:1.5rem 0 .4rem;border:1px solid var(--border)}
+.code-cap{font-size:.82rem;color:var(--muted);margin:0 0 1.5rem}
+code{font-family:"SF Mono","Fira Code",monospace;font-size:.9em}
+p{margin:1rem 0}
+strong{color:#111}
+table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.93rem}
+td,th{border:1px solid var(--border);padding:.6rem .9rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+tr.hl td{background:#fff7ed;font-weight:600}
+.summary-box{background:linear-gradient(135deg,#f0f4ff,#faf5ff);padding:1.5rem;border-radius:12px;margin:1.5rem 0}
+.summary-box h3{margin:0 0 .5rem;color:var(--accent)}
+.ps{font-size:.92rem;color:#555;background:#fffbea;border:1px dashed #e5c76b;border-radius:8px;padding:.7rem 1rem;margin:1.2rem 0}
+figure{margin:1.8rem -2rem}
+figure img{width:100%;border:1px solid var(--border);border-radius:10px;background:#fff}
+figcaption{font-size:.85rem;color:var(--muted);text-align:center;margin-top:.4rem}
+.golden{font-size:1.25rem;font-weight:600;color:var(--accent);text-align:center;padding:2rem 1rem;border-top:2px solid var(--accent);border-bottom:2px solid var(--accent);margin:2.5rem 0;line-height:1.5}
+@media(max-width:800px){figure{margin:1.5rem 0}}
+@media(max-width:600px){body{font-size:16px;padding:1.2rem 1rem}h1{font-size:1.5rem}}
+</style>
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],ignoredTags:['script','noscript','style','textarea','pre','code']})"></script>
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js" integrity="sha384-WmdflGW9aGfoBdHc4rRyWzYuAjEmDwMdGdiPNacbwfGKxBW/SO6guzuQ76qjnSlr" crossorigin="anonymous"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',securityLevel:'loose'});</script>
+</head>
+<body>
+
+<h1>一篇通篇没写“GPT”的论文，怎么开启了 GPT 时代？</h1>
+<div class="meta">
+《Improving Language Understanding by Generative Pre-Training》深度解读 · 故事版<br>
+Alec Radford, Karthik Narasimhan, Tim Salimans, Ilya Sutskever · OpenAI · 2018 年 6 月<br>
+论文：<a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf">OpenAI PDF</a> · 本地：<a href="Improving_Language_Understanding_by_Generative_Pre-Training.pdf">PDF</a> · 代码：<a href="https://github.com/openai/finetune-transformer-lm">openai/finetune-transformer-lm</a>（已开源，Archive 状态，TensorFlow 1.x，只实现了 ROCStories 实验）<br>
+配套：<a href="02_GPT_2018_原理.md">GPT-1 原理导读</a> · <a href="illustrated/gpt1-illustrated.md">方法图解（7 张）</a>
+</div>
+
+<figure>
+<img src="illustrated/00-cover.png" alt="封面：同一个 Transformer，先学续写，再学判断">
+<figcaption>图解 00：同一个 12 层 Transformer，预训练时接“续写”头，微调时接“分类”头</figcaption>
+</figure>
+
+<h2>一、一个连名字都没有的模型</h2>
+
+<p>你可以做个小实验：把这篇 12 页的论文从头翻到尾，搜索 “GPT” 这三个字母。</p>
+
+<p>一次都搜不到。</p>
+
+<p>在论文所有的结果表里，这个模型只有一个朴素的名字：<strong>Finetuned Transformer LM</strong>，意思是“微调过的 Transformer 语言模型”。“GPT”这个叫法后来才流行起来，几个月后 BERT 论文做对比时，称它为 “OpenAI GPT”。</p>
+
+<p>可就是这个连正式名字都没有的模型，用<strong>同一套参数</strong>，在 12 个语言理解数据集中的 9 个上刷新了最好成绩。它打败的对手里，有不少是专门为某个任务设计的模型，还有好几个是 5 个、9 个模型的集成。更重要的是，它确立的“先预训练、再微调”的做法，此后几年几乎成了 NLP 的标准流程。</p>
+
+<p>这篇文章想讲清楚一件事：<strong>它到底做对了什么？</strong></p>
+
+<h2>二、为什么非改不可：标注太贵，迁移只迁了一半</h2>
+
+<p>2018 年之前，做一个 NLP 任务的标准流程是这样的：先收集几千到几十万条人工标注数据，再为这个任务设计一个专用模型，然后从头训练。换一个任务，就把这三步重新走一遍。</p>
+
+<p>问题出在第一步。标注很贵，而且很多领域根本没有足够的标注。论文开篇就点明了这个矛盾：</p>
+
+<blockquote>
+“Although large unlabeled text corpora are abundant, labeled data for learning these specific tasks is scarce.”
+<span class="zh">无标注的大规模文本到处都是，但针对具体任务的标注数据却很稀缺。（Abstract）</span>
+</blockquote>
+
+<p>那就从无标注文本里学点东西吧。当时最成功的做法是<strong>预训练词向量</strong>（word2vec、GloVe）。但它只学到了“词”这一层：每个词对应一个固定向量，“苹果”在“吃苹果”和“苹果发布会”里是同一个向量，句子层面的东西一点没迁移过去。</p>
+
+<p>再往前一步的是 ELMo 和 ULMFiT。ELMo 用双向 LSTM 语言模型产出“上下文相关”的词表示，但这些表示只是作为<strong>额外特征</strong>喂给下游模型，每个任务仍然要自己搭一套架构。ULMFiT 已经做到了“预训练语言模型再微调”，但它用的是 LSTM，论文认为这让它的“预测能力只能覆盖较短的距离”。</p>
+
+<p>打个比方。预训练词向量像给新员工发一本词典；ELMo 像派一位懂行的顾问坐在新员工旁边，随时给建议，但干活的还是一个每次都要重新招的人。GPT 想做的是另一件事：<strong>先让一个人读完七千本书，再把这个人本身派去上岗。</strong></p>
+
+<p>论文还指出，想把句子层面的知识迁移过去，有两个悬而未决的问题：</p>
+
+<blockquote>
+“First, it is unclear what type of optimization objectives are most effective at learning text representations that are useful for transfer. Second, there is no consensus on the most effective way to transfer these learned representations to the target task.”
+<span class="zh">第一，不清楚用什么训练目标学出来的表示最适合迁移；第二，学到之后怎么迁移到目标任务上，也没有共识。（Section 1）</span>
+</blockquote>
+
+<p>GPT 对这两个问题的回答都非常简单：<strong>目标就用语言模型；迁移就迁整个网络。</strong></p>
+
+<h2>三、核心洞察：会续写，就半懂了</h2>
+
+<p>论文的核心判断，可以压缩成一句话：<strong>一个能把文章很好地续写下去的模型，必然已经理解了相当多的语言。</strong></p>
+
+<p>想象你在读一本侦探小说，读到“凶手就是——”时停下来。要猜对下一个词，你得记住几十页前的线索，理解人物关系，还得懂一点因果推理。语言模型的训练目标就是无数次这样的“猜下一个词”，而这个目标<strong>不需要任何人工标注</strong>：答案就是文本里的下一个词。</p>
+
+<p>所以 GPT 的配方只有两步：先在大量无标注长文本上，用“预测下一个词”训练一个大的 Transformer；然后在每个下游任务上，用少量标注数据把<strong>整个模型</strong>微调一遍，只在最上面加一层线性输出。</p>
+
+<figure>
+<img src="illustrated/01-method-overview.png" alt="方法总览：两阶段训练">
+<figcaption>图解 01：两个阶段共用同一组参数 Θ，阶段 ② 只新增 W_y 和分隔符嵌入</figcaption>
+</figure>
+
+<h2>四、方法详解：读书、上岗、填表</h2>
+
+<h3>第一步：读七千本书，学会续写</h3>
+
+<p>预训练语料是 BooksCorpus：7,000 多本未出版的图书，冒险、奇幻、爱情都有。选它不是随便选的。论文特意对比了同样规模的 1B Word Benchmark：那个数据集<strong>按句子打乱过</strong>，长距离结构已被破坏；而书里有成段的连续文本，模型能学会利用几百个词之前的上下文。</p>
+
+<p>训练目标就是标准的语言模型似然。给定语料 $\mathcal{U}=\{u_1,\dots,u_n\}$，最大化：</p>
+
+$$L_1(\mathcal{U})=\sum_i \log P(u_i \mid u_{i-k},\dots,u_{i-1};\Theta)$$
+
+<p>人话：用前 $k$ 个词去猜第 $i$ 个词，把每一次猜对的对数概率加起来，越大越好。$\Theta$ 是网络的全部参数。</p>
+
+<p>网络本身是一个 12 层的 <strong>Transformer 解码器</strong>（论文 Eq. 2）：</p>
+
+$$h_0 = UW_e + W_p,\qquad h_l=\texttt{transformer\_block}(h_{l-1}),\qquad P(u)=\mathrm{softmax}(h_nW_e^{\top})$$
+
+<p>三行公式各管一件事：第一行把词变成向量，再加上<strong>可学习的</strong>位置向量（原版 Transformer 用的是正弦函数）；第二行过 12 层 Transformer；第三行用<strong>同一个词嵌入矩阵 $W_e$ 的转置</strong>把向量变回词表上的概率，输入和输出共享一套“词典”。</p>
+
+<p>这里的关键是“解码器”三个字：每个位置只能看到它左边的词。这就像闭卷考试时，用一张纸把后面的答案盖住，你只能根据已经读过的内容往下猜。实现上，就是在注意力分数矩阵的右上三角填一个极大的负数，softmax 之后那些位置的权重就变成了 0。</p>
+
+<pre><code>def mask_attn_weights(w):
+    n = shape_list(w)[-1]
+    b = tf.matrix_band_part(tf.ones([n, n]), -1, 0)   # 下三角全 1
+    b = tf.reshape(b, [1, 1, n, n])
+    w = w*b + -1e9*(1-b)                              # 未来位置 → -1e9
+    return w
+
+def block(x, scope, train=False, scale=False):
+    with tf.variable_scope(scope):
+        nx = shape_list(x)[-1]
+        a = attn(x, 'attn', nx, n_head, train=train, scale=scale)
+        n = norm(x+a, 'ln_1')                         # 残差后再 LayerNorm（Post-LN）
+        m = mlp(n, 'mlp', nx*4, train=train)          # FFN：768 → 3072 → 768
+        h = norm(n+m, 'ln_2')
+        return h</code></pre>
+<p class="code-cap"><code>train.py:64-69</code>、<code>train.py:140-147</code>（openai/finetune-transformer-lm）。<code>matrix_band_part(…, -1, 0)</code> 取下三角，正好是论文里的 masked self-attention；block 采用和原版 Transformer 一样的 Post-LN 结构，FFN 宽度是 4 倍隐藏维，对应论文的 3072。</p>
+
+<figure>
+<img src="illustrated/02-unsupervised-pretraining.png" alt="无监督预训练">
+<figcaption>图解 02：前向计算、因果掩码，以及 Section 4.1 的完整预训练配置</figcaption>
+</figure>
+
+<p>这个掩码带来一个常被忽略的好处：<strong>一条 512 个 token 的序列，一次前向就能得到 512 个“猜下一个词”的训练信号</strong>，因为每一行都只依赖它左边的内容，彼此不会作弊。配置方面，模型有 12 层、768 维、12 个头，FFN 宽 3072，用 GELU 激活，BPE 词表做了 4 万次合并，每批 64 条 × 512 个连续 token，训练 100 个 epoch。按这个配置估算，参数量大约 1.17 亿（论文没有写出这个数）。</p>
+
+<h3>第二步：上岗培训，只加一层线性输出</h3>
+
+<p>预训练完成后，拿到一个有标注的任务，比如判断两句话是否蕴含。每个样本是一串输入 token $x^1,\dots,x^m$ 加一个标签 $y$。GPT 的做法是：把整串输入送进预训练好的模型，<strong>取最后一个 token 在最顶层的激活</strong> $h_l^m$，接一个新的线性层 $W_y$：</p>
+
+$$P(y\mid x^1,\dots,x^m)=\mathrm{softmax}(h_l^mW_y),\qquad L_2(\mathcal{C})=\sum_{(x,y)}\log P(y\mid x^1,\dots,x^m)$$
+
+<p>为什么取最后一个？因为在因果掩码下，只有最后一个位置“看过”整串输入。它就像一份读完全文后写下的摘要。</p>
+
+<p>此外，论文还发现微调时<strong>顺便继续做语言模型</strong>会有帮助，于是总目标变成：</p>
+
+$$L_3(\mathcal{C}) = L_2(\mathcal{C}) + \lambda \cdot L_1(\mathcal{C}),\qquad \lambda=0.5$$
+
+<p>这就像上岗培训期间每天仍抽时间读书，免得一心扑在业务上，把读书积累的语感忘掉。论文给的理由是：它能“(a) 提升监督模型的泛化，(b) 加快收敛”。</p>
+
+<p>代码把这几件事写得非常紧凑：词嵌入、特殊 token 和位置嵌入共用<strong>同一张表</strong> <code>we</code>；语言模型头直接拿 <code>we</code> 的转置算 logits；分类头则找到 <code>_classify_</code> 这个 token 的位置，把那一行取出来接线性层。</p>
+
+<pre><code>we = tf.get_variable("we", [n_vocab+n_special+n_ctx, n_embd], ...)  # 词表 + 3 个特殊 token + 512 个位置
+h = embed(X, we)                       # X[..., 0] 是 token id，X[..., 1] 是位置 id，两者查表后相加
+for layer in range(n_layer):
+    h = block(h, 'h%d'%layer, train=train, scale=True)
+
+lm_h = tf.reshape(h[:, :-1], [-1, n_embd])
+lm_logits = tf.matmul(lm_h, we, transpose_b=True)              # 输出层复用 we：权重共享
+lm_losses = tf.nn.sparse_softmax_cross_entropy_with_logits(
+    logits=lm_logits, labels=tf.reshape(X[:, 1:, 0], [-1]))     # 目标是右移一位的 token
+
+clf_h = tf.reshape(h, [-1, n_embd])
+pool_idx = tf.cast(tf.argmax(tf.cast(tf.equal(X[:, :, 0], clf_token), tf.float32), 1), tf.int32)
+clf_h = tf.gather(clf_h, tf.range(shape_list(X)[0], dtype=tf.int32)*n_ctx+pool_idx)  # 取 Extract 位置
+...
+clf_logits = clf(clf_h, 1, train=train)                       # 新增的线性层 W_y
+
+# mgpu_train 中：
+train_loss = tf.reduce_mean(clf_losses) + lm_coef*tf.reduce_mean(lm_losses)  # lm_coef 默认 0.5</code></pre>
+<p class="code-cap">节选自 <code>train.py:164-190</code> 与 <code>train.py:205</code>（<code>--lm_coef</code> 默认 0.5，见 <code>train.py:353</code>）。位置嵌入就是 <code>we</code> 的最后 <code>n_ctx</code> 行（预训练时为 512），所以论文里的 $W_e$ 和 $W_p$ 在代码里是同一个变量的两段。</p>
+
+<p>微调新增的参数少得惊人：只有 $W_y$，以及起始、分隔、抽取这几个特殊 token 的嵌入。代码里，加载预训练权重时会随机初始化 3 行新嵌入，拼在词表和位置嵌入之间（<code>train.py:410</code>）。其余的全部来自预训练，而且<strong>全部参与更新</strong>。超参数也很省心：学习率 6.25e-5，batch 32，大多数任务训练 3 个 epoch 就够了。</p>
+
+<figure>
+<img src="illustrated/03-supervised-finetuning.png" alt="有监督微调">
+<figcaption>图解 03：同一次前向的两个输出头，以及辅助 LM 损失在 8 个任务上的实际作用</figcaption>
+</figure>
+
+<h3>第三步：把考题改写成“答题卡格式”</h3>
+
+<p>还剩一个麻烦。语言模型只见过一整串连续文本，可很多任务的输入是有结构的：蕴含任务有前提和假设两句话，问答任务有文章、问题和好几个候选答案。</p>
+
+<p>以前的做法是在预训练表示上面再搭一套任务专用的结构。GPT 不想这么做，因为每加一层定制结构，就多一份没有经过预训练的参数。它的办法很朴素：<strong>不改模型，改输入</strong>。论文的说法是：</p>
+
+<blockquote>
+“we use a traversal-style approach, where we convert structured inputs into an ordered sequence that our pre-trained model can process.”
+<span class="zh">我们把结构化输入转换成一条有序的序列，让预训练模型可以直接处理。（Section 3.3）</span>
+</blockquote>
+
+<p>这就像考试统一用答题卡：不管是选择题、判断题还是连线题，都先誊写成同一种格式，阅卷机只需要会读这一种格式。</p>
+
+<table>
+<tr><th>任务</th><th>输入怎么拼</th><th>输出怎么取</th></tr>
+<tr><td>分类（SST-2、CoLA）</td><td><code>[Start] 文本 [Extract]</code></td><td>Extract 位置 → Linear</td></tr>
+<tr><td>蕴含（MNLI、SNLI 等）</td><td><code>[Start] 前提 $ 假设 [Extract]</code></td><td>Extract 位置 → Linear → 3 类</td></tr>
+<tr><td>相似度（MRPC、QQP、STS-B）</td><td>两种顺序各拼一条：<code>A $ B</code> 与 <code>B $ A</code></td><td>两条的 $h_l^m$ <strong>逐元素相加</strong> → Linear</td></tr>
+<tr><td>多选问答（RACE、Story Cloze）</td><td>每个候选答案单独一条：<code>[z; q; $; a_k]</code></td><td>每条一个分数，N 个选项上做 softmax</td></tr>
+</table>
+
+<p>相似度那一行很有意思：两句话本来没有先后之分，但语言模型是从左往右读的，所以干脆两种顺序都读一遍，再把结果相加，抵消顺序带来的偏差。</p>
+
+<pre><code>def transform_roc(X1, X2, X3):
+    ...
+    start = encoder['_start_']
+    delimiter = encoder['_delimiter_']
+    for i, (x1, x2, x3), in enumerate(zip(X1, X2, X3)):
+        x12 = [start]+x1[:max_len]+[delimiter]+x2[:max_len]+[clf_token]   # 故事 + 结尾 1
+        x13 = [start]+x1[:max_len]+[delimiter]+x3[:max_len]+[clf_token]   # 故事 + 结尾 2
+        ...
+    xmb[:, :, :, 1] = np.arange(n_vocab+n_special, n_vocab+n_special+n_ctx)  # 位置 id
+    return xmb, mmb</code></pre>
+<p class="code-cap"><code>train.py:229-245</code>。Story Cloze 是“二选一”的多选题：同一个故事分别接两个候选结尾，拼成两条序列；<code>model()</code> 里 <code>reshape(clf_logits, [-1, 2])</code> 再在两个选项上做 softmax。这正是表格最后一行的做法。</p>
+
+<figure>
+<img src="illustrated/04-task-input-transformations.png" alt="任务输入改写">
+<figcaption>图解 04：四类任务的输入改写，模型结构完全不变</figcaption>
+</figure>
+
+<p>最后把新旧做法放在一起比一比：</p>
+
+<table>
+<tr><th></th><th>预训练词向量</th><th>ELMo（特征式）</th><th>GPT-1（微调式）</th></tr>
+<tr><td>迁移了什么</td><td>每个词一个固定向量</td><td>上下文相关的词表示</td><td><strong>整个网络</strong></td></tr>
+<tr><td>下游模型</td><td>每个任务重新设计</td><td>每个任务重新设计，表示当特征</td><td>同一个模型 + 一层 Linear</td></tr>
+<tr><td>预训练结构</td><td>浅层模型</td><td>双向 LSTM</td><td>12 层 Transformer 解码器</td></tr>
+<tr><td>结构化输入</td><td>靠任务模型处理</td><td>靠任务模型处理</td><td>改写成一条序列</td></tr>
+</table>
+
+<h2>五、效果：一套参数，九项第一</h2>
+
+<p>论文在 4 类任务、12 个数据集上做了评测。下表挑出最有代表性的结果，“此前最佳”是论文表格里的最好成绩，其中不少是集成模型：</p>
+
+<table>
+<tr><th>数据集</th><th>任务</th><th>此前最佳</th><th>GPT-1</th><th>变化</th></tr>
+<tr class="hl"><td>Story Cloze</td><td>常识推理</td><td>77.6</td><td>86.5</td><td>+8.9</td></tr>
+<tr class="hl"><td>RACE</td><td>阅读理解</td><td>53.3（9 模型集成）</td><td>59.0</td><td>+5.7</td></tr>
+<tr><td>QNLI</td><td>问答式推理</td><td>82.3</td><td>88.1</td><td>+5.8</td></tr>
+<tr><td>CoLA</td><td>语法可接受性</td><td>35.0</td><td>45.4</td><td>+10.4</td></tr>
+<tr><td>MNLI-m</td><td>文本蕴含</td><td>80.6（3 模型集成）</td><td>82.1</td><td>+1.5</td></tr>
+<tr><td>GLUE 总分</td><td>综合</td><td>68.9</td><td>72.8</td><td>+3.9</td></tr>
+<tr><td>RTE</td><td>文本蕴含（小数据）</td><td>61.7</td><td>56.0</td><td>−5.7</td></tr>
+</table>
+
+<p>先看 Story Cloze 和 RACE。这两个任务都要求读一段较长的上下文再做判断，GPT 在这里涨得最多，正好印证了“在长文本上预训练”的价值。CoLA 判断句子是否合语法，提升了 10 个点以上，说明语言模型在预训练中已经学到了语法知识。</p>
+
+<p>再看输掉的项目。RTE 只有 2,490 个训练样本，GPT 不如一个多任务训练的 BiLSTM。作者也坦然承认这一点，并推测多任务训练可能会有帮助，只是还没有试。另外两项没有刷新的是 MRPC 和 SST-2。</p>
+
+<figure>
+<img src="illustrated/06-key-results.png" alt="关键结果与消融">
+<figcaption>图解 06：12 个数据集的“此前最佳 vs GPT”，以及 Table 5 的消融</figcaption>
+</figure>
+
+<p>不过，比这些分数更有说服力的是 Table 5 的消融实验。它回答了“到底是哪个部分在起作用”：</p>
+
+<table>
+<tr><th>设置</th><th>8 项平均分</th><th>相对完整模型</th></tr>
+<tr class="hl"><td>完整模型（Transformer + 预训练 + 辅助 LM）</td><td>74.7</td><td>—</td></tr>
+<tr><td>去掉辅助 LM</td><td>75.0</td><td>+0.3</td></tr>
+<tr><td>换成单层 LSTM（2048 单元）</td><td>69.1</td><td>−5.6</td></tr>
+<tr><td>去掉预训练</td><td>59.9</td><td>−14.8</td></tr>
+</table>
+
+<p>这张表的意思很清楚：<strong>预训练是绝对主角</strong>，去掉它平均分掉 14.8，CoLA 更是从 45.4 跌到 18.9；把 Transformer 换成 LSTM 掉 5.6，说明架构也很关键；辅助 LM 损失的作用则因数据集而异：大数据集（MNLI、QNLI、QQP）受益，小数据集反而不受益，平均下来去掉它还略高一点。</p>
+
+<p>论文还做了两个分析实验，我认为比主结果更耐人寻味。第一个是逐层迁移：只把预训练模型的前 k 层搬过去，其余层随机初始化。结果是每多搬一层，效果都更好，在 MultiNLI 上全量迁移最多带来 9% 的提升。也就是说，这 12 层里<strong>没有一层是白学的</strong>。</p>
+
+<p>第二个是 <strong>zero-shot</strong>：完全不微调，直接用语言模型的概率去“做题”。比如情感分类，就在句子后面接上 “very”，看模型觉得下一个词更可能是 positive 还是 negative；阅读理解，就看在文章和问题之后，哪个答案的概率最高。随着预训练步数增加，这些“土办法”的表现稳定上升。论文据此推测：</p>
+
+<blockquote>
+“the underlying generative model learns to perform many of the tasks we evaluate on in order to improve its language modeling capability”
+<span class="zh">生成式模型为了把语言模型做得更好，顺带学会了执行我们评测的许多任务。（Section 5）</span>
+</blockquote>
+
+<figure>
+<img src="illustrated/05-why-it-works.png" alt="为什么有效">
+<figcaption>图解 05：逐层迁移的趋势（示意）与四种 zero-shot 启发式</figcaption>
+</figure>
+
+<h2>六、它为什么重要</h2>
+
+<p><strong>从技术上看</strong>，GPT-1 把“预训练 + 微调”做成了一个通用范式：一个任务无关的模型，只改输入格式、加一层线性头，就能在推理、问答、相似度、分类上同时拿到强结果。几个月后的 BERT 沿用了几乎相同的框架，只把单向语言模型换成双向的掩码语言模型，把 <code>Start / Delim / Extract</code> 换成了 <code>[CLS] / [SEP]</code>，下游任务同样是“整个模型微调 + 一层输出”。</p>
+
+<p><strong>从方法论上看</strong>，那个 zero-shot 小实验是一颗种子。它说明语言模型的概率本身就编码了任务能力，只要把任务“写成”一段让模型续写的文字。GPT-2 把这个想法推到台前，直接去掉微调做 zero-shot；GPT-3 再加上少样本示例，变成了今天大家熟悉的 prompt。回头看，从 2018 年到 2020 年，OpenAI 一直沿着同一条路走：<strong>同样的解码器架构，更大的模型，更多的数据，越来越少的任务定制。</strong></p>
+
+<p><strong>从产业上看</strong>，它改变了 NLP 的成本结构。以前每个任务都要从零训练一个模型，而且要大量标注；之后，一家机构花大价钱预训练一次，所有人都可以拿来用少量标注微调，标注数据的门槛被大幅拉低。</p>
+
+<h2>七、它没解决的问题</h2>
+
+<p>论文自己承认的局限主要有两处。一是 RTE 这类小数据集上表现不佳，作者认为多任务训练可能有帮助，但没有探索。二是辅助 LM 损失并非总有收益，论文观察到它在小数据集上不起作用，却没有给出更细的解释。</p>
+
+<p>我想再补充几点。第一，<strong>单向</strong>是它最大的结构性限制：在理解类任务里，一个词的含义往往同时取决于左右两侧，而 GPT 只能看左边。BERT 正是抓住了这一点，几个月后在 GLUE 的同一批任务上大幅超过了它。第二，评测只覆盖理解任务，几乎没有评估生成质量，而“生成”恰恰是这个模型后来最出名的能力。第三，可复现性有一定波动：官方仓库的 README 写明，用默认超参数跑 10 次，Story Cloze 准确率的中位数是 85.8%，略低于论文中单次运行报告的 86.5%。第四，仓库只公开了 Story Cloze 一个任务的微调代码，其余 11 个数据集的实验没有可直接复现的脚本。</p>
+
+<div class="ps">附：论文里写的“modified L2 regularization proposed in [37]”，在代码里就是 <code>opt.py:44-47</code> 的解耦式权重衰减（Adam with weight decay fix）：只对矩阵参数（维度大于 1）施加 <code>l2*p</code>，偏置和 LayerNorm 的增益不衰减，正好对应论文“on all non bias or gain weights”。</div>
+
+<h2>八、回到开头</h2>
+
+<p>回到最开始的问题：一篇连 “GPT” 都没写的论文，为什么开启了 GPT 时代？</p>
+
+<p>因为它的模型不重要，它的<strong>配方</strong>重要：先让模型在海量无标注文本上学会续写，再把整个模型拿去做具体的事。读书是通用的，上岗培训是轻量的，考题只需要改写成它熟悉的格式。后来的故事，只是把书换得更多、把人换得更大，最后连“上岗培训”这一步都省掉了。</p>
+
+<div class="summary-box">
+<h3>三句话带走</h3>
+<p>1. <strong>生成式预训练</strong>：只用“预测下一个词”这一个目标 $L_1$，在无标注长文本上训练 12 层 Transformer 解码器，消融显示它贡献了 14.8 分。<br>
+2. <strong>迁移整个网络</strong>：微调时所有层都继承、都更新，只新增 $W_y$ 和几个特殊 token 的嵌入，总目标 $L_3=L_2+0.5\,L_1$。<br>
+3. <strong>改输入，不改模型</strong>：结构化输入改写成带 Start、<code>$</code>、Extract 的序列，一个模型同时处理分类、蕴含、相似度和多选问答。</p>
+</div>
+
+<div class="golden">GPT-1 没有教模型做任何一道题，它只教模型读书。<br>题目，后来都换成了它会续写的样子。</div>
+
+</body>
+</html>
