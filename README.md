@@ -25,6 +25,7 @@ DeepLLM 汇集了大模型相关的学习笔记、论文解读、课程资料、
 | [`models/`](models/) | 主流模型的部署、LangChain 接入、Web Demo、评测和 LoRA/GRPO 微调教程 | 复现模型实践流程 |
 | [`books/`](books/) | 《从零构建大语言模型》《动手学大模型》相关中文资料与 Notebook | 按书籍章节学习与练习 |
 | [`blogs/`](blogs/) | AHEAD OF AI、Hugging Face、Maarten Grootendorst 等技术文章归档 | 扩展阅读与专题参考 |
+| [`llm-releases/`](llm-releases/) | 主流大模型发布时间线、规格、价格、开源状态与来源核实 | 跟踪最新模型动态 |
 
 ## 重点内容
 
