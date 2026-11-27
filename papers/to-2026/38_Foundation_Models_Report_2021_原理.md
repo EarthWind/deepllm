@@ -8,7 +8,7 @@
 > **时间**：2021 年 8 月首次公开；官方 PDF 后续修订，本文以 214 页 CRFM 版本为准<br>
 > **关键词**：Foundation Model、Emergence、Homogenization、Adaptation、Evaluation、Sociotechnical System、Common-mode Failure<br>
 > **配套代码**：[foundation_models_report_demo.py](./code/foundation_models_report_demo.py)<br>
-> **前置阅读**：[Transformer 原理](00_Transformer_2017_原理.md) · [BERT 原理](01_BERT_2018_原理.md) · [GPT-3 原理](05_GPT3_2020_原理.md) · [The Pile 原理](37_The_Pile_2020_原理.md)
+> **前置阅读**：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md) · [BERT 原理](01_BERT_2018_原理.md) · [GPT-3 原理](05_GPT3_2020_原理.md) · [The Pile 原理](37_The_Pile_2020_原理.md)
 
 这不是一篇提出新网络层、训练损失或榜单纪录的普通论文。它是一份由百余位跨学科研究者共同完成的 **214 页研究报告**，试图给 2021 年正在发生的范式变化命名，并把此前分散在 NLP、视觉、机器人、系统、安全、公平、法律和经济学中的问题放进同一张地图。
 

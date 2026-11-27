@@ -1035,7 +1035,7 @@ $$
 
 ### 前置知识
 
-1. [Transformer](./00_Transformer_2017_原理.md)：先理解 Attention、FFN 与残差；
+1. [Transformer](./00_Transformer_2017/00_Transformer_2017_原理.md)：先理解 Attention、FFN 与残差；
 2. [T5](./04_T5_2020_原理.md)：Switch 的实验骨架和预训练任务来自 T5；
 3. [Scaling Laws](./06_Scaling_Laws_2020_原理.md)：理解“固定 FLOPs 增加容量”为什么是一条新扩展轴。
 

@@ -8,7 +8,7 @@
 > **关键词**：Sentence Embedding、Siamese Network、Bi-Encoder、Pooling、Semantic Textual Similarity、Semantic Search<br>
 > **原文与实现**：[arXiv 摘要](https://arxiv.org/abs/1908.10084) · [论文 PDF](https://arxiv.org/pdf/1908.10084) · [ACL Anthology](https://aclanthology.org/D19-1410/) · [Sentence Transformers 官方仓库](https://github.com/huggingface/sentence-transformers) · [官方文档](https://www.sbert.net/)<br>
 > **本文代码**：[零依赖 SBERT 核心机制最小实现](code/sbert_minimal.py)<br>
-> **前置阅读**：[Transformer 原理](00_Transformer_2017_原理.md) · [BERT 原理](01_BERT_2018_原理.md) · [ELMo 原理](32_ELMo_2018_原理.md) · [RoBERTa 原理](33_RoBERTa_2019_原理.md)
+> **前置阅读**：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md) · [BERT 原理](01_BERT_2018_原理.md) · [ELMo 原理](32_ELMo_2018_原理.md) · [RoBERTa 原理](33_RoBERTa_2019_原理.md)
 
 BERT 很会判断两个句子的关系，却不天然擅长生成能直接做余弦比较的句向量。
 

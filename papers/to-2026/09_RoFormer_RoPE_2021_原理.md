@@ -764,6 +764,6 @@ $\mathbf R_0=\mathbf I$，所以位置 0 的 Q/K 不旋转。这只是坐标原�
 - [RoFormer 论文（arXiv）](https://arxiv.org/abs/2104.09864)
 - [RoFormer 作者代码与伪代码](https://github.com/ZhuiyiTechnology/roformer)
 - [作者早期中文推导：Transformer 升级之路（二）](https://kexue.fm/archives/8265)
-- 本仓库前置阅读：[Transformer 原理](./00_Transformer_2017_原理.md)
+- 本仓库前置阅读：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md)
 - 下一篇建议：[FlashAttention 原理](./14_FlashAttention_2022_原理.md)
 - 架构落地案例：[LLaMA 原理](./15_LLaMA_2023_原理.md)
