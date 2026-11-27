@@ -1438,7 +1438,7 @@ $1\times128$、$128\times128$、4 个 WGMMA 后提升等选择紧贴 H800。换�
 
 ### 前置阅读
 
-1. [Transformer](./00_Transformer_2017_原理.md)：decoder block 与 attention 基础。
+1. [Transformer](./00_Transformer_2017/00_Transformer_2017_原理.md)：decoder block 与 attention 基础。
 2. [Switch Transformer](./16_Switch_Transformer_2021_原理.md)：稀疏 MoE、路由与负载均衡。
 3. [RoFormer / RoPE](./09_RoFormer_RoPE_2021_原理.md)：解耦 RoPE 分支的前提。
 4. [Megatron-LM](./40_Megatron_LM_2019_原理.md)：张量并行与训练并行基础。

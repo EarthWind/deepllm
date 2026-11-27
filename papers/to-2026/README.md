@@ -5,7 +5,7 @@
 
 ## 文件列表
 
-- `00_Transformer_2017_原理.md`: `Transformer` - 注意力 / 统一骨架
+- `00_Transformer_2017/00_Transformer_2017_原理.md`: `Transformer` - 注意力 / 统一骨架
 - `01_BERT_2018_原理.md`: `BERT` - 预训练 / 编码器
 - `02_GPT_2018_原理.md`: `GPT` - 预训练 / 解码器
 - `03_GPT2_2019_原理.md`: `GPT-2` - 大规模生成式预训练

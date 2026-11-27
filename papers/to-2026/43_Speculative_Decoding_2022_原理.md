@@ -8,7 +8,7 @@
 > **时间**：2022 年 11 月首次公开；本文以 ICML 2023 最终版为准<br>
 > **关键词**：Speculative Decoding、Speculative Sampling、Exact Sampling、Draft Model、Target Model、Acceptance Rate、Memory Bandwidth、Autoregressive Inference<br>
 > **配套代码**：[speculative_decoding_minimal.py](./code/speculative_decoding_minimal.py)<br>
-> **前置阅读**：[Transformer 原理](00_Transformer_2017_原理.md) · [GPT-3 原理](05_GPT3_2020_原理.md) · [FlashAttention 原理](14_FlashAttention_2022_原理.md)
+> **前置阅读**：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md) · [GPT-3 原理](05_GPT3_2020_原理.md) · [FlashAttention 原理](14_FlashAttention_2022_原理.md)
 
 自回归语言模型有一个难以绕开的串行依赖：第 $t+1$ 个 token 的概率分布依赖已经生成的第 $t$ 个 token。
 

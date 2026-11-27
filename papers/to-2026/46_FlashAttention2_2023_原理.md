@@ -7,7 +7,7 @@
 > **作者**：Tri Dao<br>
 > **关键词**：Exact Attention、Online Softmax、Thread Block、Warp、Sequence Parallelism、Occupancy、Split-Q、Shared Memory、Tensor Core<br>
 > **配套源码**：[flash_attention2_minimal.py](./code/flash_attention2_minimal.py)<br>
-> **前置阅读**：[Transformer 原理](./00_Transformer_2017_原理.md) · [FlashAttention v1 原理](./14_FlashAttention_2022_原理.md) · [GQA 原理](./44_GQA_2023_原理.md)
+> **前置阅读**：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md) · [FlashAttention v1 原理](./14_FlashAttention_2022_原理.md) · [GQA 原理](./44_GQA_2023_原理.md)
 
 FlashAttention v1 已经解决了注意力最扎眼的系统问题：不再把完整的 $N\times N$ score 与 probability 矩阵写回 HBM。它通过 tiling、online softmax、kernel fusion 与 backward recomputation，把额外内存从 $O(N^2)$ 降到 $O(N)$，同时保持：
 
@@ -2269,7 +2269,7 @@ $$
 ### 本仓库中的前后阅读
 
 - 前置：[FlashAttention v1 原理与源码](./14_FlashAttention_2022_原理.md)
-- 前置：[Transformer 原理](./00_Transformer_2017_原理.md)
+- 前置：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md)
 - 互补：[GQA 原理与实现](./44_GQA_2023_原理.md)
 - 系统基础：[Megatron-LM 原理](./40_Megatron_LM_2019_原理.md)
 - 推理优化：[Speculative Decoding 原理](./43_Speculative_Decoding_2022_原理.md)

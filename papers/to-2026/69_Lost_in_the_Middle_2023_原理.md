@@ -1616,7 +1616,7 @@ $$
 
 ### 前置阅读
 
-- [Transformer 原理](./00_Transformer_2017_原理.md)：因果注意力、位置表示与复杂度基础；
+- [Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md)：因果注意力、位置表示与复杂度基础；
 - [RAG 原理](./07_RAG_2020_原理.md)：检索器—生成器分工与端到端瓶颈；
 - [DPR 原理](./36_DPR_2020_原理.md)：dense retrieval 与 top-$k$ passage；
 - [FlashAttention 原理](./14_FlashAttention_2022_原理.md)：更长输入的系统可行性不等于任务有效性；

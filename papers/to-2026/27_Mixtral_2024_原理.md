@@ -1208,7 +1208,7 @@ python3 papers/to-2026/code/mixtral_minimal.py
 
 ### 17.1 前置阅读
 
-1. [Transformer](./00_Transformer_2017_原理.md)：理解 Decoder Block、残差与 FFN；
+1. [Transformer](./00_Transformer_2017/00_Transformer_2017_原理.md)：理解 Decoder Block、残差与 FFN；
 2. [LLaMA](./15_LLaMA_2023_原理.md)：理解 RMSNorm、SwiGLU、RoPE 与 Decoder-only 主干；
 3. [Switch Transformer](./16_Switch_Transformer_2021_原理.md)：理解 Top-1、负载均衡与 Expert Parallelism；
 4. [DPO](./23_DPO_2023_原理.md)：理解 Mixtral Instruct 的偏好优化阶段。

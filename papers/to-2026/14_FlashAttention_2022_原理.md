@@ -1336,7 +1336,7 @@ $$
 
 ### 本仓库中的前后阅读
 
-- 前置：[Transformer 原理](./00_Transformer_2017_原理.md)
+- 前置：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md)
 - 前置：[RoFormer / RoPE 原理](./09_RoFormer_RoPE_2021_原理.md)
 - 下一篇：[LLaMA 原理](./15_LLaMA_2023_原理.md)
 - 系统视角延伸：[Mamba 原理](./29_Mamba_2023_原理.md)
