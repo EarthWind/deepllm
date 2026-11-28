@@ -1,4 +1,13 @@
-# DeepLLM
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <img src="assets/logo.svg" alt="DeepLLM" width="400">
+  </picture>
+</p>
+
+<p align="center">
+  <b>简体中文</b> | <a href="README_EN.md">English</a>
+</p>
 
 <p align="center">
   面向大语言模型学习与实践的中文知识库：从基础原理、经典论文到模型部署与微调。
