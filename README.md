@@ -23,6 +23,7 @@ DeepLLM 汇集了大模型相关的学习笔记、论文解读、课程资料、
 | [`course/`](course/) | 深度学习、NLP、预训练模型、强化学习、模型压缩与部署等课程资料 | 系统补齐基础知识 |
 | [`code/`](code/) | Transformer、BERT、Attention、MLP、Normalization 等实现 | 对照代码理解算法细节 |
 | [`models/`](models/) | 主流模型的部署、LangChain 接入、Web Demo、评测和 LoRA/GRPO 微调教程 | 复现模型实践流程 |
+| [`model-architectures/`](model-architectures/) | 主流开源模型的架构图（draw.io 源文件 + PNG），按模型家族分目录 | 对比不同模型的结构设计 |
 | [`books/`](books/) | 《从零构建大语言模型》《动手学大模型》相关中文资料与 Notebook | 按书籍章节学习与练习 |
 | [`blogs/`](blogs/) | AHEAD OF AI、Hugging Face、Maarten Grootendorst 等技术文章归档 | 扩展阅读与专题参考 |
 | [`llm-releases/`](llm-releases/) | 主流大模型发布时间线、规格、价格、开源状态与来源核实 | 跟踪最新模型动态 |
