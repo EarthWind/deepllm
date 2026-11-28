@@ -8,7 +8,7 @@
 > **关键词**：Pretraining Corpus、Data Mixture、Common Crawl、MinHashLSH、Deduplication、Decontamination、Bits per Byte、Data Governance<br>
 > **原文与资料**：[arXiv 摘要](https://arxiv.org/abs/2101.00027) · [论文 PDF](https://arxiv.org/pdf/2101.00027) · [官方复现仓库](https://github.com/EleutherAI/the-pile) · [The Pile Datasheet](https://arxiv.org/abs/2201.07311) · [Hugging Face 数据卡](https://huggingface.co/datasets/EleutherAI/pile)<br>
 > **本文代码**：[The Pile 数据混合、MinHash、去污染与 BPB 的零依赖实现](code/pile_minimal.py)<br>
-> **前置阅读**：[GPT-2 原理](03_GPT2_2019_原理.md) · [Scaling Laws 原理](06_Scaling_Laws_2020_原理.md) · [RoBERTa 原理](33_RoBERTa_2019_原理.md)
+> **前置阅读**：[GPT-2 原理](./03_GPT2_2019/03_GPT2_2019_原理.md) · [Scaling Laws 原理](06_Scaling_Laws_2020_原理.md) · [RoBERTa 原理](33_RoBERTa_2019_原理.md)
 
 The Pile 没有提出新的 Transformer Block，也没有发明新的训练损失。它解决的是一个更底层的问题：**当语言模型需要数百 GiB 文本时，训练语料能否不再只是来源不透明的一大包网页，而成为可列举、可重建、可重混合、可按领域评测的数据产品？**
 

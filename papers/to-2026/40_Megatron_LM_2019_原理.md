@@ -8,7 +8,7 @@
 > **时间**：2019 年 9 月首次公开；本文以 2020 年 3 月 arXiv v4 / ICML 2020 版本为准<br>
 > **关键词**：Tensor Parallelism、Model Parallelism、Column Parallel、Row Parallel、All-Reduce、Vocabulary Parallel、Hybrid Parallelism<br>
 > **配套代码**：[megatron_lm_minimal.py](./code/megatron_lm_minimal.py)<br>
-> **前置阅读**：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md) · [BERT 原理](01_BERT_2018_原理.md) · [GPT-2 原理](03_GPT2_2019_原理.md) · [FlashAttention 原理](14_FlashAttention_2022_原理.md)
+> **前置阅读**：[Transformer 原理](./00_Transformer_2017/00_Transformer_2017_原理.md) · [BERT 原理](01_BERT_2018_原理.md) · [GPT-2 原理](./03_GPT2_2019/03_GPT2_2019_原理.md) · [FlashAttention 原理](14_FlashAttention_2022_原理.md)
 
 2019 年，大模型训练首先撞到的不是“数据不够”，而是一个很具体的物理边界：
 

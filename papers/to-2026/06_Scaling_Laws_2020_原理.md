@@ -727,7 +727,7 @@ RoPE、RMSNorm、SwiGLU、MoE、FlashAttention、更好的 optimizer 与数据�
 
 ### 前置阅读
 
-- [GPT-2](03_GPT2_2019_原理.md)：理解 WebText、自回归预训练和 decoder-only Transformer。
+- [GPT-2](./03_GPT2_2019/03_GPT2_2019_原理.md)：理解 WebText、自回归预训练和 decoder-only Transformer。
 - [Transformer](./00_Transformer_2017/00_Transformer_2017_原理.md)：理解参数量与计算量从哪里来。
 
 ### 读完接着看

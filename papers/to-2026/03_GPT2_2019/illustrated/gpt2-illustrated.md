@@ -3,7 +3,7 @@
 ## 论文信息
 
 - 论文：[OpenAI 论文 PDF](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf) · 本地 PDF：[Language_Models_are_Unsupervised_Multitask_Learners.pdf](../Language_Models_are_Unsupervised_Multitask_Learners.pdf)
-- 配套导读：[GPT-2 原理导读](../../03_GPT2_2019_原理.md)
+- 配套导读：[GPT-2 原理导读](../03_GPT2_2019_原理.md)
 - 风格：paper-figure（16:9，3200×1800），与 [GPT-1 图解](../../02_GPT_2018/illustrated/gpt1-illustrated.md)一致
 - 页数：7（封面 + 6 页）
 - 颜色（整组统一）：**蓝 = 语言模型 GPT-2**（模型本体、它的预测和结果）；**橙 = 任务提示**（写成文字的任务，如 `TL;DR:`、`A:`、`english = french`）；**灰 = 数据、输入、baseline / 此前 SOTA**。是否刷新 SOTA 用 ✓ / ✗ 表示，不占颜色。线型：蓝色虚线框 = GPT-2 生成的内容；灰色虚线框 = 数据样例里的答案位置（不是模型生成的）。GPT-1 作为对照方法用灰色
