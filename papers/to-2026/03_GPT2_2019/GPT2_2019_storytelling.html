@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language Models are Unsupervised Multitask Learners — 深度解读：只学猜下一个词，怎么就学会了做题</title>
+<style>
+:root{--text:#1a1a1a;--bg:#fafaf8;--accent:#2563eb;--muted:#6b7280;--border:#e5e7eb;--code-bg:#f3f4f6;--orange:#ea580c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Noto Serif SC",serif;color:var(--text);background:var(--bg);line-height:1.85;padding:2.5rem 1.5rem;max-width:720px;margin:0 auto;font-size:17px}
+h1{font-size:2rem;margin:0 0 .3rem;line-height:1.3}
+h2{font-size:1.35rem;margin:2.8rem 0 .8rem;color:var(--accent);padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+h3{font-size:1.1rem;margin:1.5rem 0 .5rem;color:#333}
+.meta{color:var(--muted);font-size:.9rem;margin-bottom:2.5rem;line-height:1.8}
+.meta a{color:var(--accent);text-decoration:none}
+blockquote{border-left:3px solid var(--accent);padding:.6rem 1.2rem;margin:1.5rem 0;background:#f0f4ff;border-radius:0 8px 8px 0}
+blockquote .zh{display:block;color:var(--muted);font-size:.92rem;margin-top:.3rem}
+pre{background:var(--code-bg);padding:1rem 1.2rem;border-radius:8px;overflow-x:auto;font-size:.85rem;line-height:1.5;margin:1.5rem 0 .4rem;border:1px solid var(--border)}
+.code-cap{font-size:.82rem;color:var(--muted);margin:0 0 1.5rem}
+code{font-family:"SF Mono","Fira Code",monospace;font-size:.9em}
+p{margin:1rem 0}
+strong{color:#111}
+table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.93rem}
+td,th{border:1px solid var(--border);padding:.6rem .9rem;text-align:left;vertical-align:top}
+th{background:#f9fafb;font-weight:600}
+tr.hl td{background:#fff7ed;font-weight:600}
+.summary-box{background:linear-gradient(135deg,#f0f4ff,#faf5ff);padding:1.5rem;border-radius:12px;margin:1.5rem 0}
+.summary-box h3{margin:0 0 .5rem;color:var(--accent)}
+.ps{font-size:.92rem;color:#555;background:#fffbea;border:1px dashed #e5c76b;border-radius:8px;padding:.7rem 1rem;margin:1.2rem 0}
+figure{margin:1.8rem -2rem}
+figure img{width:100%;border:1px solid var(--border);border-radius:10px;background:#fff}
+figcaption{font-size:.85rem;color:var(--muted);text-align:center;margin-top:.4rem}
+.golden{font-size:1.25rem;font-weight:600;color:var(--accent);text-align:center;padding:2rem 1rem;border-top:2px solid var(--accent);border-bottom:2px solid var(--accent);margin:2.5rem 0;line-height:1.5}
+@media(max-width:800px){figure{margin:1.5rem 0}}
+@media(max-width:600px){body{font-size:16px;padding:1.2rem 1rem}h1{font-size:1.5rem}}
+</style>
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js" integrity="sha384-WmdflGW9aGfoBdHc4rRyWzYuAjEmDwMdGdiPNacbwfGKxBW/SO6guzuQ76qjnSlr" crossorigin="anonymous"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:'default',securityLevel:'loose'});</script>
+</head>
+<body>
+
+<h1>在文章末尾写上 “TL;DR:”，它就开始写摘要</h1>
+<div class="meta">
+《Language Models are Unsupervised Multitask Learners》深度解读 · 故事版<br>
+Alec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, Ilya Sutskever · OpenAI · 2019 年 2 月<br>
+论文：<a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">OpenAI PDF</a> · 本地：<a href="Language_Models_are_Unsupervised_Multitask_Learners.pdf">PDF</a> · 代码：<a href="https://github.com/openai/gpt-2">openai/gpt-2</a>（已开源，Archive 状态，TensorFlow 1.x，只有模型结构、BPE 编码器和采样代码，<strong>没有训练代码，也没有 WebText 训练集</strong>）<br>
+配套：<a href="../03_GPT2_2019_原理.md">GPT-2 原理导读</a> · <a href="illustrated/gpt2-illustrated.md">方法图解（7 张）</a> · 上一篇：<a href="../02_GPT_2018/GPT_2018_storytelling.html">GPT-1 故事版</a>
+</div>
+
+<figure>
+<img src="illustrated/00-cover.png" alt="封面：同一个模型，换一段提示就换一个任务">
+<figcaption>图解 00：同一个 15 亿参数的语言模型，不做微调，换一段提示就换一个任务</figcaption>
+</figure>
+
+<h2>一、一群会说英语的独角兽</h2>
+
+<p>2019 年 2 月，OpenAI 给一个语言模型喂了这样一句开头：</p>
+
+<blockquote>
+“In a shocking finding, scientist discovered a herd of unicorns living in a remote, previously unexplored valley, in the Andes Mountains. Even more surprising to the researchers was the fact that the unicorns spoke perfect English.”
+<span class="zh">一项惊人发现：科学家在安第斯山脉一处从未有人到过的山谷里，发现了一群独角兽。更让研究者吃惊的是，这些独角兽说着一口流利的英语。（Table 13，人类写的开头）</span>
+</blockquote>
+
+<p>模型接着写下去：给独角兽起了名字，编出一位拉巴斯大学的进化生物学家 Jorge Pérez，还替他写了几句采访引语。整篇读起来像一篇像模像样的新闻稿。这段样例让 GPT-2 一夜出名，OpenAI 也因为担心滥用，决定<strong>分阶段发布</strong>模型，最大的 15 亿参数版本直到当年 11 月才放出。</p>
+
+<p>不过，如果你只记住了“它会编故事”，那就错过了这篇论文真正想说的事。论文的标题里没有“生成”二字，它叫《语言模型是无监督的多任务学习者》。</p>
+
+<p>论文里有一个比独角兽更不起眼、也更关键的实验：在一篇新闻后面加上 “TL;DR:” 这几个字符（英文网络用语，意思是“太长不看，简单说就是”），模型就开始写摘要；把这几个字符删掉，摘要分数立刻掉 6.4 分。<strong>这个模型从来没有被教过“摘要”这个任务。</strong>它是从哪儿学会的？</p>
+
+<h2>二、为什么会这样：每个任务都要一份数据集</h2>
+
+<p>先回到 2019 年初的行业现状。GPT-1 和 BERT 刚刚确立了“先预训练、再微调”的做法：在海量无标注文本上训练一个大模型，然后针对每个具体任务，收集几千到几十万条标注数据，加一个输出层，把整个模型再训练一遍。</p>
+
+<p>这个流程很有效，但每做一个新任务，还是要一份新的标注数据。论文开头对这种做法的评价很不客气：</p>
+
+<blockquote>
+“Current systems are better characterized as narrow experts rather than competent generalists.”
+<span class="zh">现在的系统更像是狭窄领域的专家，而不是能干的通才。（Section 1）</span>
+</blockquote>
+
+<p>为什么说“狭窄”？因为监督学习只会做训练集里那件事，输入分布稍有变化就容易出错。作者认为，根源在于“单任务、单领域”的训练方式。多任务学习是个方向，但当时最雄心勃勃的工作，也只在 10 个或 17 个“（数据集，目标）”组合上训练过。从元学习的角度看，每个组合只算一个训练样本，而通常一个模型要见过成百上千个样本才能学会泛化。<strong>靠人工一份一份地造数据集，凑不出这么多“任务样本”。</strong></p>
+
+<p>打个比方。传统做法像是培养一个只会做数学卷子的学生，换成语文卷子，就得再找一批语文卷子从头练。多任务学习是同时给他十几门课的卷子。GPT-2 想做的事更彻底：<strong>不给卷子，只让他读遍整个互联网，然后看他能不能直接上考场。</strong></p>
+
+<h2>三、核心洞察：任务本身也可以写成一段文字</h2>
+
+<p>一个通用系统要能做很多任务，就不能只学 $p(\text{output}\mid\text{input})$，还得知道“现在要做什么”，也就是学：</p>
+
+$$p(\text{output}\mid\text{input},\ \text{task})$$
+
+<p>人话：同一段输入，任务不同，答案就不同。以前的做法是给每个任务配一个专门的模块或训练流程，来告诉模型“task 是什么”。</p>
+
+<p>GPT-2 的关键判断是：<strong>task 不需要专门的模块，它本身就可以写成一段文字。</strong>论文举的例子是：翻译样本可以写成 <code>(translate to french, english text, french text)</code>，阅读理解可以写成 <code>(answer the question, document, question, answer)</code>。既然任务、输入、输出都能写成一串符号，那它们就都属于语言模型要建模的“语言”。</p>
+
+<p>更进一步，互联网上本来就散落着这样的“任务示范”。WebText 训练集里就有这样的句子：“I'm not the cleverest man in the world, but like they say in French: Je ne suis pas un imbecile”。没有人给它打标签，但它确实是一个英译法的例子。论文把这个推测写得很直接：</p>
+
+<blockquote>
+“Our speculation is that a language model with sufficient capacity will begin to learn to infer and perform the tasks demonstrated in natural language sequences in order to better predict them, regardless of their method of procurement.”
+<span class="zh">我们推测，容量足够大的语言模型，为了更好地预测文本，会开始学着推断并执行文本中示范的任务，不管这些文本是怎么来的。（Section 2）</span>
+</blockquote>
+
+<p>这就像一个从小在双语家庭长大的孩子：没人专门教他翻译，但他听惯了大人一句中文、一句英文地说同一件事，慢慢就会翻了。</p>
+
+<figure>
+<img src="illustrated/01-method-overview.png" alt="方法总览">
+<figcaption>图解 01：训练只做一次，目标只有“预测下一个 token”；使用时只写提示，不加输出层，不更新参数</figcaption>
+</figure>
+
+<h2>四、方法详解：选书、拆字、搭楼、出题</h2>
+
+<p>GPT-2 的训练目标和 GPT-1 完全一样，就是最普通的语言模型。把一段文本 $x$ 拆成符号序列 $(s_1,\dots,s_n)$，按链式法则分解它的概率（论文 Eq. 1）：</p>
+
+$$p(x)=\prod_{i=1}^{n}p(s_i\mid s_1,\dots,s_{i-1})$$
+
+<p>人话：一段话出现的概率，等于每个词在“看过前面所有词”的条件下出现的概率连乘起来。训练就是让真实文本的这个概率尽量大。</p>
+
+<p>为什么这么简单的目标也能学会监督任务？论文给了一个漂亮的论证：</p>
+
+<blockquote>
+“Since the supervised objective is the the same as the unsupervised objective but only evaluated on a subset of the sequence, the global minimum of the unsupervised objective is also the global minimum of the supervised objective.”
+<span class="zh">监督目标和无监督目标其实是同一个，只是前者只在序列的一部分（答案那段）上计算，所以无监督目标的全局最优，同时也是监督目标的全局最优。（Section 2）</span>
+</blockquote>
+
+<p>拿阅读理解来说：把“文档、问题、答案”拼成一条序列，监督学习只在“答案”那几个词上算损失，语言模型则在整条序列的每个词上都算。一个能把整条序列预测到完美的模型，自然也把答案预测对了。剩下的问题只有一个：<strong>能不能把语言模型训练得足够好。</strong>作者的答案分成四步：选什么书、怎么拆字、搭多高的楼、考试时怎么出题。</p>
+
+<h3>第一步：选书，让 Reddit 网友当编辑</h3>
+
+<p>以前的语言模型大多只用一个领域的文本：新闻、维基百科或者小说。GPT-1 用的就是 7000 本小说。GPT-2 要的是“尽可能多的领域和语境”，因为任务示范越多样，模型能学会的任务就越多。</p>
+
+<p>最大的现成网页数据是 Common Crawl，但质量很差，有人发现里面大量文档“内容几乎无法理解”。只挑和目标任务相似的子集？那等于提前假设了要考什么，违背了初衷。</p>
+
+<p>OpenAI 的办法很巧：<strong>把筛选外包给 Reddit 网友。</strong>他们抓取 Reddit 上所有获得至少 3 个 karma（点赞积分）的外链，理由是“这可以看作一个启发式指标，说明其他用户觉得这个链接有意思、有用，或者好笑”。4500 万个链接，经过正文抽取、去重和清洗，得到 800 多万篇文档、40GB 文本，命名为 <strong>WebText</strong>。他们还特意删掉了所有维基百科页面，因为很多评测数据集取材于维基，留着会造成训练与测试重叠。</p>
+
+<p>这相当于让一位只读过小说的学生，改读一个“被几千万读者点过赞的网页合集”：菜谱、游戏攻略、新闻、技术博客、历史长文，什么都有。</p>
+
+<figure>
+<img src="illustrated/02-webtext.png" alt="WebText 数据构建">
+<figcaption>图解 02：WebText 的构建流程，以及 Table 1 中网页里自然出现的翻译示范</figcaption>
+</figure>
+
+<h3>第二步：拆字，在字节上做 BPE</h3>
+
+<p>要让一个模型能“做任何任务”，它首先得能读任何字符串。传统的词级模型会把没见过的词变成 <code>&lt;UNK&gt;</code>，还要先小写化、分词，这些预处理都会丢信息。直接按字节建模最通用，但当时的字节级模型效果明显更差。</p>
+
+<p>BPE（字节对编码，一种把常见字符组合合并成一个 token 的分词方法）是中间路线：常见的词整个当一个 token，罕见的词拆成小块。问题是，常见实现按 Unicode 字符来合并，要覆盖所有 Unicode 字符，基础词表就超过 13 万，还没开始合并就已经太大了。</p>
+
+<p>GPT-2 的做法是<strong>在字节上做 BPE</strong>，基础词表只有 256 个。但直接这样做会出现一个浪费：<code>dog.</code>、<code>dog!</code>、<code>dog?</code> 会各自被合并成一个 token，挤占有限的词表。于是他们加了一条规则：<strong>不同字符类别（字母、数字、标点）之间不合并，空格例外。</strong>最终词表大小是 50,257。</p>
+
+<p>这条规则在代码里就是一个正则表达式。先用它把文本切成“片段”，BPE 只在片段内部合并：</p>
+
+<pre><code># Should haved added re.IGNORECASE so BPE merges can happen for capitalized versions of contractions
+self.pat = re.compile(r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""")
+
+def bytes_to_unicode():
+    bs = list(range(ord("!"), ord("~")+1))+list(range(ord("¡"), ord("¬")+1))+list(range(ord("®"), ord("ÿ")+1))
+    cs = bs[:]
+    n = 0
+    for b in range(2**8):
+        if b not in bs:
+            bs.append(b)
+            cs.append(2**8+n)   # 不可见字节映射到 256 之后的码位
+            n += 1
+    cs = [chr(n) for n in cs]
+    return dict(zip(bs, cs))</code></pre>
+<p class="code-cap"><code>src/encoder.py:52-53</code>、<code>src/encoder.py:9-28</code>（openai/gpt-2，有删节）。<code>\p{L}+</code> 是一串字母，<code>\p{N}+</code> 是一串数字，<code>[^\s\p{L}\p{N}]+</code> 是一串标点，各自前面可以带一个空格，这正是论文说的“空格例外”。<code>bytes_to_unicode</code> 把 256 个字节一一映射成可打印字符，这样就能复用基于字符串的 BPE 实现。注释里那句 “Should haved added re.IGNORECASE” 是作者留下的自我检讨：<code>'S</code> 这种大写缩写不会被切出来。</p>
+
+<p>这个设计带来的直接好处是：<strong>模型能给任意字符串算概率</strong>。所以 GPT-2 可以直接在各种语言模型基准上评测，不管它们用的是什么分词和预处理。</p>
+
+<h3>第三步：搭楼，Transformer 改三处</h3>
+
+<p>模型结构基本沿用 GPT-1 的 Transformer 解码器，只做了几处改动：</p>
+
+<ol style="margin:1rem 0 1rem 1.5rem">
+<li><strong>LayerNorm 前移</strong>：从每个子块的输出移到输入（即 Pre-LN，类似预激活残差网络）；</li>
+<li><strong>最后再加一层 LayerNorm</strong>：放在最后一个注意力块之后；</li>
+<li><strong>残差层初始化缩放</strong>：残差层的权重在初始化时乘上</li>
+</ol>
+
+$$\frac{1}{\sqrt{N}},\qquad N=\text{残差层的数量}$$
+
+<p>人话：网络越深，残差路径上累加的东西越多，初始输出的方差会越滚越大；每层先缩小一点，叠起来就不会爆。这三处改动都是为了一件事：<strong>让很深的网络能稳定训练。</strong>GPT-1 只有 12 层，GPT-2 最大要叠到 48 层。</p>
+
+<p>前两处改动在官方代码里一眼就能看到：</p>
+
+<pre><code>def block(x, scope, *, past, hparams):
+    with tf.variable_scope(scope):
+        nx = x.shape[-1].value
+        a, present = attn(norm(x, 'ln_1'), 'attn', nx, past=past, hparams=hparams)
+        x = x + a                                          # 先 norm 再 attn，残差直通
+        m = mlp(norm(x, 'ln_2'), 'mlp', nx*4, hparams=hparams)
+        x = x + m
+        return x, present
+...
+        h = norm(h, 'ln_f')                                # 所有 block 之后的最后一层 LayerNorm
+        logits = tf.matmul(h_flat, wte, transpose_b=True)  # 输出层复用词嵌入矩阵</code></pre>
+<p class="code-cap"><code>src/model.py:123-130</code>、<code>src/model.py:167-171</code>（openai/gpt-2）。对比 GPT-1 的 <code>norm(x+a, 'ln_1')</code>：GPT-1 是“残差相加后再归一化”，GPT-2 改成“归一化后再进子层，残差路径上不做任何处理”。<code>ln_f</code> 就是论文说的额外 LayerNorm。第三处改动 $1/\sqrt{N}$ 只在训练初始化时起作用，而公开的代码不含训练部分，<code>conv1d</code> 的默认初始化统一是 <code>stddev=0.02</code>，所以在仓库里找不到它。</p>
+
+<p>此外，上下文长度从 512 加到 1024 个 token，batch size 用 512。论文训练了四种规模（Table 2）：</p>
+
+<table>
+<tr><th>参数量</th><th>层数</th><th>$d_{model}$</th><th>相当于</th></tr>
+<tr><td>117M</td><td>12</td><td>768</td><td>GPT-1</td></tr>
+<tr><td>345M</td><td>24</td><td>1024</td><td>BERT-Large</td></tr>
+<tr><td>762M</td><td>36</td><td>1280</td><td>—</td></tr>
+<tr class="hl"><td>1542M</td><td>48</td><td>1600</td><td>GPT-2</td></tr>
+</table>
+
+<div class="ps">附：论文里的参数量是算错的。官方仓库 README 后来更正：小模型实际是 124M，中模型是 355M，所以下载脚本里的名字是 <code>124M / 355M / 774M / 1558M</code>。本文沿用论文的写法。</div>
+
+<figure>
+<img src="illustrated/03-bpe-and-model.png" alt="输入表示与模型结构">
+<figcaption>图解 03：四种输入表示的比较，以及相对 GPT-1 的三处结构改动</figcaption>
+</figure>
+
+<h3>第四步：出题，把任务写成模型熟悉的样子</h3>
+
+<p>训练完之后，GPT-2 不做任何微调。每个任务的做法，就是把题目写成一段“网页上可能出现的文字”，让模型接着往下写。这就是 <strong>zero-shot</strong>（零样本：不用这个任务的任何训练数据）：</p>
+
+<table>
+<tr><th>任务</th><th>喂给模型的文字</th><th>怎么取答案</th></tr>
+<tr><td>阅读理解（CoQA）</td><td>文档 + 对话历史 + <code>A:</code></td><td>贪心解码</td></tr>
+<tr><td>摘要（CNN/Daily Mail）</td><td>文章 + <code>TL;DR:</code></td><td>top-k 采样（k=2）生成 100 个 token，取前 3 句</td></tr>
+<tr><td>翻译（WMT-14）</td><td>若干组 <code>english sentence = french sentence</code> + 新的 <code>english sentence =</code></td><td>贪心解码，取第一句</td></tr>
+<tr><td>开放域问答（Natural Questions）</td><td>若干组示例问答 + 新问题</td><td>贪心解码</td></tr>
+<tr><td>LAMBADA、CBT、Winograd</td><td>不需要提示</td><td>直接比较候选答案的概率</td></tr>
+</table>
+
+<p>你会发现，“提示”就是一个约定俗成的格式：网页上，<code>TL;DR:</code> 后面通常跟着一句总结；论坛问答里，<code>A:</code> 后面通常跟着回答。模型并不“理解”你的指令，<strong>它只是在续写一段它见过很多次的格式</strong>。</p>
+
+<p>摘要实验用到的 top-k 采样，在代码里只有十几行：只保留概率最高的 k 个候选，其余全部压到负无穷。</p>
+
+<pre><code>def top_k_logits(logits, k):
+    if k == 0:
+        # no truncation
+        return logits
+
+    def _top_k():
+        values, _ = tf.nn.top_k(logits, k=k)
+        min_values = values[:, -1, tf.newaxis]          # 第 k 大的值作为门槛
+        return tf.where(
+            logits &lt; min_values,
+            tf.ones_like(logits, dtype=logits.dtype) * -1e10,
+            logits,
+        )</code></pre>
+<p class="code-cap"><code>src/sample.py:5-17</code>（openai/gpt-2）。k=1 就是贪心解码；论文的生成样例（Table 7–13）用的是 k=40，摘要用 k=2，论文说这样“减少重复，并鼓励比贪心解码更抽象的摘要”。同一文件 <code>sample.py:25-40</code> 还有一个 <code>top_p_logits</code>（nucleus 采样），论文里没有用到。</p>
+
+<figure>
+<img src="illustrated/04-zero-shot-prompts.png" alt="Zero-shot 提示格式">
+<figcaption>图解 04：各个任务的输入格式（橙色是提示）与对应成绩</figcaption>
+</figure>
+
+<p>最后，把 GPT-1 和 GPT-2 并排放在一起看：</p>
+
+<table>
+<tr><th></th><th>GPT-1（2018）</th><th>GPT-2（2019）</th></tr>
+<tr><td>训练数据</td><td>BooksCorpus，7000 本小说</td><td>WebText，800 万网页，40GB</td></tr>
+<tr><td>分词</td><td>BPE，4 万次合并</td><td>字节级 BPE，词表 50,257</td></tr>
+<tr><td>最大模型</td><td>12 层，约 1.17 亿参数</td><td>48 层，15 亿参数</td></tr>
+<tr><td>LayerNorm</td><td>残差之后（Post-LN）</td><td>子层之前（Pre-LN）+ 末尾一层</td></tr>
+<tr><td>上下文长度</td><td>512</td><td>1024</td></tr>
+<tr class="hl"><td>怎么用到下游任务</td><td>加线性头，逐任务微调</td><td>写提示，直接生成，不更新参数</td></tr>
+</table>
+
+<p>结构上的差别其实不大。真正的区别在最后一行：<strong>GPT-1 用标注数据来“教”任务，GPT-2 用一段文字来“唤起”任务。</strong></p>
+
+<h2>五、效果：越大越会做</h2>
+
+<h3>语言建模：8 个基准赢了 7 个</h3>
+
+<p>先看 GPT-2 的老本行。论文在 8 个语言模型基准上 zero-shot 评测，没有在其中任何一个上训练过（Table 3，下表取 1542M 模型）：</p>
+
+<table>
+<tr><th>数据集</th><th>指标</th><th>此前 SOTA</th><th>GPT-2</th></tr>
+<tr class="hl"><td>LAMBADA</td><td>困惑度 ↓</td><td>99.8</td><td>8.63</td></tr>
+<tr class="hl"><td>LAMBADA</td><td>准确率 ↑</td><td>59.23</td><td>63.24</td></tr>
+<tr><td>CBT 普通名词 / 命名实体</td><td>准确率 ↑</td><td>85.7 / 82.3</td><td>93.30 / 89.05</td></tr>
+<tr><td>WikiText-2</td><td>困惑度 ↓</td><td>39.14</td><td>18.34</td></tr>
+<tr><td>PTB</td><td>困惑度 ↓</td><td>46.54</td><td>35.76</td></tr>
+<tr><td>WikiText-103</td><td>困惑度 ↓</td><td>18.3</td><td>17.48</td></tr>
+<tr><td>enwik8 / text8</td><td>BPB / BPC ↓</td><td>0.99 / 1.08</td><td>0.93 / 0.98</td></tr>
+<tr><td>1BW</td><td>困惑度 ↓</td><td>21.8</td><td>42.16 ✗</td></tr>
+</table>
+
+<p>最惊人的是 LAMBADA。这个数据集专门考长距离依赖：要猜对一段话的最后一个词，人类至少需要看前面 50 个 token。困惑度从 99.8 降到 8.63，相当于模型的“犹豫程度”从在约 100 个词里挑，缩小到在约 9 个词里挑。</p>
+
+<p>唯一输掉的 1BW 也很有说服力。这个数据集在构建时<strong>按句子打乱过</strong>，长距离结构全部被破坏，而 GPT-2 最擅长的恰恰是利用长上下文。WikiText-2 和 PTB 这种只有一两百万训练 token 的小数据集，则提升最大：在别人的地盘上，它比专门在那里训练的模型还好。</p>
+
+<h3>下游任务：能做，但离好用还远</h3>
+
+<table>
+<tr><th>任务</th><th>GPT-2（zero-shot）</th><th>参照</th></tr>
+<tr class="hl"><td>CoQA 阅读理解</td><td>55 F1</td><td>追平或超过 4 个 baseline 中的 3 个；BERT 监督 SOTA 接近人类的 89 F1</td></tr>
+<tr><td>CNN/DM 摘要</td><td>ROUGE 平均 21.40</td><td>随机抽 3 句 20.98；Lead-3 31.55；SOTA 32.75</td></tr>
+<tr><td>WMT-14 法→英</td><td>11.5 BLEU</td><td>无监督翻译 SOTA 33.5</td></tr>
+<tr><td>WMT-14 英→法</td><td>5 BLEU</td><td>略低于逐词替换的双语词典</td></tr>
+<tr><td>Natural Questions</td><td>4.1% 完全匹配</td><td>最小模型不到 1.0%；检索式系统 30%–50%</td></tr>
+<tr><td>Winograd</td><td>70.70%</td><td>比此前 SOTA 高 7%</td></tr>
+</table>
+
+<p>这张表要分开看。CoQA 的 55 F1 是最亮眼的：那些 baseline 用了 12.7 万多条人工标注的问答，GPT-2 一条都没用。翻译的 11.5 BLEU 背后还有一个反直觉的事实：WebText 在构建时<strong>特意过滤掉了非英语网页</strong>，事后检测，法语内容只有大约 10MB，比无监督翻译研究常用的法语语料小约 500 倍。</p>
+
+<p>摘要是最“难看”的一项：21.40 只比随机抽 3 句高 0.42 分。但我认为它反而是全文最有说服力的实验，原因见下面的 Table 4：</p>
+
+<table>
+<tr><th>方法</th><th>R-1</th><th>R-2</th><th>R-L</th><th>R-AVG</th></tr>
+<tr><td>Bottom-Up Sum（SOTA）</td><td>41.22</td><td>18.68</td><td>38.34</td><td>32.75</td></tr>
+<tr><td>Lede-3</td><td>40.38</td><td>17.66</td><td>36.62</td><td>31.55</td></tr>
+<tr class="hl"><td>GPT-2 加 <code>TL;DR:</code></td><td>29.34</td><td>8.27</td><td>26.58</td><td>21.40</td></tr>
+<tr><td>Random-3</td><td>28.78</td><td>8.63</td><td>25.52</td><td>20.98</td></tr>
+<tr><td>GPT-2 不加提示</td><td>21.58</td><td>4.03</td><td>19.47</td><td>15.03</td></tr>
+</table>
+
+<p>重点在最后两行：同一个模型、同一篇文章，<strong>只差 “TL;DR:” 这几个字符</strong>，平均分从 15.03 涨到 21.40。不加提示时，模型只是在接着写新闻正文；加了之后，它切换成了“写总结”的模式。论文的原话是，这“证明了可以用自然语言在语言模型中调用特定任务的行为”。分数不高，说明它做得还不好；分数会随提示而跳变，说明“任务”确实是被那几个字唤起的。这正是整篇论文的核心论点。</p>
+
+<p>问答实验里还有一个细节很有意思：GPT-2 对答案给出的概率是<strong>校准过的</strong>。在它最有把握的 1% 的问题上，准确率达到 63.1%（Table 5 列出了最有把握的 30 个答案，比如“谁写了《物种起源》”答“Charles Darwin”，概率 83.4%）。也就是说，它在某种程度上“知道自己知不知道”。</p>
+
+<figure>
+<img src="illustrated/06-key-results.png" alt="关键结果">
+<figcaption>图解 06：Table 3 中 1.5B 模型相对此前 SOTA 的改进，以及下游任务与参照系统的距离</figcaption>
+</figure>
+
+<h3>规模：一条还没走到头的曲线</h3>
+
+<p>把这些结果按模型大小排开（Figure 1），几乎每一项都随参数量稳定上升。117M 模型在 PTB 上的困惑度是 65.85，比 SOTA 还差；1.5B 时降到 35.76。论文在摘要里说，模型容量是 zero-shot 迁移成功的关键，“增加容量能以对数线性的方式提升各项任务的表现”。</p>
+
+<p>更关键的是 Figure 4：在 WebText 自己的训练集和测试集上，困惑度随模型变大同步下降，两条曲线几乎平行。这说明 <strong>15 亿参数的 GPT-2 仍然在欠拟合</strong>，还没有把 WebText 学完。这句话，就是一年后 GPT-3 把参数量放大到 1750 亿的伏笔。</p>
+
+<h3>它是不是背过答案？</h3>
+
+<p>训练集是从网上抓的，测试集很多也来自网上，难免有人怀疑：成绩是不是因为测试题早就出现在训练数据里？</p>
+
+<p>作者用 Bloom filter（一种省内存的集合查询结构）存下了 WebText 训练集的所有 8-gram，然后检查各测试集有多少 8-gram 出现在里面（Table 6）。结果是平均重叠 3.2%，<strong>反而低于这些数据集自己的训练集和测试集之间的 5.9%</strong>。1BW 自己的训练集和测试集重叠高达 13.19%。在 LAMBADA 上，去掉所有有明显重叠的样本后，困惑度只从 8.6 变成 8.7，准确率从 63.2% 变成 62.9%。</p>
+
+<p>结论是：重叠带来小而稳定的好处，但不是成绩的主要来源。这个检查方法本身也被后来的大模型论文沿用，GPT-3 就专门用了一大节做数据污染分析。</p>
+
+<figure>
+<img src="illustrated/05-scale-and-generalization.png" alt="规模与泛化">
+<figcaption>图解 05：Table 3 四种规模的原始数值，以及 8-gram 重叠分析</figcaption>
+</figure>
+
+<h2>六、它为什么重要</h2>
+
+<p><strong>从技术上看</strong>，GPT-2 把 GPT-1 论文末尾那个小小的 zero-shot 实验推到了台前，并给出了理论上的解释：监督任务只是语言模型目标的一个子集，任务本身可以写进输入。从此，“提示”成了使用语言模型的基本方式。GPT-3 在此基础上往提示里塞几个示例，就成了 few-shot；后来的指令微调和对话模型，则是让模型更听得懂这些提示。</p>
+
+<p><strong>从方法论上看</strong>，它把“规模”变成了一个可以观察的研究变量。四个模型大小近似均匀地分布在对数轴上，每项任务都画成随参数量变化的曲线。这种做法直接通向了 2020 年的 Scaling Laws 论文。它还提出了一种数据观：数据不必是为某个任务准备的，只要足够杂、经过人筛选，任务示范自然就在里面。</p>
+
+<p><strong>从产业上看</strong>，“分阶段发布”本身也成了一个事件。它是第一次有 AI 实验室因为担心滥用而推迟发布模型，引发了大量关于开放与安全的讨论。今天大模型发布时常见的“模型卡”和风险评估，在 GPT-2 仓库的 <code>model_card.md</code> 里已经能看到雏形。</p>
+
+<h2>七、它没解决的问题</h2>
+
+<p>论文自己在讨论部分说得很坦白：</p>
+
+<blockquote>
+“While suggestive as a research result, in terms of practical applications, the zero-shot performance of GPT-2 is still far from use-able.”
+<span class="zh">作为研究结果，它很有启发性；但就实际应用而言，GPT-2 的 zero-shot 表现离可用还很远。（Section 6）</span>
+</blockquote>
+
+<p>作者自己承认的局限还有几处：摘要只比随机基线略好；很多实际任务上 GPT-2 “可能并不比随机好”；不知道微调后的上限在哪里；单向模型能不能靠规模弥补 BERT 证明的双向优势，也还没有答案。他们还观察到，CoQA 上的模型常常在用一些简单的检索启发式，比如“遇到 who 问题，就从文档里挑一个人名作答”。</p>
+
+<p>我想再补充三点。第一，<strong>提示和评测细节都有人工调整的成分</strong>：LAMBADA 加了停用词过滤才到 63.24%，语言模型基准用了可逆的去分词器（带来 2.5 到 5 的困惑度收益），摘要用了 k=2 的采样并取前 3 句。这些选择都合理，但都是针对任务手工做的，“完全不针对任务”的说法要打个折扣。第二，<strong>复现很难</strong>：WebText 训练集和训练代码都没有公开，社区只能按论文描述自己重建（例如 OpenWebText）。第三，“全局最优一致”的论证只说明了终点相同，没有说明需要多少数据和算力才能走到终点。作者在初步实验里也承认，这种方式“学得比显式的监督方法慢得多”。用语言模型目标学会一个任务，效率可能远低于直接给标注，GPT-2 是用 40GB 数据和 15 亿参数换来了“不用标注”。</p>
+
+<div class="ps">附：论文附录 8.2 还测了“背诵”现象。给出葛底斯堡演说的开头一句半（这篇演说在 WebText 中出现约 40 次），GPT-2 能用贪心解码把整篇背出来；随机采样时则会先照抄一段，100 到 200 个 token 内开始偏离。但整体看，GPT-2 生成文本与训练集的 8-gram 重叠，反而低于真实测试文本（Figure 5）。</div>
+
+<h2>八、回到开头</h2>
+
+<p>回到开头的问题：那几个字符 “TL;DR:”，为什么能让模型开始写摘要？</p>
+
+<p>因为在互联网上，无数人在长文末尾写下 “TL;DR:”，后面跟一句总结。GPT-2 读过 800 万篇网页，为了把下一个词猜准，它不得不学会“看到 TL;DR: 就该总结”。翻译、问答、阅读理解也是一样。<strong>没有人教它任务，任务就藏在它要预测的文字里。</strong>会说英语的独角兽只是副产品，真正的发现是：只要模型足够大，读得足够杂，“猜下一个词”这一个目标里就已经包含了很多任务。</p>
+
+<div class="summary-box">
+<h3>三句话带走</h3>
+<p>1. <strong>任务可以写成文字</strong>：$p(\text{output}\mid\text{input},\text{task})$ 里的 task 不需要新模块，<code>TL;DR:</code>、<code>A:</code>、<code>english = french</code> 这样的提示就能切换任务；去掉 <code>TL;DR:</code>，摘要分降 6.4。<br>
+2. <strong>数据要杂，且经人筛选</strong>：WebText 用 Reddit 3 karma 做质量过滤，800 万网页里自然出现的任务示范，是模型学会任务的来源。<br>
+3. <strong>规模是关键变量</strong>：117M 到 1.5B，各项结果近似对数线性上升，语言建模 8 项赢 7 项；1.5B 仍在欠拟合 WebText，这条路还能接着走。</p>
+</div>
+
+<div class="golden">GPT-1 教模型读书，再教它做题。<br>GPT-2 发现，书读得够多，题目就写在书里了。</div>
+
+</body>
+</html>
